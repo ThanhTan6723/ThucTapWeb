@@ -6,26 +6,12 @@
 
 <%@ page contentType="text/html; charset=utf-8" language="java" %>
 <%@ page isELIgnored="false" %>
-<%
-    Map<String, String> showLanguage = new dao.client.I18NDAO().vietnameseLanguage();
-    String lang = (String) session.getAttribute("lang");
-    if (lang != null) {
-        if (lang.equals("Vietnamese")) {
-            showLanguage = new dao.client.I18NDAO().vietnameseLanguage();
-        } else if (lang.equals("English")) {
-            showLanguage = new dao.client.I18NDAO().englishLanguage();
-        }
-    }
-    pageContext.setAttribute("showLanguage", showLanguage);
-%>
-
-<c:set var="showLanguage" scope="page" value="${showLanguage}"/>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Trang chủ</title>
 
     <jsp:include page="client/link/link.jsp"></jsp:include>
 </head>
@@ -36,11 +22,9 @@
 <div class="hero__item set-bg">
     <img src="assets/img/hero/banner.jpg" style="padding-left: 100px;padding-right: 200px;width:900px">
     <div class="hero__text">
-        <span style="font-size: 50px"><%=showLanguage.get("Index.Text")%></span>
-        <h2><br/><%=showLanguage.get("Index.Text1")%>
-        </h2>
-        <p><%=showLanguage.get("Index.Text2")%>
-        </p>
+        <span style="font-size: 50px">Rau củ quả tươi xanh</span>
+        <h2>Fruit</h2>
+        <p></p>
     </div>
 </div>
 <section class="categories">

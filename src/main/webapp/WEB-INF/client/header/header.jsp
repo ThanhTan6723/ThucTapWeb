@@ -129,7 +129,7 @@
             <div class="col-lg-3">
                 <div class="header__cart">
                     <ul>
-                        <li><a href="${pageContext.request.contextPath}/${cart}">
+                        <li><a href="./CartControll">
                                 <i><img style="width: 40px; height: 40px;" src="assets/img/cart.svg" alt=""></i>
                                 <c:if test="${empty sessionScope.size}"><span>0</span></c:if>
                                 <c:if test="${not empty sessionScope.size}"><span>${sessionScope.size}</span></c:if>
