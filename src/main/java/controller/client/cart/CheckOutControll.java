@@ -56,7 +56,7 @@ public class CheckOutControll extends HttpServlet {
 			request.setAttribute("phone", account.getTelephone());
 		}
 
-		request.getRequestDispatcher("/client/checkout.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/client/checkout.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

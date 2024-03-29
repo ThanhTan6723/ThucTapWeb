@@ -63,11 +63,11 @@
                                     </ul>
                                     <div class="dropdown-content">
                                     <c:if test="${sessionScope.account.isAdmin == 1}">
-                                    	<a href="${pageContext.request.contextPath}/${indexAd}">
+                                    	<a href="/IndexAdminControll">
                                             <b>Quản lý</b>
                                         </a>
                                     </c:if>
-                                        <a href="${pageContext.request.contextPath}/${profile}">
+                                        <a href="/UpdateProfileControll">
                                         	<b>Tài khoản</b></a>
                                         <a href="${pageContext.request.contextPath}/${changepass}">
                                             <b>Đổi mật khẩu</b>

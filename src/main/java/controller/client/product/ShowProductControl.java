@@ -47,7 +47,7 @@ public class ShowProductControl extends HttpServlet {
 		    e.printStackTrace();
 		}
 
-		request.getRequestDispatcher("/client/menu.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/client/menu.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

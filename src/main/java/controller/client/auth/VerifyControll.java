@@ -35,7 +35,7 @@ public class VerifyControll extends HttpServlet {
 			request.setAttribute("error", error);
 		}
 
-		getServletContext().getRequestDispatcher("/client/verify.jsp").forward(request, response);
+		getServletContext().getRequestDispatcher("/WEB-INF/client/verify.jsp").forward(request, response);
 
 	}
 

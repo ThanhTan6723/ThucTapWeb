@@ -48,7 +48,7 @@
             </form>
             <div class="form-link">
                 <c:url var="sign" value="SignupControll"></c:url>
-                <span>Don't have an account? <a href="${pageContext.request.contextPath}/${sign}"
+                <span>Don't have an account? <a href="/SignupControll"
                                                 class="link signup-link">Signup</a></span>
             </div>
         </div>

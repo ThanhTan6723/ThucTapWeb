@@ -74,12 +74,12 @@ public class OrderControll extends HttpServlet {
 			map.clear();
 			session.setAttribute("cart", map);
 			session.setAttribute("size", 0);
-			response.sendRedirect(request.getContextPath() + "/client/checkout-success.jsp");
+			response.sendRedirect(request.getContextPath() + "/WEB-INF/client/checkout-success.jsp");
 			return;
 
 		}
 
-		request.getRequestDispatcher("/client/cart.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/client/cart.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
