@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@page import="java.util.Map"%>
-<%@page import="dao.client.I18NDAO"%>
-<%@page import="java.util.Map" %>
-<%@page import="dao.client.I18NDAO" %>
-
-
-
 <c:set var="log" value="Login/Sign up"></c:set>
 
 <header class="header">
@@ -52,10 +45,7 @@
                             <div class="header__top__right__auth">
                                 <!-- Dropdown for Logged-in User -->
                                 <div class="dropdown">
-                                    <c:url var="indexAd" value="IndexAdminControll"></c:url>
-                                    <c:url var="profile" value="UpdateProfileControll"></c:url>
-                                    <c:url var="changepass" value="ChangePassword"></c:url>
-                                    <c:url var="logout" value="LogoutControll"></c:url>
+
 <%--                                    <c:url var="url" value="assets"></c:url>--%>
                                     <ul> 
                                         <i><img src="assets/img/avatar.png" alt="">${sessionScope.account.name}<i class="fa fa-caret-down"></i></i>
@@ -69,10 +59,10 @@
                                     </c:if>
                                         <a href="/UpdateProfileControll">
                                         	<b>Tài khoản</b></a>
-                                        <a href="${pageContext.request.contextPath}/${changepass}">
+                                        <a href="/ChangePassword">
                                             <b>Đổi mật khẩu</b>
                                         </a>
-                                        <a href="${pageContext.request.contextPath}/${logout}">
+                                        <a href="/LogoutControll">
                                             <b>Đăng xuất</b>
                                         </a>
                                     </div>
@@ -106,7 +96,7 @@
                         <c:url var="contact" value="ContactControll"></c:url>
                         <c:url var="cart" value="CartControll"></c:url>
                         <!-- Menu Items -->
-                        <li class="active"><a href="${pageContext.request.contextPath}/${index}">Trang chủ</a></li>
+                        <li class="active"><a href="/IndexControll">Trang chủ</a></li>
                         <li><a href="${pageContext.request.contextPath}/${showProduct}?cid=0">Sản phẩm</a>
                             <!-- Dropdown Menu for Product Categories -->
                             <ul class="header__menu__dropdown">

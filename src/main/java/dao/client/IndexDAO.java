@@ -9,9 +9,9 @@ import java.util.List;
 import model.Product;
 
 public class IndexDAO {
-	public static List<Product> getSellProduct() {
+	public static List<Product> getTop8() {
 		List<Product> list = new ArrayList<>();
-		String query = "select top 4 * from Products order by price ";
+		String query = "SELECT * FROM Products LIMIT 8;";
 		try {
 			Connection conn =  JDBCUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(query);
@@ -29,7 +29,7 @@ public class IndexDAO {
 
 	public static List<Product> getOutstandingProduct() {
 		List<Product> list = new ArrayList<>();
-		String query = "select * from Products where id in (1,4,6,8)";
+		String query = "SELECT * FROM Products ORDER BY price DESC LIMIT 8;";
 		try {
 			Connection conn =  JDBCUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(query);
@@ -44,10 +44,34 @@ public class IndexDAO {
 
 		return list;
 	}
+	public static List<Product> listRandProduct(){
+		List<Product> listRandProduct = new ArrayList<>();
+		String query = "select * from Products  ORDER BY RAND() LIMIT 3;";
+		try{
+			Connection conn = JDBCUtil.getConnection();
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				listRandProduct.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+						OrderDAO.getCategory(rs.getInt(6))));
+			}
+		}catch (Exception e){
+
+		}
+		return listRandProduct;
+	}
+
+
+
+
 public static void main(String[] args) {
 	IndexDAO pd = new IndexDAO();
-	List<Product> list = pd.getOutstandingProduct();
+/*	List<Product> list = pd.getOutstandingProduct();
 	for (Product product : list) {
+		System.out.println(product.toString());
+	}*/
+	List<Product> list = pd.listRandProduct();
+	for(Product product : list){
 		System.out.println(product.toString());
 	}
 }
