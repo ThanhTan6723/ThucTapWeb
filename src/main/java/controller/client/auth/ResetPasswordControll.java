@@ -18,7 +18,7 @@ public class ResetPasswordControll extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.getRequestDispatcher("/client/reset-password.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/client/reset-password.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -54,7 +54,7 @@ public class ResetPasswordControll extends HttpServlet {
 				return;
 			}
 		}
-		request.getRequestDispatcher("/client/reset-password.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/client/reset-password.jsp").forward(request, response);
 	}
 
 }

@@ -33,7 +33,7 @@ public class LoginControll extends HttpServlet {
 		}
 		request.setAttribute("returnUrl", returnUrl);
 
-		request.getRequestDispatcher("/client/login.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/client/login.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -114,7 +114,7 @@ public class LoginControll extends HttpServlet {
 				request.setAttribute("username", userName);
 			}
 		}
-		request.getRequestDispatcher("/client/login.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/client/login.jsp").forward(request, response);
 
 	}
 

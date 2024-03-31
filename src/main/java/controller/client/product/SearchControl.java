@@ -40,7 +40,7 @@ public class SearchControl extends HttpServlet {
         }
 
         // Chuyển hướng đến trang menu.jsp (kể cả khi không tìm thấy sản phẩm).
-        request.getRequestDispatcher("/client/menu.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/client/menu.jsp").forward(request, response);
     }
 
 protected void doPost(HttpServletRequest request, HttpServletResponse response)

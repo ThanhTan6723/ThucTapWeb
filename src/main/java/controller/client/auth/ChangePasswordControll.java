@@ -23,7 +23,7 @@ public class ChangePasswordControll extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		request.getRequestDispatcher("/client/change-password.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/client/change-password.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -65,7 +65,7 @@ public class ChangePasswordControll extends HttpServlet {
 			request.setAttribute("errorNP", errorNP);
 			request.setAttribute("errorCFP", errorCFP);
 		}
-		request.getRequestDispatcher("/client/change-password.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/client/change-password.jsp").forward(request, response);
 	}
 
 	private String validatePassword(String password, String errorMessage) {

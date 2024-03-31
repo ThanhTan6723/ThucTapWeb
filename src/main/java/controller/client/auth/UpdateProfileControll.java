@@ -26,7 +26,7 @@ public class UpdateProfileControll extends HttpServlet {
 		request.setAttribute("email", account.getEmail());
 		request.setAttribute("phone", account.getTelephone());
 		
-		request.getRequestDispatcher("/client/profile.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/client/profile.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -85,7 +85,7 @@ public class UpdateProfileControll extends HttpServlet {
 			return;
 		}
 
-		request.getRequestDispatcher("/client/profile.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/client/profile.jsp").forward(request, response);
 	}
 
 }
