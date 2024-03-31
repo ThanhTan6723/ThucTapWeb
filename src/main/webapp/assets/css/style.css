@@ -40,7 +40,6 @@ body {
 	font-smoothing: antialiased;
 }
 
-
 h1,
 h2,
 h3,
@@ -88,7 +87,6 @@ p {
 
 img {
 	max-width: 100%;
-	border-radius: 10px;
 }
 
 input:focus,

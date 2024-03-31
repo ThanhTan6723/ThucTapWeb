@@ -15,26 +15,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ogani | Template</title>
-    <!-- Thư viện jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Thư viện Slick Slider -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="assets/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="assets/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="assets/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="assets/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+      <!-- Css Styles -->
+    <jsp:include page="client/link/link.jsp"></jsp:include>
+    <style>.container .row .col-lg-6 ul li{
+        margin-right: 30px;
+    }</style>
 </head>
 
 <body>
@@ -48,7 +33,7 @@
                     <div class="header__top__left">
                         <ul>
                             <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
-                            <li>Miễn phí ship cho các đơn từ $99</li>
+                            <li>Miễn phí giao hàng cho các đơn trên $99</li>
                         </ul>
                     </div>
                 </div>
@@ -61,10 +46,10 @@
                             <a href="#"><i class="fa fa-pinterest-p"></i></a>
                         </div>
                         <div class="header__top__right__language">
-                            <img src="/assets/img/vietnam.png" alt="">
-                            <div>Việt Nam</div>
-
+                            <a href="I18N?lang=English"><img src="assets/img/usa.png" alt=""></a>
+                            <a href="I18N?lang=Vietnamese"><img src="assets/img/vietnam.png" alt=""></a>
                         </div>
+
                         <c:if test="${empty sessionScope.account}">
                             <c:url var="login" value="LoginControll"></c:url>
                             <div class="header__top__right__auth">
@@ -72,55 +57,91 @@
                                         src="client/assets/img/login.png" alt=""></i>Đăng nhập/Đăng ký</a>
                             </div>
                         </c:if>
+                        <c:if test="${not empty sessionScope.account}">
+                            <div class="header__top__right__auth">
+                                <!-- Dropdown for Logged-in User -->
+                                <div class="dropdown">
+                                    <c:url var="indexAd" value="IndexAdminControll"></c:url>
+                                    <c:url var="profile" value="UpdateProfileControll"></c:url>
+                                    <c:url var="changepass" value="ChangePassword"></c:url>
+                                    <c:url var="logout" value="LogoutControll"></c:url>
+                                    <ul>
+                                        <i><img src="assets/img/avatar.png" alt="">${sessionScope.account.name}<i class="fa fa-caret-down"></i></i>
+
+                                    </ul>
+                                    <div class="dropdown-content">
+                                        <c:if test="${sessionScope.account.isAdmin == 1}">
+                                            <a href="${pageContext.request.contextPath}/${indexAd}">
+                                                <b>Quản lý</b>
+                                            </a>
+                                        </c:if>
+                                        <a href="${pageContext.request.contextPath}/${profile}">
+                                            <b>Tài khoản</b></a>
+                                        <a href="${pageContext.request.contextPath}/${changepass}">
+                                            <b>Đổi mật khẩu</b>
+                                        </a>
+                                        <a href="${pageContext.request.contextPath}/${logout}">
+                                            <b>Đăng xuất</b>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Header Bottom -->
     <div class="container">
         <div class="row">
-            <div class="col-xl-3">
+            <!-- Logo Section -->
+            <div class="col-lg-3">
                 <div class="header__logo">
-                    <a href="/IndexControll"><img src="img/logo.png" alt=""></a>
+                    <a href="./IndexControll"><img src="assets/img/logo.png" alt=""></a>
                 </div>
             </div>
-            <div class="col-xl-7">
+            <!-- Navigation Section -->
+            <div class="col-lg-6">
                 <nav class="header__menu">
                     <ul>
-                         <!-- Menu Items -->
-                        <li class="active"><a href="/IndexControll">Trang chủ</a></li>
-                        <li><a href="/ShowProductControl?cid=0">Sản phẩm</a>
+
+                        <li ><a href="./IndexControll">Trang chủ</a></li>
+                        <li><a href="./ShowProductControl?cid=0">Sản phẩm</a>
                             <!-- Dropdown Menu for Product Categories -->
                             <ul class="header__menu__dropdown">
-                                <li class=""><a href="/ShowProductControl?cid=0">Tất cả</a></li>
-                                <li class=""><a href="/ShowProductControl?cid=1">Quả đơn </a></li>
-                                <li class=""><a href="/ShowProductControl?cid=2">Quả tụ</a></li>
-                                <li class=""><a href="/ShowProductControl?cid=3">Quả mọng</a></li>
+                                <li class=""><a href="./ShowProductControl?cid=0">All</a></li>
+                                <li class=""><a href="./ShowProductControl?cid=1">Noodle</a></li>
+                                <li class=""><a href="./ShowProductControl?cid=2">Chicken</a></li>
+                                <li class=""><a href="./ShowProductControl?cid=3">Rice</a></li>
                             </ul>
                         </li>
-                        <li><a href="/IntroduceControll">Giới thiệu</a></li>
+                        <li><a href="./IntroduceControll">Giới thiệu</a></li>
                         <!-- Show Order Menu Item only if User is Logged In -->
                         <c:if test="${sessionScope.account!=null}">
-                            <li style="margin-right: 50px"><a href="${pageContext.request.contextPath}/${orderplace}">Đơn đã đặt</a></li>
+                            <li><a href="./OrderPlaceControl">Đơn đã đặt</a></li>
                         </c:if>
-                        <li><a href="/ContactControll">Liên hệ</a></li>
+                        <li><a href="./ContactControll">Liên hệ</a></li>
                     </ul>
                 </nav>
             </div>
-            <div class="col-xl-2">
+            <!-- Cart Section -->
+            <div class="col-lg-3">
                 <div class="header__cart">
                     <ul>
-                        <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                        <li><a href="./CartControll">
+                            <i class="fa fa-shopping-bag"></i>
+                            <c:if test="${empty sessionScope.size}"><span>0</span></c:if>
+                            <c:if test="${not empty sessionScope.size}"><span>${sessionScope.size}</span></c:if>
+                        </a></li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="humberger__open">
-            <i class="fa fa-bars"></i>
-        </div>
     </div>
 </header>
-<!-- Header Section End -->
+
 
 <!-- Hero Section Begin -->
 <section class="hero">
@@ -169,7 +190,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="hero__item set-bg" data-setbg="img/hero/banner.jpg">
+                <div class="hero__item set-bg" data-setbg="assets/img/hero/banner.jpg">
                     <div class="hero__text">
                         <span>TRÁI CÂY TƯƠI</span>
                         <h2>Rau quả <br />100% Hữu cơ</h2>
@@ -235,7 +256,8 @@
                             <button
                                     style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; font-weight: 700"
                                     type="submit">
-                                <a href="${detail}?pid=${o.id}" style="color:#ffffff">ADD TO CART</a>
+                                <a href="${detail}?pid=${o.id}" style="color:#ffffff">
+                                    MUA NGAY</a>
                             </button>
                         </form>
                     </div>
@@ -254,12 +276,12 @@
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="banner__pic">
-                    <img src="img/banner/banner-1.jpg" alt="">
+                    <img src="assets/img/banner/banner-1.jpg" alt="">
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="banner__pic">
-                    <img src="img/banner/banner-2.jpg" alt="">
+                    <img src="assets/img/banner/banner-2.jpg" alt="">
                 </div>
             </div>
         </div>
@@ -392,7 +414,7 @@
             <div class="col-lg-4 col-md-4 col-sm-6">
                 <div class="blog__item">
                     <div class="blog__item__pic">
-                        <img src="img/blog/blog-1.jpg" alt="">
+                        <img src="assets/img/blog/blog-1.jpg" alt="">
                     </div>
                     <div class="blog__item__text">
                         <ul>
@@ -408,7 +430,7 @@
             <div class="col-lg-4 col-md-4 col-sm-6">
                 <div class="blog__item">
                     <div class="blog__item__pic">
-                        <img src="img/blog/blog-2.jpg" alt="">
+                        <img src="assets/img/blog/blog-2.jpg" alt="">
                     </div>
                     <div class="blog__item__text">
                         <ul>
@@ -424,7 +446,7 @@
             <div class="col-lg-4 col-md-4 col-sm-6">
                 <div class="blog__item">
                     <div class="blog__item__pic">
-                        <img src="img/blog/blog-3.jpg" alt="">
+                        <img src="assets/img/blog/blog-3.jpg" alt="">
                     </div>
                     <div class="blog__item__text">
                         <ul>

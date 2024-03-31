@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.client.IndexDAO;
 import dao.client.ProductDAO;
 import model.Product;
 
@@ -46,8 +47,11 @@ public class ShowProductControl extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+        List<Product> listRandProduct = IndexDAO.listRandProduct();
+        List<Product> listSale = IndexDAO.getTop8();
+        request.setAttribute("listRandProduct",listRandProduct);
+        request.setAttribute("listSale",listSale);
+        request.getRequestDispatcher("/WEB-INF/client/menu.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
