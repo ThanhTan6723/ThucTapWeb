@@ -22,10 +22,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8" />
-
-
 <title>${detail.name}</title>
-
 <style type="text/css">
 	.productdetail{
 	height: 60vh;
@@ -37,7 +34,6 @@
 <jsp:include page="./link/link.jsp"></jsp:include>
 
 </head>
-
 <body>
 	<div class="page">
 		<jsp:include page="./header/header.jsp"></jsp:include>
@@ -96,7 +92,6 @@
     </div>
 </div>
 <!-- End Main Content -->
-
 		<jsp:include page="./footer/footer.jsp"></jsp:include>
 	</div>
 </body>

@@ -1,4 +1,4 @@
-package controller.client.i18n;
+package controller.i18n;
 
 import java.io.IOException;
 import java.util.HashMap;

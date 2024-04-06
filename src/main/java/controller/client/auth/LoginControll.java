@@ -1,121 +1,107 @@
 package controller.client.auth;
 
-import java.io.IOException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import dao.client.AccountDAO;
 import model.Account;
 import model.Encode;
 
-@WebServlet("/LoginControll")
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
+@WebServlet(name = "LoginControll", value = "/LoginControll")
 public class LoginControll extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Cookie arr[] = request.getCookies();
+        for (Cookie cookie : arr) {
+            if (cookie.getName().equals("userN")) {
+                request.setAttribute("username", URLDecoder.decode(cookie.getValue(), "UTF-8"));
+            }
+            if (cookie.getName().equals("passW")) {
+                request.setAttribute("password", URLDecoder.decode(cookie.getValue(), "UTF-8"));
+            }
+        }
+        request.getRequestDispatcher("/WEB-INF/client/login.jsp").forward(request, response);
+    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String returnUrl = request.getHeader("Referer");
-		Cookie arr[] = request.getCookies();
-		for (Cookie cookie : arr) {
-			if (cookie.getName().equals("userN")) {
-				request.setAttribute("username", URLDecoder.decode(cookie.getValue(), "UTF-8"));
-			}
-			if (cookie.getName().equals("passW")) {
-				request.setAttribute("password", URLDecoder.decode(cookie.getValue(), "UTF-8"));
-			}
-		}
-		request.setAttribute("returnUrl", returnUrl);
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
 
-		request.getRequestDispatcher("/client/login.jsp").forward(request, response);
-	}
+        String userName = request.getParameter("username");
+        String passWord = request.getParameter("password");
+        System.out.println(userName);
+        System.out.println(passWord);
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+        boolean checkSpaceName = userName.trim().isEmpty();
+        boolean checkSpacePass = passWord.trim().isEmpty();
 
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
+        if (userName == null || checkSpaceName) {
+            String errorN = "Enter username";
+            request.setAttribute("errorN", errorN);
+            System.out.println(errorN);
+        }
 
-		String userName = request.getParameter("username");
-		String passWord = request.getParameter("password");
-		System.out.println(userName);
-		System.out.println(passWord);
+        if (passWord == null || checkSpacePass) {
+            String errorP = "Enter password";
+            request.setAttribute("errorP", errorP);
+            request.setAttribute("username", userName);
+            System.out.println(errorP);
+        }
 
-		boolean checkSpaceName = userName.trim().isEmpty();
-		boolean checkSpacePass = passWord.trim().isEmpty();
+        if (userName != null && passWord != null && !checkSpaceName && !checkSpacePass) {
+            String enpass = Encode.toSHA1(passWord);
+            Account account = AccountDAO.checkLogin(userName, enpass);
 
-		if (userName == null || checkSpaceName) {
-			String errorN = "Enter username";
-			request.setAttribute("errorN", errorN);
-			System.out.println(errorN);
-		}
+            if (account != null) {
+                // not Admin
+                if (account.getIsAdmin() == 0) {
+                    // Session
+                    HttpSession session = request.getSession();
+                    session.setAttribute("account", account);
+                    session.setMaxInactiveInterval(60 * 60);
 
-		if (passWord == null || checkSpacePass) {
-			String errorP = "Enter password";
-			request.setAttribute("errorP", errorP);
-			request.setAttribute("username", userName);
-			System.out.println(errorP);
-		}
+                    // Cookie
+                    Cookie c1 = new Cookie("userN", URLEncoder.encode(userName, "UTF-8"));
+                    Cookie c2 = new Cookie("passW", URLEncoder.encode(passWord, "UTF-8"));
+                    c1.setMaxAge(60 * 60 * 24 * 30);
+                    c2.setMaxAge(60 * 60 * 24 * 30);
+                    response.addCookie(c1);
+                    response.addCookie(c2);
 
-		if (userName != null && passWord != null && !checkSpaceName && !checkSpacePass) {
-			String enpass = Encode.toSHA1(passWord);
-			Account account = AccountDAO.checkLogin(userName, enpass);
+                    response.sendRedirect(request.getContextPath() + "/IndexControll");
+                    return;
+                }
+                // is admin
+                if (account.getIsAdmin() == 1) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("account", account);
+                    session.setMaxInactiveInterval(60 * 60);
 
-			if (account != null) {
-				// not Admin
-				if (account.getIsAdmin() == 0) {
-					// Session
-					HttpSession session = request.getSession();
-					session.setAttribute("account", account);
-					session.setMaxInactiveInterval(60 * 60);
+                    // Cookie
+                    Cookie c1 = new Cookie("userN", URLEncoder.encode(userName, "UTF-8"));
+                    Cookie c2 = new Cookie("passW", URLEncoder.encode(passWord, "UTF-8"));
+                    c1.setMaxAge(60 * 60 * 24 * 30);
+                    c2.setMaxAge(60 * 60 * 24 * 30);
+                    response.addCookie(c1);
+                    response.addCookie(c2);
 
-					// Cookie
-					Cookie c1 = new Cookie("userN", URLEncoder.encode(userName, "UTF-8"));
-					Cookie c2 = new Cookie("passW", URLEncoder.encode(passWord, "UTF-8"));
-					c1.setMaxAge(60 * 60 * 24 * 30);
-					c2.setMaxAge(60 * 60 * 24 * 30);
-					response.addCookie(c1);
-					response.addCookie(c2);
-//					String urlend = request.getParameter("urlend");
-//					if (urlend != null) {
-//						response.sendRedirect(urlend);
-//					} else
-						response.sendRedirect(request.getContextPath() + "/IndexControl");
-					return;
-				}
-				// is admin
-				if (account.getIsAdmin() == 1) {
-					HttpSession session = request.getSession();
-					session.setAttribute("account", account);
-					session.setMaxInactiveInterval(60 * 60);
+                    response.sendRedirect(request.getContextPath() + "/IndexControll");
+                    return;
 
-					// Cookie
-					Cookie c1 = new Cookie("userN", URLEncoder.encode(userName, "UTF-8"));
-					Cookie c2 = new Cookie("passW", URLEncoder.encode(passWord, "UTF-8"));
-					c1.setMaxAge(60 * 60 * 24 * 30);
-					c2.setMaxAge(60 * 60 * 24 * 30);
-					response.addCookie(c1);
-					response.addCookie(c2);
+                }
+            } else {
+                String error = "Username or password incorrect!";
+                request.setAttribute("error", error);
+                request.setAttribute("username", userName);
+            }
+        }
+        request.getRequestDispatcher("/WEB-INF/client/login.jsp").forward(request, response);
 
-					response.sendRedirect(request.getContextPath() + "/IndexControl");
-					return;
-
-				}
-			} else {
-				String error = "Username or password incorrect!";
-				request.setAttribute("error", error);
-				request.setAttribute("username", userName);
-			}
-		}
-		request.getRequestDispatcher("/client/login.jsp").forward(request, response);
-
-	}
-
+    }
 }

@@ -1,9 +1,6 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<%@ page import="java.util.Map" %>
-<%@ page import="dao.client.I18NDAO" %>
-
 <%@ page contentType="text/html; charset=utf-8" language="java" %>
 <%@ page isELIgnored="false" %>
 
@@ -24,7 +21,7 @@
     <div class="hero__text">
         <span style="font-size: 50px">Rau củ quả tươi xanh</span>
         <h2>Fruit</h2>
-        <p></p>
+        <p>Nhanh tay quẹo lựa</p>
     </div>
 </div>
 <section class="categories">

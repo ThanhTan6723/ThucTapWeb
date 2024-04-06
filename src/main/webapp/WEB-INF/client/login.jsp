@@ -1,6 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%@ page contentType="text/html; charset=utf-8" language="java" %>
+<%@ page isELIgnored="false" %>
+
 <!DOCTYPE html>
 <html lang="zxx">
 <html>
@@ -22,15 +24,15 @@
 <section class="container forms">
     <div class="form login">
         <div class="form-content">
-            <header>Login</header>
+            <header>Đăng nhập</header>
             <form action="${log}" method="post">
                 <input type="hidden" name="urlend" value="${returnUrl }">
                 <div class="field input-field">
-                    <input type="text" name="username" value="${username}" placeholder="Name" class="input">
+                    <input type="text" name="username" value="${username}" placeholder="Tên" class="input">
                     <span style="color: red; font-weight: 400;">${errorN}</span>
                 </div>
                 <div class="field input-field">
-                    <input type="password" name="password" value="${password}" placeholder="Password" class="password">
+                    <input type="password" name="password" value="${password}" placeholder="Mật khẩu" class="input">
                     <i class='bx bx-hide eye-icon'></i>
                     <span style="color: red; font-weight: 400;">${errorP}</span>
                 </div>
@@ -43,29 +45,27 @@
                     <span style="color: red; font-weight: 400;background-color:seashell">${error}</span>
                 </div>
                 <div class="field button-field">
-                    <button>Login</button>
+                    <button>Đăng nhập</button>
                 </div>
             </form>
             <div class="form-link">
                 <c:url var="sign" value="SignupControll"></c:url>
-                <span>Don't have an account? <a href="${pageContext.request.contextPath}/${sign}"
-                                                class="link signup-link">Signup</a></span>
+                <span>Bạn chưa có tài khoản? <a href="${pageContext.request.contextPath}/${sign}"
+                                                class="link signup-link">Đăng ký</a></span>
             </div>
         </div>
-
-
         <div class="media-options">
-            <a href="#" class="field facebook">
+            <a href="https://www.facebook.com/dialog/oauth?client_id=359123991240252&redirect_uri=https://localhost:8443/AccessFacebook/login-facebook" class="field facebook">
                 <i class='bx bxl-facebook facebook-icon'></i>
-                <span>Continue with Facebook</span>
+                <span>Tiếp tục với Facebook</span>
             </a>
         </div>
-
         <div class="media-options">
-            <a href="#" class="field google">
+            <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/AccessGoogle/login-google&response_type=code
+    &client_id=352140522561-vpmetjr6bjce1vod9b0cppihhbcgdesh.apps.googleusercontent.com&approval_prompt=force" class="field google">
                 <%--                    <c:url var="gg" value="assets"></c:url>--%>
                 <img src="assets/img/google.png" alt="" class="google-img">
-                <span>Continue with Google</span>
+                <span>Tiếp tục với Google</span>
             </a>
         </div>
     </div>
@@ -94,7 +94,5 @@
 
 </script>
 <script src="../client/assets/js/script.js"></script>
-
-
 </body>
 </html>

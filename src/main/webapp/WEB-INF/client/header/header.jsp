@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="java.util.Map"%>
 <%@page import="dao.client.I18NDAO"%>
 <%@page import="java.util.Map" %>
 <%@page import="dao.client.I18NDAO" %>
 
-
+<%@ page contentType="text/html; charset=utf-8" language="java" %>
+<%@ page isELIgnored="false" %>
 
 <c:set var="log" value="Login/Sign up"></c:set>
 
@@ -101,7 +100,7 @@
                         <!-- URL Definitions -->
                         <c:url var="index" value="IndexControll"></c:url>
                         <c:url var="showProduct" value="ShowProductControl"></c:url>
-                        <c:url var="about" value="IntroduceControll"></c:url>
+                        <c:url var="about" value="BlogControll"></c:url>
                         <c:url var="orderplace" value="OrderPlaceControl"></c:url>
                         <c:url var="contact" value="ContactControll"></c:url>
                         <c:url var="cart" value="CartControll"></c:url>
@@ -116,7 +115,7 @@
                                 <li class=""><a href="${pageContext.request.contextPath}/${showProduct}?cid=3">Rice</a></li>
                             </ul>
                         </li>
-                        <li><a href="${pageContext.request.contextPath}/${about}">Giới thiệu</a></li>
+                        <li><a href="/BlogControll">Giới thiệu</a></li>
                         <!-- Show Order Menu Item only if User is Logged In -->
                         <c:if test="${sessionScope.account!=null}">
                             <li><a href="${pageContext.request.contextPath}/${orderplace}">Đơn đã đặt</a></li>
@@ -129,7 +128,7 @@
             <div class="col-lg-3">
                 <div class="header__cart">
                     <ul>
-                        <li><a href="./CartControll">
+                        <li><a href="/CartControll">
                                 <i><img style="width: 40px; height: 40px;" src="assets/img/cart.svg" alt=""></i>
                                 <c:if test="${empty sessionScope.size}"><span>0</span></c:if>
                                 <c:if test="${not empty sessionScope.size}"><span>${sessionScope.size}</span></c:if>

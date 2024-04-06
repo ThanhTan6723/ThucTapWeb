@@ -56,8 +56,5 @@ public class JDBCUtil {
 		Connection c = getConnection();
 		System.out.println(c);
 
-		// Đóng kết nối
-		closeConnection(c);
-
 	}
 }

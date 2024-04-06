@@ -13,12 +13,12 @@ import dao.client.AccountDAO;
 import model.Account;
 import model.Encode;
 
-@WebServlet("/SignupControll")
+@WebServlet(name = "SignupControll", value = "/SignupControll")
 public class SignupControll extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.getRequestDispatcher("/client/signup.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/client/signup.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -90,7 +90,7 @@ public class SignupControll extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/LoginControll");
 			return;
 		}
-		request.getRequestDispatcher("/client/signup.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/client/signup.jsp").forward(request, response);
 	}
 
 }
