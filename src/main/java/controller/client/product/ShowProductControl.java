@@ -47,9 +47,26 @@ public class ShowProductControl extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        String indexPage = request.getParameter("index");
+        if(indexPage==null){
+            indexPage="1";
+        }
+        int index = Integer.parseInt(indexPage);
+        ProductDAO dao = new ProductDAO();
+        int count = dao.getTotalProduct();
+        int endPage;
+        endPage = count/8;
+        if (count%8 != 0) {
+            endPage++;
+        }
+        List<Product> listProduct = ProductDAO.pagingProduct(index);
+
+        request.setAttribute("listProduct",listProduct);
+        request.setAttribute("endPage", endPage);
+        request.setAttribute("tag",index);
         List<Product> listRandProduct = IndexDAO.listRandProduct();
-        List<Product> listSale = IndexDAO.getTop8();
         request.setAttribute("listRandProduct",listRandProduct);
+        List<Product> listSale = IndexDAO.getTop8();
         request.setAttribute("listSale",listSale);
         request.getRequestDispatcher("/WEB-INF/client/menu.jsp").forward(request, response);
     }

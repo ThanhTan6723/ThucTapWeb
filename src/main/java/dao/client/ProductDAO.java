@@ -285,6 +285,37 @@ public class ProductDAO {
 		} catch (Exception e) {
 		}
 	}
+	public int getTotalProduct(){
+		String query = "select count(*) from Products";
+		try{
+			Connection conn = JDBCUtil.getConnection();
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()){
+				return  rs.getInt(1);
+			}
+		}catch (Exception e){
+
+		}
+		return 0;
+	}
+	public static List<Product> pagingProduct(int index){
+		List<Product> list = new ArrayList<>();
+		String query = "select * from Products order by id limit 8 offset ?;";
+		try{
+			Connection con = JDBCUtil.getConnection();
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1,(index-1)*8);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()){
+				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+						OrderDAO.getCategory(rs.getInt(6))));
+			}
+		}catch (Exception e){
+
+		}
+		return list;
+	}
 
 	public static void main(String[] args) {
 //		removeProduct("2");
@@ -297,13 +328,17 @@ public class ProductDAO {
 //       System.out.println(pd.getListCategory());
 //		updateProduct(new Product(4,"lẫu thái",190.00,null,"ngon nhức nách",new Category(2)));
 //		insertProduct(new Product(0,"bánh bèo",170.00,"f1.jpg","ngon lắm",new Category(2)));
-//		ProductDAO pd = new ProductDAO();
-		List<Product> list = ProductDAO.getListProducts();
+		ProductDAO pd = new ProductDAO();
+/*		List<Product> list = ProductDAO.getListProducts();
 		for (Product product : list) {
 			System.out.println(product);
 		}
-		System.out.println(getListProducts());
+		System.out.println(getListProducts());*/
 //		System.out.println(pd.getProductById(4));
+/*		int count = pd.getTotalProduct();
+		System.out.println(count);*/
+        List<Product> list = ProductDAO.pagingProduct(5);
+		System.out.println(list);
 
 	}
 

@@ -17,11 +17,18 @@
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 	<jsp:include page="link/link.jsp"></jsp:include>
+    <style>
+        .paging a .active{
+            color: #00a045;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
 <jsp:include page="header/header.jsp"></jsp:include>
 <c:url var="detail" value="DetailControl"></c:url>
+
 
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
@@ -233,7 +240,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<c:forEach items="${listProducts}" var="o">
+					<c:forEach items="${listProduct}" var="o">
 						<div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
 							<div class="featured__item">
 								<div class="featured__item__pic set-bg" >
@@ -260,14 +267,12 @@
 							</div>
 						</div>
 					</c:forEach>
-				
 				</div>
-				<div class="product__pagination">
-					<a href="#">1</a>
-					<a href="#">2</a>
-					<a href="#">3</a>
-					<a href="#"><i class="fa fa-long-arrow-right"></i></a>
-				</div>
+				<div class="paging">
+                    <c:forEach begin="1" end="${endPage}" var="i">
+                        <a class="${tag==i?"active":""}" href="/ShowProductControl?index=${i}" style="color: black">${i}</a>
+                    </c:forEach>
+                </div>
 			</div>
 		</div>
 	</div>
