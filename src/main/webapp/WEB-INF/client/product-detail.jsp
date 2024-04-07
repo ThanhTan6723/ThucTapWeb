@@ -2,6 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<%@ page contentType="text/html; charset=utf-8" language="java" %>
+<%@ page isELIgnored="false" %>
+
 <%@page import="java.util.Map" %>
 <%@page import="dao.client.I18NDAO" %>
 
@@ -65,14 +68,14 @@
 
                         <div class="pd-form-bottom clearfix">
                             <h5><c:out value="${showLanguage['Checkout.Quantity']}" /></h5>
-                            <c:url var="addToCart" value="AddToCartControll"></c:url>
+                            <c:url var="addToCart" value="AddToCartControl"></c:url>
                             
 							<form action="${addToCart}?pid=${detail.id}" method="post">
                                 <input style="width: 80px; border-radius: 5px; text-align: center;" type="number" class="single-input-selector" value="1"
-                                    min="1" max="99" name="quantity" placeholder="<c:out value="${showLanguage['Detail.QuantityPlaceholder']}" />">
+                                    min="1" max="99" name="quantity" placeholder="">
                                 <button style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; text-transform: uppercase; font-weight: 700; color: #fff"
-                                    type="submit" class="button" title="<c:out value="${showLanguage['Detail.Submit']}" />">
-                                    <span><c:out value="${showLanguage['Detail.Submit']}" /></span>
+                                    type="submit" class="button" title="Mua">
+                                    <span>Mua</span>
                                 </button>
                             </form>
                         </div>

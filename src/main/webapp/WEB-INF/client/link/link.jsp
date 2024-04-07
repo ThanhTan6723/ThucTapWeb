@@ -3,7 +3,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!--CSS-->
-<c:url value="/assets" var="url"></c:url>
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
@@ -18,6 +17,8 @@
     <link rel="stylesheet" href="assets/css/style.css" type="text/css">
     <link rel="stylesheet" href="assets/css/button.css" type="text/css">
     <link rel="stylesheet" href="assets/css/dropdown.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/paging.css" type="text/css">
+
 <!-- JavaScript -->
     <script src="assets/js/jquery-3.3.1.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>

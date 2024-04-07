@@ -53,7 +53,7 @@ public class ForgotPasswordControll extends HttpServlet {
 			}
 		}
 
-		request.getRequestDispatcher("/client/forgot-password.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/client/forgot-password.jsp").forward(request, response);
 
 	}
 

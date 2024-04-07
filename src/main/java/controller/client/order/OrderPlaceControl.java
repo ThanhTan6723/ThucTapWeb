@@ -32,7 +32,7 @@ public class OrderPlaceControl extends HttpServlet {
 			System.out.println("List orders: "+list);
 			request.setAttribute("listProductOrder", list);
 		}
-		request.getRequestDispatcher("/client/order-placed.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/client/order-placed.jsp").forward(request, response);
 
 	}
 

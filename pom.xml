@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.example</groupId>
-  <artifactId>Fruit</artifactId>
+  <artifactId>ThucTapWeb</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>Fruit Maven Webapp</name>
+  <name>ThucTapWeb Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
@@ -135,16 +135,15 @@
       <artifactId>httpcore</artifactId>
       <version>4.4.9</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
     <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>4.5.5</version>
+      <groupId>org.jetbrains</groupId>
+      <artifactId>annotations</artifactId>
+      <version>19.0.0</version>
+      <scope>compile</scope>
     </dependency>
-
 
   </dependencies>
   <build>
-    <finalName>Fruit</finalName>
+    <finalName>ThucTapWeb</finalName>
   </build>
 </project>

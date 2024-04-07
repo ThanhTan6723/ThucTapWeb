@@ -35,8 +35,6 @@ public class LoginControll extends HttpServlet {
 
         String userName = request.getParameter("username");
         String passWord = request.getParameter("password");
-        System.out.println(userName);
-        System.out.println(passWord);
 
         boolean checkSpaceName = userName.trim().isEmpty();
         boolean checkSpacePass = passWord.trim().isEmpty();

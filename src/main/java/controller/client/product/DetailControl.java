@@ -24,7 +24,7 @@ public class DetailControl extends HttpServlet {
 		int pid=Integer.parseInt(productId);
 		Product product = ProductDAO.getProductById(pid);
 		request.setAttribute("detail", product);
-		request.getRequestDispatcher("/client/product-detail.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/client/product-detail.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

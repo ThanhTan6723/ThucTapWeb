@@ -32,31 +32,31 @@
             <form action="${sign}" method="post">
                 <div class="field input-field">
                     <input name="name" type="text" placeholder="Name" value="${name}" class="input">
-                    <span style="color: red; font-weight: bold">${error2}</span>
+                    <span class="notify">${error2}</span>
                 </div>
                 <div class="field input-field">
                     <input id="mail" name="email" type="email" placeholder="Email" value="${email}"
                            onkeyup="validateEmail()" class="input">
-                    <span id="noti" style="color: red; font-weight: bold">${error3}</span>
+                    <span id="noti" class="notify">${error3}</span>
                 </div>
                 <div class="field input-field">
                     <input name="phone" type="tel" placeholder="Số điện thoại" value="${phone}" class="input" id="tele"
                            onkeyup="validatePhone()">
-                    <span id="noti1" style="color: red; font-weight:bold">${error4}</span>
+                    <span id="noti1" class="notify">${error4}</span>
                 </div>
 
                 <div class="field input-field">
                     <input name="passw" type="password" placeholder="Mật khẩu" value="${passw}" class="password"
                            name="password" id="pass">
                     <i class='bx bx-hide eye-icon' onclick="togglePassword('pass', 'eye-icon-pass')"></i>
-                    <span style="color: red; font-weight: bold;">${error5}</span>
+                    <span class="notify">${error5}</span>
                 </div>
 
                 <div class="field input-field">
                     <input name="repassw" type="password" onkeyup="validateRePass()" placeholder="Xác nhận mật khẩu"
                            class="password" name="repassword" id="re">
                     <i class='bx bx-hide eye-icon' onclick="togglePassword('re', 'eye-icon-re')"></i>
-                    <span id="noti2" style="color: red; font-weight:bold;">${error6}</span>
+                    <span id="noti2" class="notify">${error6}</span>
                 </div>
 
                 <div class="field button-field">
@@ -88,7 +88,7 @@
         var emailRegex = /^\w+@\w+(\.\w+)+(\.\w+)*$/;
 
         if (email.length === 0) {
-            // detele message when deteleAll
+            //Xoá cảnh báo khi xóa tất cả
             emailError.innerHTML = "";
             return;
         }
@@ -100,7 +100,7 @@
         }
 
         if (isDeleting) {
-            //clear notifications while detele
+            //Xóa cảnh báo trong khi nhập
             emailError.innerHTML = "";
         } else {
             if (!emailRegex.test(email)) {
@@ -119,7 +119,7 @@
         var phoneNumPattern = /^[0-9]{10}$/;
         var phoneError = document.getElementById("noti1");
 
-        // Kiểm tra xem phoneNum chỉ chứa số và có đúng 10 chữ số không
+        // Kiểm tra xem sđt chỉ chứa số và có đúng 10 chữ số hay không
         if (!phoneNumPattern.test(phoneNum)) {
             phoneError.innerHTML = "Phone is in wrong format";
             return false;
