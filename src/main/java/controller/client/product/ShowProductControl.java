@@ -24,6 +24,7 @@ public class ShowProductControl extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         try {
+
             String sort = "";
             sort = request.getParameter("sort");
             if (sort == null) {
@@ -34,36 +35,35 @@ public class ShowProductControl extends HttpServlet {
             if (request.getParameter("cid") != null) {
                 id = Integer.parseInt(request.getParameter("cid"));
             }
-
+            String indexPage = request.getParameter("index");
+            if(indexPage==null){
+                indexPage="1";
+            }
+            int index = Integer.parseInt(indexPage);
+            ProductDAO dao = new ProductDAO();
+            int count = dao.getTotalProduct(id);
+            int endPage;
+            endPage = count/8;
+            if (count%8 != 0) {
+                endPage++;
+            }
             StringTokenizer s = new StringTokenizer(sort, "-");
             String sortName = s.nextToken();
             String type = s.nextToken();
 
-            List<Product> list = ProductDAO.pagingProduct(id, sortName, type);
+            List<Product> list = ProductDAO.pagingProduct(id, index,sortName, type);
 
             request.setAttribute("sort", sort);
             request.setAttribute("listProducts", list);
             request.setAttribute("cid", id);
+
+            request.setAttribute("endPage", endPage);
+            request.setAttribute("tag",index);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String indexPage = request.getParameter("index");
-        if(indexPage==null){
-            indexPage="1";
-        }
-        int index = Integer.parseInt(indexPage);
-        ProductDAO dao = new ProductDAO();
-        int count = dao.getTotalProduct();
-        int endPage;
-        endPage = count/8;
-        if (count%8 != 0) {
-            endPage++;
-        }
-        List<Product> listProduct = ProductDAO.pagingProduct(index);
 
-        request.setAttribute("listProduct",listProduct);
-        request.setAttribute("endPage", endPage);
-        request.setAttribute("tag",index);
+
         List<Product> listRandProduct = IndexDAO.listRandProduct();
         request.setAttribute("listRandProduct",listRandProduct);
         List<Product> listSale = IndexDAO.getTop8();

@@ -8,6 +8,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 @WebServlet(name = "IndexControll", value = "/IndexControll")
@@ -17,10 +18,10 @@ public class IndexControll extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         List<Product> listTop = IndexDAO.getTop8();
-        List<Product> list = IndexDAO.getOutstandingProduct();
         List<Product> listRandProduct = IndexDAO.listRandProduct();
+        List<Product> list4 = IndexDAO.listRand4Product();
+        request.setAttribute("list4Rand",list4);
         request.setAttribute("listTop",listTop);
-        request.setAttribute("listOutstandingProduct", list);
         request.setAttribute("listRandProduct",listRandProduct);
         request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
     }

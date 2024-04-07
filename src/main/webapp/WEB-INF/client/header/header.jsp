@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-
+<html>
+<head>
 <style>.container .row .col-lg-6 ul li{
     margin-right: 30px;
 }
 </style>
-
+    <%@ page isELIgnored="false" %>
+</head>
+<body>
 <c:set var="log" value="Login/Sign up"></c:set>
 
 <header class="header">
@@ -160,17 +162,16 @@
                 <div class="hero__search">
                     <div class="hero__search__form">
                         <!-- Search URL -->
-                        <c:url var="search" value="SearchControl"></c:url>
-                        <form action="${pageContext.request.contextPath}/${search}" method="get" class="form-inline sk-search-in-nav">
+                        <form action="/SearchControl" method="get" class="form-inline sk-search-in-nav">
                             <!-- Search Categories Dropdown -->
                             <div class="hero__search__categories">
                                 Tất cả danh mục <span class="arrow_carrot-down"></span>
                             </div>
                             <!-- Search Input -->
-                            <input type="text" placeholder="Bạn cần gì?"
+                            <input oninput="searchByName(this)" value="${txtSearch}" type="text" placeholder="Bạn cần gì?"
                                    name="query">
                             <!-- Search Button -->
-                            <button type="submit" class="site-btn">
+                            <button class="site-btn">
                                 Tìm kiếm
                             </button>
                         </form>
@@ -190,5 +191,26 @@
         </div>
     </div>
 </section>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function searchByName(param){
+        var txtSearch = param.value;
+        $.ajax({
+            url:"/SearchControl",
+            type:"get",
+            data:{
+                query:txtSearch
+            },
+            success:function (data){
+                var row = document.getElementById("content");
+                row.innerHTML=data;
+            },
+            error:function (xhr){
 
-<!-- Hero Section End -->
+            }
+        });
+
+    }
+</script>
+</html>
