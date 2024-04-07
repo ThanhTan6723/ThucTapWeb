@@ -24,6 +24,7 @@ public class ShowProductControl extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         try {
+
             String sort = "";
             sort = request.getParameter("sort");
             if (sort == null) {
@@ -34,22 +35,38 @@ public class ShowProductControl extends HttpServlet {
             if (request.getParameter("cid") != null) {
                 id = Integer.parseInt(request.getParameter("cid"));
             }
-
+            String indexPage = request.getParameter("index");
+            if(indexPage==null){
+                indexPage="1";
+            }
+            int index = Integer.parseInt(indexPage);
+            ProductDAO dao = new ProductDAO();
+            int count = dao.getTotalProduct(id);
+            int endPage;
+            endPage = count/8;
+            if (count%8 != 0) {
+                endPage++;
+            }
             StringTokenizer s = new StringTokenizer(sort, "-");
             String sortName = s.nextToken();
             String type = s.nextToken();
 
-            List<Product> list = ProductDAO.pagingProduct(id, sortName, type);
+            List<Product> list = ProductDAO.pagingProduct(id, index,sortName, type);
 
             request.setAttribute("sort", sort);
             request.setAttribute("listProducts", list);
             request.setAttribute("cid", id);
+
+            request.setAttribute("endPage", endPage);
+            request.setAttribute("tag",index);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
         List<Product> listRandProduct = IndexDAO.listRandProduct();
-        List<Product> listSale = IndexDAO.getTop8();
         request.setAttribute("listRandProduct",listRandProduct);
+        List<Product> listSale = IndexDAO.getTop8();
         request.setAttribute("listSale",listSale);
         request.getRequestDispatcher("/WEB-INF/client/menu.jsp").forward(request, response);
     }

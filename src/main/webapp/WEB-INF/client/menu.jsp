@@ -17,11 +17,18 @@
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 	<jsp:include page="link/link.jsp"></jsp:include>
+    <style>
+        .paging a .active{
+            color: #00a045;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
 <jsp:include page="header/header.jsp"></jsp:include>
 <c:url var="detail" value="DetailControl"></c:url>
+
 
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
@@ -208,6 +215,24 @@
 						</div>
 					</div>
 				</div>
+				<div class="sk-page-title">
+					<h4 >
+						<c:choose>
+							<c:when test="${cid==0}">
+								All
+							</c:when>
+							<c:when test="${cid==1}">
+								Noodle
+							</c:when>
+							<c:when test="${cid==2}">
+								Chicken
+							</c:when>
+							<c:when test="${cid==3}">
+								Rice
+							</c:when>
+						</c:choose>
+					</h4>
+				</div>
 				<div class="filter__item">
 					<div class="row">
 						<div class="col-lg-4 col-md-5">
@@ -232,7 +257,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row" id="content">
 					<c:forEach items="${listProducts}" var="o">
 						<div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
 							<div class="featured__item">
@@ -260,14 +285,15 @@
 							</div>
 						</div>
 					</c:forEach>
-				
 				</div>
-				<div class="product__pagination">
-					<a href="#">1</a>
-					<a href="#">2</a>
-					<a href="#">3</a>
-					<a href="#"><i class="fa fa-long-arrow-right"></i></a>
+				<div class="paging" style="padding-left: 300px">
+					<c:forEach begin="1" end="${endPage}" var="i">
+						<button style="padding: 10px 23px; border-radius: 5px; border: none;  font-weight: 700">
+							<a href="/ShowProductControl?cid=${cid}&sort=${sort}&index=${i}" style="color: #7fad39;">${i}</a>
+						</button>
+					</c:forEach>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -282,6 +308,8 @@
 <script src="js/mixitup.min.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
 </body>
 

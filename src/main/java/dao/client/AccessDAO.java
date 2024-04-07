@@ -67,7 +67,7 @@ public class AccessDAO {
 
 	public static void main(String[] args) {
 		AccessDAO a = new AccessDAO();
-		List<Product> list = a.searchByName("pizza");
+		List<Product> list = a.searchByName("A");
 		for (Product product : list) {
 			System.out.println(product.toString());
 		}

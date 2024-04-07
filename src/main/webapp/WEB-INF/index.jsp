@@ -171,12 +171,12 @@
             <div class="col-lg-9">
                 <div class="hero__search">
                     <div class="hero__search__form">
-                        <form action="#">
+                        <form action="./SearchControl">
                             <div class="hero__search__categories">
                                 Tất cả danh mục
                                 <span class="arrow_carrot-down"></span>
                             </div>
-                            <input type="text" placeholder="Bạn cần gì?">
+                            <input onclick="searchByName(this)" value="${txtSearch}" type="text" placeholder="Bạn cần gì?">
                             <button type="submit" class="site-btn">TÌM KIẾM</button>
                         </form>
                     </div>
@@ -235,10 +235,38 @@
 
             </div>
         </div>
-
+        <div class="row featured__filter">
+        <c:forEach items="${list4Rand}" var="o" >
+            <div class="product col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat" style="height: 400px">
+                <div class="featured__item">
+                    <div class="featured__item__pic set-bg" >
+                        <a href="${detail}?pid=${o.id}">
+                            <img src="${o.image}" alt="${o.name}">
+                        </a>
+                    </div>
+                    <div class="featured__item__text">
+                        <a class="product-name" href="${detail}?pid=${o.id}" style="color: black">
+                                ${o.name}</a>
+                        <h5>${o.price}</h5>
+                    </div>
+                    <div class="text-center">
+                        <c:url var="addToCart" value="/AddToCartControll"></c:url>
+                        <form action="${addToCart}?pid=${o.id}" method="post" enctype="multipart/form-data">
+                            <button
+                                    style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; font-weight: 700"
+                                    type="submit">
+                                <a href="${detail}?pid=${o.id}" style="color:#ffffff">
+                                    MUA NGAY</a>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
         <div class="row featured__filter" id="content">
-            <c:forEach items="${listOutstandingProduct}" var="o">
-            <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+            <c:forEach items="${listOutstandingProduct}" var="o" >
+            <div class="product col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
                 <div class="featured__item">
                     <div class="featured__item__pic set-bg" >
                      <a href="${detail}?pid=${o.id}">
@@ -264,8 +292,12 @@
                 </div>
             </div>
             </c:forEach>
-
         </div>
+       <div style="padding-left: 500px;">
+           <button onclick="loadMore()" class="btn-btn-primary"
+                   style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #a20303; font-weight: 700;
+        color:white">Load more</button>
+       </div>
     </div>
 </section>
 <!-- Featured Section End -->
@@ -477,7 +509,26 @@
 <script src="js/mixitup.min.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function loadMore() {
+        var amount = document.getElementsByClassName("product").length;
+        $.ajax({
+            url: "/LoadMoreControl",
+            type: "get", //send it through get method
+            data: {
+                exits: amount
+            },
+            success: function (data) {
+                var row = document.getElementById("content");
+                row.innerHTML += data;
+            },
+            error: function (xhr) {
+                //Do Something to handle error
+            }
+        });
+    }
+</script>
 </body>
 
 </html>

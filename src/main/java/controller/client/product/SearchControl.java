@@ -1,6 +1,7 @@
 package controller.client.product;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -25,22 +26,40 @@ public class SearchControl extends HttpServlet {
         if (txtSearch != null && !txtSearch.isEmpty()) {
             List<Product> list = AccessDAO.searchByName(txtSearch);
             System.out.println("list search: "+list);
-            
-            if (list.isEmpty()) {
-                // Nếu không tìm thấy sản phẩm, hiển thị thông báo "Không tìm thấy sản phẩm".
-                request.setAttribute("message", "Không tìm thấy sản phẩm. Vui lòng chọn món khác");
-                
-            } else {
-                // Nếu tìm thấy sản phẩm, đặt danh sách sản phẩm vào request để hiển thị.
-                request.setAttribute("listProducts", list);
-                request.setAttribute("query", txtSearch);
+                 PrintWriter out = response.getWriter();
+                for (Product o:list){
+                   out.println("<div class=\"col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat\">\n" +
+                           "\t\t\t\t\t\t\t<div class=\"featured__item\">\n" +
+                           "\t\t\t\t\t\t\t\t<div class=\"featured__item__pic set-bg\" >\n" +
+                           "\t\t\t\t\t\t\t\t\t<a href=\"/DetailControl?pid="+o.getId()+"\">\n" +
+                           "\t\t\t\t\t\t\t\t\t\t<img src=\""+o.getImage()+"\" alt=\""+o.getName()+"\">\n" +
+                           "\t\t\t\t\t\t\t\t\t</a>\n" +
+                           "\t\t\t\t\t\t\t\t</div>\n" +
+                           "\t\t\t\t\t\t\t\t<div class=\"featured__item__text\">\n" +
+                           "\t\t\t\t\t\t\t\t\t<a class=\"product-name\" href=\"/DetailControl?pid="+o.getId()+"\" style=\"color: black\">\n" +
+                           "\t\t\t\t\t\t\t\t\t\t\t"+o.getName()+"</a>\n" +
+                           "\t\t\t\t\t\t\t\t\t<h5>"+o.getPrice()+"</h5>\n" +
+                           "\t\t\t\t\t\t\t\t</div>\n" +
+                           "\t\t\t\t\t\t\t\t<div class=\"text-center\">\n" +
+                           "\t\t\t\t\t\t\t\t\t<c:url var=\"addToCart\" value=\"/AddToCartControll\"></c:url>\n" +
+                           "\t\t\t\t\t\t\t\t\t<form action=\"/AddToCartControll?pid="+o.getId()+"\" method=\"post\" enctype=\"multipart/form-data\">\n" +
+                           "\t\t\t\t\t\t\t\t\t\t<button\n" +
+                           "\t\t\t\t\t\t\t\t\t\t\t\tstyle=\"padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; font-weight: 700\"\n" +
+                           "\t\t\t\t\t\t\t\t\t\t\t\ttype=\"submit\">\n" +
+                           "\t\t\t\t\t\t\t\t\t\t\t<a href=\"/DetailControl?pid="+o.getId()+"\" style=\"color:#ffffff\">\n" +
+                           "\t\t\t\t\t\t\t\t\t\t\t\tMUA NGAY</a>\n" +
+                           "\t\t\t\t\t\t\t\t\t\t</button>\n" +
+                           "\t\t\t\t\t\t\t\t\t</form>\n" +
+                           "\t\t\t\t\t\t\t\t</div>\n" +
+                           "\t\t\t\t\t\t\t</div>\n" +
+                           "\t\t\t\t\t\t</div>");
+                }
             }
-        }else {
-        	request.setAttribute("message1", "Vui lòng nhập từ khóa tìm kiếm");
-        }
+        request.setAttribute("txt",txtSearch);
+
 
         // Chuyển hướng đến trang menu.jsp (kể cả khi không tìm thấy sản phẩm).
-        request.getRequestDispatcher("/WEB-INF/client/menu.jsp").forward(request, response);
+
     }
 
 protected void doPost(HttpServletRequest request, HttpServletResponse response)
