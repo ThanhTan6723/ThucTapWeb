@@ -1,77 +1,279 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@page import="java.util.Map" %>
-<%@page import="dao.client.I18NDAO" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-<c:set var="showLanguage" value="<%= new dao.client.I18NDAO().vietnameseLanguage() %>" />
-<c:if test="${not empty sessionScope.lang}">
-    <c:choose>
-        <c:when test="${sessionScope.lang eq 'Vietnamese'}">
-            <c:set var="showLanguage" value="<%= new dao.client.I18NDAO().vietnameseLanguage() %>" />
-        </c:when>
-        <c:when test="${sessionScope.lang eq 'English'}">
-            <c:set var="showLanguage" value="<%= new dao.client.I18NDAO().englishLanguage() %>" />
-        </c:when>
-    </c:choose>
-</c:if>
-<c:set var="showLanguage" scope="page" value="${showLanguage}" />
 
 <!DOCTYPE html>
-<html lang="UTF-8">
+<html lang="zxx">
 
 <head>
+    <%@page isELIgnored="false" %>
     <meta charset="UTF-8">
     <meta name="description" content="Ogani Template">
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><c:out value="${showLanguage['Menu.Introduce']}" /></title>
-
-    <jsp:include page="./link/link.jsp" />
+    <title>Ogani | Template</title>
+    <jsp:include page="link/link.jsp"></jsp:include>
     <style>
-        .container h3, .container h4 {
-            font-family: Courier;
+        .paging a .active{
+            color: #00a045;
             font-weight: bold;
         }
+        .header__fixed{
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 140px;
+            background-color: #fff;
+            z-index: 900;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+        }
+        .paging button {
+            padding: 10px 23px;
+            border-radius: 5px;
+            border: none;
+            font-weight: 700;
+            background-color: #a9aaab;
+
+        }
+
+        .paging button.active {
+            background-color: #7fad39;
+            color: whitesmoke;
+        }
+
     </style>
 </head>
 
 <body>
-    <!-- Header -->
-    <jsp:include page="./header/header.jsp" />
+<c:url var="detail" value="DetailControl"></c:url>
 
-    <!-- Main Content -->
+<span class="header__fixed">
+	<jsp:include page="header/header.jsp"></jsp:include>
+
+</span>
+<!-- Breadcrumb Section Begin -->
+<div style="height: 140px"></div>
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8">
-                <header>
-                    <h3><c:out value="${showLanguage['Introduce.h3']}" /></h3>
-                    <p></p>
-                </header>
-
-                <section>
-                    <h4><c:out value="${showLanguage['Introduce.h4_1']}" /></h4>
-                    <p><c:out value="${showLanguage['Introduce.p_1']}" /></p> 
-                    <h4><c:out value="${showLanguage['Introduce.h4_2']}" /></h4>
-                    <p><c:out value="${showLanguage['Introduce.p_2']}" /></p>
-                    <h4><c:out value="${showLanguage['Introduce.h4_3']}" /></h4>
-                    <p><c:out value="${showLanguage['Introduce.p_3']}" /></p>
-                    <h4><c:out value="${showLanguage['Introduce.h4_4']}" /></h4>
-                    <p><c:out value="${showLanguage['Introduce.p_4']}" /></p>
-                    <h4><c:out value="${showLanguage['Introduce.h4_5']}" /></h4>
-                    <p><c:out value="${showLanguage['Introduce.p_5']}" /></p>
-                </section>
-            </div>
-
-            <div class="col-lg-4">
-                <img src="client/assets/img/introduce.png" style="padding-top: 50px;" />
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Blog</h2>
+                    <div class="breadcrumb__option">
+                        <a href="./IndexControll">Trang chủ</a>
+                        <span>Giới thiệu</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</section>
+<!-- Breadcrumb Section End -->
 
-    <!-- Footer -->
-    <jsp:include page="./footer/footer.jsp" />
+<!-- Blog Section Begin -->
+<section class="blog spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-5">
+                <div class="blog__sidebar">
+                    <div class="blog__sidebar__search">
+                        <form action="#">
+                            <input type="text" placeholder="Search...">
+                            <button type="submit"><span class="icon_search"></span></button>
+                        </form>
+                    </div>
+                    <div class="blog__sidebar__item">
+                        <h4>Categories</h4>
+                        <ul>
+                            <li><a href="#">All</a></li>
+                            <li><a href="#">Beauty (20)</a></li>
+                            <li><a href="#">Food (5)</a></li>
+                            <li><a href="#">Life Style (9)</a></li>
+                            <li><a href="#">Travel (10)</a></li>
+                        </ul>
+                    </div>
+                    <div class="blog__sidebar__item">
+                        <h4>Recent News</h4>
+                        <div class="blog__sidebar__recent">
+                            <a href="#" class="blog__sidebar__recent__item">
+                                <div class="blog__sidebar__recent__item__pic">
+                                    <img src="img/blog/sidebar/sr-1.jpg" alt="">
+                                </div>
+                                <div class="blog__sidebar__recent__item__text">
+                                    <h6>09 Kinds Of Vegetables<br /> Protect The Liver</h6>
+                                    <span>MAR 05, 2019</span>
+                                </div>
+                            </a>
+                            <a href="#" class="blog__sidebar__recent__item">
+                                <div class="blog__sidebar__recent__item__pic">
+                                    <img src="img/blog/sidebar/sr-2.jpg" alt="">
+                                </div>
+                                <div class="blog__sidebar__recent__item__text">
+                                    <h6>Tips You To Balance<br /> Nutrition Meal Day</h6>
+                                    <span>MAR 05, 2019</span>
+                                </div>
+                            </a>
+                            <a href="#" class="blog__sidebar__recent__item">
+                                <div class="blog__sidebar__recent__item__pic">
+                                    <img src="img/blog/sidebar/sr-3.jpg" alt="">
+                                </div>
+                                <div class="blog__sidebar__recent__item__text">
+                                    <h6>4 Principles Help You Lose <br />Weight With Vegetables</h6>
+                                    <span>MAR 05, 2019</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="blog__sidebar__item">
+                        <h4>Search By</h4>
+                        <div class="blog__sidebar__item__tags">
+                            <a href="#">Apple</a>
+                            <a href="#">Beauty</a>
+                            <a href="#">Vegetables</a>
+                            <a href="#">Fruit</a>
+                            <a href="#">Healthy Food</a>
+                            <a href="#">Lifestyle</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-7">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="blog__item">
+                            <div class="blog__item__pic">
+                                <img src="img/blog/blog-2.jpg" alt="">
+                            </div>
+                            <div class="blog__item__text">
+                                <ul>
+                                    <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
+                                    <li><i class="fa fa-comment-o"></i> 5</li>
+                                </ul>
+                                <h5><a href="#">6 ways to prepare breakfast for 30</a></h5>
+                                <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                                    quaerat </p>
+                                <a href="#" class="blog__btn">READ MORE <span class="arrow_right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="blog__item">
+                            <div class="blog__item__pic">
+                                <img src="img/blog/blog-3.jpg" alt="">
+                            </div>
+                            <div class="blog__item__text">
+                                <ul>
+                                    <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
+                                    <li><i class="fa fa-comment-o"></i> 5</li>
+                                </ul>
+                                <h5><a href="#">Visit the clean farm in the US</a></h5>
+                                <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                                    quaerat </p>
+                                <a href="#" class="blog__btn">READ MORE <span class="arrow_right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="blog__item">
+                            <div class="blog__item__pic">
+                                <img src="img/blog/blog-1.jpg" alt="">
+                            </div>
+                            <div class="blog__item__text">
+                                <ul>
+                                    <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
+                                    <li><i class="fa fa-comment-o"></i> 5</li>
+                                </ul>
+                                <h5><a href="#">Cooking tips make cooking simple</a></h5>
+                                <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                                    quaerat </p>
+                                <a href="#" class="blog__btn">READ MORE <span class="arrow_right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="blog__item">
+                            <div class="blog__item__pic">
+                                <img src="img/blog/blog-4.jpg" alt="">
+                            </div>
+                            <div class="blog__item__text">
+                                <ul>
+                                    <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
+                                    <li><i class="fa fa-comment-o"></i> 5</li>
+                                </ul>
+                                <h5><a href="#">Cooking tips make cooking simple</a></h5>
+                                <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                                    quaerat </p>
+                                <a href="#" class="blog__btn">READ MORE <span class="arrow_right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="blog__item">
+                            <div class="blog__item__pic">
+                                <img src="img/blog/blog-4.jpg" alt="">
+                            </div>
+                            <div class="blog__item__text">
+                                <ul>
+                                    <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
+                                    <li><i class="fa fa-comment-o"></i> 5</li>
+                                </ul>
+                                <h5><a href="#">The Moment You Need To Remove Garlic From The Menu</a></h5>
+                                <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                                    quaerat </p>
+                                <a href="#" class="blog__btn">READ MORE <span class="arrow_right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="blog__item">
+                            <div class="blog__item__pic">
+                                <img src="img/blog/blog-6.jpg" alt="">
+                            </div>
+                            <div class="blog__item__text">
+                                <ul>
+                                    <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
+                                    <li><i class="fa fa-comment-o"></i> 5</li>
+                                </ul>
+                                <h5><a href="#">Cooking tips make cooking simple</a></h5>
+                                <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                                    quaerat </p>
+                                <a href="#" class="blog__btn">READ MORE <span class="arrow_right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="product__pagination blog__pagination">
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                            <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Section End -->
+
+
+<!-- Js Plugins -->
+<jsp:include page="footer/footer.jsp"></jsp:include>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.nice-select.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/jquery.slicknav.js"></script>
+<script src="js/mixitup.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/main.js"></script>
+
+
+
 </body>
 
 </html>

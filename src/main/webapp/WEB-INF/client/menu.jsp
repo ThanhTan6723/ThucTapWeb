@@ -17,29 +17,55 @@
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 	<jsp:include page="link/link.jsp"></jsp:include>
-    <style>
-        .paging a .active{
-            color: #00a045;
-            font-weight: bold;
-        }
-    </style>
+	<style>
+		.paging a .active{
+			color: #00a045;
+			font-weight: bold;
+		}
+		.header__fixed{
+			position: fixed;
+			top: 0;
+			width: 100%;
+			height: 140px;
+			background-color: #fff;
+			z-index: 900;
+			box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+		}
+		.paging button {
+			padding: 10px 23px;
+			border-radius: 5px;
+			border: none;
+			font-weight: 700;
+			background-color: #a9aaab;
+
+		}
+
+		.paging button.active {
+			background-color: #7fad39;
+			color: whitesmoke;
+		}
+
+	</style>
 </head>
 
 <body>
-<jsp:include page="header/header.jsp"></jsp:include>
 <c:url var="detail" value="DetailControl"></c:url>
 
+<span class="header__fixed">
+	<jsp:include page="header/header.jsp"></jsp:include>
 
+</span>
 <!-- Breadcrumb Section Begin -->
+<div style="height: 140px"></div>
 <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<div class="breadcrumb__text">
-					<h2>Organi Shop</h2>
+					<h2>Sản phẩm</h2>
 					<div class="breadcrumb__option">
-						<a href="./IndexControll">Home</a>
-						<span>Shop</span>
+						<a href="./IndexControll">Trang chủ</a>
+						<span>Sản phẩm</span>
 					</div>
 				</div>
 			</div>
@@ -195,21 +221,21 @@
 					<div class="row">
 						<div class="product__discount__slider owl-carousel">
 							<c:forEach var="b" items="${listSale}">
-							<div class="col-lg-4">
-								<a href="${detail}?pid=${b.id}">
-								<div class="product__discount__item">
-									<div class="product__discount__item__pic set-bg"
-										 data-setbg="${b.image}">
-										<div class="product__discount__percent">-20%</div>
-									</div>
-									<div class="product__discount__item__text">
-										<span>Dried Fruit</span>
-										<h5><a href="#">${b.name}</a></h5>
-										<div class="product__item__price">${b.price} <span>$30.00</span></div>
-									</div>
+								<div class="col-lg-4">
+									<a href="${detail}?pid=${b.id}">
+										<div class="product__discount__item">
+											<div class="product__discount__item__pic set-bg"
+												 data-setbg="${b.image}">
+												<div class="product__discount__percent">-20%</div>
+											</div>
+											<div class="product__discount__item__text">
+												<span>Dried Fruit</span>
+												<h5><a href="#">${b.name}</a></h5>
+												<div class="product__item__price">${b.price} <span>$30.00</span></div>
+											</div>
+										</div>
+									</a>
 								</div>
-								</a>
-							</div>
 							</c:forEach>
 
 						</div>
@@ -237,11 +263,32 @@
 					<div class="row">
 						<div class="col-lg-4 col-md-5">
 							<div class="filter__sort">
-								<span>Sort By</span>
-								<select>
-									<option value="0">Default</option>
-									<option value="0">Default</option>
-								</select>
+								<c:url var="showProduct" value="ShowProductControl"></c:url>
+
+								<form class="form-inline form-viewpro" action="${showProduct}"
+									  method="get">
+									<span>Sort By</span>
+
+									<select
+												class="sort-by-script" name="sort" id="selectFilter"
+												onchange="this.form.submit()">
+											<option value="id-asc" <c:if test="${sort==null}">selected</c:if>>
+												Mặc định
+											</option>
+											<option value="price-asc" <c:if test="${sort=='price-asc'}">selected</c:if>>
+												Giá tăng dần
+											</option>
+											<option value="price-desc" <c:if test="${sort=='price-desc'}">selected</c:if>>
+												Giá giảm dần
+											</option>
+											<option value="name-asc" <c:if test="${sort=='name-asc'}">selected</c:if>>
+												A-Z
+											</option>
+											<option value="name-desc" <c:if test="${sort=='name-desc'}">selected</c:if>>
+												Z-A
+											</option>
+										</select>
+								</form>
 							</div>
 						</div>
 						<div class="col-lg-4 col-md-4">
@@ -288,8 +335,8 @@
 				</div>
 				<div class="paging" style="padding-left: 300px">
 					<c:forEach begin="1" end="${endPage}" var="i">
-						<button style="padding: 10px 23px; border-radius: 5px; border: none;  font-weight: 700">
-							<a href="/ShowProductControl?cid=${cid}&sort=${sort}&index=${i}" style="color: #7fad39;">${i}</a>
+						<button class="${empty param.index && i == 1 ? 'active' : (param.index eq i ? 'active' : '')}">
+							<a href="/ShowProductControl?cid=${cid}&sort=${sort}&index=${i}" style="color: whitesmoke">${i}</a>
 						</button>
 					</c:forEach>
 				</div>

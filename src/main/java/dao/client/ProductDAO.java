@@ -61,110 +61,7 @@ public class ProductDAO {
 		return null;
 
 	}
-/*
 
-	public static int getTotalProduct(int cid) {
-		String query = "";
-		switch (cid) {
-		case 0:
-			query = "select count(*) from products";
-			break;
-		case 1:
-			query = "select count(*) from products where category_id in(1,4,7)";
-			break;
-		case 2:
-			query = "select count(*) from products where category_id in(2,5,8)";
-			break;
-		case 3:
-			query = "select count(*) from products where category_id in(3,6,9)";
-			break;
-		default:
-			break;
-		}
-		try {
-			Connection conn = JDBCUtil.getConnection();
-			PreparedStatement ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				return rs.getInt(1);
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-
-		return 0;
-
-	}
-*/
-
-	public List<Product> searchByName(String keyword) {
-		List<Product> list = new ArrayList<>();
-		String query = "SELECT * FROM Products WHERE name LIKE ?";
-		try {
-			Connection connect = JDBCUtil.getConnection();
-			PreparedStatement st = connect.prepareStatement(query);
-			st.setString(1, "%" + keyword + "%");
-			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
-				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						OrderDAO.getCategory(rs.getInt(6))));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
-
-	public List<Product> searchByPriceMinToMax(String priceMin, String priceMax) {
-		List<Product> list = new ArrayList<>();
-		String query = "select * from Products where [price] >= ? and [price]<=?";
-		try {
-			Connection connect = JDBCUtil.getConnection();
-			PreparedStatement st = connect.prepareStatement(query);
-			st.setString(1, priceMin);
-			st.setString(2, priceMax);
-			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
-				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						OrderDAO.getCategory(rs.getInt(6))));
-			}
-		} catch (Exception e) {
-		}
-		return list;
-	}
-
-	public List<Product> searchByNameAndPrice(String keyword, String priceMin, String priceMax) {
-		List<Product> productList = new ArrayList<>();
-
-		// Kết nối cơ sở dữ liệu và thực hiện truy vấn
-		try {
-			Connection connect = JDBCUtil.getConnection();
-			String query = "SELECT * FROM Products WHERE name LIKE ? AND price >= ? AND price <= ?";
-			PreparedStatement statement = connect.prepareStatement(query);
-			statement.setString(1, "%" + keyword + "%");
-			statement.setString(2, priceMin);
-			statement.setString(3, priceMax);
-
-			ResultSet resultSet = statement.executeQuery();
-
-			while (resultSet.next()) {
-				int id = resultSet.getInt("id");
-				String name = resultSet.getString("name");
-				double price = resultSet.getDouble("price");
-				String image = resultSet.getString("image");
-				String description = resultSet.getString("description");
-				Category category = OrderDAO.getCategory(resultSet.getInt("category_id"));
-
-				Product product = new Product(id, name, price, image, description, category);
-				productList.add(product);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			// Xử lý ngoại lệ hoặc thông báo lỗi nếu cần
-		}
-
-		return productList;
-	}
 
 	public static List<Product> getSellProduct() {
 		List<Product> list = new ArrayList<>();
@@ -317,11 +214,32 @@ public class ProductDAO {
 		} catch (Exception e) {
 		}
 	}
+     public static List<Product> relativeProduct(int id){
+		List<Product> list = new ArrayList<>();
+		String query = "select * from Products where category_id=?";
+		try{
+			Connection con = JDBCUtil.getConnection();
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1,id);
+			ResultSet rs = ps.executeQuery();
 
+			while (rs.next()){
+				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+						OrderDAO.getCategory(rs.getInt(6))));
+			}
+		}catch (Exception e){
+
+		}
+		return list;
+	 }
 
 	public static void main(String[] args) {
 //		removeProduct("2");
-		List<Product> list1 = ProductDAO.pagingProduct(3, 2,"price", "asc");
+/*		List<Product> list1 = ProductDAO.pagingProduct(3, 2,"price", "asc");
+		for (Product product : list1) {
+			System.out.println(product.toString());
+		}*/
+		List<Product> list1 = ProductDAO.relativeProduct(1);
 		for (Product product : list1) {
 			System.out.println(product.toString());
 		}
