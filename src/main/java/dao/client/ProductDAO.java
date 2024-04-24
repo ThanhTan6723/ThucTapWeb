@@ -235,14 +235,14 @@ public class ProductDAO {
 
 	public static void main(String[] args) {
 //		removeProduct("2");
-/*		List<Product> list1 = ProductDAO.pagingProduct(3, 2,"price", "asc");
-		for (Product product : list1) {
-			System.out.println(product.toString());
-		}*/
-		List<Product> list1 = ProductDAO.relativeProduct(1);
+		List<Product> list1 = ProductDAO.pagingProduct(3, 2,"price", "asc");
 		for (Product product : list1) {
 			System.out.println(product.toString());
 		}
+/*		List<Product> list1 = ProductDAO.relativeProduct(1);
+		for (Product product : list1) {
+			System.out.println(product.toString());
+		}*/
 //		System.out.println(pd.getTotalProduct(3));
 //       System.out.println(pd.getListCategory());
 //		updateProduct(new Product(4,"lẫu thái",190.00,null,"ngon nhức nách",new Category(2)));

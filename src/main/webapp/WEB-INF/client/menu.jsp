@@ -57,7 +57,7 @@
 </span>
 <!-- Breadcrumb Section Begin -->
 <div style="height: 140px"></div>
-<section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+<section class="breadcrumb-section set-bg" data-setbg="assets/img/breadcrumb.jpg">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12 text-center">
@@ -263,32 +263,30 @@
 					<div class="row">
 						<div class="col-lg-4 col-md-5">
 							<div class="filter__sort">
-								<c:url var="showProduct" value="ShowProductControl"></c:url>
+								<c:url var="showProduct" value="/ShowProductControl"></c:url>
 
-								<form class="form-inline form-viewpro" action="${showProduct}"
-									  method="get">
+								<form class="form-inline form-viewpro" id="productForm" method="get">
+									<input type="hidden" name="cid" value="${cid}">
+
 									<span>Sort By</span>
 
-									<select
-												class="sort-by-script" name="sort" id="selectFilter"
-												onchange="this.form.submit()">
-											<option value="id-asc" <c:if test="${sort==null}">selected</c:if>>
-												Mặc định
-											</option>
-											<option value="price-asc" <c:if test="${sort=='price-asc'}">selected</c:if>>
-												Giá tăng dần
-											</option>
-											<option value="price-desc" <c:if test="${sort=='price-desc'}">selected</c:if>>
-												Giá giảm dần
-											</option>
-											<option value="name-asc" <c:if test="${sort=='name-asc'}">selected</c:if>>
-												A-Z
-											</option>
-											<option value="name-desc" <c:if test="${sort=='name-desc'}">selected</c:if>>
-												Z-A
-											</option>
-										</select>
+									<select class="sort-by-script" name="sort" id="selectFilter" onchange="submitForm()">
+										<option value="id-asc" <c:if test="${sort==null}">selected</c:if>>Mặc định</option>
+										<option value="price-asc" <c:if test="${sort=='price-asc'}">selected</c:if>>Giá tăng dần</option>
+										<option value="price-desc" <c:if test="${sort=='price-desc'}">selected</c:if>>Giá giảm dần</option>
+										<option value="name-asc" <c:if test="${sort=='name-asc'}">selected</c:if>>A-Z</option>
+										<option value="name-desc" <c:if test="${sort=='name-desc'}">selected</c:if>>Z-A</option>
+									</select>
 								</form>
+
+								<script>
+									function submitForm() {
+										var form = document.getElementById("productForm");
+										form.action = "${showProduct}?cid=" + form.elements["cid"].value;
+										form.submit();
+									}
+								</script>
+
 							</div>
 						</div>
 						<div class="col-lg-4 col-md-4">
