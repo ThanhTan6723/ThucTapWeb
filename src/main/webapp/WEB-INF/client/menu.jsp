@@ -1,46 +1,71 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+		 pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
-<%@ page contentType="text/html; charset=utf-8" language="java" %>
-<%@ page isELIgnored="false" %>
-
 <!DOCTYPE html>
 <html lang="zxx">
 
 <head>
+	<%@ page isELIgnored="false" %>
 	<meta charset="UTF-8">
 	<meta name="description" content="Ogani Template">
 	<meta name="keywords" content="Ogani, unica, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Sản phẩm</title>
+	<title>Ogani | Template</title>
 
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 	<jsp:include page="link/link.jsp"></jsp:include>
-    <style>
-        .paging a .active{
-            color: #00a045;
-            font-weight: bold;
-        }
-    </style>
+	<style>
+		.paging a .active{
+			color: #00a045;
+			font-weight: bold;
+		}
+		.header__fixed{
+			position: fixed;
+			top: 0;
+			width: 100%;
+			height: 140px;
+			background-color: #fff;
+			z-index: 900;
+			box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+		}
+		.paging button {
+			padding: 10px 23px;
+			border-radius: 5px;
+			border: none;
+			font-weight: 700;
+			background-color: #a9aaab;
+
+		}
+
+		.paging button.active {
+			background-color: #7fad39;
+			color: whitesmoke;
+		}
+
+	</style>
 </head>
 
 <body>
-<jsp:include page="header/header.jsp"></jsp:include>
 <c:url var="detail" value="DetailControl"></c:url>
 
+<span class="header__fixed">
+	<jsp:include page="header/header.jsp"></jsp:include>
 
+</span>
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section set-bg" data-setbg="./assets/img/breadcrumb.jpg">
+<div style="height: 140px"></div>
+<section class="breadcrumb-section set-bg" data-setbg="assets/img/breadcrumb.jpg">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<div class="breadcrumb__text">
-					<h2>Organi Shop</h2>
+					<h2>Sản phẩm</h2>
 					<div class="breadcrumb__option">
-						<a href="/IndexControll">Home</a>
-						<span>Shop</span>
+						<a href="./IndexControll">Trang chủ</a>
+						<span>Sản phẩm</span>
 					</div>
 				</div>
 			</div>
@@ -196,35 +221,72 @@
 					<div class="row">
 						<div class="product__discount__slider owl-carousel">
 							<c:forEach var="b" items="${listSale}">
-							<div class="col-lg-4">
-								<a href="${detail}?pid=${b.id}">
-								<div class="product__discount__item">
-									<div class="product__discount__item__pic set-bg"
-										 data-setbg="${b.image}">
-										<div class="product__discount__percent">-20%</div>
-									</div>
-									<div class="product__discount__item__text">
-										<span>Dried Fruit</span>
-										<h5><a href="#">${b.name}</a></h5>
-										<div class="product__item__price">${b.price} <span>$30.00</span></div>
-									</div>
+								<div class="col-lg-4">
+									<a href="${detail}?pid=${b.id}">
+										<div class="product__discount__item">
+											<div class="product__discount__item__pic set-bg"
+												 data-setbg="${b.image}">
+												<div class="product__discount__percent">-20%</div>
+											</div>
+											<div class="product__discount__item__text">
+												<span>Dried Fruit</span>
+												<h5><a href="#">${b.name}</a></h5>
+												<div class="product__item__price">${b.price} <span>$30.00</span></div>
+											</div>
+										</div>
+									</a>
 								</div>
-								</a>
-							</div>
 							</c:forEach>
 
 						</div>
 					</div>
 				</div>
+				<div class="sk-page-title">
+					<h4 >
+						<c:choose>
+							<c:when test="${cid==0}">
+								All
+							</c:when>
+							<c:when test="${cid==1}">
+								Noodle
+							</c:when>
+							<c:when test="${cid==2}">
+								Chicken
+							</c:when>
+							<c:when test="${cid==3}">
+								Rice
+							</c:when>
+						</c:choose>
+					</h4>
+				</div>
 				<div class="filter__item">
 					<div class="row">
 						<div class="col-lg-4 col-md-5">
 							<div class="filter__sort">
-								<span>Sort By</span>
-								<select>
-									<option value="0">Default</option>
-									<option value="0">Default</option>
-								</select>
+								<c:url var="showProduct" value="/ShowProductControl"></c:url>
+
+								<form class="form-inline form-viewpro" id="productForm" method="get">
+									<input type="hidden" name="cid" value="${cid}">
+
+									<span>Sort By</span>
+
+									<select class="sort-by-script" name="sort" id="selectFilter" onchange="submitForm()">
+										<option value="id-asc" <c:if test="${sort==null}">selected</c:if>>Mặc định</option>
+										<option value="price-asc" <c:if test="${sort=='price-asc'}">selected</c:if>>Giá tăng dần</option>
+										<option value="price-desc" <c:if test="${sort=='price-desc'}">selected</c:if>>Giá giảm dần</option>
+										<option value="name-asc" <c:if test="${sort=='name-asc'}">selected</c:if>>A-Z</option>
+										<option value="name-desc" <c:if test="${sort=='name-desc'}">selected</c:if>>Z-A</option>
+									</select>
+								</form>
+
+								<script>
+									function submitForm() {
+										var form = document.getElementById("productForm");
+										form.action = "${showProduct}?cid=" + form.elements["cid"].value;
+										form.submit();
+									}
+								</script>
+
 							</div>
 						</div>
 						<div class="col-lg-4 col-md-4">
@@ -240,8 +302,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<c:forEach items="${listProduct}" var="o">
+				<div class="row" id="content">
+					<c:forEach items="${listProducts}" var="o">
 						<div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
 							<div class="featured__item">
 								<div class="featured__item__pic set-bg" >
@@ -255,7 +317,7 @@
 									<h5>${o.price}</h5>
 								</div>
 								<div class="text-center">
-									<c:url var="addToCart" value="/AddToCartControl"></c:url>
+									<c:url var="addToCart" value="/AddToCartControll"></c:url>
 									<form action="${addToCart}?pid=${o.id}" method="post" enctype="multipart/form-data">
 										<button
 												style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; font-weight: 700"
@@ -269,11 +331,14 @@
 						</div>
 					</c:forEach>
 				</div>
-				<div class="paging">
-                    <c:forEach begin="1" end="${endPage}" var="i">
-                        <a class="${tag==i?"active":""}" href="/ShowProductControl?index=${i}" style="color: black">${i}</a>
-                    </c:forEach>
-                </div>
+				<div class="paging" style="padding-left: 300px">
+					<c:forEach begin="1" end="${endPage}" var="i">
+						<button class="${empty param.index && i == 1 ? 'active' : (param.index eq i ? 'active' : '')}">
+							<a href="/ShowProductControl?cid=${cid}&sort=${sort}&index=${i}" style="color: whitesmoke">${i}</a>
+						</button>
+					</c:forEach>
+				</div>
+
 			</div>
 		</div>
 	</div>
@@ -288,6 +353,8 @@
 <script src="js/mixitup.min.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
 </body>
 

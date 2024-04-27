@@ -398,5 +398,7 @@ public class OrderDAO {
 //		System.out.println(getListOrder(9));
 //		System.out.println(deleteOrderDetail(3));
 //		System.out.println(deleteOrder(3));
+
+		System.out.println(getCategory(1));
 	}
 }

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Category;
 import model.Product;
 
 public class AccessDAO {
@@ -19,11 +20,30 @@ public class AccessDAO {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						OrderDAO.getCategory(rs.getInt(6))));
+						new Category(rs.getInt(6))));
 			}
 		} catch (Exception e) {
 		}
 
+		return list;
+	}
+	public static List<Product> paddingProductSearch(int cid, String txtSearch,String sort,String type,int index) {
+		List<Product> list = new ArrayList<>();
+		String orderByClause = " ORDER BY " + sort + " " + type;
+		int ind = (index-1)*8;
+		String query="SELECT * FROM Products WHERE name LIKE ? AND category_id = ?" + orderByClause + " LIMIT 8 OFFSET " + ind;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, "%" + txtSearch + "%"); // Chú ý việc sử dụng dấu %
+			ps.setInt(2, cid);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+						OrderDAO.getCategory(rs.getInt(6))));
+			}
+		} catch (Exception e) {
+		}
 		return list;
 	}
 
@@ -44,7 +64,7 @@ public class AccessDAO {
 		return 0;
 	}
 
-	public static List<Product> pagingProductSearch(int index, String txtSearch, String sort, String type) {
+	/*public static List<Product> pagingProductSearch(int index, String txtSearch, String sort, String type) {
 		List<Product> list = new ArrayList<>();
 		String query = "select * from products  where  [name] like ? order by " + sort + " " + type
 				+ " offset ? rows fetch next 12 rows only";
@@ -64,10 +84,11 @@ public class AccessDAO {
 		}
 		return list;
 	}
-
+*/
 	public static void main(String[] args) {
 		AccessDAO a = new AccessDAO();
-		List<Product> list = a.searchByName("pizza");
+		List<Product> list = paddingProductSearch(1,"noo","price","ASC",1);
+		List<Product> list1 = searchByName("A");
 		for (Product product : list) {
 			System.out.println(product.toString());
 		}
