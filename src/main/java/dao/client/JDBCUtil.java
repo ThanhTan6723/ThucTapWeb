@@ -8,9 +8,9 @@ import java.sql.SQLException;
 public class JDBCUtil {
 	private static final String servername = "localhost";
 	private static final int port = 3306;
-	private static final String databaseName = "webfood";
+	private static final String databaseName = "fruit";
 	private static final String username = "root";
-	private static final String password ="123456";
+	private static final String password = "6723";
 
 	public static Connection getConnection() {
 		Connection c = null;
@@ -55,9 +55,6 @@ public class JDBCUtil {
 	public static void main(String[] args) {
 		Connection c = getConnection();
 		System.out.println(c);
-
-		// Đóng kết nối
-		closeConnection(c);
 
 	}
 }

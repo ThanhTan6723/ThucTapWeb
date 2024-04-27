@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 
 import dao.client.AccountDAO;
 import model.Account;
-import model.Encode;
 
 @WebServlet("/UpdateProfileControll")
 public class UpdateProfileControll extends HttpServlet {

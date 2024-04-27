@@ -12,7 +12,7 @@ import dao.client.AccountDAO;
 import model.Account;
 import model.Encode;
 
-@WebServlet("/ResetPassword")
+@WebServlet(name = "ResetPassword", value = "/ResetPassword")
 public class ResetPasswordControll extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
