@@ -31,7 +31,7 @@
             <header>Signup</header>
             <form action="${sign}" method="post">
                 <div class="field input-field">
-                    <input name="name" type="text" placeholder="Name" value="${name}" class="input">
+                    <input name="name" type="text" placeholder="Tên" value="${name}" class="input">
                     <span class="notify">${error2}</span>
                 </div>
                 <div class="field input-field">
@@ -42,20 +42,23 @@
                 <div class="field input-field">
                     <input name="phone" type="tel" placeholder="Số điện thoại" value="${phone}" class="input" id="tele"
                            onkeyup="validatePhone()">
-                    <span id="noti1" class="notify">${error4}</span>
+                    <span id="noti0" class="notify">${error4}</span>
                 </div>
 
                 <div class="field input-field">
-                    <input name="passw" type="password" placeholder="Mật khẩu" value="${passw}" class="password"
+                    <input name="passw" type="password" placeholder="Mật khẩu" value="${passw}"
+                           onkeyup="validatePassword()" class="password"
                            name="password" id="pass">
-                    <i class='bx bx-hide eye-icon' onclick="togglePassword('pass', 'eye-icon-pass')"></i>
-                    <span class="notify">${error5}</span>
+                    <i class='bx bx-hide eye-icon'
+                       onclick="togglePasswordInput('pass'); toggleEyeIcon('eye-icon-pass')" id="eyIconId"></i>
+                    <span id="noti1" class="notify">${error5}</span>
                 </div>
 
                 <div class="field input-field">
                     <input name="repassw" type="password" onkeyup="validateRePass()" placeholder="Xác nhận mật khẩu"
                            class="password" name="repassword" id="re">
-                    <i class='bx bx-hide eye-icon' onclick="togglePassword('re', 'eye-icon-re')"></i>
+                    <i class='bx bx-hide eye-icon'
+                       onclick="togglePasswordInput('re'); toggleEyeIcon('eye-icon-re')"></i>
                     <span id="noti2" class="notify">${error6}</span>
                 </div>
 
@@ -104,7 +107,7 @@
             emailError.innerHTML = "";
         } else {
             if (!emailRegex.test(email)) {
-                emailError.innerHTML = "Email invalidate";
+                emailError.innerHTML = "Email không đúng định dạng";
             } else {
                 emailError.innerHTML = "";
             }
@@ -117,14 +120,47 @@
     function validatePhone() {
         var phoneNum = document.getElementById("tele").value;
         var phoneNumPattern = /^[0-9]{10}$/;
-        var phoneError = document.getElementById("noti1");
+        var phoneError = document.getElementById("noti0");
 
         // Kiểm tra xem sđt chỉ chứa số và có đúng 10 chữ số hay không
         if (!phoneNumPattern.test(phoneNum)) {
-            phoneError.innerHTML = "Phone is in wrong format";
+            phoneError.innerHTML = "Số điện thoại sai định dạng";
             return false;
         } else {
             phoneError.innerHTML = "";
+            return true;
+        }
+    }
+
+    function validatePassword() {
+        var password = document.getElementById("pass").value;
+
+        // Kiểm tra độ dài của mật khẩu
+        if (password.length < 8) {
+            document.getElementById("noti1").innerHTML = "Mật khẩu phải chứa 8 kí tự";
+            return false;
+        }
+
+        // Kiểm tra xem mật khẩu có chứa ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt hay không
+        var uppercaseRegex = /[A-Z]/;
+        var lowercaseRegex = /[a-z]/;
+        var numberRegex = /[0-9]/;
+        var specialCharacterRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+
+        if (!uppercaseRegex.test(password)) {
+            document.getElementById("noti1").innerHTML = "Mật khẩu phải chứa ít nhất 1 kí tự viết hoa";
+            return false;
+        } else if (!lowercaseRegex.test(password)) {
+            document.getElementById("noti1").innerHTML = "Mật khẩu phải chứa ít nhất 1 kí tự viết thường";
+            return false;
+        } else if (!numberRegex.test(password)) {
+            document.getElementById("noti1").innerHTML = "Mật khẩu phải chứa ít nhất 1 số";
+            return false;
+        } else if (!specialCharacterRegex.test(password)) {
+            document.getElementById("noti1").innerHTML = "Mật khẩu phải chứa ít nhất 1 kí tự đặc biệt";
+            return false;
+        } else {
+            document.getElementById("noti1").innerHTML = "";
             return true;
         }
     }
@@ -133,7 +169,7 @@
         var passW = document.getElementById("pass").value;
         var rePass = document.getElementById("re").value;
         if (passW != rePass) {
-            document.getElementById("noti2").innerHTML = "Password incorrect";
+            document.getElementById("noti2").innerHTML = "Mật khẩu không trùng khớp";
             return false;
         } else {
             document.getElementById("noti2").innerHTML = "";
@@ -141,23 +177,28 @@
         }
     }
 
-    function togglePassword(inputId, eyeIconId) {
-        var passwordInput = document.getElementById(inputId);
-        var eyeIcon = document.getElementById(eyeIconId);
+    function togglePasswordInput(inputId) {
+        var passwordInput = document.getElementById("pass");
 
         if (passwordInput.type === "password") {
             passwordInput.type = "text";
+        } else {
+            passwordInput.type = "password";
+        }
+    }
+
+    function toggleEyeIcon(eyeIconId) {
+        var eyeIcon = document.getElementById("eyeIconId");
+
+        if (eyeIcon.classList.contains("bx-hide")) {
             eyeIcon.classList.remove("bx-hide");
             eyeIcon.classList.add("bx-show");
         } else {
-            passwordInput.type = "password";
             eyeIcon.classList.remove("bx-show");
             eyeIcon.classList.add("bx-hide");
         }
-
-        eyeIcon.classList.toggle("bx-hide-eye", passwordInput.type === "text");
-        eyeIcon.classList.toggle("bx-show-eye", passwordInput.type === "password");
     }
+
 
 </script>
 </body>
