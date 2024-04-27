@@ -2,31 +2,62 @@
          pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
+
 <!DOCTYPE html>
 <html lang="zxx">
 
 <head>
+    <%@page isELIgnored="false" %>
     <meta charset="UTF-8">
     <meta name="description" content="Ogani Template">
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ogani | Template</title>
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-
-    <!-- Css Styles -->
     <jsp:include page="link/link.jsp"></jsp:include>
+    <style>
+        .paging a .active{
+            color: #00a045;
+            font-weight: bold;
+        }
+        .header__fixed{
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 140px;
+            background-color: #fff;
+            z-index: 900;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+        }
+        .paging button {
+            padding: 10px 23px;
+            border-radius: 5px;
+            border: none;
+            font-weight: 700;
+            background-color: #a9aaab;
 
+        }
+
+        .paging button.active {
+            background-color: #7fad39;
+            color: whitesmoke;
+        }
+
+    </style>
 </head>
 
 <body>
-<jsp:include page="header/header.jsp"></jsp:include>
+<c:url var="detail" value="DetailControl"></c:url>
 
+<span class="header__fixed">
+	<jsp:include page="header/header.jsp"></jsp:include>
 
+</span>
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+<div style="height: 140px"></div>
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="assets/img/breadcrumb.jpg">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
