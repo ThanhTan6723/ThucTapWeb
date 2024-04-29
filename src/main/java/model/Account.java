@@ -8,8 +8,12 @@ public class Account {
     private String telephone;
     private int isAdmin;
 
-    public Account() {
+    public Account(int anInt) {
         // TODO Auto-generated constructor stub
+        this.id = anInt;
+    }
+
+    public Account() {
     }
 
     public Account(int id, String name, String password, String email, String telephone) {

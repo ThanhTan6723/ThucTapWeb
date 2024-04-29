@@ -6,11 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Account;
-import model.Category;
-import model.Order;
-import model.OrderDetail;
-import model.Product;
+import model.*;
 
 public class OrderDAO {
 
@@ -24,10 +20,12 @@ public class OrderDAO {
 
 			ResultSet rs = preparedStatement.executeQuery();
 
-			while (rs.next()) {
-				listProducts.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4),
-						rs.getString(5), OrderDAO.getCategory(rs.getInt(6))));
-			}
+            while (rs.next()) {
+                listProducts.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+                        new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
+                        new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
+                );
+            }
 
 			// Close resources
 
@@ -136,10 +134,12 @@ public class OrderDAO {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						OrderDAO.getCategory(rs.getInt(6))));
-			}
+            while (rs.next()) {
+                list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+                        new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
+                        new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
+                );
+            }
 		} catch (Exception e) {
 			e.printStackTrace();
 

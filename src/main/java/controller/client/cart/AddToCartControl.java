@@ -30,6 +30,7 @@ public class AddToCartControl extends HttpServlet {
 
 		String productId = request.getParameter("pid");
 		int pid = Integer.parseInt(productId);
+		System.out.println("pid"+pid);
 
 		Account account = (Account) session.getAttribute("account");
 		// if not found account
@@ -42,7 +43,7 @@ public class AddToCartControl extends HttpServlet {
 			Object obj = session.getAttribute("cart");
 			System.out.println("obj: " + obj);
 			String getQuantity = request.getParameter("quantity");
-			System.out.println(getQuantity);
+			System.out.println("số lượng"+getQuantity);
 
 			if (getQuantity != null) {
 				quantity = Integer.parseInt(getQuantity);
@@ -54,7 +55,7 @@ public class AddToCartControl extends HttpServlet {
 				orderDetail.setPrice(product.getPrice() * quantity);
 				Map<Integer, OrderDetail> map = new HashMap<>();
 				map.put(pid, orderDetail);
-				System.out.println(map);
+				System.out.println("map"+map);
 				session.setAttribute("cart", map);
 
 			} else {
@@ -68,7 +69,7 @@ public class AddToCartControl extends HttpServlet {
 					orderDetail.setQuantity(quantity);
 					orderDetail.setPrice(product.getPrice() * quantity);
 					map.put(pid, orderDetail);
-					System.out.println(map);
+					System.out.println("map"+map);
 				} else {
 					orderDetail.setQuantity(orderDetail.getQuantity() + quantity);
 				}

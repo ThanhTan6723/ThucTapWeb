@@ -62,16 +62,16 @@
                         <li><a href="./ShowProductControl?cid=0">Sản phẩm</a>
                             <!-- Dropdown Menu for Product Categories -->
                             <ul class="header__menu__dropdown">
-                                <li class=""><a href="./ShowProductControl?cid=0">All</a></li>
-                                <li class=""><a href="./ShowProductControl?cid=1">Noodle</a></li>
-                                <li class=""><a href="./ShowProductControl?cid=2">Chicken</a></li>
-                                <li class=""><a href="./ShowProductControl?cid=3">Rice</a></li>
+                                <li class=""><a href="./ShowProductControl?cid=0">Tất cả</a></li>
+                                <li class=""><a href="./ShowProductControl?cid=1">Rau củ</a></li>
+                                <li class=""><a href="./ShowProductControl?cid=2">Hoa quả</a></li>
+                                <li class=""><a href="./ShowProductControl?cid=3">Đồ tươi sống</a></li>
                             </ul>
                         </li>
                         <li><a href="./IntroduceControll">Giới thiệu</a></li>
                         <!-- Show Order Menu Item only if User is Logged In -->
                         <c:if test="${sessionScope.account!=null}">
-                            <li><a href="./OrderPlaceControl">Đơn đã đặt</a></li>
+                            <li><a href="./OrderPlaceControl">Đơn<%-- đã đặt--%></a></li>
                         </c:if>
                         <li><a href="./ContactControll">Liên hệ</a></li>
                     </ul>

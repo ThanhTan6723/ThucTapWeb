@@ -1,27 +1,20 @@
 package controller.client.auth;
 
-import java.io.IOException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import dao.client.AccountDAO;
 import model.Account;
 import model.Encode;
 
-@WebServlet("/LoginControll")
-public class LoginControll extends HttpServlet {
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String returnUrl = request.getHeader("Referer");
+@WebServlet(name = "LoginControll", value = "/LoginControll")
+public class LoginControll extends HttpServlet {
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Cookie arr[] = request.getCookies();
 		for (Cookie cookie : arr) {
 			if (cookie.getName().equals("userN")) {
@@ -31,22 +24,17 @@ public class LoginControll extends HttpServlet {
 				request.setAttribute("password", URLDecoder.decode(cookie.getValue(), "UTF-8"));
 			}
 		}
-		request.setAttribute("returnUrl", returnUrl);
-
 		request.getRequestDispatcher("/WEB-INF/client/login.jsp").forward(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
 		String userName = request.getParameter("username");
 		String passWord = request.getParameter("password");
-		System.out.println(userName);
-		System.out.println(passWord);
 
 		boolean checkSpaceName = userName.trim().isEmpty();
 		boolean checkSpacePass = passWord.trim().isEmpty();
@@ -83,11 +71,8 @@ public class LoginControll extends HttpServlet {
 					c2.setMaxAge(60 * 60 * 24 * 30);
 					response.addCookie(c1);
 					response.addCookie(c2);
-//					String urlend = request.getParameter("urlend");
-//					if (urlend != null) {
-//						response.sendRedirect(urlend);
-//					} else
-						response.sendRedirect(request.getContextPath() + "/IndexControl");
+
+					response.sendRedirect(request.getContextPath() + "/IndexControll");
 					return;
 				}
 				// is admin
@@ -104,7 +89,7 @@ public class LoginControll extends HttpServlet {
 					response.addCookie(c1);
 					response.addCookie(c2);
 
-					response.sendRedirect(request.getContextPath() + "/IndexControl");
+					response.sendRedirect(request.getContextPath() + "/IndexControll");
 					return;
 
 				}
@@ -117,5 +102,4 @@ public class LoginControll extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/client/login.jsp").forward(request, response);
 
 	}
-
 }

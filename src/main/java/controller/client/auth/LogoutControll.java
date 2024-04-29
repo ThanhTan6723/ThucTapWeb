@@ -21,7 +21,7 @@ public class LogoutControll extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		session.invalidate();
-		response.sendRedirect(request.getContextPath () + "/IndexControl");
+		response.sendRedirect(request.getContextPath () + "/IndexControll");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

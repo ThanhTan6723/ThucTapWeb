@@ -11,31 +11,52 @@ public class Product {
 	private String image;
 	private String description;
 	private Category category;
+	private int quantity;
+	private double priceImport;
+	private double weight;
+	private Account adminCreate;
+	private Provider provider;
+	private String dateOfImporting;
+	private String expriredDay;
+	private List<Image> images;
 
 	public Product() {
 		super();
 	}
 
-	public Product(int id, String name, double price, String image, String description, Category category) {
-		super();
+	public Product(int id, String name, double price, String image, String description, Category category, int quantity, double priceImport, double weight, Account adminCreate, Provider provider, String dateOfImporting, String expriredDay, List<Image> images) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.image = image;
 		this.description = description;
 		this.category = category;
+		this.quantity = quantity;
+		this.priceImport = priceImport;
+		this.weight = weight;
+		this.adminCreate = adminCreate;
+		this.provider = provider;
+		this.dateOfImporting = dateOfImporting;
+		this.expriredDay = expriredDay;
+		this.images = images;
 	}
 
-
-
-	public Product(int id, String name, double price, String description, Category category) {
-		super();
+	public Product(int id, String name, double price, String image, String description, Category category, int quantity, double priceImport, double weight, Account adminCreate, Provider provider, String dateOfImporting, String expriredDay) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
+		this.image = image;
 		this.description = description;
 		this.category = category;
+		this.quantity = quantity;
+		this.priceImport = priceImport;
+		this.weight = weight;
+		this.adminCreate = adminCreate;
+		this.provider = provider;
+		this.dateOfImporting = dateOfImporting;
+		this.expriredDay = expriredDay;
 	}
+
 
 	public int getId() {
 		return id;
@@ -78,6 +99,7 @@ public class Product {
 	}
 
 	public Category getCategory() {
+
 		return category;
 	}
 
@@ -85,14 +107,86 @@ public class Product {
 		this.category = category;
 	}
 
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", image=" + image + ", description="
-				+ description + ", category=" + category + "]";
+	public int getQuantity() {
+		return quantity;
 	}
 
-//	public static void main(String[] args) {
-//		List<Product> products = ProductDAO.getListProducts();
-//		System.out.println(products.get(0).getName());
-//	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public double getPriceImport() {
+		return priceImport;
+	}
+
+	public void setPriceImport(double priceImport) {
+		this.priceImport = priceImport;
+	}
+
+	public double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	public Account getAdminCreate() {
+		return adminCreate;
+	}
+
+	public void setAdminCreate(Account adminCreate) {
+		this.adminCreate = adminCreate;
+	}
+
+	public Provider getProvider() {
+		return provider;
+	}
+
+	public void setProvider(Provider provider) {
+		this.provider = provider;
+	}
+
+	public String getDateOfImporting() {
+		return dateOfImporting;
+	}
+
+	public void setDateOfImporting(String dateOfImporting) {
+		this.dateOfImporting = dateOfImporting;
+	}
+
+	public String getExpriredDay() {
+		return expriredDay;
+	}
+
+	public void setExpriredDay(String expriredDay) {
+		this.expriredDay = expriredDay;
+	}
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
+
+	@Override
+	public String toString() {
+		return "Product{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", price=" + price +
+				", image='" + image + '\'' +
+				", description='" + description + '\'' +
+				", category=" + category +
+				", quantity=" + quantity +
+				", priceImport=" + priceImport +
+				", weight=" + weight +
+				", adminCreate=" + adminCreate +
+				", provider=" + provider +
+				", dateOfImporting='" + dateOfImporting + '\'' +
+				", expriredDay='" + expriredDay + '\'' +
+				'}';
+	}
 }

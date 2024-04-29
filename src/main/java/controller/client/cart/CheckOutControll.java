@@ -55,6 +55,7 @@ public class CheckOutControll extends HttpServlet {
 			request.setAttribute("email", account.getEmail());
 			request.setAttribute("phone", account.getTelephone());
 		}
+		request.setAttribute("ten", account.getName());
 
 		request.getRequestDispatcher("/WEB-INF/client/checkout.jsp").forward(request, response);
 	}

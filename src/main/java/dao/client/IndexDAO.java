@@ -6,7 +6,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Account;
+import model.Category;
 import model.Product;
+import model.Provider;
 
 public class IndexDAO {
 	public static List<Product> getTop8() {
@@ -17,8 +20,10 @@ public class IndexDAO {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						OrderDAO.getCategory(rs.getInt(6))));
+				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
+						new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
+				);
 			}
 		} catch (Exception e) {
 		
@@ -27,7 +32,7 @@ public class IndexDAO {
 		return list;
 	}
 
-	/*public static List<Product> getOutstandingProduct() {
+public static List<Product> getOutstandingProduct() {
 		List<Product> list = new ArrayList<>();
 		String query = "SELECT * FROM Products ORDER BY price DESC LIMIT 4;";
 		try {
@@ -35,15 +40,18 @@ public class IndexDAO {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						OrderDAO.getCategory(rs.getInt(6))));
+				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
+						new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
+				);
 			}
 		} catch (Exception e) {
 		
 		}
 
 		return list;
-	}*/
+	}
+
 	public static List<Product> getNext4Product(int amount){
 		List<Product> list = new ArrayList<>();
 		String query = "select * from Products where price>40 order by id limit 4 offset ?;";
@@ -52,9 +60,11 @@ public class IndexDAO {
 			PreparedStatement ps  = con.prepareStatement(query);
 			ps.setInt(1,amount);
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()){
-				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						OrderDAO.getCategory(rs.getInt(6))));
+			while (rs.next()) {
+				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
+						new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
+				);
 			}
 		}catch (Exception e){
 
@@ -63,36 +73,40 @@ public class IndexDAO {
 
 	}
 	public static List<Product> listRandProduct(){
-		List<Product> listRandProduct = new ArrayList<>();
+		List<Product> list = new ArrayList<>();
 		String query = "select * from Products  ORDER BY RAND() LIMIT 3;";
 		try{
 			Connection conn = JDBCUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()){
-				listRandProduct.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						OrderDAO.getCategory(rs.getInt(6))));
+			while (rs.next()) {
+				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
+						new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
+				);
 			}
 		}catch (Exception e){
 
 		}
-		return listRandProduct;
+		return list;
 	}
 	public static List<Product> listRand4Product(){
-		List<Product> listRandProduct = new ArrayList<>();
+		List<Product> list = new ArrayList<>();
 		String query = "select * from Products  ORDER BY RAND() LIMIT 4;";
 		try{
 			Connection conn = JDBCUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()){
-				listRandProduct.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						OrderDAO.getCategory(rs.getInt(6))));
+			while (rs.next()) {
+				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
+						new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
+				);
 			}
 		}catch (Exception e){
 
 		}
-		return listRandProduct;
+		return list;
 	}
 
 
@@ -101,14 +115,15 @@ public class IndexDAO {
 
 	public static void main(String[] args) {
 	IndexDAO pd = new IndexDAO();
-/*	List<Product> list = pd.getOutstandingProduct();
+	List<Product> list = pd.getOutstandingProduct();
 	for (Product product : list) {
 		System.out.println(product.toString());
-	}*/
-	List<Product> list = pd.listRandProduct();
+	}
+
+/*	List<Product> list = pd.listRandProduct();
 	for(Product product : list){
 		System.out.println(product.toString());
-	}
+	}*/
 }
 
 }
