@@ -7,19 +7,19 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Admin-Dashboard</title>
 <!-- plugins:css -->
-<jsp:include page="./link/link.jsp"></jsp:include>
+<jsp:include page="link/link.jsp"></jsp:include>
 <style>
 </style>
 </head>
 <body>
 	<div class="container-scroller">
 		<!-- partial:partials/_sidebar.html -->
-		<jsp:include page="./header/sidebar.jsp"></jsp:include>
+		<jsp:include page="header/sidebar.jsp"></jsp:include>
 
 		<!-- partial -->
 		<div class="container-fluid page-body-wrapper">
 			<!-- partial:partials/_navbar.html -->
-			<jsp:include page="./header/navbar.jsp"></jsp:include>
+			<jsp:include page="header/navbar.jsp"></jsp:include>
 
 			<!-- partial -->
 			<div class="main-panel">

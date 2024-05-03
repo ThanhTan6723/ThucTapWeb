@@ -1,6 +1,8 @@
 package model;
 
-public class Account {
+import dao.client.IModel;
+
+public class Account implements IModel {
     private int id;
     private String name;
     private String password;
@@ -83,6 +85,21 @@ public class Account {
     public String toString() {
         return "Account: " + "id: " + id + ", " + name + ", " + password + ", " + email + ", " + telephone
                 + ", isAdmin: " + isAdmin;
+    }
+
+    @Override
+    public String getTable() {
+        return null;
+    }
+
+    @Override
+    public String getBeforeData() {
+        return null;
+    }
+
+    @Override
+    public String getAfterData() {
+        return null;
     }
 
 //    public static void main(String[] args) {

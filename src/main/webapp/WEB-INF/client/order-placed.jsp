@@ -1,23 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<%@page import="java.util.Map" %>
-<%@page import="dao.client.I18NDAO" %>
-
-<c:set var="showLanguage" value="<%= new dao.client.I18NDAO().vietnameseLanguage() %>" />
-<c:if test="${not empty sessionScope.lang}">
-    <c:choose>
-        <c:when test="${sessionScope.lang eq 'Vietnamese'}">
-            <c:set var="showLanguage" value="<%= new dao.client.I18NDAO().vietnameseLanguage() %>" />
-        </c:when>
-        <c:when test="${sessionScope.lang eq 'English'}">
-            <c:set var="showLanguage" value="<%= new dao.client.I18NDAO().englishLanguage() %>" />
-        </c:when>
-    </c:choose>
-</c:if>
-<c:set var="showLanguage" scope="page" value="${showLanguage}" />
+<%@ page contentType="text/html; charset=utf-8" language="java" %>
+<%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -113,7 +98,7 @@
 				<div class="col-lg-12">
 					<div class="shoping__cart__table">
 					<div class="empty"><c:if test="${empty listProductOrder}">
-						<h3><b>You haven't order</b></h3>
+						<h3><b>Bạn chưa có đơn hàng nào</b></h3>
 					</c:if></div>					
 					
 					<c:if test="${not empty listProductOrder}">
@@ -125,20 +110,20 @@
 								<c:set var="currentOrderId" value="${o.order.id}" />
 								<br>
 								<div class="information">
-									 <h5><b><c:out value="${showLanguage['OrderPlaced.Code']}" /> </b>${o.order.id}</h5>
-                                     <h5><b><c:out value="${showLanguage['OrderPlaced.Date']}" /> </b>${o.order.date}</h5>
-                                     <h5><b><c:out value="${showLanguage['OrderPlaced.Address']}" /> </b>${o.order.address}</h5>
-                                     <h5><b><c:out value="${showLanguage['OrderPlaced.Phone']}" /></b> ${o.order.account.telephone}</h5>
-                                     <h5><b><c:out value="${showLanguage['OrderPlaced.Status']}" /> </b><span style="color: #7fad39;">${o.order.orderStatus}</span></h5>
+									 <h5><b>ID</b>${o.order.id}</h5>
+                                     <h5><b>Ngày đặt</b>${o.order.date}</h5>
+                                     <h5><b>Điạ chỉ </b>${o.order.address}</h5>
+                                     <h5><b>Số điện thoại</b> ${o.order.account.telephone}</h5>
+                                     <h5><b>Ghi chú </b><span style="color: #7fad39;">${o.order.orderStatus}</span></h5>
 								</div>
 
 								<table>
 									<thead>
 										<tr>
-											<th class="shoping__product"><c:out value="${showLanguage['Checkout.Dish']}" /></th>
-                                                <th><c:out value="${showLanguage['Checkout.Price']}" /></th>
-                                                <th><c:out value="${showLanguage['Checkout.Quantity']}" /></th>
-                                                <th><c:out value="${showLanguage['Checkout.IntoMoney']}" /></th>
+											<th class="shoping__product">Sản phẩm</th>
+                                                <th>Giá</th>
+                                                <th>Số lượng</th>
+                                                <th>Tạm tính</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -161,7 +146,7 @@
 											<!-- Nếu là sản phẩm cuối cùng của đơn hàng, đóng bảng và hiển thị tổng giá -->
 											<tr>
 												<td colspan="2"></td>
-												<td colspan="2" style="text-align: center;"><h5><b><c:out value="${showLanguage['OrderPlaced.Total']}" /><span style="color: red;">${o.order.totalMoney}</span></b></h5></td>
+												<td colspan="2" style="text-align: center;"><h5><b>Tổng tiền: <span style="color: red;">${o.order.totalMoney}</span></b></h5></td>
 											</tr>
 											<br><br>
 									</tbody>
@@ -178,8 +163,8 @@
 				<div class="col-lg-12">
 					<div class="shoping__cart__btns" style=" display: block;margin: 0 auto;text-align: center;">
 						<c:url var="showProduct" value="ShowProductControl"></c:url>
-						<a href="${pageContext.request.contextPath}/${showProduct}"
-						class="primary-btn cart-btn"><c:out value="${showLanguage['ButtonContinue']}" /></a>
+						<a href="/ShowProductControl"
+						class="primary-btn cart-btn">Tiếp tục mua sắm</a>
 					</div>
 				</div>
 				

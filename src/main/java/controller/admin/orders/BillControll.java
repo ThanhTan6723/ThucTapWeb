@@ -40,7 +40,7 @@ public class BillControll extends HttpServlet {
 		session.setAttribute("OrdersRefused", listOrdersRefused);
 		System.out.println(listOrders);
 
-		request.getRequestDispatcher("/admin/bill.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/admin/bill.jsp").forward(request, response);
 
 	}
 

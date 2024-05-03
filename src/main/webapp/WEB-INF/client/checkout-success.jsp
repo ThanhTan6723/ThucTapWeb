@@ -1,7 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<%@ page contentType="text/html; charset=utf-8" language="java" %>
+<%@ page isELIgnored="false" %>
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -39,7 +41,7 @@
 				<div class="col-lg-12">
 					<c:url var="orderplace" value="OrderPlaceControl"></c:url>
 					<h3 style="text-align: center;">
-						Thank you for your order! Click <a
+						Cảm bạn đã đặt hàng, click vào link bên dưới để theo dõi đơn hàng đã đặt nhé! <a
 							href="${pageContext.request.contextPath}/${orderplace}">here</a> to see details
 					</h3>
 				</div>

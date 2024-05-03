@@ -48,7 +48,8 @@ public class ResetPasswordControll extends HttpServlet {
 				Account acc = new Account();
 				acc.setEmail((String) session.getAttribute("email"));
 				acc.setPassword(enPass);
-				AccountDAO.update(acc);
+				AccountDAO accDao = new AccountDAO();
+				accDao.update(acc);
 				System.out.println("reset success");
 				response.sendRedirect(request.getContextPath() + "/LoginControll");
 				return;
