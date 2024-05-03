@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Account;
 import model.Category;
 import model.Product;
+import model.Provider;
 
 public class AccessDAO {
 	public static List<Product> searchByName(String txtSearch) {
@@ -18,10 +20,12 @@ public class AccessDAO {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, "%" + txtSearch + "%");
 			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						new Category(rs.getInt(6))));
-			}
+            while (rs.next()) {
+                list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+                        new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
+                        new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
+                );
+            }
 		} catch (Exception e) {
 		}
 
@@ -38,10 +42,12 @@ public class AccessDAO {
 			ps.setString(1, "%" + txtSearch + "%"); // Chú ý việc sử dụng dấu %
 			ps.setInt(2, cid);
 			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						OrderDAO.getCategory(rs.getInt(6))));
-			}
+            while (rs.next()) {
+                list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+                        new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
+                        new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
+                );
+            }
 		} catch (Exception e) {
 		}
 		return list;
@@ -64,7 +70,7 @@ public class AccessDAO {
 		return 0;
 	}
 
-	/*public static List<Product> pagingProductSearch(int index, String txtSearch, String sort, String type) {
+public static List<Product> pagingProductSearch(int index, String txtSearch, String sort, String type) {
 		List<Product> list = new ArrayList<>();
 		String query = "select * from products  where  [name] like ? order by " + sort + " " + type
 				+ " offset ? rows fetch next 12 rows only";
@@ -75,22 +81,26 @@ public class AccessDAO {
 			ps.setString(1, "%" + txtSearch + "%");
 			ps.setInt(2, (index - 1) * 12);
 			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						OrderDAO.getCategory(rs.getInt(6))));
-			}
+            while (rs.next()) {
+                list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+                        new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
+                        new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
+                );
+            }
 		} catch (Exception e) {
 
 		}
 		return list;
 	}
-*/
+
+
 	public static void main(String[] args) {
-		AccessDAO a = new AccessDAO();
+/*		AccessDAO a = new AccessDAO();
 		List<Product> list = paddingProductSearch(1,"noo","price","ASC",1);
 		List<Product> list1 = searchByName("A");
 		for (Product product : list) {
 			System.out.println(product.toString());
-		}
+		}*/
+        System.out.println(AccessDAO.searchByName("a"));
 	}
 }

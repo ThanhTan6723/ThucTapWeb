@@ -7,10 +7,6 @@
 <meta charset="UTF-8" />
 <title>Oganic|Template</title>
 <style type="text/css">
-	.productdetail{
-	height: 60vh;
-	padding-top: 10vh;
-	}
     .header__fixed{
         position: fixed;
         top: 0;
@@ -20,9 +16,28 @@
         z-index: 900;
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
     }
+    .product__details__pic__slider__nav {
+        position: relative;
+    }
 
+    .owl-prev,
+    .owl-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1;
+        margin: 0 -30px;
+    }
+
+    .owl-prev {
+        left: 0;
+    }
+
+    .owl-next {
+        right: 0;
+    }
 </style>
-    <%@ page isELIgnored="false" %>
+ <%@ page isELIgnored="false" %>
 <jsp:include page="./link/link.jsp"></jsp:include>
 
 </head>
@@ -64,16 +79,20 @@
                                 <img class="product__details__pic__item--large"
                                      src="${detail.image}" alt="">
                             </div>
-                            <div class="product__details__pic__slider owl-carousel">
-                                <img data-imgbigurl="img/product/details/product-details-2.jpg"
-                                     src="assets/img/product/details/thumb-1.jpg" alt="">
-                                <img data-imgbigurl="img/product/details/product-details-3.jpg"
-                                     src="assets/img/product/details/thumb-2.jpg" alt="">
-                                <img data-imgbigurl="img/product/details/product-details-5.jpg"
-                                     src="assets/img/product/details/thumb-3.jpg" alt="">
-                                <img data-imgbigurl="img/product/details/product-details-4.jpg"
-                                     src="assets/img/product/details/thumb-4.jpg" alt="">
+
+                            <div class="product__details__pic__slider__nav">
+                                <div class="owl-prev"><i class="fa fa-angle-left"></i></div>
+                                <div class="product__details__pic__slider owl-carousel">
+                                    <c:forEach var="o" items="${listImageProduct}">
+                                        <div class="product__details__pic__slider__item">
+                                            <img data-imgbigurl="img/product/details/product-details-3.jpg" src="${o.url}" alt="">
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                                <div class="owl-next"><i class="fa fa-angle-right"></i></div>
                             </div>
+
+
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
@@ -88,7 +107,9 @@
                                 <span>(18 reviews)</span>
                             </div>
                             <div class="product__details__price">${detail.price}</div>
-                            <p>${detail.description}</p>
+                            Phân loại: ${nameCategory}<br>
+                            Mô tả: ${detail.description}<br>
+                            Kho: ${detail.quantity}
                             <div class="product__details__quantity">
 
                             </div>
@@ -96,7 +117,7 @@
 
                             <form action="${addToCart}?pid=${detail.id}" method="post">
                                 <input style="width: 80px; border-radius: 5px; text-align: center;" type="number" class="single-input-selector" value="1"
-                                       min="1" max="99" name="quantity" placeholder="<c:out value="${showLanguage['Detail.QuantityPlaceholder']}" />">
+                                       min="1" max="99" name="quantity" placeholder="">
                                 <button style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; text-transform: uppercase; font-weight: 700; color: #fff"
                                         type="submit" class="button" title="<c:out value="Đặt hàng" />">
                                     <span><c:out value="Đặt hàng" /></span>
@@ -106,9 +127,13 @@
                             <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
 --%>
                             <ul>
-                                <li><b>Availability</b> <span>In Stock</span></li>
+                                <li><b>Ngày sản xuất</b> <span>${detail.dateOfImporting}</span></li>
+                                <li><b>Hạn sử dụng</b> <span> ${detail.expriredDay}</span></li>
+
+<%--
                                 <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
-                                <li><b>Weight</b> <span>0.5 kg</span></li>
+--%>
+                                <li><b>Cân nặng</b> <span>${detail.weight}</span></li>
                                 <li><b>Share on</b>
                                     <div class="share">
                                         <a href="#"><i class="fa fa-facebook"></i></a>
@@ -247,5 +272,25 @@
     <script src="assets/js/mixitup.min.js"></script>
     <script src="assets/js/owl.carousel.min.js"></script>
     <script src="assets/js/main.js"></script>
+<script>
+    $(document).ready(function(){
+        $(".product__details__pic__slider").owlCarousel({
+            items: 1,
+            nav: false,
+            dots: false,
+            loop: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplayHoverPause: true,
+        });
+        $(".owl-prev").click(function(){
+            $(".product__details__pic__slider").trigger("prev.owl.carousel");
+        });
+        $(".owl-next").click(function(){
+            $(".product__details__pic__slider").trigger("next.owl.carousel");
+        });
+    });
+
+</script>
 </body>
 </html>

@@ -34,21 +34,23 @@
 							action="${pageContext.request.contextPath}/${productadd}"
 							enctype='multipart/form-data'>
 							<div class="form-group">
-								<label for="input-1">Mã sản phẩm</label> <input type="text"
+								<label for="input-1">Mã sản phẩm</label>
+								<input type="text"
 									class="form-control" id="input-1" placeholder="Mã sản phẩm"
 									name="product-id" value="">
 							</div>
 
 
 							<div class="form-group">
-								<label for="input-1">Tên sản phẩm</label> <input type="text"
+								<label for="input-1">Tên sản phẩm</label>
+								<input type="text"
 									class="form-control" id="input-1" placeholder="Tên sản phẩm"
 									name="product-name" value="">
 							</div>
 
 
 							<div class="form-group">
-								<label for="input-2">Chuyên mục</label>
+								<label for="input-1">Chuyên mục</label>
 								<div>
 									<select class="form-control valid" id="input-6"
 										name="product-cate" aria-invalid="false">
@@ -65,7 +67,7 @@
 									name="product-price" value="">
 							</div>
 							<div class="form-group">
-								<label for="input-2" class="col-form-label">Mô tả</label>
+								<label for="input-1" class="col-form-label">Mô tả</label>
 								<div>
 									<textarea class="form-control" rows="4" id="input-17"
 										name="product-desc"></textarea>

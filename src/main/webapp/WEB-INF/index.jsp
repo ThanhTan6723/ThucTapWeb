@@ -15,21 +15,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ogani | Template</title>
-      <!-- Css Styles -->
+    <!-- Css Styles -->
     <jsp:include page="client/link/link.jsp"></jsp:include>
     <style>
         .container .row .col-lg-6 ul li{
-        margin-right: 30px;
-    }
-    .header__fixed{
-        position: fixed;
-        top: 0;
-        width: 100%;
-        height: 140px;
-        background-color: #fff; /* Chỉ định màu nền nếu cần */
-        z-index: 900;/* Đảm bảo nó nằm trên các phần tử khác */
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
-    }
+            margin-right: 30px;
+        }
+        .header__fixed{
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 140px;
+            background-color: #fff; /* Chỉ định màu nền nếu cần */
+            z-index: 900;/* Đảm bảo nó nằm trên các phần tử khác */
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+        }
     </style>
 </head>
 
@@ -45,13 +45,13 @@
 
 <!-- Categories Section Begin -->
 <div class="container">
-<div class="hero__item set-bg" data-setbg="assets/img/hero/banner.jpg">
-    <div class="hero__text">
-        <span>TRÁI CÂY TƯƠI</span>
-        <h2>Rau quả <br />100% Hữu cơ</h2>
-        <p>Có sẵn nhận và giao hàng miễn phí</p>
-        <a href="#" class="primary-btn">MUA HÀNG</a>
-</div>
+    <div class="hero__item set-bg" data-setbg="assets/img/hero/banner.jpg">
+        <div class="hero__text">
+            <span>TRÁI CÂY TƯƠI</span>
+            <h2>Rau quả <br />100% Hữu cơ</h2>
+            <p>Có sẵn nhận và giao hàng miễn phí</p>
+            <a href="#" class="primary-btn">MUA HÀNG</a>
+        </div>
     </div>
     <br><br><br>
 </div>
@@ -60,12 +60,12 @@
         <div class="row">
             <div class="categories__slider owl-carousel">
                 <c:forEach var="p" items="${listTop}">
-                <div class="col-lg-3">
-                    <div class="categories__item set-bg">
-                        <a href="${detail}?pid=${p.id}"><img src="${p.image}"></a>
-                        <h5><a href="${detail}?pid=${p.id}">${p.name}</a></h5>
+                    <div class="col-lg-3">
+                        <div class="categories__item set-bg">
+                            <a href="${detail}?pid=${p.id}"><img src="${p.image}"></a>
+                            <h5><a href="${detail}?pid=${p.id}">${p.name}</a></h5>
+                        </div>
                     </div>
-                </div>
 
                 </c:forEach>
             </div>
@@ -86,68 +86,68 @@
             </div>
         </div>
         <div class="row featured__filter">
-        <c:forEach items="${list4Rand}" var="o" >
-            <div class="product col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat" style="height: 400px">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" >
-                        <a href="${detail}?pid=${o.id}">
-                            <img src="${o.image}" alt="${o.name}">
-                        </a>
-                    </div>
-                    <div class="featured__item__text">
-                        <a class="product-name" href="${detail}?pid=${o.id}" style="color: black">
-                                ${o.name}</a>
-                        <h5>${o.price}</h5>
-                    </div>
-                    <div class="text-center">
-                        <c:url var="addToCart" value="/AddToCartControll"></c:url>
-                        <form action="${addToCart}?pid=${o.id}" method="post" enctype="multipart/form-data">
-                            <button
-                                    style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; font-weight: 700"
-                                    type="submit">
-                                <a href="${detail}?pid=${o.id}" style="color:#ffffff">
-                                    MUA NGAY</a>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </c:forEach>
-    </div>
-        <div class="row featured__filter" id="content">
-            <c:forEach items="${listOutstandingProduct}" var="o" >
-            <div class="product col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" >
-                     <a href="${detail}?pid=${o.id}">
-                         <img src="${o.image}" alt="${o.name}">
-                     </a>
-                    </div>
-                    <div class="featured__item__text">
-                       <a class="product-name" href="${detail}?pid=${o.id}" style="color: black">
-                               ${o.name}</a>
-                        <h5>${o.price}</h5>
-                    </div>
-                    <div class="text-center">
-                        <c:url var="addToCart" value="/AddToCartControll"></c:url>
-                        <form action="${addToCart}?pid=${o.id}" method="post" enctype="multipart/form-data">
-                            <button
-                                    style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; font-weight: 700"
-                                    type="submit">
-                                <a href="${detail}?pid=${o.id}" style="color:#ffffff">
-                                    MUA NGAY</a>
-                            </button>
-                        </form>
+            <c:forEach items="${list4Rand}" var="o" >
+                <div class="product col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat" style="height: 400px">
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg" >
+                            <a href="${detail}?pid=${o.id}">
+                                <img src="${o.image}" alt="${o.name}">
+                            </a>
+                        </div>
+                        <div class="featured__item__text">
+                            <a class="product-name" href="${detail}?pid=${o.id}" style="color: black">
+                                    ${o.name}</a>
+                            <h5>${o.price}</h5>
+                        </div>
+                        <div class="text-center">
+                            <c:url var="addToCart" value="/AddToCartControll"></c:url>
+                            <form action="${addToCart}?pid=${o.id}" method="post" enctype="multipart/form-data">
+                                <button
+                                        style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; font-weight: 700"
+                                        type="submit">
+                                    <a href="${detail}?pid=${o.id}" style="color:#ffffff">
+                                        MUA NGAY</a>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
             </c:forEach>
         </div>
-       <div style="padding-left: 500px;">
-           <button onclick="loadMore()" class="btn-btn-primary"
-                   style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #a20303; font-weight: 700;
+        <div class="row featured__filter" id="content">
+            <c:forEach items="${listOutstandingProduct}" var="o" >
+                <div class="product col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg" >
+                            <a href="${detail}?pid=${o.id}">
+                                <img src="${o.image}" alt="${o.name}">
+                            </a>
+                        </div>
+                        <div class="featured__item__text">
+                            <a class="product-name" href="${detail}?pid=${o.id}" style="color: black">
+                                    ${o.name}</a>
+                            <h5>${o.price}</h5>
+                        </div>
+                        <div class="text-center">
+                            <c:url var="addToCart" value="/AddToCartControll"></c:url>
+                            <form action="${addToCart}?pid=${o.id}" method="post" enctype="multipart/form-data">
+                                <button
+                                        style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; font-weight: 700"
+                                        type="submit">
+                                    <a href="${detail}?pid=${o.id}" style="color:#ffffff">
+                                        MUA NGAY</a>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+        <div style="padding-left: 500px;">
+            <button onclick="loadMore()" class="btn-btn-primary"
+                    style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #a20303; font-weight: 700;
         color:white">Load more</button>
-       </div>
+        </div>
     </div>
 </section>
 <!-- Featured Section End -->

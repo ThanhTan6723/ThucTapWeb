@@ -5,22 +5,12 @@
 
 <%@ page import="java.util.Map" %>
 <%@ page import="dao.client.I18NDAO" %>
-<c:set var="showLanguage" value="<%= new dao.client.I18NDAO().vietnameseLanguage() %>" />
-<c:if test="${not empty sessionScope.lang}">
-    <c:choose>
-        <c:when test="${sessionScope.lang eq 'Vietnamese'}">
-            <c:set var="showLanguage" value="<%= new dao.client.I18NDAO().vietnameseLanguage() %>" />
-        </c:when>
-        <c:when test="${sessionScope.lang eq 'English'}">
-            <c:set var="showLanguage" value="<%= new dao.client.I18NDAO().englishLanguage() %>" />
-        </c:when>
-    </c:choose>
-</c:if>
-<c:set var="showLanguage" scope="page" value="${showLanguage}" />
 
 <!DOCTYPE html>
 <html>
 <head>
+    <%@ page isELIgnored="false" %>
+
     <meta charset="UTF-8">
     <title>Check Out</title>
     <!-- Css Styles -->
@@ -44,54 +34,53 @@
 <body>
     <jsp:include page="./header/header.jsp"></jsp:include>
     <c:url var="pay" value="/OrderControll"></c:url>
-
     <!-- Checkout Section Begin -->
     <section class="checkout spad" >
         <div class="container">
             <div class="checkout__form">
-                <h4>${showLanguage['Checkout.Header']}</h4>
+                <h4>Chi tiết hóa đơn</h4>
                 <form action="${pay}" method="get">
                     <div class="row">
-                        <div class="col-lg-8 col-md-6">
+                        <div class="col-lg-6 col-md-6">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
-                                        <p>${showLanguage['Checkout.Name']}<span>*</span></p>
+                                        <p>Tên<span>*</span></p>
                                         <input type="text" name="name" value="${name}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
-                                        <p>${showLanguage['Checkout.Phone']}<span>*</span></p>
+                                        <p>Số điện thoại<span>*</span></p>
                                         <input type="tel" name="phone" value="${phone}">
                                     </div>
                                 </div>
                             </div>
                             <div class="checkout__input">
-                                <p>${showLanguage['Checkout.Email']}<span>*</span></p>
+                                <p>Email<span>*</span></p>
                                 <input type="email" name="email" value="${email}" style="width: 70%;">
                             </div>
                             <div class="checkout__input">
-                                <p>${showLanguage['Checkout.Address']}<span>*</span></p>
-                                <input type="text" name="address" placeholder="${showLanguage['Checkout.AddressInfor']}" class="checkout__input__add" required="required">
+                                <p>Địa chỉ<span>*</span></p>
+                                <input type="text" name="address" placeholder="Tên đường" class="checkout__input__add" required="required">
                             </div>
                             <div class="checkout__input">
-                                <p>${showLanguage['Checkout.Ordernotes']}<span></span></p>
+                                <p>Ghi chú<span></span></p>
                                 <input type="text" name="notes" value=""
-                                    placeholder="${showLanguage['Checkout.OrdernotesInfor']}">
+                                    placeholder="Ghi chú về đơn đặt hàng của bạn, ví dụ: ghi chú đặc biệt để giao hàng.">
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6" >
+                        <div class="col-lg-6 col-md-6" >
                             <div class="checkout__order" style="box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);">
-                                <h4>${showLanguage['Checkout.Order']}</h4>
-                                <p>${sessionScope.cart.OrderDetail.id}</p>
+                                <h4>Đơn hàng của bạn</h4>
+                                <p>${sessionScope.cart.OrderControll.id}</p>
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th class="shoping__product">${showLanguage['Checkout.Dish']}</th>
-                                            <th>${showLanguage['Checkout.Price']}</th>
-                                            <th>${showLanguage['Checkout.Quantity']}</th>
-                                            <th>${showLanguage['Checkout.IntoMoney']}</th>
+                                            <th class="shoping__product">Món ăn</th>
+                                            <th>Giá tiền</th>
+                                            <th>Số lượng</th>
+                                            <th>Thành tiền</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -110,12 +99,12 @@
                                         </c:forEach>
                                     </tbody>
                                 </table>
-                                <div class="checkout__order__subtotal">${showLanguage['Checkout.Sub']} <span>${total}</span></div>
-                                <div class="checkout__order__total">${showLanguage['Checkout.Ship']}<span>${ship}</span></div>
-                                <div class="checkout__order__total">${showLanguage['Checkout.Total']} <span>${sum}</span></div>
-                                <p>${showLanguage['Checkout.FShip']}</p>
-                                <c:url var="pay" value="OrderControll"></c:url> 
-                                <input style="padding: 10px 100px 10px;border: none;" type="submit" class="primary-btn" value="${showLanguage['Checkout.Button']}">
+                                <div class="checkout__order__subtotal">Tổng giá sản phẩm<span>${total}</span></div>
+                                <div class="checkout__order__total">Phí vận chuyển<span>${ship}</span></div>
+                                <div class="checkout__order__total">Tổng tiền thanh toán<span>${sum}</span></div>
+                                <p>Đặt hàng từ $60 trở lên để được miễn phí vận chuyển</p>
+                                <c:url var="pay" value="OrderControll"></c:url>
+                                <input style="padding: 10px 100px 10px;border: none;" type="submit" class="primary-btn" value="Thanh toán">
                             </div>
                         </div>
                     </div>
