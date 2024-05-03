@@ -33,7 +33,7 @@
                             <img alt="" src="assets/img/empty-cart.svg"
                                  style="vertical-align: middle;">
                             <h3>
-                                <b>Cart is Empty></b>
+                                <b>Giỏ hàng rỗng</b>
                             </h3>
                             <p>Hiện tại bạn chưa có sản phẩm nào trong giỏ hàng. Hãy dạo quanh cửa hàng để chọn được sản
                                 phẩm ưng ý nhé!</p>
@@ -91,7 +91,6 @@
                                 <td class="text-center"><a
                                         class="fa fa-trash-o item-remove"
                                         href="${delete}?key=${o.key}"></a></td>
-
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -110,7 +109,7 @@
             <div class="col-lg-6">
                 <div class="shoping__continue">
                     <div class="shoping__discount">
-                        <h5>Discount Codes</h5>
+                        <h5>Mã giảm giá</h5>
                         <form action="#">
                             <input type="text" placeholder="Enter your coupon code">
                             <button type="submit" class="site-btn">Áp dụng</button>
