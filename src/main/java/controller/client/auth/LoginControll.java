@@ -53,9 +53,13 @@ public class LoginControll extends HttpServlet {
 		}
 
 		if (userName != null && passWord != null && !checkSpaceName && !checkSpacePass) {
+/*
 			String enpass = Encode.toSHA1(passWord);
-			Account account = AccountDAO.checkLogin(userName, enpass);
-
+*/
+			System.out.println("tên"+userName);
+			System.out.println("mat khau"+passWord);
+			Account account = AccountDAO.checkLogin(userName, passWord);
+            System.out.println(account);
 			if (account != null) {
 				// not Admin
 				if (account.getIsAdmin() == 0) {
@@ -89,7 +93,7 @@ public class LoginControll extends HttpServlet {
 					response.addCookie(c1);
 					response.addCookie(c2);
 
-					response.sendRedirect(request.getContextPath() + "/IndexControll");
+					response.sendRedirect(request.getContextPath() + "/IndexAdminControll");
 					return;
 
 				}

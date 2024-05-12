@@ -20,7 +20,7 @@ public class ListProductsControll extends HttpServlet {
 		// TODO Auto-generated method stub
 		List<Product> list = ProductDAO.getListProducts();
 		request.setAttribute("productlist", list);
-		request.getRequestDispatcher("/admin/show-product.jsp").forward(request, response);
+		request.getRequestDispatcher("WEB-INF/admin/show-product.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

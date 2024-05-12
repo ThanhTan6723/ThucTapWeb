@@ -31,7 +31,7 @@ public class IndexAdminControll extends HttpServlet {
 		map.put("ratio2", AdminDAO.getRatio("2"));
 		map.put("ratio3", AdminDAO.getRatio("3"));
 		request.setAttribute("map", map);
-		request.getRequestDispatcher("/admin/index.jsp").forward(request, response);
+		request.getRequestDispatcher("WEB-INF/admin/index.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

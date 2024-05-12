@@ -79,22 +79,6 @@ public class ProductDAO {
 		return null;
 
 	}
-	public static String getCategoryById(int id ){
-		String sql = "select name from Category where id=?";
-		try {
-           Connection con = JDBCUtil.getConnection();
-		   PreparedStatement ps = con.prepareStatement(sql);
-		   ps.setInt(1,id);
-		   ResultSet rs = ps.executeQuery();
-		   if (rs.next()){
-			   return rs.getString("name");
-		   }
-		}catch (Exception e){
-
-		}
-		return null;
-	}
-
 
 	public static List<Product> getSellProduct() {
 		List<Product> list = new ArrayList<>();
@@ -290,6 +274,38 @@ public class ProductDAO {
 		}
 		return list;
 	}
+	public static String getCategoryById(int id ){
+		String sql = "select name from Category where id=?";
+		try {
+			Connection con = JDBCUtil.getConnection();
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1,id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()){
+				return rs.getString("name");
+			}
+		}catch (Exception e){
+
+		}
+		return null;
+	}
+	public static Provider getInforByIdProvider(int id){
+		String sql = "select * from Providers where id=?";
+		try{
+			Connection con = JDBCUtil.getConnection();
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1,id);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()){
+				return new Provider(rs.getInt(1),rs.getString(2),rs.getString(3));
+			}
+
+		}catch (Exception e){
+
+		}
+		return null;
+	}
+
 
 
 	public static void main(String[] args) {
@@ -320,7 +336,10 @@ public class ProductDAO {
  /*       List<Product> list = ProductDAO.pagingProduct(1,8,"price","asc");
 		System.out.println(list);
 */
+/*
 		System.out.println(listImageProduct(1));
+*/
+		System.out.println(getInforByIdProvider(3));
 	}
 
 }

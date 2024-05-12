@@ -3,6 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
+<head>
+  <%@page isELIgnored="false" %>
+</head>
 
         <nav class="navbar p-0 fixed-top d-flex flex-row">
           <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
@@ -163,7 +166,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
                   
-                    <c:url var="home" value="IndexControl"></c:url>
+                    <c:url var="home" value="IndexControll"></c:url>
                     <c:url var="logout" value="LogoutAdControll"></c:url>
                     <div class="">
                     <a class="dropdown-item preview-item" href="${pageContext.request.contextPath}/${home}"> <span class="preview-subject mb-1">Home</span></a>

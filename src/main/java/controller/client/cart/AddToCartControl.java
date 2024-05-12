@@ -43,7 +43,7 @@ public class AddToCartControl extends HttpServlet {
 			Object obj = session.getAttribute("cart");
 			System.out.println("obj: " + obj);
 			String getQuantity = request.getParameter("quantity");
-			System.out.println("số lượng"+getQuantity);
+			System.out.println("số lượng "+getQuantity);
 
 			if (getQuantity != null) {
 				quantity = Integer.parseInt(getQuantity);
@@ -78,7 +78,7 @@ public class AddToCartControl extends HttpServlet {
 			}
 			Map<Integer, OrderDetail> m = (Map<Integer, OrderDetail>) session.getAttribute("cart");
 			int sizeCart = m.size();
-			System.out.println(sizeCart);
+			System.out.println("sizeCart"+sizeCart);
 			session.setAttribute("size", sizeCart);
 			request.getRequestDispatcher("CartControll").forward(request, response);
 		}

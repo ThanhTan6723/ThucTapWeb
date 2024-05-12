@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <!-- Required meta tags -->
+	<%@ page isELIgnored="false" %>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -199,4 +200,23 @@ percentages.forEach((percent, index) => {
 });
 
 </script>
+
+<script src="assetsAdmin/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="assetsAdmin/vendors/chart.js/Chart.min.js"></script>
+<script src="assetsAdmin/vendors/progressbar.js/progressbar.min.js"></script>
+<script src="assetsAdmin/vendors/jvectormap/jquery-jvectormap.min.js"></script>
+<script src="assetsAdmin/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<script src="assetsAdmin/vendors/owl-carousel-2/owl.carousel.min.js"></script>
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="assetsAdmin/js/off-canvas.js"></script>
+<script src="assetsAdmin/js/hoverable-collapse.js"></script>
+<script src="assetsAdmin/js/misc.js"></script>
+<script src="assetsAdmin/js/settings.js"></script>
+<script src="assetsAdmin/js/todolist.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page -->
+<script src="assetsAdmin/js/dashboard.js"></script>
 </html>

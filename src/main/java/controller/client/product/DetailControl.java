@@ -16,6 +16,7 @@ import dao.client.ProductDAO;
 import model.Category;
 import model.Image;
 import model.Product;
+import model.Provider;
 
 @WebServlet("/DetailControl")
 public class DetailControl extends HttpServlet {
@@ -37,22 +38,21 @@ public class DetailControl extends HttpServlet {
 		product.setId(product.getId());
 		product.setName(product.getName());
         product.setPrice(product.getPrice());
-		System.out.println(product.getPrice());
 		product.setPrice(product.getPrice());
 		product.setImage(product.getImage());
 		product.setDescription(product.getDescription());
 		product.setCategory(product.getCategory());
-        String categoryNameById = ProductDAO.getCategoryById(product.getCategory().getId());
-		System.out.println(categoryNameById);
+        String nameCategory = ProductDAO.getCategoryById(product.getCategory().getId());
 		product.setQuantity(product.getQuantity());
 		product.setDateOfImporting(product.getDateOfImporting());
 		product.setExpriredDay(product.getExpriredDay());
 		product.setWeight(product.getWeight());
 		product.setImages(product.getImages());
         List<Image> listImageProduct = ProductDAO.listImageProduct(product.getId());
-		System.out.println(listImageProduct);
+		Provider provider = ProductDAO.getInforByIdProvider(product.getProvider().getId());
+		request.setAttribute("provider",provider);
 		request.setAttribute("listImageProduct",listImageProduct);
-		request.setAttribute("nameCategory",categoryNameById);
+		request.setAttribute("nameCategory",nameCategory);
 		request.setAttribute("detail", product);
 		request.getRequestDispatcher("/WEB-INF/client/product-detail.jsp").forward(request, response);
 	}

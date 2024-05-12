@@ -1,4 +1,3 @@
-/*
 package controller.admin.product;
 
 import java.io.IOException;
@@ -33,4 +32,3 @@ public class DeleteProductControll extends HttpServlet {
 	}
 
 }
-*/

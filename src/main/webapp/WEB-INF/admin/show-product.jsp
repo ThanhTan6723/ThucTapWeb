@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<%@ page isELIgnored="false" %>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
@@ -62,13 +63,11 @@
 																		<td>${product.id}</td>
 																		<td>${product.price}</td>
 
-											<td><c:url var="deletePA"
-													value="DeleteProductControll"></c:url> <a
-												href="${pageContext.request.contextPath}/${deletePA}?id=${product.id}"><button
-																class="btn btn-danger">Xóa</button></a> <c:url
-											var="editPA" value="EditProductControll"></c:url>
+											<td><a
+												href="DeleteProductControll?id=${product.id}"><button
+																class="btn btn-danger">Xóa</button></a>
 														<a
-														href="${pageContext.request.contextPath}/${editPA}?id=${product.id}">
+														href="EditProductControll?id=${product.id}">
 															<button class="btn btn-success">Sửa</button>
 													</a></td>
 													</tr>

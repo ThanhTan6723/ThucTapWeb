@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.admin.AccountDAO;
+import dao.admin.AccountsDAO;
+import dao.client.AccountDAO;
+import model.Account;
 
 @WebServlet("/DeleteUserControll")
 public class DeleteUserControll extends HttpServlet {
@@ -18,9 +20,10 @@ public class DeleteUserControll extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String id = request.getParameter("id");
-		AccountDAO.removeAccount(Integer.parseInt(id));
-		request.setAttribute("accounts", AccountDAO.getListAccount());
-		request.getRequestDispatcher("/admin/user.jsp").forward(request, response);
+
+		AccountsDAO.removeAccount(Integer.parseInt(id));
+		request.setAttribute("accounts", AccountsDAO.getListAccount());
+		request.getRequestDispatcher("WEB-INF/admin/user.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -28,5 +31,4 @@ public class DeleteUserControll extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }

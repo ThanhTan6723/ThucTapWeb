@@ -279,7 +279,6 @@
 										<option value="name-desc" <c:if test="${sort=='name-desc'}">selected</c:if>>Z-A</option>
 									</select>
 								</form>
-
 								<script>
 									function submitForm() {
 										var form = document.getElementById("productForm");
