@@ -43,6 +43,7 @@
 											<tr>
 												<th scope="col" style="color:white;font-weight: bold;">STT</th>
 												<th scope="col" style="color:white;font-weight: bold;">Tên</th>
+												<th scope="col" style="color:white;font-weight: bold;">Mật khẩu</th>
 												<th scope="col" style="color:white;font-weight: bold;">Email</th>
 												<th scope="col" style="color:white;font-weight: bold;">Số điện thoại</th>
 												<th scope="col" style="color:white;font-weight: bold;">Hành động</th>
@@ -53,12 +54,17 @@
 										<tr>
 											<td scope="row">${stt.index+1}</td>										
 											<td>${o.name }</td>
+											<td>${o.password }</td>
 											<td>${o.email }</td>
 											<td>${o.telephone }</td>
 											<td><c:url value="DeleteUserControll" var="deleteU"></c:url> <a
 												href="${pageContext.request.contextPath}/${deleteU}?id=${o.id}">
 													<button class="btn btn-danger">Xóa</button>
-											</a></td>
+											</a>
+												<a
+														href="EditUser?id=${o.id}">
+													<button class="btn btn-danger">Sửa</button>
+												</a></td>
 										</tr>
 									</c:forEach>
 								</tbody>

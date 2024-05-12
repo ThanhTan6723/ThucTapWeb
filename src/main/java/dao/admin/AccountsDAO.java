@@ -55,14 +55,13 @@ public class AccountsDAO {
 		}
 	}
 
-	public static int updateAccount(String name) {
+	public static int updateAccount(Account account) {
 		int re = 0;
-		String query = "update Accounts set isAdmin=? where name =?";
+		String query = "update Accounts  where id =?";
 		try {
 			Connection conn = JDBCUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, 1);
-			ps.setString(2, name);
+			ps.setInt(1, account.getId());
 			re = ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -73,8 +72,10 @@ public class AccountsDAO {
 	public static void main(String[] args) {
 		AccountsDAO a = new AccountsDAO();
 		// removeAccount("1");
-//		updateAccount(new Account(1, "maisuong", "maisuong", 0, "maisuong@gmail.com", "dian", "01453256"));
+		updateAccount(new Account(1, "maisuong", "maisuong@gmail.com", "dian", "01453256",0));
+/*
 		removeAccount(2);
+*/
 		List<Account> list = a.getListAccount();
 		for (Account account : list) {
 			System.out.println(account.toString());
