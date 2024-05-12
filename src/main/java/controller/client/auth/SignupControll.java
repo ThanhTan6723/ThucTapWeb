@@ -63,11 +63,11 @@ public class SignupControll extends HttpServlet {
             request.setAttribute("error3", "Email đã tồn tại");
         }
 
-        boolean checkInputPass = validatePassword(password);
-        if (!checkInputPass){
-            request.setAttribute("error5", "Mật khẩu phải chứa ít nhất 8 kí tự");
-            request.setAttribute("passw", password);
-        }
+		boolean checkInputPass = validatePassword(password);
+		if (!checkInputPass){
+			request.setAttribute("error5", "Mật khẩu phải chứa ít nhất 8 kí tự");
+			request.setAttribute("passw", password);
+		}
 
         boolean checkRetype = password.equals(rePassword);
         if (!checkRetype) {

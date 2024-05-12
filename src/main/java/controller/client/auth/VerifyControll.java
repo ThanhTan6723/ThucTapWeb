@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/VerifyControll")
+@WebServlet(name = "VerifyControll", value = "/VerifyControll")
 public class VerifyControll extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -26,11 +26,11 @@ public class VerifyControll extends HttpServlet {
 		System.out.println(code);
 
 		if (sum.equals(code)) {
-			System.out.println("verify successful");
+			System.out.println("Verify successful");
 			response.sendRedirect(request.getContextPath() + "/ResetPassword");
 			return;
 		} else {
-			System.out.println("verify fail");
+			System.out.println("Verify fail");
 			String error="OTP code incorrect";
 			request.setAttribute("error", error);
 		}

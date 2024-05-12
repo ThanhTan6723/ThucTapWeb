@@ -1,11 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
+<%@ page contentType="text/html; charset=utf-8" language="java" %>
+<%@ page isELIgnored="false" %>
+
 <!DOCTYPE html>
 <html>
 <head>
-	<jsp:include page="./link/link-verify.jsp"></jsp:include>
+	<jsp:include page="link/link-verify.jsp"></jsp:include>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -40,7 +42,7 @@
 					<input id="n3" name="num3" type="number" disabled />
 					<input id="n4" name="num4" type="number" disabled />
 				</div>
-				<span id="noti2" style="color: red; font-weight: 400px;">${error}</span>
+				<span id="noti2" style="color: red;">${error}</span>
 				<button>Verify OTP</button>
 			</form>
 		</div>
