@@ -12,39 +12,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>Sản phẩm</title>
+	<%@ page isELIgnored="false" %>
 
 <jsp:include page="./link/link.jsp"></jsp:include>
 <style type="text/css">
-.message {
-	font-family: 'Arial', sans-serif;
-	font-size: 18px;
-	color: white;
-	text-align: center;
-	padding: 10px;
-	box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
-	border-radius: 5px;
-	background-color: #FF9900;
-	margin-bottom: 20px;
+	.header__fixed{
+		position: fixed;
+		top: 0;
+		width: 100%;
+		height: 140px;
+		background-color: #fff;
+		z-index: 900;
+		box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+	}
 }
 </style>
 </head>
 
 <body>
-	
-	<jsp:include page="./header/header.jsp"></jsp:include>
 
+<span class="header__fixed">
+	<jsp:include page="header/header.jsp"></jsp:include>
+
+</span>
+
+
+<!-- Shoping Cart Section Begin -->
+<div style="height: 140px"></div>
+<br><br>
 	<section class="shoping-cart spad">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
 					<c:url var="orderplace" value="OrderPlaceControl"></c:url>
 					<h3 style="text-align: center;">
-						Thank you for your order! Click <a
-							href="${pageContext.request.contextPath}/${orderplace}">here</a> to see details
+						Cảm ơn bạn đã đặt hàng! Nhấn <a
+							href="${pageContext.request.contextPath}/${orderplace}" style="color: #7fad39">tại đây</a> để xem chi tiết
 					</h3>
 				</div>
 			</div>
-
 		</div>
 	</section>
 

@@ -1,5 +1,7 @@
 package model;
 
+import dao.client.AccountDAO;
+
 public class Account {
     private int id;
     private String name;
@@ -89,16 +91,16 @@ public class Account {
                 + ", isAdmin: " + isAdmin;
     }
 
-//    public static void main(String[] args) {
-//        Account c = new Account(13, "Capybara", "00000", "capybara@gamil.com", "256688924", 0);
-//
-//		CustomerDAO.getInstance().insert(c);
-//
-//        Account find = new Account(9, "ThanhTan", "6723", "thanhtan8900@gmail.com", "0865603890", 0);
-//        AccountDAO re = new AccountDAO();
-//        System.out.println(re.selectByName(find));
-//        re.checkEmail("thanhtan8900@gmail.com");
-//        re.checkLogin("ThanhTan", "6723");
-//
-//    }
+    public static void main(String[] args) {
+        Account c = new Account(14, "Capybara", "00000", "capybara@gamil.com", "256688924", 0);
+       System.out.println(c.toString());
+	//	CustomerDAO.getInstance().insert(c);
+
+    /*    Account find = new Account(9, "ThanhTan", "6723", "thanhtan8900@gmail.com", "0865603890", 0);
+        AccountDAO re = new AccountDAO();
+        System.out.println(re.selectByName(find));
+        re.checkEmail("thanhtan8900@gmail.com");
+        re.checkLogin("ThanhTan", "6723");
+*/
+    }
 }

@@ -16,7 +16,7 @@ public class LogoutAdControll extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.removeAttribute("accountAd");
 		session.invalidate();
-		response.sendRedirect(request.getContextPath() + "/IndexControl");
+		response.sendRedirect(request.getContextPath() + "/IndexControll");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

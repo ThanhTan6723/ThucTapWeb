@@ -3,16 +3,15 @@
 <html>
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-          <a class="sidebar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" alt="logo" /></a>
-          <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo" href="IndexAdminControll"><img src="assetsAdmin/images/logo.svg" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo-mini" href="IndexAdminControll"><img src="assetsAdmin/images/logo-mini.svg" alt="logo" /></a>
         </div>
         <ul class="nav">
           <li class="nav-item nav-category">
             <span class="nav-link">MENU ADMIN</span>
           </li>
           <li class="nav-item menu-items">
-              <c:url var="index" value="IndexAdminControll"></c:url>
-			<a class="nav-link" href="${pageContext.request.contextPath}/${index}">
+			<a class="nav-link" href="IndexAdminControll">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
               </span>
@@ -20,9 +19,7 @@
             </a>
           </li>
           <li class="nav-item menu-items">
-              <c:url var="usermanager" value="ListUsersControll"></c:url>
-          
-			<a class="nav-link" href="${pageContext.request.contextPath}/${usermanager}">
+			<a class="nav-link" href="./ListUsersControll">
               <span class="menu-icon">
                 <i class="mdi mdi-playlist-play"></i>
               </span>
@@ -30,9 +27,7 @@
             </a>
           </li>
           <li class="nav-item menu-items">
-              <c:url var="listProduct" value="ListProductsControll"></c:url>
-          
-			<a class="nav-link" href="${pageContext.request.contextPath}/${listProduct}">
+			<a class="nav-link" href="./ListProductsControll">
               <span class="menu-icon">
                 <i class="mdi mdi-table-large"></i>
               </span>
@@ -41,7 +36,7 @@
           </li>
               <c:url var="bill" value="BillControll"></c:url>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="${pageContext.request.contextPath}/${bill}">
+            <a class="nav-link" href="BillControll">
               <span class="menu-icon">
                 <i class="mdi mdi-chart-bar"></i>
               </span>
@@ -50,7 +45,7 @@
           </li>
               <c:url var="billDetail" value="BillDetailControll"></c:url>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="${pageContext.request.contextPath}/${billDetail}">
+            <a class="nav-link" href="BillDetailControll">
               <span class="menu-icon">
                 <i class="mdi mdi-contacts"></i>
               </span>

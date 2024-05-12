@@ -3,26 +3,27 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<%@ page isELIgnored="false" %>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	  content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>List Of Users</title>
 <!-- plugins:css -->
 <jsp:include page="./link/link.jsp"></jsp:include>
 <style>
 
-tr,td{
-color:white;
+	tr,td {
+		color: white;
 
-.table-hover:hover {
-     
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng khi rê chuột vào */
-    transition: box-shadow 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà */
+		.table-hover:hover {
 
-}</style>
-</head>
+			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng khi rê chuột vào */
+			transition: box-shadow 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà */
+
+		}
+	}
+</style>
 <body>
 	<div class="container-scroller">
 		<jsp:include page="./header/sidebar.jsp"></jsp:include>

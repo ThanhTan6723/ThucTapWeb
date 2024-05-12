@@ -301,7 +301,7 @@ public class OrderDAO {
 					+ "SELECT O.id , P.id ,O.orderStatus,O.address,O.account_id, P.name, P.price,OD.quantity,OD.price , P.image, P.description, P.category_Id,O.totalMoney,O.date\r\n"
 					+ "FROM Orders O\r\n" + "INNER JOIN OrderDetails OD ON O.id = OD.order_id\r\n"
 					+ "INNER JOIN Products P ON OD.product_id = P.id\r\n"
-					+ "INNER JOIN Category C ON P.category_id = C.id\r\n" + "WHERE O.account_id = ?\r\n"
+					+ "INNER JOIN Category C ON P.category_id = C.id\r\n" + "WHERE P.product_id = ?\r\n"
 					+ "ORDER BY O.id DESC";
 			PreparedStatement ps = connect.prepareStatement(sql);
 			ps.setInt(1, id);
@@ -395,10 +395,12 @@ public class OrderDAO {
 	}
 
 	public static void main(String[] args) {
-//		System.out.println(getListOrder(9));
+		System.out.println(getListOrder(1));
 //		System.out.println(deleteOrderDetail(3));
 //		System.out.println(deleteOrder(3));
 
+/*
 		System.out.println(getCategory(1));
+*/
 	}
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import dao.client.JDBCUtil;
 import model.Account;
 
-public class AccountDAO {
+public class AccountsDAO {
 	public static List<Account> getListAccount() {
 		ArrayList<Account> list = new ArrayList<>();
 		String query = "select * from Accounts where isAdmin=0";
@@ -71,14 +71,17 @@ public class AccountDAO {
 	}
 
 	public static void main(String[] args) {
-		AccountDAO a = new AccountDAO();
+		AccountsDAO a = new AccountsDAO();
 		// removeAccount("1");
 //		updateAccount(new Account(1, "maisuong", "maisuong", 0, "maisuong@gmail.com", "dian", "01453256"));
+		removeAccount(2);
 		List<Account> list = a.getListAccount();
 		for (Account account : list) {
 			System.out.println(account.toString());
 		}
 
+/*
 		System.out.println(updateAccount("thanhtan67"));;
+*/
 	}
 }

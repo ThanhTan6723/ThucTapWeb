@@ -340,6 +340,7 @@ public class AccountDAO {
         System.out.println(checkUserName("thanhtan"));
         AccountDAO acc = new AccountDAO();
         System.out.println(acc.selectAll());
-        ;
+        System.out.println(checkLogin("capy","123"));
+
     }
 }
