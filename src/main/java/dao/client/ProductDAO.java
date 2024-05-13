@@ -339,7 +339,11 @@ public class ProductDAO {
 /*
 		System.out.println(listImageProduct(1));
 */
+/*
 		System.out.println(getInforByIdProvider(3));
+*/
+		System.out.println(getListProducts());
+
 	}
 
 }

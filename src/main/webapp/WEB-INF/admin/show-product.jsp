@@ -38,7 +38,7 @@
 											<div class="card">
 												<div class="card-body">
 													<h5 class="card-title">Danh sách sản phẩm</h5>
-													<div class="table-responsive">
+													<div class="table-responsive" id="product-table">
 														<table class="table table-striped">
 															<thead>
 																<tr>
@@ -74,6 +74,9 @@
 												</c:forEach>
 															</tbody>
 														</table>
+													</div>
+													<div id="pagination-container" class="d-flex justify-content-center mt-4">
+														<!-- Các nút phân trang sẽ được thêm vào đây -->
 													</div>
 												</div>
 											</div>

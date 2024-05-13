@@ -20,9 +20,7 @@ public class DeleteUserControll extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String id = request.getParameter("id");
-
 		AccountsDAO.removeAccount(Integer.parseInt(id));
-		request.setAttribute("accounts", AccountsDAO.getListAccount());
 		request.getRequestDispatcher("WEB-INF/admin/user.jsp").forward(request, response);
 	}
 

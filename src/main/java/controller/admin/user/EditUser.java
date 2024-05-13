@@ -1,5 +1,6 @@
 package controller.admin.user;
 
+import dao.admin.AccountsDAO;
 import dao.client.AccountDAO;
 import model.Account;
 
@@ -28,8 +29,9 @@ public class EditUser extends HttpServlet {
                  String password = request.getParameter("account-password");
                  String email = request.getParameter("account-email");
                  String phone = request.getParameter("account-phone");
-                 Account account = AccountDAO.getAccountById(Integer.parseInt(id));
-                 AccountDAO.update(account);
+                 Account account = new Account(Integer.parseInt(id),name,password,email,phone);
+                 System.out.println(account);
+                 AccountsDAO.updateAccount(account);
                  response.sendRedirect("./ListUsersControll");
     }
 }
