@@ -11,6 +11,7 @@ import model.*;
 
 public class ProductDAO {
 
+/*
 	public static List<Product> getListProducts() {
 		List<Product> list = new ArrayList<>();
 		try (Connection connect = JDBCUtil.getConnection()) {
@@ -59,6 +60,7 @@ public class ProductDAO {
 		}
 		return list;
 	}
+*/
 
 
 	public static Product getProductById(int pid) {
@@ -306,44 +308,74 @@ public class ProductDAO {
 		return null;
 	}
 
+	public static List<Product> getListProducts() {
+		List<Product> list = new ArrayList<>();
+		String query = "select * from Products ";
+		try{
+			Connection con = JDBCUtil.getConnection();
+			PreparedStatement ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
+						new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
+				);
+			}
+		}catch (Exception e){
+
+		}
+		return list;
+	}
+
+	public static List<Product> getProductsByPage(int page, int productsPerPage) {
+		List<Product> list = new ArrayList<>();
+		int start = (page - 1) * productsPerPage;
+		String sql = "SELECT * FROM products LIMIT ? offset ?";
+		try{
+			Connection con = JDBCUtil.getConnection();
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, productsPerPage);
+			ps.setInt(2, start);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
+						new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
+				);
+			}
+		}catch (Exception e){
+
+		}
+		return list;
+	}
+	public  static int getTotalProductCount() {
+		String sql = "SELECT COUNT(*) FROM products";
+		int count = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			PreparedStatement ps = con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				count = rs.getInt(1);
+			}
+		} catch (Exception e) {
 
 
-	public static void main(String[] args) {
-//		removeProduct("2");
-/*		List<Product> list1 = ProductDAO.pagingProduct(3, 2,"price", "asc");
-		for (Product product : list1) {
-			System.out.println(product.toString());
-		}*/
-/*		List<Product> list1 = ProductDAO.relativeProduct(1);
-		for (Product product : list1) {
-			System.out.println(product.toString());
-		}*/
-//		System.out.println(pd.getTotalProduct(3));
-//       System.out.println(pd.getListCategory());
-//		updateProduct(new Product(4,"lẫu thái",190.00,null,"ngon nhức nách",new Category(2)));
-//		insertProduct(new Product(0,"bánh bèo",170.00,"f1.jpg","ngon lắm",new Category(2)));
-/*		List<Product> list = ProductDAO.getListProducts();
-		for (Product product : list) {
-			System.out.println(product);
-		}*/
-/*		System.out.println(getListProducts());
-		System.out.println(ProductDAO.getProductById(1));*/
-/*
-		System.out.println(getCategoryById(1));
-*/
-/*		int count = pd.getTotalProduct();
-		System.out.println(count);*/
- /*       List<Product> list = ProductDAO.pagingProduct(1,8,"price","asc");
-		System.out.println(list);
-*/
-/*
-		System.out.println(listImageProduct(1));
-*/
-/*
-		System.out.println(getInforByIdProvider(3));
-*/
-		System.out.println(getListProducts());
+		}
+		return count;
 
 	}
+        public static void main(String[] args) {
+			System.out.println(getTotalProductCount());
+			System.out.println(getProductsByPage(1,2));
+/*
+		System.out.println(getListProducts());
+*/
+
+	}
+
+
 
 }

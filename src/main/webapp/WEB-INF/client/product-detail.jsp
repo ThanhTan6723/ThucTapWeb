@@ -113,7 +113,7 @@
                             <div class="product__details__quantity">
 
                             </div>
-                            <c:url var="addToCart" value="AddToCartControll"></c:url>
+                            <c:url var="addToCart" value="AddToCartControl"></c:url>
 
                             <form action="${addToCart}?pid=${detail.id}" method="post">
                                 <input style="width: 80px; border-radius: 5px; text-align: center;" type="number" class="single-input-selector" value="1"
@@ -123,16 +123,12 @@
                                     <span><c:out value="Đặt hàng" /></span>
                                 </button>
                             </form>
-<%--
-                            <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
---%>
+
                             <ul>
                                 <li><b>Ngày sản xuất</b> <span>${detail.dateOfImporting}</span></li>
                                 <li><b>Hạn sử dụng</b> <span> ${detail.expriredDay}</span></li>
 
-<%--
-                                <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
---%>
+
                                 <li><b>Cân nặng</b> <span>${detail.weight}</span></li>
                                 <li><b>Share on</b>
                                     <div class="share">
