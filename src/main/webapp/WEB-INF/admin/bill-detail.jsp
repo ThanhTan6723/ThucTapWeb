@@ -1,5 +1,7 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%@ page contentType="text/html; charset=utf-8" language="java" %>
+<%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,12 +14,14 @@
 	<!-- plugins:css -->
 	<jsp:include page="./link/link.jsp"></jsp:include>
 	<style>	
-		tr,td{
-		color:white;
-		.table-hover:hover {
-		    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng khi rê chuột vào */
-		    transition: box-shadow 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà */
-		
+		tr,td {
+			color: white;
+
+			.table-hover:hover {
+				box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng khi rê chuột vào */
+				transition: box-shadow 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà */
+
+			}
 		}
 	</style>
 </head>

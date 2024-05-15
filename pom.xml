@@ -141,6 +141,13 @@
       <version>19.0.0</version>
       <scope>compile</scope>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jdbi/jdbi3-core -->
+    <dependency>
+      <groupId>org.jdbi</groupId>
+      <artifactId>jdbi3-core</artifactId>
+      <version>3.41.0</version>
+    </dependency>
+
 
   </dependencies>
   <build>

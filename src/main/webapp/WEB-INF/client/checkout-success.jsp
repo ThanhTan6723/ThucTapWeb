@@ -40,9 +40,13 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<c:url var="orderplace" value="OrderPlaceControl"></c:url>
+					<br>
+					<br>
+					<img alt="" src="assets/img/thanks.jpeg"
+						 style="vertical-align: middle;">
 					<h3 style="text-align: center;">
-						Cảm bạn đã đặt hàng, click vào link bên dưới để theo dõi đơn hàng đã đặt nhé! <a
-							href="${pageContext.request.contextPath}/${orderplace}">here</a> to see details
+						Cảm ơn bạn đã đặt hàng, click vào link bên dưới để theo dõi đơn hàng đã đặt nhé!<br> <a
+							href="${pageContext.request.contextPath}/${orderplace}">Theo dõi đơn hàng</a>
 					</h3>
 				</div>
 			</div>

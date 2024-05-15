@@ -20,7 +20,7 @@ public class ListUsersControll extends HttpServlet {
 			throws ServletException, IOException {
 		List<Account> accounts = AccountDAO.getListAccount();
 		request.setAttribute("accounts", accounts);
-		request.getRequestDispatcher("/admin/user.jsp").forward(request, response);
+		request.getRequestDispatcher("WEB-INF/admin/user.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

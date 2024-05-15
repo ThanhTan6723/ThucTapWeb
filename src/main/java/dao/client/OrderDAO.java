@@ -183,19 +183,21 @@ public class OrderDAO {
     }
 
     public static void setCurrentIdBill(Order order) {
-        String query = "SELECT IDENT_CURRENT('Orders') as LastID";
+        String query = "SELECT id as LastID FROM Orders ORDER BY id DESC LIMIT 1";
         try {
             Connection conn = JDBCUtil.getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                order.setId(rs.getInt(1));
+            if (rs.next()) {
+                order.setId(rs.getInt("LastID"));
             }
         } catch (Exception e) {
-
+            // Xử lý ngoại lệ
+            e.printStackTrace();
         }
-
     }
+
+
 
     public static void updateOrders(Order order) {
         try {
@@ -394,6 +396,7 @@ public class OrderDAO {
 //		System.out.println(getListOrder(9));
 //		System.out.println(deleteOrderDetail(3));
 //		System.out.println(deleteOrder(3));
+
 
         System.out.println(getCategory(1));
     }

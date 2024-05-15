@@ -19,35 +19,35 @@ import model.OrderDetail;
 
 @WebServlet("/BillControll")
 public class BillControll extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html;charset=UTF-8");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
 
-		String status1 = "Order is awaiting confirmation";
-		String status2 = "Order has been confirmed";
-		String status3 = "Order is Refused";
+        String status1 = "Order is awaiting confirmation";
+        String status2 = "Order has been confirmed";
+        String status3 = "Order is Refused";
 
-		List<Order> listOrders = OrderDAO.getAllOrders(status1);
-		List<Order> listOrdersConfirmed = OrderDAO.getAllOrders(status2);
-		List<Order> listOrdersRefused = OrderDAO.getAllOrders(status3);
-		
-		HttpSession session = request.getSession();
-		session.setAttribute("AllOrders", listOrders);
-		session.setAttribute("OrdersConfirmed", listOrdersConfirmed);
-		session.setAttribute("OrdersRefused", listOrdersRefused);
-		System.out.println(listOrders);
+        List<Order> listOrders = OrderDAO.getAllOrders(status1);
+        List<Order> listOrdersConfirmed = OrderDAO.getAllOrders(status2);
+        List<Order> listOrdersRefused = OrderDAO.getAllOrders(status3);
 
-		request.getRequestDispatcher("/WEB-INF/admin/bill.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        session.setAttribute("AllOrders", listOrders);
+        session.setAttribute("OrdersConfirmed", listOrdersConfirmed);
+        session.setAttribute("OrdersRefused", listOrdersRefused);
+        System.out.println(listOrders);
 
-	}
+        request.getRequestDispatcher("/WEB-INF/admin/bill.jsp").forward(request, response);
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+    }
 
-	}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // TODO Auto-generated method stub
+
+    }
 
 }

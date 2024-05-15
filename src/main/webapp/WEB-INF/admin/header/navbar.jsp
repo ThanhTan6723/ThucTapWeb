@@ -1,12 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%@ page contentType="text/html; charset=utf-8" language="java" %>
+<%@ page isELIgnored="false" %>
+
 <!DOCTYPE html>
 <html>
 
         <nav class="navbar p-0 fixed-top d-flex flex-row">
           <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+            <a class="navbar-brand brand-logo-mini" href="/index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
           </div>
           <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -163,12 +165,12 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
                   
-                    <c:url var="home" value="IndexControl"></c:url>
+                    <c:url var="home" value="IndexControll"></c:url>
                     <c:url var="logout" value="LogoutAdControll"></c:url>
                     <div class="">
-                    <a class="dropdown-item preview-item" href="${pageContext.request.contextPath}/${home}"> <span class="preview-subject mb-1">Home</span></a>
+                    <a class="dropdown-item preview-item" href="/${home}"> <span class="preview-subject mb-1">Home</span></a>
                     <div class="">
-                    <a class="dropdown-item preview-item" href="${pageContext.request.contextPath}/${logout}"> <span class="preview-subject mb-1">Log out</span></a>
+                    <a class="dropdown-item preview-item" href="/${logout}"> <span class="preview-subject mb-1">Log out</span></a>
                     </div>
               </li>
             </ul>
