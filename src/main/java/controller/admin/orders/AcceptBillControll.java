@@ -37,7 +37,6 @@ public class AcceptBillControll extends HttpServlet {
 		OrderDAO.updateOrderStatus(oid, orderStatus);	
 
 		response.sendRedirect(request.getContextPath()+"/BillControll");
-//		request.getRequestDispatcher("/admin/bill.jsp").forward(request, response);
 
 	}
 

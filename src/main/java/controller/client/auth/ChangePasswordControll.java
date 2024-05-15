@@ -51,7 +51,8 @@ public class ChangePasswordControll extends HttpServlet {
 			if (checkPass == true) {
 				if (!enOldPass.equals(enNewPass) && newPass.equals(cfPass)) {
 					account.setPassword(enNewPass);
-					int re = AccountDAO.update(account);
+					AccountDAO accDao = new AccountDAO();
+					int re = accDao.update(account);
 					session.setAttribute("account", account);
 					System.out.println(re);
 					response.sendRedirect(request.getContextPath() + "/ShowProductControl");

@@ -119,7 +119,7 @@
 
     function validatePhone() {
         var phoneNum = document.getElementById("tele").value;
-        var phoneNumPattern = /^[0-9]{10}$/;
+        var phoneNumPattern = /^0\d{9}$/;
         var phoneError = document.getElementById("noti0");
 
         // Kiểm tra xem sđt chỉ chứa số và có đúng 10 chữ số hay không
@@ -198,7 +198,6 @@
             eyeIcon.classList.add("bx-hide");
         }
     }
-
 
 </script>
 </body>

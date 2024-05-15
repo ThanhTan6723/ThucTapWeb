@@ -28,7 +28,7 @@ public class ListProductsControll extends HttpServlet {
 			String nameCategory = ProductDAO.getCategoryById(i.getCategory().getId());
 			categoryNames.put(i.getId(),nameCategory);
 		}
-		request.setAttribute("productlist", list);
+
 		request.setAttribute("categoryNames",categoryNames);
 		request.getRequestDispatcher("WEB-INF/admin/show-product.jsp").forward(request, response);
 

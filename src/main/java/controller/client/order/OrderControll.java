@@ -18,7 +18,7 @@ import model.Account;
 import model.Order;
 import model.OrderDetail;
 
-@WebServlet("/OrderControll")
+@WebServlet(name = "OrderControll", value = "/OrderControll")
 public class OrderControll extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -55,13 +55,14 @@ public class OrderControll extends HttpServlet {
 			order.setOrderStatus(status);
 			order.setAddress(address);
 			order.setOrderNotes(note);
-
+			System.out.println(order);
 			OrderDAO.insertOrder(order);
 			OrderDAO.setCurrentIdBill(order);
 			double total = 0;
 			for (Entry<Integer, OrderDetail> entry : map.entrySet()) {
 				OrderDetail orderDetail = entry.getValue();
 				orderDetail.setOrder(order);
+				System.out.println(orderDetail);
 
 				OrderDAO.insertOrderdetail(orderDetail);
 
@@ -74,7 +75,9 @@ public class OrderControll extends HttpServlet {
 			map.clear();
 			session.setAttribute("cart", map);
 			session.setAttribute("size", 0);
-			request.getRequestDispatcher("CheckoutSuccess").forward(request,response);
+
+			response.sendRedirect(request.getContextPath() + "/CheckOutSuccessControll");
+
 			return;
 
 		}
