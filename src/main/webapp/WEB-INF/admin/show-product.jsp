@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<%@ page isELIgnored="false" %>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
@@ -13,7 +14,12 @@
 <title>List Of Products</title>
 <!-- plugins:css -->
 <jsp:include page="./link/link.jsp"></jsp:include>
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/2.0.6/css/dataTables.bootstrap5.css">
+	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+	<script defer src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+	<script defer src="https://cdn.datatables.net/2.0.6/js/dataTables.bootstrap5.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 	<div class="container-scroller">
@@ -39,20 +45,20 @@
 											<div class="card">
 												<div class="card-body">
 													<h5 class="card-title">Danh sách sản phẩm</h5>
-													<div class="table-responsive">
-														<table class="table table-striped">
+													<div class="table-responsive" id="product-table">
+														<table id="example" class="table table-striped" style="width:100%">
 															<thead>
 																<tr>
 																	<th scope="col">Mã sản phẩm</th>
 																	<th scope="col">Tên sản phẩm</th>
 																	<th scope="col">Hình ảnh</th>
-																	<th scope="col">Mã loại</th>
+																	<th scope="col">Tên loại</th>
 																	<th scope="col">Giá</th>
 
 																	<th scope="col">Hành động</th>
 																</tr>
 															</thead>
-															<tbody>
+															<tbody id="product-list">
 																<c:forEach items="${productlist}" var="product">
 																	<tr>
 																		<th scope="row">${product.id }</th>
@@ -61,16 +67,14 @@
 																			style="width: 110px; height: 67px; object-fit: cover; border: 1px solid #fff;"
 																			src="${product.image}"
 																			alt="${product.name}"></td>
-																		<td>${product.id}</td>
+																		<td>${categoryNames[product.id]}</td>
 																		<td>${product.price}</td>
 
-											<td><c:url var="deletePA"
-													value="DeleteProductControll"></c:url> <a
-												href="${pageContext.request.contextPath}/${deletePA}?id=${product.id}"><button
-																class="btn btn-danger">Xóa</button></a> <c:url
-											var="editPA" value="EditProductControll"></c:url>
+											<td><a
+												href="DeleteProductControll?id=${product.id}"><button
+																class="btn btn-danger">Xóa</button></a>
 														<a
-														href="${pageContext.request.contextPath}/${editPA}?id=${product.id}">
+														href="EditProductControll?id=${product.id}">
 															<button class="btn btn-success">Sửa</button>
 													</a></td>
 													</tr>
@@ -78,6 +82,7 @@
 															</tbody>
 														</table>
 													</div>
+
 												</div>
 											</div>
 										</div>
@@ -93,6 +98,9 @@
 		<!-- page-body-wrapper ends -->
 	</div>
 	<jsp:include page="./footer/footer.jsp"></jsp:include>
+	<script>
+		new DataTable('#example');
 
+	</script>
 </body>
 </html>

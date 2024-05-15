@@ -28,6 +28,7 @@ public class OrderPlaceControl extends HttpServlet {
 		if (session != null && session.getAttribute("account") != null) {
 			Account account = (Account) session.getAttribute("account");
 			int account_id = account.getId();
+			System.out.println("account"+account);
 			List<OrderDetail> list = OrderDAO.getListOrder(account_id);
 			System.out.println("List orders: "+list);
 			request.setAttribute("listProductOrder", list);

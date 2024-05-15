@@ -41,9 +41,11 @@ public class AddProductControll extends HttpServlet {
 		String product_price = request.getParameter("product-price");
 		String product_desc = request.getParameter("product-desc");
 
+/*
 		Category category = new Category(Integer.parseInt(product_category), product_name);
 		Product p = new Product(Integer.parseInt(product_id), product_name, Double.parseDouble(product_price), null,
 				product_desc, category);
+*/
 
 //		Part part = request.getPart("product-image");
 //		String realPath = request.getServletContext().getRealPath("/images");
@@ -54,7 +56,7 @@ public class AddProductControll extends HttpServlet {
 //		}
 //		part.write(realPath + "/" + filename);
 //		p.setImage("images/" + filename);
-		ProductDAO.insertProduct(p);
+/*		ProductDAO.insertProduct(p);*/
 		HttpSession session = request.getSession();
 		String sessionID = ";jsessionid=" + session.getId();
 		response.sendRedirect(request.getContextPath() + "/ListProductsControll" + sessionID);

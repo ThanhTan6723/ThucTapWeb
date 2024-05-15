@@ -83,6 +83,7 @@
 					<div class="sidebar__item">
 						<h4>Những loại rau quả</h4>
 						<ul>
+
 							<li><a href="#">Rau xanh lá</a></li>
 							<li><a href="#">Quả dâu</a></li>
 							<li><a href="#">Quả lựu</a></li>
@@ -199,7 +200,7 @@
 									<c:forEach var="b" items="${listRandProduct}">
 										<a href="${detail}?pid=${b.id}" class="latest-product__item">
 											<div class="latest-product__item__pic">
-												<img src="${b.image}" alt="">
+												<img src="${b.image}" alt="" style="width: 200px;height: 300px">
 											</div>
 											<div class="latest-product__item__text">
 												<h6>${b.name}</h6>
@@ -278,7 +279,6 @@
 										<option value="name-desc" <c:if test="${sort=='name-desc'}">selected</c:if>>Z-A</option>
 									</select>
 								</form>
-
 								<script>
 									function submitForm() {
 										var form = document.getElementById("productForm");
@@ -317,7 +317,7 @@
 									<h5>${o.price}</h5>
 								</div>
 								<div class="text-center">
-									<c:url var="addToCart" value="/AddToCartControll"></c:url>
+									<c:url var="addToCart" value="/AddToCartControl"></c:url>
 									<form action="${addToCart}?pid=${o.id}" method="post" enctype="multipart/form-data">
 										<button
 												style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; font-weight: 700"
