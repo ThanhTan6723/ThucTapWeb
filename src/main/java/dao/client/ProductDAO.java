@@ -368,11 +368,9 @@ public class ProductDAO {
 
 	}
         public static void main(String[] args) {
-			System.out.println(getTotalProductCount());
-			System.out.println(getProductsByPage(1,2));
-/*
+/*			System.out.println(getTotalProductCount());
+			System.out.println(getProductsByPage(1,2));*/
 		System.out.println(getListProducts());
-*/
 
 	}
 
