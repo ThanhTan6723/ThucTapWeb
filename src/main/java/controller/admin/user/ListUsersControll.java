@@ -17,12 +17,13 @@ public class ListUsersControll extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+
 		List<Account> accounts = AccountsDAO.getListAccount();
 		String json = new Gson().toJson(accounts);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(json);
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

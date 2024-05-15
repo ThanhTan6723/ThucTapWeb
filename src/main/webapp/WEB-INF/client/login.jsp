@@ -39,7 +39,7 @@
 
                 <div class="form-link">
                     <c:url var="forgot" value="/WEB-INF/client/forgot-password.jsp"></c:url>
-                    <a href="${pageContext.request.contextPath}/${forgot}" class="forgot-pass">Forgot password?</a>
+                    <a href="/ForgotControll" class="forgot-pass">Forgot password?</a>
                 </div>
                 <div class="form-link">
                     <span style="color: red; font-weight: 400;background-color:seashell">${error}</span>

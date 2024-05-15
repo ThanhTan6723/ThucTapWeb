@@ -1,4 +1,11 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+
+
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%@ page contentType="text/html; charset=utf-8" language="java" %>
+<%@ page isELIgnored="false" %>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

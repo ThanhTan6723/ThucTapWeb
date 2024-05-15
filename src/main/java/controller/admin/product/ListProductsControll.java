@@ -38,12 +38,14 @@ public class ListProductsControll extends HttpServlet {
 			jsonObject.addProperty("image", product.getImage());
 			jsonObject.addProperty("description", product.getDescription());
 			jsonObject.addProperty("categoryName", ProductDAO.getCategoryById(product.getCategory().getId())); // Thêm tên category vào JSON
-			// Thêm các trường khác nếu cần
+			
 			jsonArray.add(jsonObject);
 		}
+
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(jsonArray.toString());
+
 	}
 
 

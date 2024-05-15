@@ -1,7 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>	
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<%@ page contentType="text/html; charset=utf-8" language="java" %>
+<%@ page isELIgnored="false" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,16 +30,16 @@
                     <header>Your profile</header>
                     <form action="${pageContext.request.contextPath}/${profile}" method="post">
                         <div class="field input-field">
-                            <input name="name" type="text" placeholder="Name" value="${name}" class="input">
-	                        <span style="color: red; font-weight: 400px;">${error2}</span>
+                            <input name="name" type="text" placeholder="Tên" value="${name}" class="input">
+	                        <span style="color: red;">${error2}</span>
                         </div>
                         <div class="field input-field">
                             <input id="mail" name="email" type="email" placeholder="Email" value="${email}" onkeyup="validateEmail()" class="input">
-	                        <span id="noti" style="color: red; font-weight: 400px;">${error3}</span>
+	                        <span id="noti" style="color: red;">${error3}</span>
                         </div>
                         <div class="field input-field">
-                            <input name="phone" type="tel" placeholder="Phone" value="${phone}" class="input" id="tele"  onkeyup="validatePhone()">
-	                        <span id="noti1" style="color: red; font-weight: 400px;">${error4}</span>
+                            <input name="phone" type="tel" placeholder="Số điện thoại" value="${phone}" class="input" id="tele"  onkeyup="validatePhone()">
+	                        <span id="noti1" style="color: red;">${error4}</span>
                         </div>
 
 						
@@ -89,21 +91,21 @@
         // save length
         emailInput.dataset.prevLength = email.length;
     }
-    
-	function validatePhone() {
-	    var phoneNum = document.getElementById("tele").value;
-	    var phoneNumPattern = /^[0-9]{10}$/;
-	    var phoneError = document.getElementById("noti1");
 
-	    // Kiểm tra xem phoneNum chỉ chứa số và có đúng 10 chữ số không
-	    if (!phoneNumPattern.test(phoneNum)) {
-	        phoneError.innerHTML = "Phone is in wrong format";
-	        return false;
-	    } else {
-	        phoneError.innerHTML = "";
-	        return true;
-	    }
-	}
+    function validatePhone() {
+        var phoneNum = document.getElementById("tele").value;
+        var phoneNumPattern = /^0\d{9}$/;
+        var phoneError = document.getElementById("noti0");
+
+        // Kiểm tra xem sđt chỉ chứa số và có đúng 10 chữ số hay không
+        if (!phoneNumPattern.test(phoneNum)) {
+            phoneError.innerHTML = "Số điện thoại sai định dạng";
+            return false;
+        } else {
+            phoneError.innerHTML = "";
+            return true;
+        }
+    }
 		
 		function validateRePass() {
 			var passW = document.getElementById("pass").value;
