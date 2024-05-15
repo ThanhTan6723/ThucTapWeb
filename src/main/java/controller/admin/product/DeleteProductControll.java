@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
 
+import dao.admin.AccountsDAO;
+import dao.client.AccountDAO;
 import dao.client.ProductDAO;
+import model.Account;
 import model.Product;
 
 @WebServlet("/DeleteProductControll")
@@ -20,9 +23,8 @@ public class DeleteProductControll extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String pid = request.getParameter("id");
+
 		ProductDAO.removeProduct(pid);
-		List<Product> list = ProductDAO.getListProducts();
-		request.setAttribute("productlist", list);
 		request.getRequestDispatcher("WEB-INF/admin/show-product.jsp").forward(request, response);
 	}
 

@@ -30,7 +30,7 @@
             </a>
           </li>
           <li class="nav-item menu-items">
-			<a class="nav-link" href="./ListProductsControll">
+			<a class="nav-link" href="./LoadProductsPage">
               <span class="menu-icon">
                 <i class="mdi mdi-table-large"></i>
               </span>
