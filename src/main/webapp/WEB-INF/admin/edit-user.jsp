@@ -72,7 +72,7 @@
 
                                         <div class="form-footer">
                                             <a class="btn btn-danger"
-                                               href="ListUsersControll">Hủy</a>
+                                               href="./LoadUserPage">Hủy</a>
                                             <button type="submit" class="btn btn-success">Cập
                                                 nhật</button>
                                         </div>

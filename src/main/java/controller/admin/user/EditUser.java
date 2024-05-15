@@ -32,6 +32,6 @@ public class EditUser extends HttpServlet {
                  Account account = new Account(Integer.parseInt(id),name,password,email,phone);
                  System.out.println(account);
                  AccountsDAO.updateAccount(account);
-                 response.sendRedirect("./ListUsersControll");
+                 response.sendRedirect("./LoadUserPage");
     }
 }
