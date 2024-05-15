@@ -92,7 +92,7 @@
                         <div class="product__details__quantity">
 
                         </div>
-                        <c:url var="addToCart" value="/AddToCartControl"></c:url>
+                        <c:url var="addToCart" value="AddToCartControll"></c:url>
 
                         <form action="${addToCart}?pid=${detail.id}" method="post">
                             <input style="width: 80px; border-radius: 5px; text-align: center;" type="number" class="single-input-selector" value="1"

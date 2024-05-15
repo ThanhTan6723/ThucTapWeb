@@ -64,7 +64,7 @@
 				<div class="breadcrumb__text">
 					<h2>Sản phẩm</h2>
 					<div class="breadcrumb__option">
-						<a href="/IndexControll">Trang chủ</a>
+						<a href="./IndexControll">Trang chủ</a>
 						<span>Sản phẩm</span>
 					</div>
 				</div>
