@@ -174,18 +174,7 @@ public class ProductDAO {
 		return 0;
 	}
 
-	public static void removeProduct(String pid) {
-		String query = "DELETE FROM Products WHERE id = ?";
-		try {
-			Connection conn = JDBCUtil.getConnection();
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, pid);
-			ps.executeUpdate();
-			ps.close();
-		} catch (Exception e) {
 
-		}
-	}
 
 
 	public static List<Category> getListCategory() {
@@ -327,51 +316,40 @@ public class ProductDAO {
 		}
 		return list;
 	}
-
-	public static List<Product> getProductsByPage(int page, int productsPerPage) {
-		List<Product> list = new ArrayList<>();
-		int start = (page - 1) * productsPerPage;
-		String sql = "SELECT * FROM products LIMIT ? offset ?";
+    public static List<Provider> getListProvider(){
+		List<Provider> providerList = new ArrayList<>();
+		String sql = "select * from Providers";
 		try{
 			Connection con = JDBCUtil.getConnection();
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, productsPerPage);
-			ps.setInt(2, start);
 			ResultSet rs = ps.executeQuery();
-
-			while (rs.next()) {
-				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
-						new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
-				);
+			while(rs.next()){
+				providerList.add(new Provider(rs.getInt(1),rs.getString(2),rs.getString(3)));
 			}
 		}catch (Exception e){
 
 		}
-		return list;
+		return providerList;
 	}
-	public  static int getTotalProductCount() {
-		String sql = "SELECT COUNT(*) FROM products";
-		int count = 0;
+	public static void removeProduct(int pid) {
+		String query = "DELETE FROM Products WHERE id = ?";
 		try {
-			Connection con = JDBCUtil.getConnection();
-			PreparedStatement ps = con.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				count = rs.getInt(1);
-			}
+			Connection conn = JDBCUtil.getConnection();
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(1, pid);
+			ps.executeUpdate();
 		} catch (Exception e) {
 
-
 		}
-		return count;
-
 	}
         public static void main(String[] args) {
 /*			System.out.println(getTotalProductCount());
 			System.out.println(getProductsByPage(1,2));*/
+			removeProduct(1);
 		System.out.println(getListProducts());
-
+/*
+			System.out.println(getListProvider());
+*/
 	}
 
 

@@ -89,7 +89,7 @@
             var id = $(this).data('id');
             $.ajax({
                 url: 'DeleteUserControll',
-                type: 'get',
+                type: 'post',
                 data: { id: id },
                 success: function(response) {
                     table.ajax.reload(); // Tải lại dữ liệu bảng
@@ -97,6 +97,7 @@
             });
         });
     });
+
 </script>
 </body>
 </html>

@@ -23,7 +23,7 @@
               <span class="menu-icon">
                 <i class="mdi mdi-playlist-play"></i>
               </span>
-              <span class="menu-title">User Manager</span>
+              <span class="menu-title">Quản lý người dùng</span>
             </a>
           </li>
           <li class="nav-item menu-items">
@@ -31,7 +31,7 @@
               <span class="menu-icon">
                 <i class="mdi mdi-table-large"></i>
               </span>
-              <span class="menu-title">List Products</span>
+              <span class="menu-title">Kho</span>
             </a>
           </li>
               <c:url var="bill" value="BillControll"></c:url>

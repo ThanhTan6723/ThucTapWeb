@@ -1,10 +1,11 @@
+
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Danh Sách Sản Phẩm</title>
+	<title>Danh Sách Người Dùng</title>
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
 	<style>
 
@@ -87,7 +88,6 @@
 					}}
 			]
 		});
-
 		$('#example').on('click', '.delete-button', function() {
 			var id = $(this).data('id');
 			$.ajax({
@@ -103,3 +103,4 @@
 </script>
 </body>
 </html>
+
