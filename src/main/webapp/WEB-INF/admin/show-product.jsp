@@ -1,106 +1,112 @@
+
+
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%@ page contentType="text/html; charset=utf-8" language="java" %>
 <%@ page isELIgnored="false" %>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<%@ page isELIgnored="false" %>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>List Of Products</title>
-<!-- plugins:css -->
-<jsp:include page="./link/link.jsp"></jsp:include>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/2.0.6/css/dataTables.bootstrap5.css">
-	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-	<script defer src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
-	<script defer src="https://cdn.datatables.net/2.0.6/js/dataTables.bootstrap5.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Danh Sách Sản Phẩm</title>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+	<style>
+
+		table.dataTable thead th {
+			background-color: #343a40; /* Màu nền của tiêu đề cột */
+			color: white; /* Màu chữ của tiêu đề cột */
+		}
+
+		table.dataTable tbody td {
+			color: black; /* Màu chữ của dữ liệu */
+		}
+
+		tr:hover {
+			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng khi rê chuột vào */
+			transition: box-shadow 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà */
+		}
+	</style>
+	<jsp:include page="./link/link.jsp"></jsp:include>
+
 </head>
-<body>
-	<div class="container-scroller">
-		<jsp:include page="./header/sidebar.jsp"></jsp:include>
-		<div class="container-fluid page-body-wrapper">
-			<jsp:include page="./header/navbar.jsp"></jsp:include>
-			<div class="main-panel">
-
-				<div class="content-wrapper">
-					<div class="container-fluid">
-
-						<div class="row mt-3">
-							<div class="col-lg-12">
-								<div class="card">
-									<div class="row mt-3">
-										<div class="col-lg-12">
-											<c:url value="AddProductControll" var="addP"></c:url>
-											<a href="${pageContext.request.contextPath}/${addP}">
-												<button class="add-catalog">Thêm sản phẩm</button>
-											</a>
-										</div>
-										<div class="col-lg-12">
-											<div class="card">
-												<div class="card-body">
-													<h5 class="card-title">Danh sách sản phẩm</h5>
-													<div class="table-responsive" id="product-table">
-														<table id="example" class="table table-striped" style="width:100%">
-															<thead>
-																<tr>
-																	<th scope="col">Mã sản phẩm</th>
-																	<th scope="col">Tên sản phẩm</th>
-																	<th scope="col">Hình ảnh</th>
-																	<th scope="col">Tên loại</th>
-																	<th scope="col">Giá</th>
-
-																	<th scope="col">Hành động</th>
-																</tr>
-															</thead>
-															<tbody id="product-list">
-																<c:forEach items="${productlist}" var="product">
-																	<tr>
-																		<th scope="row">${product.id }</th>
-																		<td>${product.name }</td>
-																		<td><img
-																			style="width: 110px; height: 67px; object-fit: cover; border: 1px solid #fff;"
-																			src="${product.image}"
-																			alt="${product.name}"></td>
-																		<td>${categoryNames[product.id]}</td>
-																		<td>${product.price}</td>
-
-											<td><a
-												href="DeleteProductControll?id=${product.id}"><button
-																class="btn btn-danger">Xóa</button></a>
-														<a
-														href="EditProductControll?id=${product.id}">
-															<button class="btn btn-success">Sửa</button>
-													</a></td>
-													</tr>
-												</c:forEach>
-															</tbody>
-														</table>
-													</div>
-
-												</div>
-											</div>
-										</div>
-									</div>
+<body >
+<div class="container-scroller">
+	<jsp:include page="./header/sidebar.jsp"></jsp:include>
+	<div class="container-fluid page-body-wrapper">
+		<jsp:include page="./header/navbar.jsp"></jsp:include>
+		<div class="main-panel" >
+			<div class="content-wrapper" >
+				<div class="row" >
+					<div class="col-12 grid-margin">
+						<div class="card">
+							<div class="card-body" style="background-color: white">
+								<div class="table-responsive" >
+									<h4 class="card-title">Danh Sách Sản Phẩm</h4>
+									<table id="example" class="display" style="width:100%;">
+										<thead>
+										<tr>
+											<th >Mã</th>
+											<th >Tên</th>
+											<th>Hình ảnh</th>
+											<th >Loại</th>
+											<th>Giá</th>
+											<th>Hành động</th>
+										</tr>
+										</thead>
+										<tbody id="user-table-body">
+										</tbody>
+									</table>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- main-panel ends -->
 		</div>
-		<!-- page-body-wrapper ends -->
 	</div>
-	<jsp:include page="./footer/footer.jsp"></jsp:include>
-	<script>
-		new DataTable('#example');
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script>
+	$(document).ready(function() {
+		var table = $('#example').DataTable({
+			ajax: {
+				url: 'ListProductsControll',
+				dataSrc: ''
+			},
+			columns: [
+				{ data:'id'},
+				{ data: 'name' },
+				{
+					data: 'image',
+					render: function(data, type, row) {
+						return '<img src="' + data + '" alt="' + row.name + '" style="max-width:100px; max-height:80px;">';
+					}
+				},
+				{ data: 'categoryName'},
+				{ data: 'price' },
+				{ data: null, render: function(data, type, row) {
+						return `<button class="delete-button btn btn-danger" data-id="${row.id}" style="height:30px;">Xóa</button>
+                                <a href="EditProductControll?id=${row.id}"><button class="btn btn-danger" style="height:30px;">Sửa</button></a>`;
+					}}
+			]
+		});
 
-	</script>
+		$('#example').on('click', '.delete-button', function() {
+			var id = $(this).data('id');
+			$.ajax({
+				url: 'DeleteProductControll',
+				type: 'get',
+				data: { id: id },
+				success: function(response) {
+					table.ajax.reload(); // Tải lại dữ liệu bảng
+				}
+			});
+		});
+	});
+</script>
 </body>
 </html>
