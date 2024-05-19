@@ -48,7 +48,7 @@ public class ForgotPasswordControll extends HttpServlet {
 				Email.sendEmail(email, "Verification", code);
 				request.getSession().setAttribute("email", email);
 				request.getSession().setAttribute("randomCode", randomCode);
-				response.sendRedirect(request.getContextPath() + "/client/verify.jsp");
+				response.sendRedirect(request.getContextPath() + "/VerifyControll");
 				return;
 			}
 		}

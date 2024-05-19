@@ -1,124 +1,102 @@
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<%@ page contentType="text/html; charset=utf-8" language="java" %>
-<%@ page isELIgnored="false" %>
-
+<%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>List Of Users</title>
-    <!-- plugins:css -->
-<%--    <jsp:include page="./link/link.jsp"></jsp:include>--%>
-    <!-- Thư viện jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Người Dùng</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <style>
 
-    <!-- DataTables -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+        table.dataTable thead th {
+            background-color: #343a40; /* Màu nền của tiêu đề cột */
+            color: white; /* Màu chữ của tiêu đề cột */
+        }
 
-    <link href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.css" rel="stylesheet">
+        table.dataTable tbody td {
+            color: black; /* Màu chữ của dữ liệu */
+        }
 
-<%--    <style>--%>
+        tr:hover {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng khi rê chuột vào */
+            transition: box-shadow 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà */
+        }
+    </style>
+    <jsp:include page="./link/link.jsp"></jsp:include>
 
-<%--        tr, td {--%>
-<%--            color: white;--%>
-
-<%--            .table-hover:hover {--%>
-
-<%--                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng khi rê chuột vào */--%>
-<%--                transition: box-shadow 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà */--%>
-
-<%--            }--%>
-<%--        }--%>
-<%--    </style>--%>
 </head>
-<body>
+<body >
 <div class="container-scroller">
-<%--    <jsp:include page="./header/sidebar.jsp"></jsp:include>--%>
+    <jsp:include page="./header/sidebar.jsp"></jsp:include>
     <div class="container-fluid page-body-wrapper">
-<%--        <jsp:include page="./header/navbar.jsp"></jsp:include>--%>
-        <div class="main-panel">
-            <div class="content-wrapper">
-                <div class="row ">
+        <jsp:include page="./header/navbar.jsp"></jsp:include>
+        <div class="main-panel" >
+            <div class="content-wrapper" >
+                <div class="row" >
                     <div class="col-12 grid-margin">
                         <div class="card">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <h3 class="card-title">List Users</h3>
-                                    <c:url value="DeleteUserControll" var="deleteU"></c:url> <a
-                                            href="${pageContext.request.contextPath}/${deleteU}?id=${o.id}">
-                                        <button class="btn btn-danger">Thêm người dùng</button>
-                                    <br>
-                                    </a>
-                                    <table id="example" class="display" style="width:100%">
+                            <div class="card-body" style="background-color: white">
+                                <div class="table-responsive" >
+                                    <h4 class="card-title">Danh Sách Người Dùng</h4>
+                                    <table id="example" class="display" style="width:100%;">
                                         <thead>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>Password</th>
-                                            <th>Action</th>
+                                            <th >STT</th>
+                                            <th >Tên</th>
+                                            <th>Mật khẩu</th>
+                                            <th >Email</th>
+                                            <th >Số điện thoại</th>
+                                            <th>Hành động</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
-                                        <c:forEach items="${accounts}" var="o" varStatus="stt">
-                                            <tr>
-                                                <td scope="row">${stt.index+1}</td>
-                                                <td>${o.name }</td>
-                                                <td>${o.email }</td>
-                                                <td>${o.telephone }</td>
-                                                <td>${o.password}</td>
-                                                <td><c:url value="DeleteUserControll" var="deleteU"></c:url> <a
-                                                        href="${pageContext.request.contextPath}/${deleteU}?id=${o.id}">
-                                                    <button class="btn btn-danger">Sửa</button>
-                                                </a>
-                                                <c:url value="DeleteUserControll" var="deleteU"></c:url> <a
-                                                        href="${pageContext.request.contextPath}/${deleteU}?id=${o.id}">
-                                                    <button class="btn btn-danger">Xóa</button>
-                                                </a></td>
-                                            </tr>
-                                        </c:forEach>
+                                        <tbody id="user-table-body">
                                         </tbody>
                                     </table>
-
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-<%--            <jsp:include page="./footer/footer.jsp"></jsp:include>--%>
-
         </div>
-        <!-- main-panel ends -->
-
     </div>
-    <!-- page-body-wrapper ends -->
-
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 <script>
-    $(document).ready( function () {
-        $('#example').DataTable();
-    } );
-    $(document).ready( function () {
-        $('#example').DataTable({
-            "paging": true,         // Hiển thị phân trang
-            "ordering": true,       // Cho phép sắp xếp
-            "searching": true       // Cho phép tìm kiếm
-            // Thêm các tùy chọn khác tại đây
+    $(document).ready(function() {
+        var table = $('#example').DataTable({
+            ajax: {
+                url: 'ListUsersControll',
+                dataSrc: ''
+            },
+            columns: [
+                { data: null, render: function (data, type, row, meta) {
+                        return meta.row + 1; // Tự động tăng số thứ tự
+                    }},
+                { data: 'name' },
+                { data: 'password' },
+                { data: 'email' },
+                { data: 'telephone' },
+                { data: null, render: function(data, type, row) {
+                        return `<button class="delete-button btn btn-danger" data-id="${row.id}" style="height:30px;">Xóa</button>
+                                <a href="EditUser?id=${row.id}"><button class="btn btn-danger" style="height:30px;">Sửa</button></a>`;
+                    }}
+            ]
         });
-    } );
 
+        $('#example').on('click', '.delete-button', function() {
+            var id = $(this).data('id');
+            $.ajax({
+                url: 'DeleteUserControll',
+                type: 'get',
+                data: { id: id },
+                success: function(response) {
+                    table.ajax.reload(); // Tải lại dữ liệu bảng
+                }
+            });
+        });
+    });
 </script>
-<script defer src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
 </body>
 </html>

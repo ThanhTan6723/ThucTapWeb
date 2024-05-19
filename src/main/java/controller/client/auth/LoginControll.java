@@ -54,7 +54,11 @@ public class LoginControll extends HttpServlet {
 
         if (userName != null && passWord != null && !checkSpaceName && !checkSpacePass) {
             String enpass = Encode.toSHA1(passWord);
-            Account account = AccountDAO.checkLogin(userName, enpass);
+            AccountDAO accountDAO = new AccountDAO();
+            Account account = new Account();
+            account.setName(userName);
+            account.setPassword(enpass);
+            account = accountDAO.login(account);
 
             if (account != null) {
                 // not Admin

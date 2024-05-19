@@ -34,8 +34,7 @@
         <div class="form-content">
             <header>Forgot password</header>
             <div class="form-link">
-					<span style="font-size: 18px; color: #3472ac;"><b>Please
-							enter your email to reset a new password</b></span>
+					<span style="font-size: 18px; color: #3472ac;"><b>Vui lòng nhập email của bạn để lấy lại mật khẩu</b></span>
             </div>
             <form action="${forgot}" method="get">
                 <div class="field input-field">
@@ -78,7 +77,7 @@
             emailError.innerHTML = "";
         } else {
             if (!emailRegex.test(email)) {
-                emailError.innerHTML = "Email structure is incorrect";
+                emailError.innerHTML = "Email không đúng định dạng";
             } else {
                 emailError.innerHTML = "";
             }

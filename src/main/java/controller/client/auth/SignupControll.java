@@ -1,8 +1,6 @@
 package controller.client.auth;
 
 import java.io.IOException;
-import java.util.Random;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,23 +37,23 @@ public class SignupControll extends HttpServlet {
         boolean checkPass = password.trim().isEmpty();
         boolean checkRepass = rePassword.trim().isEmpty();
 
-        if (name == null || checkName) {
+        if (checkName) {
             request.setAttribute("error2", "Vui lòng nhập tên");
         }
-        if (email == null || checkEmail) {
+        if (checkEmail) {
             request.setAttribute("error3", "Vui lòng nhập email");
         }
-        if (phoneNumber == null || checkPhone) {
+        if (checkPhone) {
             request.setAttribute("error4", "Vui lòng nhập sđt");
         }
-        if (password == null || checkPass) {
+        if (checkPass) {
             request.setAttribute("error5", "Vui lòng nhập mật khẩu");
         }
-        if (rePassword == null || checkRepass) {
+        if (checkRepass) {
             request.setAttribute("error6", "Vui lòng nhập xác nhận mật khẩu");
         }
-        boolean checkNameExits = AccountDAO.checkUserName(name);
-        if (checkNameExits) {
+        boolean checkNameExists = AccountDAO.checkUserName(name);
+        if (checkNameExists) {
             request.setAttribute("error2", "Tên đã tồn tại");
         }
         boolean checkEmailAvailable = AccountDAO.checkEmail(email);
@@ -63,11 +61,12 @@ public class SignupControll extends HttpServlet {
             request.setAttribute("error3", "Email đã tồn tại");
         }
 
-		boolean checkInputPass = validatePassword(password);
-		if (!checkInputPass){
-			request.setAttribute("error5", "Mật khẩu phải chứa ít nhất 8 kí tự");
-			request.setAttribute("passw", password);
-		}
+        String passwordValidationResult = validatePassword(password);
+
+        if (!passwordValidationResult.isEmpty()) {
+            request.setAttribute("error5", passwordValidationResult);
+            request.setAttribute("passw", password);
+        }
 
         boolean checkRetype = password.equals(rePassword);
         if (!checkRetype) {
@@ -78,9 +77,8 @@ public class SignupControll extends HttpServlet {
         request.setAttribute("email", email);
         request.setAttribute("phone", phoneNumber);
 
-        if (name != null && email != null && phoneNumber != null && password != null && rePassword != null && !checkName
-                && !checkEmail && !checkPhone && !checkPass && !checkRepass && !checkNameExits && !checkEmailAvailable
-                && checkRetype) {
+        if (!checkName && !checkEmail && !checkPhone && !checkPass && !checkRepass &&
+                !checkNameExists && !checkEmailAvailable && checkRetype && passwordValidationResult.isEmpty()) {
 
             String enpass = Encode.toSHA1(password);
 
@@ -90,8 +88,6 @@ public class SignupControll extends HttpServlet {
             account.setEmail(email);
             account.setTelephone(phoneNumber);
             account.setIsAdmin(0);
-//			account.setIsDeleted(0);
-            System.out.println(account);
             AccountDAO.insertAccount(account);
             response.sendRedirect(request.getContextPath() + "/LoginControll");
             return;
@@ -99,33 +95,50 @@ public class SignupControll extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/client/signup.jsp").forward(request, response);
     }
 
-    private boolean validatePassword(String password) {
+    private String validatePassword(String password) {
+        StringBuilder errorMessage = new StringBuilder();
+
         if (password == null || password.isEmpty()) {
-            return false;
+            return "Mật khẩu không được để trống.<br>";
         }
 
-        // Kiểm tra độ dài của mật khẩu
         if (password.length() < 8) {
-            return false;
+            errorMessage.append("Mật khẩu phải chứa ít nhất 8 kí tự.<br>");
         }
 
-        // Kiểm tra xem mật khẩu có chứa ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt hay không
-        boolean containsUppercase = false;
-        boolean containsLowercase = false;
-        boolean containsDigit = false;
-        boolean containsSpecialCharacter = false;
+        boolean hasUppercase = false;
+        boolean hasLowercase = false;
+        boolean hasDigit = false;
+        boolean hasSpecialChar = false;
 
         for (char c : password.toCharArray()) {
             if (Character.isUpperCase(c)) {
-                containsUppercase = true;
+                hasUppercase = true;
             } else if (Character.isLowerCase(c)) {
-                containsLowercase = true;
+                hasLowercase = true;
             } else if (Character.isDigit(c)) {
-                containsDigit = true;
+                hasDigit = true;
             } else {
-                containsSpecialCharacter = true;
+                String specialCharacters = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+                if (specialCharacters.contains(String.valueOf(c))) {
+                    hasSpecialChar = true;
+                }
             }
         }
-        return containsUppercase && containsLowercase && containsDigit && containsSpecialCharacter;
+
+        if (!hasUppercase) {
+            errorMessage.append("Mật khẩu phải chứa ít nhất một chữ cái viết hoa.<br>");
+        }
+        if (!hasLowercase) {
+            errorMessage.append("Mật khẩu phải chứa ít nhất một chữ cái viết thường.<br>");
+        }
+        if (!hasDigit) {
+            errorMessage.append("Mật khẩu phải chứa ít nhất một số.<br>");
+        }
+        if (!hasSpecialChar) {
+            errorMessage.append("Mật khẩu phải chứa ít nhất một kí tự đặc biệt.<br>");
+        }
+
+        return errorMessage.toString();
     }
 }
