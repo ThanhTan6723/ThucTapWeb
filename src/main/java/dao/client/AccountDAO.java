@@ -8,7 +8,13 @@ import java.util.ArrayList;
 
 import model.Account;
 
-public class AccountDAO extends AbsDAO<Account>{
+public class AccountDAO extends AbsDAO<Account> {
+
+
+    @Override
+    public int insert(Account acc) {
+        return super.insert(acc);
+    }
 
     public ArrayList<Account> selectAll() {
         ArrayList<Account> result = new ArrayList<Account>();
@@ -76,6 +82,43 @@ public class AccountDAO extends AbsDAO<Account>{
         }
         return res;
     }
+
+    @Override
+    public Account login(Account acc) {
+        Account account = null;
+        try {
+            Connection connect = JDBCUtil.getConnection();
+
+            String sql = "Select * From Accounts Where name=? And password=?";
+
+            PreparedStatement preSt = connect.prepareStatement(sql);
+            preSt.setString(1, acc.getName());
+            preSt.setString(2, acc.getPassword());
+
+            // 3.excute function sql
+            ResultSet rs = preSt.executeQuery();
+            super.login(acc);
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String password = rs.getString("password");
+                String email = rs.getString("email");
+                String telephone = rs.getString("phonenumber");
+                int isAdmin = rs.getInt("isAdmin");
+
+                account = new Account(id, name, password, email, telephone, isAdmin);
+                System.out.println(acc);
+            }
+//			JDBCUtil.closeConnection(connect);
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return account;
+    }
+
 
     public static Account checkLogin(String username, String pass) {
         Account acc = null;
@@ -160,32 +203,28 @@ public class AccountDAO extends AbsDAO<Account>{
         return res;
     }
 
-    @Override
-    public int update(Account acc) {
-        return super.update(acc);
+        public int update(Account t) {
+        int res = 0;
+        try {
+            Connection connect = JDBCUtil.getConnection();
+
+            String sql = "UPDATE Accounts " + "SET" + " password=?" + "WHERE email=?";
+
+            PreparedStatement prSt = connect.prepareStatement(sql);
+            prSt.setString(1, t.getPassword());
+            prSt.setString(2, t.getEmail());
+
+            res = prSt.executeUpdate();
+
+            JDBCUtil.closeConnection(connect);
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+
+        return res;
     }
-    //    public static int update(Account t) {
-//        int res = 0;
-//        try {
-//            Connection connect = JDBCUtil.getConnection();
-//
-//            String sql = "UPDATE Accounts " + "SET" + " password=?" + "WHERE email=?";
-//
-//            PreparedStatement prSt = connect.prepareStatement(sql);
-//            prSt.setString(1, t.getPassword());
-//            prSt.setString(2, t.getEmail());
-//
-//            res = prSt.executeUpdate();
-//
-//            JDBCUtil.closeConnection(connect);
-//
-//        } catch (Exception e) {
-//            // TODO: handle exception
-//            e.printStackTrace();
-//        }
-//
-//        return res;
-//    }
 
     public static int updateProfile(Account t) {
         int res = 0;

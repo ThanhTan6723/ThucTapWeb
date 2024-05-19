@@ -89,29 +89,17 @@ public class Account implements IModel {
 
     @Override
     public String getTable() {
-        return null;
+        return "Accounts";
     }
 
     @Override
-    public String getBeforeData() {
-        return null;
+    public Object getBeforeData() {
+        return new Account(id, name, password, email, telephone, isAdmin);
     }
 
     @Override
-    public String getAfterData() {
-        return null;
+    public Object getAfterData() {
+        return this;
     }
 
-//    public static void main(String[] args) {
-//        Account c = new Account(13, "Capybara", "00000", "capybara@gamil.com", "256688924", 0);
-//
-//		CustomerDAO.getInstance().insert(c);
-//
-//        Account find = new Account(9, "ThanhTan", "6723", "thanhtan8900@gmail.com", "0865603890", 0);
-//        AccountDAO re = new AccountDAO();
-//        System.out.println(re.selectByName(find));
-//        re.checkEmail("thanhtan8900@gmail.com");
-//        re.checkLogin("ThanhTan", "6723");
-//
-//    }
 }

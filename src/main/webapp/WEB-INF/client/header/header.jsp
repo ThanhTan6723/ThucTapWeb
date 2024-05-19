@@ -22,7 +22,7 @@
         <!-- Logo Section -->
         <div class="col-lg-3">
             <div class="header__logo">
-                <a href="./IndexControll"><img src="assets/img/logo.png" alt=""></a>
+                <a href="./IndexControll"><img src="assets/img/logo.png" alt="logo"></a>
             </div>
         </div>
     <!-- Navigation Section -->
@@ -64,7 +64,7 @@
                 <c:if test="${empty sessionScope.account}">
                     <div class="header__top__right__auth">
                         <a href="./LoginControll"><i><img
-                                src="client/assets/img/login.png" alt=""></i>Đăng nhập/Đăng ký</a>
+                                src="assets/img/login.png" alt=""></i>Đăng nhập/Đăng ký</a>
                     </div>
 
                 </c:if>
@@ -172,10 +172,34 @@
             </div>
         </div>
     </div>
+    <!-- Messenger Chat Plugin -->
+    <div id="fb-root"></div>
+    <div id="fb-customer-chat" class="fb-customerchat"></div>
+
 </section>
 </body>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+    var chatbox = document.getElementById('fb-customer-chat');
+    chatbox.setAttribute("page_id", "YOUR_PAGE_ID");
+    chatbox.setAttribute("attribution", "biz_inbox");
+
+    window.fbAsyncInit = function() {
+        FB.init({
+            xfbml            : true,
+            version          : 'v11.0'
+        });
+    };
+
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
     function searchByName(param) {
         var txtSearch = param.value;
         $.ajax({
