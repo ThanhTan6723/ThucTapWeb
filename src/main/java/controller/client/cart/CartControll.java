@@ -20,7 +20,7 @@ public class CartControll extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
         Object obj = session.getAttribute("cart");
-
+        System.out.println("Obj:"+obj);
         if (account == null) {
             response.sendRedirect(request.getContextPath() + "/LoginControll");
         } else {

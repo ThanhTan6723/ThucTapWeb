@@ -1,6 +1,9 @@
 package controller.client.product;
 
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,7 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.client.ProductDAO;
 import model.Category;
+import model.Image;
 import model.Product;
+import model.Provider;
 
 @WebServlet("/DetailControl")
 public class DetailControl extends HttpServlet {
@@ -28,8 +33,26 @@ public class DetailControl extends HttpServlet {
         assert product != null;
         int category_id = product.getCategory().getId();
 		List<Product> relativeProduct = ProductDAO.relativeProduct(category_id);
-		System.out.println(relativeProduct.toString());
         request.setAttribute("relativeProduct",relativeProduct);
+		// Tạo một bản sao của đối tượng Product
+		product.setId(product.getId());
+		product.setName(product.getName());
+        product.setPrice(product.getPrice());
+		product.setPrice(product.getPrice());
+		product.setImage(product.getImage());
+		product.setDescription(product.getDescription());
+		product.setCategory(product.getCategory());
+        String nameCategory = ProductDAO.getCategoryById(product.getCategory().getId());
+		product.setQuantity(product.getQuantity());
+		product.setDateOfImporting(product.getDateOfImporting());
+		product.setExpriredDay(product.getExpriredDay());
+		product.setWeight(product.getWeight());
+		product.setImages(product.getImages());
+        List<Image> listImageProduct = ProductDAO.listImageProduct(product.getId());
+		Provider provider = ProductDAO.getInforByIdProvider(product.getProvider().getId());
+		request.setAttribute("provider",provider);
+		request.setAttribute("listImageProduct",listImageProduct);
+		request.setAttribute("nameCategory",nameCategory);
 		request.setAttribute("detail", product);
 		request.getRequestDispatcher("/WEB-INF/client/product-detail.jsp").forward(request, response);
 	}

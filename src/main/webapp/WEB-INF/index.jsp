@@ -129,6 +129,7 @@
                             <h5>${o.price}</h5>
                         </div>
                         <div class="text-center">
+
                             <c:url var="addToCart" value="/AddToCartControl"></c:url>
                             <form action="${addToCart}?pid=${o.id}" method="post" enctype="multipart/form-data">
                                 <button

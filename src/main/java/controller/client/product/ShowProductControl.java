@@ -55,6 +55,8 @@ public class ShowProductControl extends HttpServlet {
 
             request.setAttribute("sort", sort);
             request.setAttribute("listProducts", list);
+
+
             request.setAttribute("cid", id);
 
             request.setAttribute("endPage", endPage);

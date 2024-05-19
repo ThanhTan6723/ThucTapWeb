@@ -1,17 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+         pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Oganic|Template</title>
     <style type="text/css">
-        .productdetail{
-            height: 60vh;
-            padding-top: 10vh;
-        }
-        .header__fixed{
+        .header__fixed {
             position: fixed;
             top: 0;
             width: 100%;
@@ -21,6 +17,26 @@
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
         }
 
+        .product__details__pic__slider__nav {
+            position: relative;
+        }
+
+        .owl-prev,
+        .owl-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            margin: 0 -30px;
+        }
+
+        .owl-prev {
+            left: 0;
+        }
+
+        .owl-next {
+            right: 0;
+        }
     </style>
     <%@ page isELIgnored="false" %>
     <jsp:include page="./link/link.jsp"></jsp:include>
@@ -32,7 +48,6 @@
 
 <span class="header__fixed">
 	<jsp:include page="header/header.jsp"></jsp:include>
-
 </span>
     <!-- Breadcrumb Section Begin -->
     <div style="height: 140px"></div>
@@ -53,7 +68,6 @@
             </div>
         </div>
     </section>
-
     <!-- Product Details Section Begin -->
     <section class="product-details spad">
         <div class="container">
@@ -64,16 +78,21 @@
                             <img class="product__details__pic__item--large"
                                  src="${detail.image}" alt="">
                         </div>
-                        <div class="product__details__pic__slider owl-carousel">
-                            <img data-imgbigurl="img/product/details/product-details-2.jpg"
-                                 src="assets/img/product/details/thumb-1.jpg" alt="">
-                            <img data-imgbigurl="img/product/details/product-details-3.jpg"
-                                 src="assets/img/product/details/thumb-2.jpg" alt="">
-                            <img data-imgbigurl="img/product/details/product-details-5.jpg"
-                                 src="assets/img/product/details/thumb-3.jpg" alt="">
-                            <img data-imgbigurl="img/product/details/product-details-4.jpg"
-                                 src="assets/img/product/details/thumb-4.jpg" alt="">
+
+                        <div class="product__details__pic__slider__nav">
+                            <div class="owl-prev"><i class="fa fa-angle-left"></i></div>
+                            <div class="product__details__pic__slider owl-carousel">
+                                <c:forEach var="o" items="${listImageProduct}">
+                                    <div class="product__details__pic__slider__item">
+                                        <img data-imgbigurl="img/product/details/product-details-3.jpg" src="${o.url}"
+                                             alt="">
+                                    </div>
+                                </c:forEach>
+                            </div>
+                            <div class="owl-next"><i class="fa fa-angle-right"></i></div>
                         </div>
+
+
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
@@ -88,27 +107,29 @@
                             <span>(18 reviews)</span>
                         </div>
                         <div class="product__details__price">${detail.price}</div>
-                        <p>${detail.description}</p>
+                        Phân loại: ${nameCategory}<br>
+                        Mô tả: ${detail.description}<br>
+                        Kho: ${detail.quantity}
                         <div class="product__details__quantity">
 
                         </div>
                         <c:url var="addToCart" value="AddToCartControl"></c:url>
 
                         <form action="${addToCart}?pid=${detail.id}" method="post">
-                            <input style="width: 80px; border-radius: 5px; text-align: center;" type="number" class="single-input-selector" value="1"
-                                   min="1" max="99" name="quantity" placeholder="<c:out value="${showLanguage['Detail.QuantityPlaceholder']}" />">
+                            <input style="width: 80px; border-radius: 5px; text-align: center;" type="number"
+                                   class="single-input-selector" value="1"
+                                   min="1" max="99" name="quantity" placeholder="">
                             <button style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; text-transform: uppercase; font-weight: 700; color: #fff"
                                     type="submit" class="button" title="<c:out value="Đặt hàng" />">
-                                <span><c:out value="Đặt hàng" /></span>
+                                <span><c:out value="Đặt hàng"/></span>
                             </button>
                         </form>
-                        <%--
-                                                    <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
-                        --%>
+
                         <ul>
-                            <li><b>Availability</b> <span>In Stock</span></li>
-                            <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
-                            <li><b>Weight</b> <span>0.5 kg</span></li>
+                            <li><b>Ngày sản xuất</b> <span>${detail.dateOfImporting}</span></li>
+                            <li><b>Hạn sử dụng</b> <span> ${detail.expriredDay}</span></li>
+
+                            <li><b>Cân nặng</b> <span>${detail.weight}</span></li>
                             <li><b>Share on</b>
                                 <div class="share">
                                     <a href="#"><i class="fa fa-facebook"></i></a>
@@ -125,7 +146,7 @@
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
-                                   aria-selected="true">Description</a>
+                                   aria-selected="true">Nhà cung cấp</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
@@ -139,25 +160,9 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <div class="product__details__tab__desc">
-                                    <h6>Products Infomation</h6>
-                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Vivamus
-                                        suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam sit amet quam
-                                        vehicula elementum sed sit amet dui. Donec rutrum congue leo eget malesuada.
-                                        Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur arcu erat,
-                                        accumsan id imperdiet et, porttitor at sem. Praesent sapien massa, convallis a
-                                        pellentesque nec, egestas non nisi. Vestibulum ac diam sit amet quam vehicula
-                                        elementum sed sit amet dui. Vestibulum ante ipsum primis in faucibus orci luctus
-                                        et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam
-                                        vel, ullamcorper sit amet ligula. Proin eget tortor risus.</p>
-                                    <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem
-                                        ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet
-                                        elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum
-                                        porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus
-                                        nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.
-                                        Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Sed
-                                        porttitor lectus nibh. Vestibulum ac diam sit amet quam vehicula elementum
-                                        sed sit amet dui. Proin eget tortor risus.</p>
+                                    <h6>Thông tin về nhà cung cấp</h6>
+                                    <p>${provider.name}</p>
+                                    <p>${provider.address}</p>
                                 </div>
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
@@ -247,5 +252,25 @@
 <script src="assets/js/mixitup.min.js"></script>
 <script src="assets/js/owl.carousel.min.js"></script>
 <script src="assets/js/main.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".product__details__pic__slider").owlCarousel({
+            items: 1,
+            nav: false,
+            dots: false,
+            loop: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplayHoverPause: true,
+        });
+        $(".owl-prev").click(function () {
+            $(".product__details__pic__slider").trigger("prev.owl.carousel");
+        });
+        $(".owl-next").click(function () {
+            $(".product__details__pic__slider").trigger("next.owl.carousel");
+        });
+    });
+
+</script>
 </body>
 </html>
