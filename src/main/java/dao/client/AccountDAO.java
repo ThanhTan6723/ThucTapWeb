@@ -10,6 +10,27 @@ import model.Account;
 
 public class AccountDAO extends AbsDAO<Account> {
 
+    public Account findByEmail(String email) {
+        String sql = "SELECT * FROM Accounts WHERE email = ?";
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, email);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                Account account = new Account();
+                account.setId(rs.getInt("id"));
+                account.setName(rs.getString("name"));
+                account.setEmail(rs.getString("email"));
+                account.setPassword(rs.getString("password"));
+                account.setIsAdmin(rs.getInt("isAdmin"));
+                return account;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     public int insert(Account acc) {

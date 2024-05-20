@@ -72,7 +72,7 @@ public class ProductDAO {
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				return new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13));
+						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),AccountDAO.getAccountById(rs.getInt(1)),new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13));
 			}
 		} catch (SQLException e) {
 			// TODO: handle exception
@@ -93,7 +93,7 @@ public class ProductDAO {
 
 			while (rs.next()) {
 				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-							new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
+							new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),AccountDAO.getAccountById(rs.getInt(1)),
 						new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
 			);
 			}
@@ -135,7 +135,7 @@ public class ProductDAO {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
+						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),AccountDAO.getAccountById(rs.getInt(1)),
 						new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
 				);
 			}
@@ -248,7 +248,7 @@ public class ProductDAO {
 
 			while (rs.next()) {
 				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
+						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),AccountDAO.getAccountById(rs.getInt(1)),
 						new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
 				);
 			}
@@ -318,7 +318,7 @@ public class ProductDAO {
 
 			while (rs.next()) {
 				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
+						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),AccountDAO.getAccountById(rs.getInt(1)),
 						new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
 				);
 			}
@@ -341,7 +341,7 @@ public class ProductDAO {
 
 			while (rs.next()) {
 				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),new Account(rs.getInt(1)),
+						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),AccountDAO.getAccountById(rs.getInt(1)),
 						new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
 				);
 			}
