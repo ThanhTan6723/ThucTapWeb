@@ -1,3 +1,4 @@
+/*
 package controller.admin.orders;
 
 import java.io.IOException;
@@ -50,7 +51,7 @@ public class BillDetailControll extends HttpServlet {
 		request.setAttribute("listBillDetails", map);
 		request.setAttribute("lists", lists);
 		request.setAttribute("listQ", sumQ);
-		request.getRequestDispatcher("/admin/bill-detail.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/admin/bill-detail.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -60,3 +61,4 @@ public class BillDetailControll extends HttpServlet {
 	}
 
 }
+*/

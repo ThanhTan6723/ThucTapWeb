@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ page contentType="text/html; charset=UTF-8" %><!DOCTYPE html>
 <html lang="en">
 <head>
 <!-- Required meta tags -->
@@ -8,19 +11,19 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Admin-Dashboard</title>
 <!-- plugins:css -->
-<jsp:include page="./link/link.jsp"></jsp:include>
+<jsp:include page="link/link.jsp"></jsp:include>
 <style>
 </style>
 </head>
 <body>
 	<div class="container-scroller">
 		<!-- partial:partials/_sidebar.html -->
-		<jsp:include page="./header/sidebar.jsp"></jsp:include>
+		<jsp:include page="header/sidebar.jsp"></jsp:include>
 
 		<!-- partial -->
 		<div class="container-fluid page-body-wrapper">
 			<!-- partial:partials/_navbar.html -->
-			<jsp:include page="./header/navbar.jsp"></jsp:include>
+			<jsp:include page="header/navbar.jsp"></jsp:include>
 
 			<!-- partial -->
 			<div class="main-panel">
@@ -44,6 +47,7 @@
 										</div>
 									</div>
 									<h4 class="text-muted font-weight-normal">So don hang</h4>
+
 								</div>
 							</div>
 						</div>

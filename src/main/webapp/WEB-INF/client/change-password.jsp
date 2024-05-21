@@ -1,10 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<%@ page import="java.util.Map" %>
-<%@ page import="dao.client.I18NDAO" %>
+<%@ page contentType="text/html; charset=utf-8" language="java" %>
+<%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
 <html>
@@ -31,27 +29,27 @@
 
             <div class="form signup">
                 <div class="form-content">
-                    <header>Change password</header>
+                    <header>Đổi mật khẩu</header>
                     <div class="form-link">
-                        <span style="font-size: 18px;color: #3472ac;"><b>Please enter old password to update new password</b></span>
+                        <span style="font-size: 18px;color: #3472ac;"><b>Vui lòng nhập lại mật khẩu cũ để đặt mật khẩu mới</b></span>
                     </div>
                     <c:url var="change" value="/ChangePassword"></c:url>
                     <form action="${change}" method="post">
                         <div class="field input-field">
-                            <input name="oldpass" type="password" placeholder="Old password" class="password"  id="old">
+                            <input name="oldpass" type="password" placeholder="Mật khẩu cũ" class="password"  id="old">
                             <i class='bx bx-hide eye-icon' onclick="togglePassword('pass', 'eye-icon-pass')"></i>
                             <span style="color: red; font-weight: 400;">${errorOP}</span>
                         </div>
                         <div class="field input-field">
-                            <input name="newpass" type="password" placeholder="New password" class="password"  id="pass">
+                            <input name="newpass" type="password" placeholder="Mật khẩu mới" class="password"  id="pass">
                             <i class='bx bx-hide eye-icon' onclick="togglePassword('pass', 'eye-icon-pass')"></i>
                             <span style="color: red; font-weight: 400;">${errorNP}</span>
                         </div>
 						
                         <div class="field input-field">
-                            <input name="repass" type="password" onkeyup="validateRePass()" placeholder="Confirm password" class="password" id="re">
+                            <input name="repass" type="password" onkeyup="validateRePass()" placeholder="Xác nhận mật khâủ" class="password" id="re">
                             <i class='bx bx-hide eye-icon' onclick="togglePassword('re', 'eye-icon-re')"></i>
-							<span id="noti2" style="color: red; font-weight: 400px;">${errorCFP}</span>
+							<span id="noti2" style="color: red; ">${errorCFP}</span>
                         </div>
                         
                         <div class="field button-field">

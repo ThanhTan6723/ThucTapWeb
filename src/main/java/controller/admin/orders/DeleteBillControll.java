@@ -1,3 +1,4 @@
+/*
 package controller.admin.orders;
 
 import java.io.IOException;
@@ -36,3 +37,4 @@ public class DeleteBillControll extends HttpServlet {
 	}
 
 }
+*/

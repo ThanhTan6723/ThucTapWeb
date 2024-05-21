@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -36,6 +37,7 @@
     .owl-next {
         right: 0;
     }
+
 </style>
  <%@ page isELIgnored="false" %>
 <jsp:include page="./link/link.jsp"></jsp:include>
@@ -107,29 +109,41 @@
                                 <span>(18 reviews)</span>
                             </div>
                             <div class="product__details__price">${detail.price}</div>
-                            Phân loại: ${nameCategory}<br>
-                            Mô tả: ${detail.description}<br>
-                            Kho: ${detail.quantity}
-                            <div class="product__details__quantity">
-
+                            <b>Phân loại: </b> ${nameCategory}<br>
+                            <b>Mô tả: </b> ${detail.description}<br>
+                            <b>Cân nặng</b> <span>${detail.weight}</span>
+                            <div>
+                                <b>Kho: </b> <span id="batchQuantity">0</span>
                             </div>
+                            <b>NSX-HSD: </b>
+                           <br>
+                            <div>
+                                <select id="batchSelect" name="selectedBatchId" onchange="updateQuantity()">
+                                    <c:forEach var="batch" items="${listBatch}">
+                                        <option value="${batch.id}" data-quantity="${batch.quantity}">
+                                            <fmt:formatDate value="${batch.manufacturingDate}" pattern="yyyy-MM-dd"/> -
+                                            <fmt:formatDate value="${batch.expiryDate}" pattern="yyyy-MM-dd"/>
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <br>
                             <c:url var="addToCart" value="AddToCartControl"></c:url>
-
-                            <form action="${addToCart}?pid=${detail.id}" method="post">
-                                <input style="width: 80px; border-radius: 5px; text-align: center;" type="number" class="single-input-selector" value="1"
-                                       min="1" max="99" name="quantity" placeholder="">
-                                <button style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; text-transform: uppercase; font-weight: 700; color: #fff"
-                                        type="submit" class="button" title="<c:out value="Đặt hàng" />">
-                                    <span><c:out value="Đặt hàng" /></span>
-                                </button>
-                            </form>
+                            <br>
+                                <form action="${addToCart}?pid=${detail.id}" method="post">
+                                   <b>Số lượng: </b> <input style="width: 80px; border-radius: 5px; text-align: center;" type="number" class="single-input-selector" value="1"
+                                           min="1" max="99" name="quantity" placeholder="">
+                                    <br><br>
+                                    <button style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; text-transform: uppercase; font-weight: 700; color: #fff"
+                                            type="submit" class="button" title="<c:out value="Đặt hàng" />">
+                                        <span><c:out value="Đặt hàng" /></span>
+                                    </button>
+                                </form>
 
                             <ul>
-                                <li><b>Ngày sản xuất</b> <span>${detail.dateOfImporting}</span></li>
-                                <li><b>Hạn sử dụng</b> <span> ${detail.expriredDay}</span></li>
 
 
-                                <li><b>Cân nặng</b> <span>${detail.weight}</span></li>
+
                                 <li><b>Share on</b>
                                     <div class="share">
                                         <a href="#"><i class="fa fa-facebook"></i></a>
@@ -253,7 +267,7 @@
     <script src="assets/js/owl.carousel.min.js"></script>
     <script src="assets/js/main.js"></script>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         $(".product__details__pic__slider").owlCarousel({
             items: 1,
             nav: false,
@@ -263,14 +277,33 @@
             autoplayTimeout: 5000,
             autoplayHoverPause: true,
         });
-        $(".owl-prev").click(function(){
+        $(".owl-prev").click(function () {
             $(".product__details__pic__slider").trigger("prev.owl.carousel");
         });
-        $(".owl-next").click(function(){
+        $(".owl-next").click(function () {
             $(".product__details__pic__slider").trigger("next.owl.carousel");
         });
     });
+        // Chứa số lượng của các batch
+        var batchQuantities = {};
 
-</script>
+        function updateQuantity() {
+        var batchSelect = document.getElementById("batchSelect");
+        var selectedBatchId = batchSelect.value;
+        var quantity = batchQuantities[selectedBatchId] || 0;
+        document.getElementById("batchQuantity").textContent = quantity;
+    }
+
+        window.onload = function() {
+        var batches = document.querySelectorAll('#batchSelect option');
+        batches.forEach(function(batch) {
+        var batchId = batch.value;
+        var quantity = batch.getAttribute('data-quantity');
+        batchQuantities[batchId] = quantity;
+    });
+        // Gọi hàm để cập nhật số lượng khi trang tải lần đầu
+        updateQuantity();
+    }
+    </script>
 </body>
 </html>

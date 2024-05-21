@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import model.Account;
 
-public class AccountDAO {
+public class AccountDAO extends AbsDAO<Account>{
 
     public ArrayList<Account> selectAll() {
         ArrayList<Account> result = new ArrayList<Account>();
@@ -160,28 +160,32 @@ public class AccountDAO {
         return res;
     }
 
-    public static int update(Account t) {
-        int res = 0;
-        try {
-            Connection connect = JDBCUtil.getConnection();
-
-            String sql = "UPDATE Accounts " + "SET" + " password=?" + "WHERE email=?";
-
-            PreparedStatement prSt = connect.prepareStatement(sql);
-            prSt.setString(1, t.getPassword());
-            prSt.setString(2, t.getEmail());
-
-            res = prSt.executeUpdate();
-
-            JDBCUtil.closeConnection(connect);
-
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
-        }
-
-        return res;
+    @Override
+    public int update(Account acc) {
+        return super.update(acc);
     }
+    //    public static int update(Account t) {
+//        int res = 0;
+//        try {
+//            Connection connect = JDBCUtil.getConnection();
+//
+//            String sql = "UPDATE Accounts " + "SET" + " password=?" + "WHERE email=?";
+//
+//            PreparedStatement prSt = connect.prepareStatement(sql);
+//            prSt.setString(1, t.getPassword());
+//            prSt.setString(2, t.getEmail());
+//
+//            res = prSt.executeUpdate();
+//
+//            JDBCUtil.closeConnection(connect);
+//
+//        } catch (Exception e) {
+//            // TODO: handle exception
+//            e.printStackTrace();
+//        }
+//
+//        return res;
+//    }
 
     public static int updateProfile(Account t) {
         int res = 0;
