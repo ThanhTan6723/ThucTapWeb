@@ -28,7 +28,7 @@
             <div class="form signup">
                 <div class="form-content">
                     <header>Your profile</header>
-                    <form action="${pageContext.request.contextPath}/${profile}" method="post">
+                    <form action="${profile}" method="post">
                         <div class="field input-field">
                             <input name="name" type="text" placeholder="Tên" value="${name}" class="input">
 	                        <span style="color: red;">${error2}</span>
@@ -41,8 +41,6 @@
                             <input name="phone" type="tel" placeholder="Số điện thoại" value="${phone}" class="input" id="tele"  onkeyup="validatePhone()">
 	                        <span id="noti1" style="color: red;">${error4}</span>
                         </div>
-
-						
                         <div class="field button-field">
                             <button>Update</button>
                         </div>
@@ -106,18 +104,7 @@
             return true;
         }
     }
-		
-		function validateRePass() {
-			var passW = document.getElementById("pass").value;
-			var rePass = document.getElementById("re").value;
-			if (passW != rePass) {
-				document.getElementById("noti2").innerHTML = "Password incorrect";
-				return false;
-			} else {
-				document.getElementById("noti2").innerHTML = "";
-				return true;
-			}
-		}
+
 
 		
 	</script>

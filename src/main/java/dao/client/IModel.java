@@ -1,10 +1,12 @@
 package dao.client;
 
+import com.google.gson.JsonObject;
+
 public interface IModel {
 
     public String getTable();
 
-    public String getBeforeData();
+    public Object getBeforeData();
 
-    public String getAfterData();
+    public Object getAfterData();
 }

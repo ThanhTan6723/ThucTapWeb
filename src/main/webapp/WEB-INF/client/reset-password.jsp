@@ -36,12 +36,12 @@
             <div class="form-link">
                 <span style="font-size: 18px;color: #3472ac;"><b>Vui lòng tạo mật khẩu mới để đăng nhập vào hệ thống</b></span>
             </div>
-            <form action="${pageContext.request.contextPath}/${reset}" method="post">
+            <form action="/ResetPassword" method="post">
                 <div class="field input-field">
-                    <input name="passw" type="password" placeholder="Mật khẩu mới" class="password" name="password"
+                    <input name="passw" type="password" onkeyup="validatePassword()" placeholder="Mật khẩu mới" class="password" name="password"
                            id="pass">
                     <i class='bx bx-hide eye-icon' onclick="togglePassword('pass', 'eye-icon-pass')"></i>
-                    <span style="color: red; ">${errorP}</span>
+                    <span id="noti1" style="color: red; ">${errorP}</span>
                 </div>
 
                 <div class="field input-field">
@@ -62,6 +62,39 @@
 <!-- JavaScript -->
 <script src="../client/assets/js/script.js"></script>
 <script type="text/javascript">
+
+    function validatePassword() {
+        var password = document.getElementById("pass").value;
+
+        // Kiểm tra độ dài của mật khẩu
+        if (password.length < 8) {
+            document.getElementById("noti1").innerHTML = "Mật khẩu phải chứa 8 kí tự";
+            return false;
+        }
+
+        // Kiểm tra xem mật khẩu có chứa ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt hay không
+        var uppercaseRegex = /[A-Z]/;
+        var lowercaseRegex = /[a-z]/;
+        var numberRegex = /[0-9]/;
+        var specialCharacterRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+
+        if (!uppercaseRegex.test(password)) {
+            document.getElementById("noti1").innerHTML = "Mật khẩu phải chứa ít nhất 1 kí tự viết hoa";
+            return false;
+        } else if (!lowercaseRegex.test(password)) {
+            document.getElementById("noti1").innerHTML = "Mật khẩu phải chứa ít nhất 1 kí tự viết thường";
+            return false;
+        } else if (!numberRegex.test(password)) {
+            document.getElementById("noti1").innerHTML = "Mật khẩu phải chứa ít nhất 1 số";
+            return false;
+        } else if (!specialCharacterRegex.test(password)) {
+            document.getElementById("noti1").innerHTML = "Mật khẩu phải chứa ít nhất 1 kí tự đặc biệt";
+            return false;
+        } else {
+            document.getElementById("noti1").innerHTML = "";
+            return true;
+        }
+    }
 
     function validateRePass() {
         var passW = document.getElementById("pass").value;
