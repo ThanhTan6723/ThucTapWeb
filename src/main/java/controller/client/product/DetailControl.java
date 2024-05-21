@@ -13,10 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.client.ProductDAO;
-import model.Category;
-import model.Image;
-import model.Product;
-import model.Provider;
+import model.*;
 
 @WebServlet("/DetailControl")
 public class DetailControl extends HttpServlet {
@@ -29,6 +26,7 @@ public class DetailControl extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		String productId = request.getParameter("pid");
 		int pid=Integer.parseInt(productId);
+		System.out.println(pid);
 		Product product = ProductDAO.getProductById(pid);
         assert product != null;
         int category_id = product.getCategory().getId();
@@ -42,18 +40,22 @@ public class DetailControl extends HttpServlet {
 		product.setImage(product.getImage());
 		product.setDescription(product.getDescription());
 		product.setCategory(product.getCategory());
-        String nameCategory = ProductDAO.getCategoryById(product.getCategory().getId());
-		product.setQuantity(product.getQuantity());
-		product.setDateOfImporting(product.getDateOfImporting());
-		product.setExpriredDay(product.getExpriredDay());
 		product.setWeight(product.getWeight());
 		product.setImages(product.getImages());
         List<Image> listImageProduct = ProductDAO.listImageProduct(product.getId());
+		String nameCategory = ProductDAO.getCategoryById(product.getCategory().getId());
+		List<Batch> listBatch = ProductDAO.getListBatchById(product.getId());
+		System.out.println(listBatch.toString());
+/*
 		Provider provider = ProductDAO.getInforByIdProvider(product.getProvider().getId());
+*/
+/*
 		request.setAttribute("provider",provider);
+*/
 		request.setAttribute("listImageProduct",listImageProduct);
 		request.setAttribute("nameCategory",nameCategory);
 		request.setAttribute("detail", product);
+		request.setAttribute("listBatch",listBatch);
 		request.getRequestDispatcher("/WEB-INF/client/product-detail.jsp").forward(request, response);
 	}
 

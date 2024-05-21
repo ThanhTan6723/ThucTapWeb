@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh Sách Người Dùng</title>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
 
         table.dataTable thead th {
@@ -79,17 +80,18 @@
                 { data: 'email' },
                 { data: 'telephone' },
                 { data: null, render: function(data, type, row) {
-                        return `<button class="delete-button btn btn-danger" data-id="${row.id}" style="height:30px;">Xóa</button>
-                                <a href="EditUser?id=${row.id}"><button class="btn btn-danger" style="height:30px;">Sửa</button></a>`;
+                        return `<i class="fa-solid fa-trash delete-icon" data-id="${row.id}" style="color: red; font-size: 20px; cursor: pointer; margin-right: 15px;"></i>
+                        <a href="EditUser?id=${row.id}"><i class="fa-solid fa-pen-to-square" style="color:#efe63a; font-size: 20px;cursor: pointer; margin-right: 15px;"></i></a>`
+                            ;
                     }}
             ]
         });
 
-        $('#example').on('click', '.delete-button', function() {
+        $('#example').on('click', '.delete-icon', function() {
             var id = $(this).data('id');
             $.ajax({
                 url: 'DeleteUserControll',
-                type: 'get',
+                type: 'post',
                 data: { id: id },
                 success: function(response) {
                     table.ajax.reload(); // Tải lại dữ liệu bảng
@@ -97,6 +99,7 @@
             });
         });
     });
+
 </script>
 </body>
 </html>

@@ -23,8 +23,8 @@ public class DeleteProductControll extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String pid = request.getParameter("id");
-
-		ProductDAO.removeProduct(pid);
+		System.out.println("ma san pham"+pid);
+		ProductDAO.removeProduct(Integer.parseInt(pid));
 		request.getRequestDispatcher("WEB-INF/admin/show-product.jsp").forward(request, response);
 	}
 

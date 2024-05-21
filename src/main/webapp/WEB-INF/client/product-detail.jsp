@@ -1,257 +1,271 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Oganic|Template</title>
-    <style type="text/css">
-        .header__fixed {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            height: 140px;
-            background-color: #fff;
-            z-index: 900;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
-        }
+<meta charset="UTF-8" />
+<title>Oganic|Template</title>
+<style type="text/css">
+    .header__fixed{
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 140px;
+        background-color: #fff;
+        z-index: 900;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+    }
+    .product__details__pic__slider__nav {
+        position: relative;
+    }
 
-        .product__details__pic__slider__nav {
-            position: relative;
-        }
+    .owl-prev,
+    .owl-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1;
+        margin: 0 -30px;
+    }
 
-        .owl-prev,
-        .owl-next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 1;
-            margin: 0 -30px;
-        }
+    .owl-prev {
+        left: 0;
+    }
 
-        .owl-prev {
-            left: 0;
-        }
+    .owl-next {
+        right: 0;
+    }
 
-        .owl-next {
-            right: 0;
-        }
-    </style>
-    <%@ page isELIgnored="false" %>
-    <jsp:include page="./link/link.jsp"></jsp:include>
+</style>
+ <%@ page isELIgnored="false" %>
+<jsp:include page="./link/link.jsp"></jsp:include>
 
 </head>
 
 <body>
-<div class="page">
+	<div class="page">
 
 <span class="header__fixed">
 	<jsp:include page="header/header.jsp"></jsp:include>
+
 </span>
-    <!-- Breadcrumb Section Begin -->
-    <div style="height: 140px"></div>
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>Chi tiết sản phẩm</h2>
-                        <div class="breadcrumb__option">
-                            <a href="./IndexControll">Trang chủ</a>
-                            <a href="./IndexControll">Sản phẩm</a>
-                            <span>${detail.name}</span>
+        <!-- Breadcrumb Section Begin -->
+        <div style="height: 140px"></div>
+        <!-- Breadcrumb Section Begin -->
+        <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <div class="breadcrumb__text">
+                            <h2>Chi tiết sản phẩm</h2>
+                            <div class="breadcrumb__option">
+                                <a href="./IndexControll">Trang chủ</a>
+                                <a href="./IndexControll">Sản phẩm</a>
+                                <span>${detail.name}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- Product Details Section Begin -->
-    <section class="product-details spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-6">
-                    <div class="product__details__pic">
-                        <div class="product__details__pic__item">
-                            <img class="product__details__pic__item--large"
-                                 src="${detail.image}" alt="">
-                        </div>
+        </section>
 
-                        <div class="product__details__pic__slider__nav">
-                            <div class="owl-prev"><i class="fa fa-angle-left"></i></div>
-                            <div class="product__details__pic__slider owl-carousel">
-                                <c:forEach var="o" items="${listImageProduct}">
-                                    <div class="product__details__pic__slider__item">
-                                        <img data-imgbigurl="img/product/details/product-details-3.jpg" src="${o.url}"
-                                             alt="">
+        <!-- Product Details Section Begin -->
+        <section class="product-details spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="product__details__pic">
+                            <div class="product__details__pic__item">
+                                <img class="product__details__pic__item--large"
+                                     src="${detail.image}" alt="">
+                            </div>
+
+                            <div class="product__details__pic__slider__nav">
+                                <div class="owl-prev"><i class="fa fa-angle-left"></i></div>
+                                <div class="product__details__pic__slider owl-carousel">
+                                    <c:forEach var="o" items="${listImageProduct}">
+                                        <div class="product__details__pic__slider__item">
+                                            <img data-imgbigurl="img/product/details/product-details-3.jpg" src="${o.url}" alt="">
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                                <div class="owl-next"><i class="fa fa-angle-right"></i></div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="product__details__text">
+                            <h3>${detail.name}</h3>
+                            <div class="product__details__rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-half-o"></i>
+                                <span>(18 reviews)</span>
+                            </div>
+                            <div class="product__details__price">${detail.price}</div>
+                            <b>Phân loại: </b> ${nameCategory}<br>
+                            <b>Mô tả: </b> ${detail.description}<br>
+                            <b>Cân nặng</b> <span>${detail.weight}</span>
+                            <div>
+                                <b>Kho: </b> <span id="batchQuantity">0</span>
+                            </div>
+                            <b>NSX-HSD: </b>
+                           <br>
+                            <div>
+                                <select id="batchSelect" name="selectedBatchId" onchange="updateQuantity()">
+                                    <c:forEach var="batch" items="${listBatch}">
+                                        <option value="${batch.id}" data-quantity="${batch.quantity}">
+                                            <fmt:formatDate value="${batch.manufacturingDate}" pattern="yyyy-MM-dd"/> -
+                                            <fmt:formatDate value="${batch.expiryDate}" pattern="yyyy-MM-dd"/>
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <br>
+                            <c:url var="addToCart" value="AddToCartControl"></c:url>
+                            <br>
+                                <form action="${addToCart}?pid=${detail.id}" method="post">
+                                   <b>Số lượng: </b> <input style="width: 80px; border-radius: 5px; text-align: center;" type="number" class="single-input-selector" value="1"
+                                           min="1" max="99" name="quantity" placeholder="">
+                                    <br><br>
+                                    <button style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; text-transform: uppercase; font-weight: 700; color: #fff"
+                                            type="submit" class="button" title="<c:out value="Đặt hàng" />">
+                                        <span><c:out value="Đặt hàng" /></span>
+                                    </button>
+                                </form>
+
+                            <ul>
+
+
+
+                                <li><b>Share on</b>
+                                    <div class="share">
+                                        <a href="#"><i class="fa fa-facebook"></i></a>
+                                        <a href="#"><i class="fa fa-twitter"></i></a>
+                                        <a href="#"><i class="fa fa-instagram"></i></a>
+                                        <a href="#"><i class="fa fa-pinterest"></i></a>
                                     </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="product__details__tab">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                                       aria-selected="true">Nhà cung cấp</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+                                       aria-selected="false">Information</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
+                                       aria-selected="false">Reviews <span>(1)</span></a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                    <div class="product__details__tab__desc">
+                                        <h6>Thông tin về nhà cung cấp</h6>
+                                        <p>${provider.name}</p>
+                                        <p>${provider.address}</p>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                    <div class="product__details__tab__desc">
+                                        <h6>Products Infomation</h6>
+                                        <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
+                                            Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
+                                            Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
+                                            sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
+                                            eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
+                                            Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
+                                            sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
+                                            diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
+                                            ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                                            Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
+                                            Proin eget tortor risus.</p>
+                                        <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem
+                                            ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet
+                                            elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum
+                                            porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus
+                                            nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.</p>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                    <div class="product__details__tab__desc">
+                                        <h6>Products Infomation</h6>
+                                        <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
+                                            Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
+                                            Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
+                                            sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
+                                            eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
+                                            Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
+                                            sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
+                                            diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
+                                            ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                                            Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
+                                            Proin eget tortor risus.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Product Details Section End -->
+
+        <!-- Related Product Section Begin -->
+        <section class="related-product">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-title related__product__title">
+                            <h2>Sản phẩm liên quan</h2>
+                        </div>
+                    </div>
+                </div>
+                <section class="categories">
+                    <div class="container">
+                        <div class="row">
+                            <div class="categories__slider owl-carousel">
+                                <c:forEach var="p" items="${relativeProduct}">
+                                    <div class="col-lg-3">
+                                        <div class="categories__item set-bg">
+                                            <a href="./DetailControl?pid=${p.id}"><img src="${p.image}"></a>
+                                            <h5><a href="./DetailControl?pid=${p.id}">${p.name}</a></h5>
+                                        </div>
+                                    </div>
+
                                 </c:forEach>
                             </div>
-                            <div class="owl-next"><i class="fa fa-angle-right"></i></div>
-                        </div>
-
-
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="product__details__text">
-                        <h3>${detail.name}</h3>
-                        <div class="product__details__rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-half-o"></i>
-                            <span>(18 reviews)</span>
-                        </div>
-                        <div class="product__details__price">${detail.price}</div>
-                        Phân loại: ${nameCategory}<br>
-                        Mô tả: ${detail.description}<br>
-                        Kho: ${detail.quantity}
-                        <div class="product__details__quantity">
-
-                        </div>
-                        <c:url var="addToCart" value="AddToCartControl"></c:url>
-
-                        <form action="${addToCart}?pid=${detail.id}" method="post">
-                            <input style="width: 80px; border-radius: 5px; text-align: center;" type="number"
-                                   class="single-input-selector" value="1"
-                                   min="1" max="99" name="quantity" placeholder="">
-                            <button style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; text-transform: uppercase; font-weight: 700; color: #fff"
-                                    type="submit" class="button" title="<c:out value="Đặt hàng" />">
-                                <span><c:out value="Đặt hàng"/></span>
-                            </button>
-                        </form>
-
-                        <ul>
-                            <li><b>Ngày sản xuất</b> <span>${detail.dateOfImporting}</span></li>
-                            <li><b>Hạn sử dụng</b> <span> ${detail.expriredDay}</span></li>
-
-                            <li><b>Cân nặng</b> <span>${detail.weight}</span></li>
-                            <li><b>Share on</b>
-                                <div class="share">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-instagram"></i></a>
-                                    <a href="#"><i class="fa fa-pinterest"></i></a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="product__details__tab">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
-                                   aria-selected="true">Nhà cung cấp</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
-                                   aria-selected="false">Information</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
-                                   aria-selected="false">Reviews <span>(1)</span></a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                <div class="product__details__tab__desc">
-                                    <h6>Thông tin về nhà cung cấp</h6>
-                                    <p>${provider.name}</p>
-                                    <p>${provider.address}</p>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tabs-2" role="tabpanel">
-                                <div class="product__details__tab__desc">
-                                    <h6>Products Infomation</h6>
-                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
-                                        Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
-                                        sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
-                                        eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
-                                        Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
-                                        sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
-                                        diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
-                                        ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-                                        Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
-                                        Proin eget tortor risus.</p>
-                                    <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem
-                                        ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet
-                                        elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum
-                                        porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus
-                                        nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.</p>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tabs-3" role="tabpanel">
-                                <div class="product__details__tab__desc">
-                                    <h6>Products Infomation</h6>
-                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
-                                        Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
-                                        sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
-                                        eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
-                                        Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
-                                        sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
-                                        diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
-                                        ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-                                        Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
-                                        Proin eget tortor risus.</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
             </div>
-        </div>
-    </section>
-    <!-- Product Details Section End -->
-
-    <!-- Related Product Section Begin -->
-    <section class="related-product">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title related__product__title">
-                        <h2>Sản phẩm liên quan</h2>
-                    </div>
-                </div>
-            </div>
-            <section class="categories">
-                <div class="container">
-                    <div class="row">
-                        <div class="categories__slider owl-carousel">
-                            <c:forEach var="p" items="${relativeProduct}">
-                                <div class="col-lg-3">
-                                    <div class="categories__item set-bg">
-                                        <a href="./DetailControl?pid=${p.id}"><img src="${p.image}"></a>
-                                        <h5><a href="./DetailControl?pid=${p.id}">${p.name}</a></h5>
-                                    </div>
-                                </div>
-
-                            </c:forEach>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </section>
-    <!-- Related Product Section End -->
+        </section>
+        <!-- Related Product Section End -->
 
 
-    <jsp:include page="./footer/footer.jsp"></jsp:include>
-</div>
-<script src="assets/js/jquery-3.3.1.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/jquery.nice-select.min.js"></script>
-<script src="assets/js/jquery-ui.min.js"></script>
-<script src="assets/js/jquery.slicknav.js"></script>
-<script src="assets/js/mixitup.min.js"></script>
-<script src="assets/js/owl.carousel.min.js"></script>
-<script src="assets/js/main.js"></script>
+		<jsp:include page="./footer/footer.jsp"></jsp:include>
+	</div>
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.nice-select.min.js"></script>
+    <script src="assets/js/jquery-ui.min.js"></script>
+    <script src="assets/js/jquery.slicknav.js"></script>
+    <script src="assets/js/mixitup.min.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <script src="assets/js/main.js"></script>
 <script>
     $(document).ready(function () {
         $(".product__details__pic__slider").owlCarousel({
@@ -270,7 +284,26 @@
             $(".product__details__pic__slider").trigger("next.owl.carousel");
         });
     });
+        // Chứa số lượng của các batch
+        var batchQuantities = {};
 
-</script>
+        function updateQuantity() {
+        var batchSelect = document.getElementById("batchSelect");
+        var selectedBatchId = batchSelect.value;
+        var quantity = batchQuantities[selectedBatchId] || 0;
+        document.getElementById("batchQuantity").textContent = quantity;
+    }
+
+        window.onload = function() {
+        var batches = document.querySelectorAll('#batchSelect option');
+        batches.forEach(function(batch) {
+        var batchId = batch.value;
+        var quantity = batch.getAttribute('data-quantity');
+        batchQuantities[batchId] = quantity;
+    });
+        // Gọi hàm để cập nhật số lượng khi trang tải lần đầu
+        updateQuantity();
+    }
+    </script>
 </body>
 </html>

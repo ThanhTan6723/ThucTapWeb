@@ -14,6 +14,11 @@ public class Account implements IModel {
         // TODO Auto-generated constructor stub
     }
 
+    public Account(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Account(int id, String name, String password, String email, String telephone) {
         super();
         this.id = id;
@@ -31,6 +36,9 @@ public class Account implements IModel {
         this.email = email;
         this.telephone = telephone;
         this.isAdmin = isAdmin;
+    }
+
+    public Account(int anInt) {
     }
 
     public int getId() {

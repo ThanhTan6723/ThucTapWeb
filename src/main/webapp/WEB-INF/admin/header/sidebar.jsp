@@ -26,17 +26,44 @@
               <span class="menu-icon">
                 <i class="mdi mdi-playlist-play"></i>
               </span>
-              <span class="menu-title">User Manager</span>
+              <span class="menu-title">Quản lý người dùng</span>
             </a>
           </li>
-          <li class="nav-item menu-items">
-			<a class="nav-link" href="./LoadProductsPage">
+
+            <li class="nav-item menu-items">
+                <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <span class="menu-icon">
-                <i class="mdi mdi-table-large"></i>
+                <i class="mdi mdi-laptop"></i>
               </span>
-              <span class="menu-title">List Products</span>
-            </a>
-          </li>
+                    <span class="menu-title">Kho</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-basic">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="./LoadProductsPage">Danh sách sản phẩm</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="">Thêm sản phẩm</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="./ExpiredProduct">Sản phẩm hết hạn</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item menu-items">
+                <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+              <span class="menu-icon">
+                <i class="mdi mdi-security"></i>
+              </span>
+                    <span class="menu-title">Nhà cung cấp </span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="auth">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="../../pages/samples/blank-page.html"> Danh sách nhà cung cấp</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="../../pages/samples/error-404.html"> Thêm nhà cung cấp </a></li>
+                        <li class="nav-item"> <a class="nav-link" href="../../pages/samples/error-500.html"> 500 </a></li>
+                        <li class="nav-item"> <a class="nav-link" href="../../pages/samples/login.html"> Login </a></li>
+                        <li class="nav-item"> <a class="nav-link" href="../../pages/samples/register.html"> Register </a></li>
+                    </ul>
+                </div>
+            </li>
               <c:url var="bill" value="BillControll"></c:url>
           <li class="nav-item menu-items">
             <a class="nav-link" href="BillControll">
