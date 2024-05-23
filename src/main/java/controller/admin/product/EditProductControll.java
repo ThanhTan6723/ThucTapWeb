@@ -34,9 +34,10 @@ public class EditProductControll extends HttpServlet {
 		request.setAttribute("providerList", providerList);
 		Product product = ProductDAO.getProductById(product_id);
 		request.setAttribute("product", product);
-		request.setAttribute("batchList",batchList);
+		request.setAttribute("batchList", batchList);
 		request.getRequestDispatcher("WEB-INF/admin/edit-product.jsp").forward(request, response);
 	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -123,17 +124,18 @@ public class EditProductControll extends HttpServlet {
 				b.setQuantity(Integer.parseInt(product_quantity));
 				b.setPriceImport(Double.parseDouble(product_priceImport));
 				break;
+
 			}
+
+			Category category = new Category(Integer.parseInt(product_cate));
+			Provider provider = new Provider(Integer.parseInt(product_provider));
+			Account account = new Account(1);
+
+			Product p = new Product(Integer.parseInt(product_id), product_name, Double.parseDouble(product_price),
+					productImageFileName, product_desc, category, Double.parseDouble(product_weight), listBatch);
+			ProductDAO.updateProductAndBatches(p, listBatch, bid);
+			response.sendRedirect("/LoadProductsPage");
 		}
 
-		Category category = new Category(Integer.parseInt(product_cate));
-		Provider provider = new Provider(Integer.parseInt(product_provider));
-		Account account = new Account(1);
-
-		Product p = new Product(Integer.parseInt(product_id), product_name, Double.parseDouble(product_price),
-				productImageFileName, product_desc, category, Double.parseDouble(product_weight), listBatch);
-		ProductDAO.updateProductAndBatches(p, listBatch, bid);
-		response.sendRedirect("/LoadProductsPage");
 	}
-
 }
