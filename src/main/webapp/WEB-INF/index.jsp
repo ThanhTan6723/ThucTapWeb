@@ -14,7 +14,7 @@
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ogani | Template</title>
+    <title>Golden Fields</title>
     <!-- Css Styles -->
     <jsp:include page="client/link/link.jsp"></jsp:include>
     <style>
@@ -28,7 +28,7 @@
             height: 140px;
             background-color: #fff; /* Chỉ định màu nền nếu cần */
             z-index: 900;/* Đảm bảo nó nằm trên các phần tử khác */
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid #969696;
         }
     </style>
 </head>

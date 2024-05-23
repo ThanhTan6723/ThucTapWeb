@@ -80,7 +80,7 @@ public class UpdateProfileControll extends HttpServlet {
 			account.setTelephone(phoneNumber);
 			System.out.println(account);
 			AccountDAO.updateProfile(account);
-			response.sendRedirect(request.getContextPath() + "/IndexControl");
+			response.sendRedirect(request.getContextPath() + "/IndexControll");
 			return;
 		}
 
