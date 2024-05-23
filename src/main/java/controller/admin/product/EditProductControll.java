@@ -26,7 +26,7 @@ public class EditProductControll extends HttpServlet {
         int product_id = Integer.parseInt(pid);
         Product product = ProductDAO.getProductById(product_id);
         request.setAttribute("product", product);
-        request.getRequestDispatcher("/admin/edit-product.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/admin/edit-product.jsp").forward(request, response);
 
 	}
 

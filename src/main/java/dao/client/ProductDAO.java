@@ -395,11 +395,7 @@ public class ProductDAO {
         System.out.println(getTotalProductCount());
         System.out.println(getProductsByPage(1, 2));
         System.out.println(getListReviewsByProductId(2));
-/*
-		System.out.println(getListProducts());
-*/
-
     }
 
-
 }
+

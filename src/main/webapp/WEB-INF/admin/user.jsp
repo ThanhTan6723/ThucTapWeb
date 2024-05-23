@@ -79,9 +79,8 @@
                 { data: 'email' },
                 { data: 'telephone' },
                 { data: null, render: function(data, type, row) {
-
-                        return `<button class="delete-button btn btn-danger" data-id="${row.id}">Xóa</button>
-                                <a href="EditUser?id=${row.id}"><button class="btn btn-danger">Sửa</button></a>`;
+                        return `<button class="delete-button btn btn-danger" data-id="${row.id}" style="height:30px;">Xóa</button>
+                                <a href="EditUser?id=${row.id}"><button class="btn btn-danger" style="height:30px;">Sửa</button></a>`;
                     }}
             ]
         });

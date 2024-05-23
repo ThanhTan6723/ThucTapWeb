@@ -24,7 +24,9 @@ public class EditUser extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-                 String id = request.getParameter("account-id");
+        request.setCharacterEncoding("utf-8");
+        response.setContentType("test/html;charset = utf-8");
+        String id = request.getParameter("account-id");
                  String name = request.getParameter("account-name");
                  String password = request.getParameter("account-password");
                  String email = request.getParameter("account-email");
