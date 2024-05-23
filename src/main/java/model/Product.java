@@ -1,5 +1,8 @@
 package model;
 
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 //import dao.client.ProductDAO;
@@ -11,52 +14,52 @@ public class Product {
 	private String image;
 	private String description;
 	private Category category;
-	private int quantity;
-	private double priceImport;
 	private double weight;
-	private Account adminCreate;
-	private Provider provider;
-	private String dateOfImporting;
-	private String expriredDay;
 	private List<Image> images;
+	private List<Batch> batches;
 
 	public Product() {
+
 		super();
 	}
-
-	public Product(int id, String name, double price, String image, String description, Category category, int quantity, double priceImport, double weight, Account adminCreate, Provider provider, String dateOfImporting, String expriredDay, List<Image> images) {
+	public void addBatch(Batch batch) {
+		if (batches == null) {
+			batches = new ArrayList<>();
+		}
+		batches.add(batch);
+	}
+	public Product(int id, String name, double price, String image, String description, Category category, double weight) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.image = image;
 		this.description = description;
 		this.category = category;
-		this.quantity = quantity;
-		this.priceImport = priceImport;
 		this.weight = weight;
-		this.adminCreate = adminCreate;
-		this.provider = provider;
-		this.dateOfImporting = dateOfImporting;
-		this.expriredDay = expriredDay;
+	}
+
+	public Product(int id, String name, double price, String image, String description, Category category, double weight, List<Image> images, List<Batch> batches) {
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.image = image;
+		this.description = description;
+		this.category = category;
+		this.weight = weight;
 		this.images = images;
+		this.batches = batches;
 	}
 
-	public Product(int id, String name, double price, String image, String description, Category category, int quantity, double priceImport, double weight, Account adminCreate, Provider provider, String dateOfImporting, String expriredDay) {
+	public Product(int id, String name, double price, String image, String description, Category category, double weight, List<Batch> batches) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.image = image;
 		this.description = description;
 		this.category = category;
-		this.quantity = quantity;
-		this.priceImport = priceImport;
 		this.weight = weight;
-		this.adminCreate = adminCreate;
-		this.provider = provider;
-		this.dateOfImporting = dateOfImporting;
-		this.expriredDay = expriredDay;
+		this.batches = batches;
 	}
-
 
 	public int getId() {
 		return id;
@@ -99,28 +102,11 @@ public class Product {
 	}
 
 	public Category getCategory() {
-
 		return category;
 	}
 
 	public void setCategory(Category category) {
 		this.category = category;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
-	public double getPriceImport() {
-		return priceImport;
-	}
-
-	public void setPriceImport(double priceImport) {
-		this.priceImport = priceImport;
 	}
 
 	public double getWeight() {
@@ -131,38 +117,6 @@ public class Product {
 		this.weight = weight;
 	}
 
-	public Account getAdminCreate() {
-		return adminCreate;
-	}
-
-	public void setAdminCreate(Account adminCreate) {
-		this.adminCreate = adminCreate;
-	}
-
-	public Provider getProvider() {
-		return provider;
-	}
-
-	public void setProvider(Provider provider) {
-		this.provider = provider;
-	}
-
-	public String getDateOfImporting() {
-		return dateOfImporting;
-	}
-
-	public void setDateOfImporting(String dateOfImporting) {
-		this.dateOfImporting = dateOfImporting;
-	}
-
-	public String getExpriredDay() {
-		return expriredDay;
-	}
-
-	public void setExpriredDay(String expriredDay) {
-		this.expriredDay = expriredDay;
-	}
-
 	public List<Image> getImages() {
 		return images;
 	}
@@ -171,22 +125,45 @@ public class Product {
 		this.images = images;
 	}
 
+	public List<Batch> getBatches() {
+		return batches;
+	}
+
+	public void setBatches(List<Batch> batches) {
+		this.batches = batches;
+	}
+
 	@Override
+
 	public String toString() {
-		return "Product{" +
-				"id=" + id +
-				", name='" + name + '\'' +
-				", price=" + price +
-				", image='" + image + '\'' +
-				", description='" + description + '\'' +
-				", category=" + category +
-				", quantity=" + quantity +
-				", priceImport=" + priceImport +
-				", weight=" + weight +
-				", adminCreate=" + adminCreate +
-				", provider=" + provider +
-				", dateOfImporting='" + dateOfImporting + '\'' +
-				", expriredDay='" + expriredDay + '\'' +
-				'}';
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		StringBuilder builder = new StringBuilder();
+		builder.append("Product{")
+				.append("id=").append(id)
+				.append(", name='").append(name).append('\'')
+				.append(", price=").append(price)
+				.append(", image='").append(image).append('\'')
+				.append(", description='").append(description).append('\'')
+				.append(", category=").append(category)
+				.append(", weight=").append(weight)
+				.append(", images=").append(images)
+				.append(", batches=[");
+		if (batches != null && !batches.isEmpty()) {
+			for (Batch batch : batches) {
+				builder.append("Batch{id=").append(batch.getId())
+						.append(", productId=").append(batch.getProductId())
+						.append(", name='").append(batch.getName()).append('\'')
+						.append(", manufacturingDate=").append(dateFormat.format(batch.getManufacturingDate()))
+						.append(", expiryDate=").append(dateFormat.format(batch.getExpiryDate()))
+						.append(", dateOfImporting=").append(dateFormat.format(batch.getDateOfImporting()))
+						.append(", quantity=").append(batch.getQuantity())
+						.append(", priceImport=").append(batch.getPriceImport())
+						.append(", adminCreate=").append(batch.getAdminCreate())
+						.append(", provider=").append(batch.getProvider())
+						.append('}');
+			}
+		}
+		builder.append("]}");
+		return builder.toString();
 	}
 }

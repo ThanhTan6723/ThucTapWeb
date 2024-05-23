@@ -86,6 +86,7 @@ public static List<Product> pagingProductSearch(int index, String txtSearch, Str
                         new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),AccountDAO.getAccountById(rs.getInt(1)),
                         new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
                 );
+
             }
 		} catch (Exception e) {
 
@@ -95,12 +96,13 @@ public static List<Product> pagingProductSearch(int index, String txtSearch, Str
 
 
 	public static void main(String[] args) {
-/*		AccessDAO a = new AccessDAO();
+		AccessDAO a = new AccessDAO();
 		List<Product> list = paddingProductSearch(1,"noo","price","ASC",1);
 		List<Product> list1 = searchByName("A");
 		for (Product product : list) {
 			System.out.println(product.toString());
-		}*/
+		}
+
         System.out.println(AccessDAO.searchByName("a"));
 	}
 }

@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ page contentType="text/html; charset=UTF-8" %><!DOCTYPE html>
 <html lang="en">
 <head>
 <!-- Required meta tags -->
@@ -44,6 +47,7 @@
 										</div>
 									</div>
 									<h4 class="text-muted font-weight-normal">So don hang</h4>
+
 								</div>
 							</div>
 						</div>

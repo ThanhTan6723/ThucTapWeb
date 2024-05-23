@@ -1,3 +1,4 @@
+/*
 package controller.admin.orders;
 
 import java.io.IOException;
@@ -60,3 +61,4 @@ public class BillDetailControll extends HttpServlet {
 	}
 
 }
+*/

@@ -17,6 +17,7 @@ public class Account implements IModel {
     }
 
     public Account(int id, String name, String password, String email, String telephone, Role role, int failed, boolean isLocked) {
+
         this.id = id;
         this.name = name;
         this.password = password;
@@ -25,6 +26,9 @@ public class Account implements IModel {
         this.role = role;
         this.failed = failed;
         this.isLocked = isLocked;
+    }
+
+    public Account(int anInt) {
     }
 
     public int getId() {
