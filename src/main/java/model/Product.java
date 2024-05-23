@@ -157,6 +157,7 @@ public class Product {
 						.append(", expiryDate=").append(dateFormat.format(batch.getExpiryDate()))
 						.append(", dateOfImporting=").append(dateFormat.format(batch.getDateOfImporting()))
 						.append(", quantity=").append(batch.getQuantity())
+						.append(", currentQuantity=").append(batch.getCurrentQuantity())
 						.append(", priceImport=").append(batch.getPriceImport())
 						.append(", adminCreate=").append(batch.getAdminCreate())
 						.append(", provider=").append(batch.getProvider())

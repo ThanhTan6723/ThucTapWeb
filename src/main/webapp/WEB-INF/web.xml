@@ -5,10 +5,19 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
 
+  <!-- Cấu hình servlet -->
+  <servlet>
+    <servlet-name>InventoryProduct</servlet-name>
+    <servlet-class>controller.admin.product.InventoryProduct</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>InventoryProduct</servlet-name>
+    <url-pattern>/InventoryProduct</url-pattern>
+  </servlet-mapping>
+
+  <!-- Cấu hình welcome file -->
   <welcome-file-list>
     <welcome-file>IndexControll</welcome-file>
   </welcome-file-list>
-
-
-
 </web-app>
