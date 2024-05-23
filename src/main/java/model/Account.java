@@ -8,29 +8,23 @@ public class Account implements IModel {
     private String password;
     private String email;
     private String telephone;
-    private int isAdmin;
+    private Role role;
+    private int failed;
+    private boolean isLocked;
 
     public Account() {
         // TODO Auto-generated constructor stub
     }
 
-    public Account(int id, String name, String password, String email, String telephone) {
-        super();
+    public Account(int id, String name, String password, String email, String telephone, Role role, int failed, boolean isLocked) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
         this.telephone = telephone;
-    }
-
-    public Account(int id, String name, String password, String email, String telephone, int isAdmin) {
-        super();
-        this.id = id;
-        this.name = name;
-        this.password = password;
-        this.email = email;
-        this.telephone = telephone;
-        this.isAdmin = isAdmin;
+        this.role = role;
+        this.failed = failed;
+        this.isLocked = isLocked;
     }
 
     public int getId() {
@@ -73,18 +67,42 @@ public class Account implements IModel {
         this.telephone = telephone;
     }
 
-    public int getIsAdmin() {
-        return isAdmin;
+    public Role getRole() {
+        return role;
     }
 
-    public void setIsAdmin(int isAdmin) {
-        this.isAdmin = isAdmin;
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public int getFailed() {
+        return failed;
+    }
+
+    public void setFailed(int failed) {
+        this.failed = failed;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
     }
 
     @Override
     public String toString() {
-        return "Account: " + "id: " + id + ", " + name + ", " + password + ", " + email + ", " + telephone
-                + ", isAdmin: " + isAdmin;
+        return "Account{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", role=" + role +
+                ", failed=" + failed +
+                ", isLocked=" + isLocked +
+                '}';
     }
 
     @Override
@@ -94,7 +112,7 @@ public class Account implements IModel {
 
     @Override
     public Object getBeforeData() {
-        return new Account(id, name, password, email, telephone, isAdmin);
+        return new Account(id, name, password, email, telephone, role,failed,isLocked);
     }
 
     @Override

@@ -29,7 +29,12 @@ public class EditUser extends HttpServlet {
                  String password = request.getParameter("account-password");
                  String email = request.getParameter("account-email");
                  String phone = request.getParameter("account-phone");
-                 Account account = new Account(Integer.parseInt(id),name,password,email,phone);
+                 Account account = new Account();
+                 account.setId(Integer.parseInt(id));
+                 account.setName(name);
+                 account.setEmail(email);
+                 account.setPassword(password);
+                 account.setTelephone(phone);
                  System.out.println(account);
                  AccountsDAO.updateAccount(account);
                  response.sendRedirect("./LoadUserPage");

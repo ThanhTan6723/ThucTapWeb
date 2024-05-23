@@ -33,7 +33,7 @@ public class LoginGoogleControll extends HttpServlet {
                 account.setName(googlePojo.getName());
                 account.setEmail(googlePojo.getEmail());
                 account.setPassword(""); // Mật khẩu để trống hoặc đặt một giá trị mặc định
-                account.setIsAdmin(0); // Giả định tài khoản người dùng không phải admin
+//                account.setRole(0,); // Giả định tài khoản người dùng không phải admin
                 System.out.println(account);
                 accountDAO.insertAccount(account);
             }

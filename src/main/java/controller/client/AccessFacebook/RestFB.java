@@ -1,4 +1,4 @@
-package model;
+package controller.client.AccessFacebook;
 
 import java.io.IOException;
 
