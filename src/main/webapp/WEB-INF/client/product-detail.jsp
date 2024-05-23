@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+         pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -21,6 +22,11 @@
         position: relative;
     }
 
+        .product__details__pic__slider__nav {
+            position: relative;
+
+        }
+
     .owl-prev,
     .owl-next {
         position: absolute;
@@ -30,17 +36,78 @@
         margin: 0 -30px;
     }
 
-    .owl-prev {
-        left: 0;
-    }
+        .owl-next {
+            right: 0;
+        }
 
-    .owl-next {
-        right: 0;
-    }
+        .review-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .reviews {
+            margin-top: 20px;
+        }
+        .review-item {
+            border-bottom: 1px solid #e0e0e0;
+            padding: 15px 0;
+        }
+        .review-item:last-child {
+            border-bottom: none;
+        }
+        .review-item h3 {
+            margin: 0;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .review-item h3 span {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+        .review-item p {
+            margin: 10px 0;
+        }
+        .review-item .response {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .review-item .response p {
+            margin: 0;
+        }
+        .review-item .response .response-date {
+            font-size: 12px;
+            color: #888;
+        }
 
-</style>
- <%@ page isELIgnored="false" %>
-<jsp:include page="./link/link.jsp"></jsp:include>
+        .review-footer {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 20px;
+
+        }
+        .review-footer button {
+            background-color: #0176f3;
+            color: #fff;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .review-footer button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <%@ page isELIgnored="false" %>
+    <jsp:include page="./link/link.jsp"></jsp:include>
 
 </head>
 
@@ -200,20 +267,42 @@
                                             nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.</p>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="tabs-3" role="tabpanel">
-                                    <div class="product__details__tab__desc">
-                                        <h6>Products Infomation</h6>
-                                        <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                                            Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
-                                            Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
-                                            sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
-                                            eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
-                                            Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
-                                            sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
-                                            diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
-                                            ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-                                            Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
-                                            Proin eget tortor risus.</p>
+                            </div>
+                            <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <div class="review-container">
+                                        <div class="reviews">
+                                            <div class="review-item">
+                                                <h4>Đánh giá sản phẩm</h4>
+                                                <br>
+                                                <c:forEach items="${listReviews}" var="r">
+                                                <h3>${r.accountCreated.name}<span>Đã mua tại Golden Fields</span></h3>
+                                                <p>${r.comment}</p>
+                                                    <div class="line" style="border-bottom: 1px solid #e0e0e0;
+                                                    margin: 15px 0;"></div>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
+                                        <div class="review-footer">
+                                            <button style="margin-right: 20px;background-color: white;border: 1px solid gray; color: black">Xem đánh giá</button>
+                                            <button>Viết đánh giá</button>
+                                        </div>
+                                        <div class="border-review">
+                                            <div class="review-form">
+                                                <h2>Đánh giá sản phẩm</h2>
+                                                <div class="star-rating">
+                                                    <span class="star" data-value="5">&#9733;</span>
+                                                    <span class="star" data-value="4">&#9733;</span>
+                                                    <span class="star" data-value="3">&#9733;</span>
+                                                    <span class="star" data-value="2">&#9733;</span>
+                                                    <span class="star" data-value="1">&#9733;</span>
+                                                </div>
+                                                <textarea id="comment" placeholder="Viết đánh giá của bạn..."></textarea>
+                                                <button id="submit-review">Gửi đánh giá</button>
+                                            </div>
+                                            <div id="reviews"></div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -286,6 +375,53 @@
     });
         // Chứa số lượng của các batch
         var batchQuantities = {};
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const stars = document.querySelectorAll('.star');
+        let selectedRating = 0;
+
+        stars.forEach((star, index) => {
+            star.addEventListener('click', () => {
+                const starValue = index + 1;
+                if (selectedRating >= starValue) {
+                    selectedRating = starValue - 1; // Bỏ màu nếu nhấn vào ngôi sao hoặc ngôi sao trước nó
+                } else {
+                    selectedRating = starValue; // Chọn sao mới
+                }
+                updateStars(selectedRating);
+            });
+        });
+
+        function updateStars(rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('selected');
+                } else {
+                    star.classList.remove('selected');
+                }
+            });
+        }
+
+        document.getElementById('submit-review').addEventListener('click', () => {
+            const comment = document.getElementById('comment').value;
+            if (selectedRating && comment) {
+                const reviewContainer = document.getElementById('reviews');
+                const newReview = document.createElement('div');
+                newReview.classList.add('review');
+                newReview.innerHTML = `
+                <p><strong>Rating:</strong> ${'★'.repeat(selectedRating)}</p>
+                <p>${comment}</p>
+            `;
+                reviewContainer.prepend(newReview);
+                document.getElementById('comment').value = '';
+                updateStars(0); // Reset sao sau khi gửi đánh giá
+                selectedRating = 0;
+            } else {
+                alert('Vui lòng chọn số sao và viết bình luận.');
+            }
+        });
+    });
 
         function updateQuantity() {
         var batchSelect = document.getElementById("batchSelect");

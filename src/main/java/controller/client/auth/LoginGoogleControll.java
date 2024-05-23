@@ -1,35 +1,53 @@
 package controller.client.auth;
 
-import model.GooglePojo;
-import model.GoogleUtils;
+import controller.client.AccessGoogle.GooglePojo;
+import controller.client.AccessGoogle.GoogleUtils;
+import dao.client.AccountDAO;
+import dao.client.Logging;
+
+import model.Account;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-
-@WebServlet(name = "LoginGoogleControll", value = "/LoginGoogleControll")
+@WebServlet(name = "login-google", value = "/login-google")
 public class LoginGoogleControll extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String code = request.getParameter("code");
         if (code == null || code.isEmpty()) {
-            RequestDispatcher dis = request.getRequestDispatcher("login.jsp");
+            RequestDispatcher dis = request.getRequestDispatcher("/WEB-INF/login.jsp");
             dis.forward(request, response);
         } else {
             String accessToken = GoogleUtils.getToken(code);
             GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
-            request.setAttribute("id", googlePojo.getId());
-            request.setAttribute("name", googlePojo.getName());
-            request.setAttribute("email", googlePojo.getEmail());
-            RequestDispatcher dis = request.getRequestDispatcher("index.jsp");
+
+            AccountDAO accountDAO = new AccountDAO();
+            Account account = accountDAO.findByEmail(googlePojo.getEmail());
+
+            if (account == null) {
+                // Tạo tài khoản mới
+                account = new Account();
+                account.setName(googlePojo.getName());
+                account.setEmail(googlePojo.getEmail());
+                account.setPassword(""); // Mật khẩu để trống hoặc đặt một giá trị mặc định
+//                account.setRole(0,); // Giả định tài khoản người dùng không phải admin
+                System.out.println(account);
+                accountDAO.insertAccount(account);
+            }
+
+//            // Ghi log đăng nhập
+//            Logging.login(account);
+
+            // Tạo session cho người dùng
+            HttpSession session = request.getSession();
+            session.setAttribute("account", account);
+            session.setMaxInactiveInterval(60 * 60);
+
+            // Chuyển hướng tới trang chính
+            RequestDispatcher dis = request.getRequestDispatcher("/WEB-INF/index.jsp");
             dis.forward(request, response);
         }
     }

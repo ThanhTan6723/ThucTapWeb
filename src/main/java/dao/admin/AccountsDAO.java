@@ -6,136 +6,126 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import dao.client.AccountDAO;
 import dao.client.JDBCUtil;
 import model.Account;
 
 public class AccountsDAO {
-	public static List<Account> getListAccount() {
-		ArrayList<Account> list = new ArrayList<>();
-		String query = "select * from Accounts where isAdmin=0";
-		try {
-			Connection con = JDBCUtil.getConnection();
-			PreparedStatement ps = con.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				list.add(new Account(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-						rs.getInt(6)));
-			}
-		} catch (Exception e) {
+    public static List<Account> getListAccount() {
+        ArrayList<Account> list = new ArrayList<>();
+        String query = "select * from Accounts where role_id = 0";
+        try {
+            Connection con = JDBCUtil.getConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Account(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+                        AccountDAO.getRole(rs.getInt(6)), rs.getInt(7), rs.getBoolean(8)));
+            }
+        } catch (Exception e) {
 
-		}
-		return list;
-	}
-/*public static List<Account> getListAccount(int offset, int limit) {
-	ArrayList<Account> list = new ArrayList<>();
-	String query = "SELECT * FROM Accounts WHERE isAdmin = 0 LIMIT ?, ?";
-	Connection con = null;
-	PreparedStatement ps = null;
-	ResultSet rs = null;
+        }
+        return list;
+    }
 
-	try {
-		con = JDBCUtil.getConnection();
-		ps = con.prepareStatement(query);
-		ps.setInt(1, offset);
-		ps.setInt(2, limit);
-		rs = ps.executeQuery();
+    /*public static List<Account> getListAccount(int offset, int limit) {
+        ArrayList<Account> list = new ArrayList<>();
+        String query = "SELECT * FROM Accounts WHERE isAdmin = 0 LIMIT ?, ?";
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
-		while (rs.next()) {
-			int id = rs.getInt(1);
-			String name = rs.getString(2);
-			String password = rs.getString(3);
-			String email = rs.getString(4);
-			String telephone = rs.getString(5);
-			int isAdmin = rs.getInt(6);
+        try {
+            con = JDBCUtil.getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, offset);
+            ps.setInt(2, limit);
+            rs = ps.executeQuery();
 
-			list.add(new Account(id, name, password, email, telephone, isAdmin));
-		}
-	} catch (Exception e) {
-		e.printStackTrace();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String name = rs.getString(2);
+                String password = rs.getString(3);
+                String email = rs.getString(4);
+                String telephone = rs.getString(5);
+                int isAdmin = rs.getInt(6);
 
-	}
-	return list;
-}*/
-	public static int getNumberOfRecords() {
-		int totalRecords = 0;
-		String query = "SELECT COUNT(*) AS total FROM Accounts WHERE isAdmin = 0";
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
+                list.add(new Account(id, name, password, email, telephone, isAdmin));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
 
-		try {
-			con = JDBCUtil.getConnection();
-			ps = con.prepareStatement(query);
-			rs = ps.executeQuery();
+        }
+        return list;
+    }*/
+    public static int getNumberOfRecords() {
+        int totalRecords = 0;
+        String query = "SELECT COUNT(*) AS total FROM Accounts WHERE isAdmin = 0";
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
-			if (rs.next()) {
-				totalRecords = rs.getInt("total");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return totalRecords;
-	}
+        try {
+            con = JDBCUtil.getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
 
-	public static Account getAccountById(String uid) {
-		String query = "select * from Accounts where id = ? ";
-		try {
-			Connection conn = JDBCUtil.getConnection();
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, uid);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				return new Account(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-						rs.getInt(6));
-			}
-		} catch (Exception e) {
-		}
-		return null;
-	}
+            if (rs.next()) {
+                totalRecords = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalRecords;
+    }
 
-	public static void removeAccount(int id) {
-		String query = "DELETE FROM Accounts Where id = ?";
-		try {
-			Connection conn = JDBCUtil.getConnection();
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, id);
-			ps.executeUpdate();
-		} catch (Exception e) {
+    public static Account getAccountById(String uid) {
+        String query = "select * from Accounts where id = ? ";
+        try {
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, uid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Account(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+                        AccountDAO.getRole(rs.getInt(6)), rs.getInt(7), rs.getBoolean(8));
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
 
-		}
-	}
+    public static void removeAccount(int id) {
+        String query = "DELETE FROM Accounts Where id = ?";
+        try {
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
 
-	public static void updateAccount(Account account) {
-		String query = "update Accounts set name=?,password=?,email=?,phonenumber=?  where id =?";
-		try {
-			Connection conn = JDBCUtil.getConnection();
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1,account.getName());
-			ps.setString(2,account.getPassword());
-			ps.setString(3,account.getEmail());
-			ps.setString(4,account.getTelephone());
-			ps.setInt(5, account.getId());
+        }
+    }
 
-			ps.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    public static void updateAccount(Account account) {
+        String query = "update Accounts set name=?,password=?,email=?,phonenumber=?  where id =?";
+        try {
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, account.getName());
+            ps.setString(2, account.getPassword());
+            ps.setString(3, account.getEmail());
+            ps.setString(4, account.getTelephone());
+            ps.setInt(5, account.getId());
 
-	public static void main(String[] args) {
-		AccountsDAO a = new AccountsDAO();
-		// removeAccount("1");
-		updateAccount(new Account(1, "maisuong", "maisuong@gmail.com", "dian", "01453256",0));
-/*
-		removeAccount(2);
-*/
-/*		List<Account> list = a.getListAccount(0,4);*/
-/*		for (Account account : list) {
-			System.out.println(account.toString());
-		}*/
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-/*
-		System.out.println(updateAccount("thanhtan67"));;
-*/
-	}
+    public static void main(String[] args) {
+        AccountsDAO a = new AccountsDAO();
+
+    }
 }

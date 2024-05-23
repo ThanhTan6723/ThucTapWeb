@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import dao.client.AccountDAO;
 import model.Account;
 import model.Encode;
+import model.Role;
 
 @WebServlet(name = "SignupControll", value = "/SignupControll")
 public class SignupControll extends HttpServlet {
@@ -87,7 +88,9 @@ public class SignupControll extends HttpServlet {
             account.setPassword(enpass);
             account.setEmail(email);
             account.setTelephone(phoneNumber);
-            account.setIsAdmin(0);
+            Role role = new Role();
+            role.setId(0);
+            account.setRole(role);
             AccountDAO.insertAccount(account);
             response.sendRedirect(request.getContextPath() + "/LoginControll");
             return;
