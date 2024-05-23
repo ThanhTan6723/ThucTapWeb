@@ -44,17 +44,19 @@ public static List<Product> getOutstandingProduct() {
 			while (rs.next()) {
 				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
 						new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),AccountDAO.getAccountById(rs.getInt(1)),
-						new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
+						,rs.getString(12),rs.getString(13))
 				);
 
-	} catch (SQLException ex) {
-		throw new RuntimeException(ex);
+	} catch (SQLException e) {
+		throw new RuntimeException(e);
 	}
 
 		return list;
-	}
+	} catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
-	public static List<Product> getNext4Product ( int amount){
+    public static List<Product> getNext4Product ( int amount){
 		List<Product> list = new ArrayList<>();
 		String query = "select * from Products where price>40 order by id limit 4 offset ?;";
 		try {
