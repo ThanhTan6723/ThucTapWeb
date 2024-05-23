@@ -9,7 +9,25 @@ import java.util.*;
 import model.*;
 
 public class ProductDAO {
-/*	public static List<Product> getListProductById(int categoryId) {
+
+    public static List<Review> getListReviewsByProductId(int productId) {
+        List<Review> list = new ArrayList<>();
+        String query = "Select * from reviews where product_id = ?";
+        try {
+            Connection con = JDBCUtil.getConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, productId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(new Review(rs.getInt(1), AccountDAO.getAccountById(rs.getInt(2)), ProductDAO.getProductById(rs.getInt(3)), rs.getInt(4), rs.getString(5), rs.getDate(6)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+				/*	public static List<Product> getListProductById(int categoryId) {
 		String sql = "SELECT p.id AS product_id, p.name AS product_name, p.price, p.image, p.description, " +
 				"p.category_id, p.weight, " +
 				"b.id AS batch_id, b.name AS batch_name, b.manufacturingDate, b.expiryDate, b.dateOfImporting, " +
@@ -641,11 +659,8 @@ public class ProductDAO {
 
 		return product;
 	}
-        public static void main(String[] args) {
+     public static void main(String[] args) {
 
-/*
-			System.out.println(getListProducts());
-*/
 			System.out.println(getProductWithBatchesById(2));
 
 			List<Batch> updatedBatches = new ArrayList<>();
@@ -655,18 +670,8 @@ public class ProductDAO {
 			updateProductAndBatches(new Product(2,"hihi",12.00,"hehe","hehe",new Category(1,"hehe"),4.00),updatedBatches,4);
 			System.out.println(getProductWithBatchesById(2));
 
-			/*
-		   System.out.println(getListProducts());
-*/
-
-//			System.out.println(getListExpiredProduct());
-
-
-//			System.out.println(getListBatchById(3));
-
-
-//			System.out.println(getBatchById(7));
-//			System.out.println(getInforByIdProvider(4));
+			
 	}
 
 }
+

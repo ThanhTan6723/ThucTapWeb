@@ -1,6 +1,8 @@
-package model;
+package controller.client.AccessFacebook;
 
 import java.io.IOException;
+
+import controller.client.AccessGoogle.Constants;
 import org.apache.http.client.ClientProtocolException;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

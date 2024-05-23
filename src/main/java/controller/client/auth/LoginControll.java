@@ -53,11 +53,12 @@ public class LoginControll extends HttpServlet {
         }
 
         if (userName != null && passWord != null && !checkSpaceName && !checkSpacePass) {
-            Account account = AccountDAO.checkLogin(userName, passWord);
+            String enpass = Encode.toSHA1(passWord);
+            Account account = AccountDAO.checkLogin(userName, enpass);
 
             if (account != null) {
                 // not Admin
-                if (account.getIsAdmin() == 0) {
+                if (account.getRole().getId() == 0) {
                     // Session
                     HttpSession session = request.getSession();
                     session.setAttribute("account", account);
@@ -75,7 +76,7 @@ public class LoginControll extends HttpServlet {
                     return;
                 }
                 // is admin
-                if (account.getIsAdmin() == 1) {
+                if (account.getRole().getId() == 1) {
                     HttpSession session = request.getSession();
                     session.setAttribute("account", account);
                     session.setMaxInactiveInterval(60 * 60);

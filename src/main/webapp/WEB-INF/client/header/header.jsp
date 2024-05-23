@@ -84,7 +84,7 @@
 
                             </ul>
                             <div class="dropdown-content">
-                                <c:if test="${sessionScope.account.isAdmin == 1}">
+                                <c:if test="${sessionScope.account.role.id == 1}">
                                     <a href="/IndexAdminControll">
                                         <b>Quản lý</b>
                                     </a>
