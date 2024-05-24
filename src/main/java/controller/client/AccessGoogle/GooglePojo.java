@@ -1,4 +1,4 @@
-package model;
+package controller.client.AccessGoogle;
 
 public class GooglePojo {
     private String id;
@@ -44,5 +44,17 @@ public class GooglePojo {
         return picture;
     }
 
-
+    @Override
+    public String toString() {
+        return "GooglePojo{" +
+                "id='" + id + '\'' +
+                ", email='" + email + '\'' +
+                ", verified_email=" + verified_email +
+                ", name='" + name + '\'' +
+                ", given_name='" + given_name + '\'' +
+                ", family_name='" + family_name + '\'' +
+                ", link='" + link + '\'' +
+                ", picture='" + picture + '\'' +
+                '}';
+    }
 }

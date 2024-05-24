@@ -55,15 +55,14 @@
             </div>
         </div>
         <div class="media-options">
-            <a href="https://www.facebook.com/dialog/oauth?client_id=359123991240252&redirect_uri=https://localhost:8443/AccessFacebook/login-facebook" class="field facebook">
+            <a href="https://www.facebook.com/dialog/oauth?client_id=359123991240252&redirect_uri=https://localhost:8443/login-facebook" class="field facebook">
                 <i class='bx bxl-facebook facebook-icon'></i>
                 <span>Tiếp tục với Facebook</span>
             </a>
         </div>
         <div class="media-options">
-            <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/AccessGoogle/login-google&response_type=code
-    &client_id=352140522561-vpmetjr6bjce1vod9b0cppihhbcgdesh.apps.googleusercontent.com&approval_prompt=force" class="field google">
-                <%--                    <c:url var="gg" value="assets"></c:url>--%>
+            <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/login-google&response_type=code
+    &client_id=103711909118-kj61sqe0bv8srccvmk7tire0ih1oi87o.apps.googleusercontent.com" class="field google">
                 <img src="assets/img/google.png" alt="" class="google-img">
                 <span>Tiếp tục với Google</span>
             </a>

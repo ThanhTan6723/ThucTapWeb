@@ -20,8 +20,8 @@ import model.*;
 
 @WebServlet("/DetailControl")
 public class DetailControl extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
+    private static final long serialVersionUID = 1L;
+  
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -31,14 +31,15 @@ public class DetailControl extends HttpServlet {
 		int pid=Integer.parseInt(productId);
 		System.out.println("id ne"+pid);
 		Product product = ProductDAO.getProductById(pid);
+    
         assert product != null;
         int category_id = product.getCategory().getId();
-		List<Product> relativeProduct = ProductDAO.relativeProduct(category_id);
-        request.setAttribute("relativeProduct",relativeProduct);
-		// Tạo một bản sao của đối tượng Product
-		product.setId(product.getId());
-		product.setName(product.getName());
-        product.setPrice(product.getPrice());
+        List<Product> relativeProduct = ProductDAO.relativeProduct(category_id);
+        request.setAttribute("relativeProduct", relativeProduct);
+        // Tạo một bản sao của đối tượng Product
+        product.setId(product.getId());
+        product.setName(product.getName());
+  
 		product.setPrice(product.getPrice());
 		product.setImage(product.getImage());
 		product.setDescription(product.getDescription());
@@ -73,10 +74,11 @@ public class DetailControl extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/client/product-detail.jsp").forward(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        doGet(request, response);
+    }
 
 }
