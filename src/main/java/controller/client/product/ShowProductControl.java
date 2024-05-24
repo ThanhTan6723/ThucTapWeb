@@ -3,15 +3,11 @@ package controller.client.product;
 import java.io.IOException;
 import java.util.List;
 import java.util.StringTokenizer;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import dao.client.IndexDAO;
 import dao.client.ProductDAO;
 import model.Product;
@@ -19,101 +15,120 @@ import model.Product;
 @WebServlet("/ShowProductControl")
 public class ShowProductControl extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final int RECORDS_PER_PAGE = 8; // Số bản ghi trên mỗi trang
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // TODO Auto-generated method stub
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-        try {
 
-            String sort = "";
-            sort = request.getParameter("sort");
-            if (sort == null) {
+
+        try {
+            String sort = request.getParameter("sort");
+            System.out.println("sort "+sort);
+            if (sort == null || sort.isEmpty()) {
                 sort = "id-asc";
+                System.out.println("sort "+sort);
             }
 
             int id = 0;
             if (request.getParameter("cid") != null) {
                 id = Integer.parseInt(request.getParameter("cid"));
             }
-            String indexPage = request.getParameter("index");
-            if(indexPage==null){
-                indexPage="1";
-            }
-            int index = Integer.parseInt(indexPage);
+
             ProductDAO dao = new ProductDAO();
-            int count = dao.getTotalProduct(id);
-            int endPage;
-            endPage = count/8;
-            if (count%8 != 0) {
-                endPage++;
-            }
             StringTokenizer s = new StringTokenizer(sort, "-");
+            System.out.println(s.toString());
             String sortName = s.nextToken();
+            System.out.println(sortName);
             String type = s.nextToken();
-
-            List<Product> list = ProductDAO.pagingProduct(id, index,sortName, type);
-
-
-            request.setAttribute("sort", sort);
-            request.setAttribute("listProducts", list);
-
-
-            request.setAttribute("cid", id);
-
-            request.setAttribute("endPage", endPage);
-            request.setAttribute("tag",index);
-            String paginationHtml = "<div class=\"pagination\">";
-
-// Nếu có trang trước đó, thêm nút Previous
-            if (index > 1) {
-                paginationHtml += "<a href=\"/ShowProductControl?index=" + (index - 1) + "\">Previous</a>";
-            }
-
-// Hiển thị các trang nút bấm
-            for (int i = 1; i <= endPage; i++) {
-                if (i == index) {
-                    paginationHtml += "<span class=\"current\">" + i + "</span>";
-                } else {
-                    paginationHtml += "<a href=\"/ShowProductControl?index=" + i + "\">" + i + "</a>";
+            System.out.println(type);
+            String pageParam = request.getParameter("page");
+            int page = 1; // Mặc định là trang 1
+            if (pageParam != null) {
+                try {
+                    page = Integer.parseInt(pageParam);
+                } catch (NumberFormatException e) {
                 }
             }
 
-// Nếu có trang tiếp theo, thêm nút Next
-            if (index < endPage) {
-                paginationHtml += "<a href=\"/ShowProductControl?index=" + (index + 1) + "\">Next</a>";
+            boolean applyFilter = false;
+            String category = request.getParameter("category");
+            String priceSort = request.getParameter("price_sort");
+            String nameSort = request.getParameter("name_sort");
+            String priceFrom = request.getParameter("price_from");
+            String priceTo = request.getParameter("price_to");
+            String provider = request.getParameter("provider");
+
+            if ((category != null && !category.isEmpty()) ||
+                    (priceSort != null && !priceSort.isEmpty()) ||
+                    (nameSort != null && !nameSort.isEmpty()) ||
+                    (priceFrom != null && !priceFrom.isEmpty()) ||
+                    (priceTo != null && !priceTo.isEmpty()) ||
+                    (provider != null && !provider.isEmpty())) {
+                applyFilter = true;
             }
 
-            paginationHtml += "</div>";
 
-            // Đảm bảo chỉ trả về dữ liệu sản phẩm và phân trang dưới dạng JSON
-            String productsJson = new Gson().toJson(list); // list là danh sách sản phẩm
-            String paginationJson = new Gson().toJson(paginationHtml); // paginationHtml là mã HTML của phân trang
+            List<Product> productListForPage;
+            System.out.println(applyFilter);
+            if (!applyFilter) {
+                List<Product> list = ProductDAO.pagingProduct(id, sortName, type);
+                productListForPage = getProductListForPage(list, page);
+                request.setAttribute("listProducts", productListForPage);
+                int endPage = (int) Math.ceil((double) list.size() / RECORDS_PER_PAGE);
+                request.setAttribute("endPage", endPage);
 
-            // Tạo một đối tượng JSON để chứa dữ liệu sản phẩm và phân trang
-            JsonObject jsonResponse = new JsonObject();
-            jsonResponse.addProperty("products", productsJson); // Thêm danh sách sản phẩm vào JSON response
-            jsonResponse.addProperty("pagination", paginationJson); // Thêm mã HTML của phân trang vào JSON response
-// Thêm totalPages vào đối tượng JSON
-            jsonResponse.addProperty("totalPages", endPage);
-            // Gửi dữ liệu về client dưới dạng JSON
-            response.getWriter().write(jsonResponse.toString());
+            } else {
+                // Xử lý lỗi nếu các tham số là null hoặc rỗng
+                double priceFromVal = (priceFrom != null && !priceFrom.isEmpty()) ? Double.parseDouble(priceFrom) : 0;
+                double priceToVal = (priceTo != null && !priceTo.isEmpty()) ? Double.parseDouble(priceTo) : Double.MAX_VALUE;
+                int categoryVal = (category != null && !category.isEmpty()) ? Integer.parseInt(category) : 0;
+                int providerVal = (provider != null && !provider.isEmpty()) ? Integer.parseInt(provider) : 0;
+
+                List<Product> listLoc = ProductDAO.getFilteredProducts(categoryVal, providerVal, priceFromVal, priceToVal, nameSort, priceSort);
+                productListForPage = getProductListForPage(listLoc, page);
+                request.setAttribute("listProducts", productListForPage);
+                int endPage = (int) Math.ceil((double) listLoc.size() / RECORDS_PER_PAGE);
+                request.setAttribute("endPage", endPage);
+            }
+            // Đặt các giá trị bộ lọc trong request
+            request.setAttribute("sort", sort);
+            request.setAttribute("cid", id);
+            request.setAttribute("category", category);
+            request.setAttribute("price_sort", priceSort);
+            request.setAttribute("name_sort", nameSort);
+            request.setAttribute("price_from", priceFrom);
+            request.setAttribute("price_to", priceTo);
+            request.setAttribute("provider", provider);
+
+            // Xử lý forward chỉ một lần
+            if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+                System.out.println("Forwarding to /WEB-INF/client/product-list.jsp");
+                List<Product> listSale = IndexDAO.getTop8();
+                System.out.println(listSale.toString());
+                request.setAttribute("listSale", listSale);
+                request.getRequestDispatcher("/WEB-INF/client/product-list.jsp").forward(request, response);
+            } else {
+                System.out.println("Forwarding to /WEB-INF/client/menu.jsp");
+                List<Product> listRandProduct = IndexDAO.listRandProduct();
+                request.setAttribute("listRandProduct", listRandProduct);
+                List<Product> listSale = IndexDAO.getTop8();
+                System.out.println(listSale.toString());
+                request.setAttribute("listSale", listSale);
+                request.getRequestDispatcher("/WEB-INF/client/menu.jsp").forward(request, response);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-        List<Product> listRandProduct = IndexDAO.listRandProduct();
-        request.setAttribute("listRandProduct",listRandProduct);
-        List<Product> listSale = IndexDAO.getTop8();
-        request.setAttribute("listSale",listSale);
-        request.getRequestDispatcher("/WEB-INF/client/menu.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    private List<Product> getProductListForPage(List<Product> list, int page) {
+        int startIndex = (page - 1) * RECORDS_PER_PAGE;
+        int endIndex = Math.min(startIndex + RECORDS_PER_PAGE, list.size());
+        return list.subList(startIndex, endIndex);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
-
 }

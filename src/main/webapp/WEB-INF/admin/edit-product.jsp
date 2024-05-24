@@ -78,14 +78,7 @@
                                                 </c:forEach>
                                             </select>
                                         </div>
-                                        <div class="form-group"></div>
 
-
-                                        <div class="form-group">
-                                            <label >Trọng lượng</label> <input type="text"
-                                                                                            class="form-control" id="productWeight" placeholder="Giá"
-                                                                                            name="product-weight" value="${product.weight}">
-                                        </div>
                                         <span class="error" id="error_productWeight" style="color: red; font-size: 14px;"></span>
                                         <div class="form-group">
                                             <label >Nhà cung cấp</label>

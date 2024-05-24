@@ -178,23 +178,10 @@
                             <div class="product__details__price">${detail.price}</div>
                             <b>Phân loại: </b> ${nameCategory}<br>
                             <b>Mô tả: </b> ${detail.description}<br>
-                            <b>Cân nặng</b> <span>${detail.weight}</span>
                             <div>
                                 <b>Kho: </b> <span id="batchQuantity">0</span>
                             </div>
-                            <b>NSX-HSD: </b>
-                           <br>
-                            <div>
-                                <select id="batchSelect" name="selectedBatchId" onchange="updateQuantity()">
-                                    <c:forEach var="batch" items="${listBatch}">
-                                        <option value="${batch.id}" data-quantity="${batch.quantity}">
-                                            <fmt:formatDate value="${batch.manufacturingDate}" pattern="yyyy-MM-dd"/> -
-                                            <fmt:formatDate value="${batch.expiryDate}" pattern="yyyy-MM-dd"/>
-                                        </option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <br>
+
                             <c:url var="addToCart" value="AddToCartControl"></c:url>
                             <br>
                                 <form action="${addToCart}?pid=${detail.id}" method="post">

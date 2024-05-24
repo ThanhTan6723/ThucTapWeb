@@ -22,7 +22,7 @@ public class ProductDAO {
 
 			while (rs.next()) {
 				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						new Category(rs.getInt(6)),rs.getDouble(7)) );
+						new Category(rs.getInt(6))) );
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -39,7 +39,7 @@ public class ProductDAO {
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				return new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						new Category(rs.getInt(6)), rs.getDouble(7));
+						new Category(rs.getInt(6)));
 			}
 		} catch (SQLException e) {
 			// TODO: handle exception
@@ -48,44 +48,7 @@ public class ProductDAO {
 
 		return null;
 	}
-	public static List<Product> pagingProduct(int cid, int index, String sort, String type) {
-		List<Product> list = new ArrayList<>();
-		String query = "";
-		int ind = (index - 1) * 8;
-		String orderByClause = " ORDER BY " + sort + " " + type +" "+" LIMIT 8 OFFSET"+" "+ind;; // Sắp xếp theo cột được chỉ định theo kiểu được yêu cầu
 
-		switch (cid) {
-			case 0:
-				query = "SELECT * FROM Products"+orderByClause;
-				break;
-			case 1:
-				query = "SELECT * FROM Products WHERE category_id = 1"+orderByClause;
-				break;
-			case 2:
-				query = "SELECT * FROM Products WHERE category_id = 2"+orderByClause;
-				break;
-			case 3:
-				query = "SELECT * FROM Products WHERE category_id = 3"+orderByClause;
-				break;
-			case 4:
-				query = "SELECT * FROM Products WHERE oldPrice > price";
-				break;
-			default:
-				break;
-		}
-		try {
-			Connection conn = JDBCUtil.getConnection();
-			PreparedStatement ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						new Category(rs.getInt(6)),rs.getDouble(7)) );
-			}
-		} catch (Exception e) {
-			// Xử lý ngoại lệ
-		}
-		return list;
-	}
 	public int getTotalProduct(int cid) {
 		String query = "SELECT COUNT(*) FROM Products ";
 		switch (cid) {
@@ -164,7 +127,7 @@ public class ProductDAO {
 
 			while (rs.next()) {
 				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						new Category(rs.getInt(6)),rs.getDouble(7)) );
+						new Category(rs.getInt(6))) );
 			}
 		}catch (Exception e){
 
@@ -254,7 +217,7 @@ public class ProductDAO {
 
 			while (rs.next()) {
 				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						new Category(rs.getInt(6)),rs.getDouble(7)) );
+						new Category(rs.getInt(6))) );
 			}
 		}catch (Exception e){
 
@@ -287,7 +250,7 @@ public class ProductDAO {
 			ResultSet rs= ps.executeQuery();
 			while (rs.next()) {
 				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						new Category(rs.getInt(6)),rs.getDouble(7)) );
+						new Category(rs.getInt(6))) );
 			}
 		}catch (Exception e){
 
@@ -375,8 +338,7 @@ public class ProductDAO {
 			psProduct.setString(3, product.getImage());
 			psProduct.setString(4, product.getDescription());
 			psProduct.setInt(5, product.getCategory().getId());
-			psProduct.setDouble(6, product.getWeight());
-			psProduct.setInt(7, product.getId());
+			psProduct.setInt(6, product.getId());
 			psProduct.executeUpdate();
 
 			// Cập nhật thông tin các lô hàng
@@ -450,7 +412,6 @@ public class ProductDAO {
 							productResultSet.getString("image"),
 							productResultSet.getString("description"),
 							new Category(productResultSet.getInt("category_id")),
-							productResultSet.getDouble("weight"),
 							new ArrayList<>(),
 							new ArrayList<>()
 					);
@@ -495,33 +456,101 @@ public class ProductDAO {
 
 		return product;
 	}
+	public static List<Product> pagingProduct(int cid, String sort, String type) {
+		List<Product> list = new ArrayList<>();
+		String query = "";
+		String orderByClause = " ORDER BY " + sort + " " + type +" ";
+		switch (cid) {
+			case 0:
+				query = "SELECT * FROM Products"+orderByClause;
+				break;
+			case 1:
+				query = "SELECT * FROM Products WHERE category_id = 1"+orderByClause;
+				break;
+			case 2:
+				query = "SELECT * FROM Products WHERE category_id = 2"+orderByClause;
+				break;
+			case 3:
+				query = "SELECT * FROM Products WHERE category_id = 3"+orderByClause;
+				break;
+			case 4:
+				query = "SELECT * FROM Products WHERE oldPrice > price";
+				break;
+			default:
+				break;
+		}
+		try {
+			Connection conn = JDBCUtil.getConnection();
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+						new Category(rs.getInt(6))) );
+			}
+		} catch (Exception e) {
+			// Xử lý ngoại lệ
+		}
+		return list;
+	}
+	public static List<Product> getFilteredProducts(int id, int idProvider, double startPrice, double endPrice, String name, String price) {
+		List<Product> list = new ArrayList<>();
+		String query = "";
+		String orderByClause = "AND pr.id = ? " +
+				"AND p.price BETWEEN ? AND ? " +
+				"ORDER BY p.name " + name + ", p.price " + price;
+		switch (id) {
+			case 0:
+				query = "SELECT p.* FROM Products p JOIN Batch b ON p.id = b.product_id " +
+						"JOIN Providers pr ON b.provider_id = pr.id JOIN Category c ON p.category_id = c.id " +
+						orderByClause;
+				break;
+			case 1:
+				query = "SELECT p.* FROM Products p JOIN Batch b ON p.id = b.product_id " +
+						"JOIN Providers pr ON b.provider_id = pr.id JOIN Category c ON p.category_id = c.id " +
+						"WHERE category_id = 1 " + orderByClause;
+				break;
+			case 2:
+				query = "SELECT p.* FROM Products p JOIN Batch b ON p.id = b.product_id " +
+						"JOIN Providers pr ON b.provider_id = pr.id JOIN Category c ON p.category_id = c.id " +
+						"WHERE category_id = 2 " + orderByClause;
+				break;
+			case 3:
+				query = "SELECT p.* FROM Products p JOIN Batch b ON p.id = b.product_id " +
+						"JOIN Providers pr ON b.provider_id = pr.id JOIN Category c ON p.category_id = c.id " +
+						"WHERE category_id = 3 " + orderByClause;
+				break;
+			default:
+				// Xử lý trường hợp id không khớp với bất kỳ giá trị nào trong switch
+				break;
+		}
+		try {
+			Connection con = JDBCUtil.getConnection();
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, idProvider);
+			ps.setDouble(2, startPrice);
+			ps.setDouble(3, endPrice);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+						new Category(rs.getInt(6))));
+			}
+		} catch (Exception e) {
+			// Xử lý exception
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 
 	public static void main(String[] args) {
+/*
+		System.out.println(pagingProduct(0,"name","asc").toString());
+*/
 
-/*		System.out.println(getProductWithBatchesById(2));
-
-		List<Batch> updatedBatches = new ArrayList<>();
-		updatedBatches.add(new Batch(1, 1, "B001", new Date(110, 3, 10), new Date(110, 4, 10), new Date(110, 3, 12), 100, 12.34, new Provider(3, "cuimia", "cuimia")));
-		updatedBatches.add(new Batch(4, 3, "B002", new Date(115, 3, 10), new Date(112, 4, 18), new Date(112, 0, 24), 500, 4.56, new Provider(3, "hehe", "hehe")));
-
-		updateProductAndBatches(new Product(2,"hihi",12.00,"hehe","hehe",new Category(1,"hehe"),4.00),updatedBatches,4);
-		System.out.println(getProductWithBatchesById(2));*/
-
-			/*
-
-
-//			System.out.println(getListExpiredProduct());
-
-
-//			System.out.println(getListBatchById(3));
-
-
-//			System.out.println(getBatchById(7));
-//			System.out.println(getInforByIdProvider(4));
-/*		System.out.println(getListProducts());
-		removeProduct(2);
-		System.out.println(getListProducts());*/
+		System.out.println(getFilteredProducts(1,2,1,20,"ASC","ASC"));
+/*
 		System.out.println(getProductWithBatchesById(1));
+*/
 	}
 
 }

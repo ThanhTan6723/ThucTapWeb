@@ -89,10 +89,6 @@
                                         </div>
 
                                     <div class="form-group">
-                                        <label >8.Trọng lượng</label>
-                                        <p> ${product.weight}</p>
-                                    </div>
-                                    <div class="form-group">
                                         <label >9.Thông tin các lô hàng</label>
                                         <ul>
                                             <c:forEach var="o" items="${listBatch}" varStatus="loop">

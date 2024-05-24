@@ -42,6 +42,7 @@
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"> <a class="nav-link" href="./LoadProductsPage">Danh sách sản phẩm</a></li>
                         <li class="nav-item"> <a class="nav-link" href="./InventoryProduct">Tồn kho</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="./InventoryProduct">Nhập kho</a></li>
                         <li class="nav-item"> <a class="nav-link" href="./ExpiredProduct">Sản phẩm hết hạn</a></li>
                     </ul>
                 </div>
