@@ -14,7 +14,6 @@ public class Product {
 	private String image;
 	private String description;
 	private Category category;
-	private double weight;
 	private List<Image> images;
 	private List<Batch> batches;
 
@@ -28,36 +27,33 @@ public class Product {
 		}
 		batches.add(batch);
 	}
-	public Product(int id, String name, double price, String image, String description, Category category, double weight) {
+	public Product(int id, String name, double price, String image, String description, Category category) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.image = image;
 		this.description = description;
 		this.category = category;
-		this.weight = weight;
 	}
 
-	public Product(int id, String name, double price, String image, String description, Category category, double weight, List<Image> images, List<Batch> batches) {
+	public Product(int id, String name, double price, String image, String description, Category category, List<Image> images, List<Batch> batches) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.image = image;
 		this.description = description;
 		this.category = category;
-		this.weight = weight;
 		this.images = images;
 		this.batches = batches;
 	}
 
-	public Product(int id, String name, double price, String image, String description, Category category, double weight, List<Batch> batches) {
+	public Product(int id, String name, double price, String image, String description, Category category,  List<Batch> batches) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.image = image;
 		this.description = description;
 		this.category = category;
-		this.weight = weight;
 		this.batches = batches;
 	}
 
@@ -109,13 +105,7 @@ public class Product {
 		this.category = category;
 	}
 
-	public double getWeight() {
-		return weight;
-	}
 
-	public void setWeight(double weight) {
-		this.weight = weight;
-	}
 
 	public List<Image> getImages() {
 		return images;
@@ -145,7 +135,6 @@ public class Product {
 				.append(", image='").append(image).append('\'')
 				.append(", description='").append(description).append('\'')
 				.append(", category=").append(category)
-				.append(", weight=").append(weight)
 				.append(", images=").append(images)
 				.append(", batches=[");
 		if (batches != null && !batches.isEmpty()) {
