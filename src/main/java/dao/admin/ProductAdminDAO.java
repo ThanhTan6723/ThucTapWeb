@@ -25,7 +25,9 @@ public class ProductAdminDAO {
 
             while (rs.next()) {
                 list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+
                         new Category(rs.getInt(6)) ));
+
             }
         }catch (Exception e){
 
@@ -280,13 +282,6 @@ public class ProductAdminDAO {
     }
 
     public static void main(String[] args) {
-//        System.out.println(getListProducts());
-/*
-        System.out.println(getProductWithBatchesById(4));
-*/
-/*
-        System.out.println(getProductExpiredById(1));
-*/
         System.out.println(getProductAlmostExpiredById(2));
     }
 

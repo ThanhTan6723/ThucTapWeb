@@ -27,6 +27,7 @@ public class DetailControl extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
+
 		String productId = request.getParameter("pid");
 		int pid=Integer.parseInt(productId);
 		System.out.println("id ne"+pid);
@@ -48,6 +49,7 @@ public class DetailControl extends HttpServlet {
         List<Image> listImageProduct = ProductDAO.listImageProduct(product.getId());
 		String nameCategory = ProductDAO.getCategoryById(product.getCategory().getId());
 		List<Batch> listBatch = ProductDAO.getListBatchById(product.getId());
+
 		List<Product> listInventory = ProductAdminDAO.getListProducts();
 		Map<Integer, Integer> productCurrentQuantities = new HashMap<>();
 
@@ -67,6 +69,7 @@ public class DetailControl extends HttpServlet {
 		}
 		System.out.println("danh sach hang"+listBatch.toString());
 		request.setAttribute("productCurrentQuantities", productCurrentQuantities);
+
 		request.setAttribute("listImageProduct",listImageProduct);
 		request.setAttribute("nameCategory",nameCategory);
 		request.setAttribute("detail", product);

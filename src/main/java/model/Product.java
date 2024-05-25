@@ -105,8 +105,6 @@ public class Product {
 		this.category = category;
 	}
 
-
-
 	public List<Image> getImages() {
 		return images;
 	}
@@ -124,7 +122,6 @@ public class Product {
 	}
 
 	@Override
-
 	public String toString() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		StringBuilder builder = new StringBuilder();

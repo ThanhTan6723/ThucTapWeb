@@ -1,4 +1,4 @@
-/*
+
 package controller.admin.orders;
 
 import java.io.IOException;
@@ -29,7 +29,7 @@ public class RefuseBillControll extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
-		String orderStatus = "Order is Refused";
+		String orderStatus = "Đơn hàng đang bị từ chối";
 		OrderDAO.updateOrderStatus(oid, orderStatus);
 
 		response.sendRedirect(request.getContextPath() + "/BillControll");
@@ -44,4 +44,4 @@ public class RefuseBillControll extends HttpServlet {
 	}
 
 }
-*/
+

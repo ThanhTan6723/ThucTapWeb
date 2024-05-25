@@ -53,7 +53,6 @@
 
 <span class="header__fixed">
 	<jsp:include page="header/header.jsp"></jsp:include>
-
 </span>
 <!-- Breadcrumb Section Begin -->
 <div style="height: 140px"></div>
