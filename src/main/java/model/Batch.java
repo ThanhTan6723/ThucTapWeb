@@ -12,7 +12,8 @@ public class Batch {
     private Date manufacturingDate;
     private Date expiryDate;
     private Date dateOfImporting; // Ngày nhập hàng
-    private int quantity;
+    private int quantity;//sản phẩm nhập vào
+    private int currentQuantity;//sản phẩm hiện tại
     private double priceImport;
     private Provider provider;
     private Account adminCreate;
@@ -29,6 +30,21 @@ public class Batch {
         this.provider = provider;
     }
 
+    public Batch(int id, int productId, String name, Date manufacturingDate, Date expiryDate, Date dateOfImporting, int quantity,int currentQuantity, double priceImport, Provider provider, Account adminCreate) {
+        this.id = id;
+        this.productId = productId;
+        this.name = name;
+        this.manufacturingDate = manufacturingDate;
+        this.expiryDate = expiryDate;
+        this.dateOfImporting = dateOfImporting;
+        this.quantity = quantity;
+        this.currentQuantity = currentQuantity;
+        this.priceImport = priceImport;
+        this.provider = provider;
+        this.adminCreate = adminCreate;
+
+    }
+
     public Batch(int id, int productId, String name, Date manufacturingDate, Date expiryDate, Date dateOfImporting, int quantity, double priceImport, Provider provider, Account adminCreate) {
         this.id = id;
         this.productId = productId;
@@ -40,7 +56,25 @@ public class Batch {
         this.priceImport = priceImport;
         this.provider = provider;
         this.adminCreate = adminCreate;
+    }
 
+    public Batch(int id, int productId, String name, Date manufacturingDate, Date expiryDate, Date dateOfImporting, int quantity, int currentQuantity) {
+        this.id = id;
+        this.productId = productId;
+        this.name = name;
+        this.manufacturingDate = manufacturingDate;
+        this.expiryDate = expiryDate;
+        this.dateOfImporting = dateOfImporting;
+        this.quantity = quantity;
+        this.currentQuantity = currentQuantity;
+    }
+
+    public Batch(Date manufacturingDate, Date expiryDate, Date dateOfImporting, int quantity, int currentQuantity) {
+        this.manufacturingDate = manufacturingDate;
+        this.expiryDate = expiryDate;
+        this.dateOfImporting = dateOfImporting;
+        this.quantity = quantity;
+        this.currentQuantity = currentQuantity;
     }
 
     public Batch(int id, int productId, String name, Date manufacturingDate, Date expiryDate, Date dateOfImporting, int quantity, double priceImport) {
@@ -110,20 +144,20 @@ public class Batch {
         this.quantity = quantity;
     }
 
+    public int getCurrentQuantity() {
+        return currentQuantity;
+    }
+
+    public void setCurrentQuantity(int currentQuantity) {
+        this.currentQuantity = currentQuantity;
+    }
+
     public double getPriceImport() {
         return priceImport;
     }
 
     public void setPriceImport(double priceImport) {
         this.priceImport = priceImport;
-    }
-
-    public Account getAdminCreate() {
-        return adminCreate;
-    }
-
-    public void setAdminCreate(Account adminCreate) {
-        this.adminCreate = adminCreate;
     }
 
     public Provider getProvider() {
@@ -134,20 +168,32 @@ public class Batch {
         this.provider = provider;
     }
 
+    public Account getAdminCreate() {
+        return adminCreate;
+    }
+
+    public void setAdminCreate(Account adminCreate) {
+        this.adminCreate = adminCreate;
+    }
+
     @Override
     public String toString() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return "Batch{" +
                 "id=" + id +
                 ", productId=" + productId +
                 ", name='" + name + '\'' +
-                ", manufacturingDate=" + (manufacturingDate != null ? dateFormat.format(manufacturingDate) : "null") +
-                ", expiryDate=" + (expiryDate != null ? dateFormat.format(expiryDate) : "null") +
-                ", dateOfImporting=" + (dateOfImporting != null ? dateFormat.format(dateOfImporting) : "null") +
+                ", manufacturingDate=" + manufacturingDate +
+                ", expiryDate=" + expiryDate +
+                ", dateOfImporting=" + dateOfImporting +
                 ", quantity=" + quantity +
+                ", currentQuantity=" + currentQuantity +
                 ", priceImport=" + priceImport +
                 ", provider=" + provider +
                 ", adminCreate=" + adminCreate +
                 '}';
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Batch(1,1,"hihi",null,null,null,100,200,12,null,null));
     }
 }

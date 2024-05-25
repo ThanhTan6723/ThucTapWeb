@@ -5,7 +5,9 @@
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin/edit-product.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin/header/navbar.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin/header" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin/header/sidebar.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin/header" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin/link/link.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin/nhap.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin/show-product.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin/user.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/client/login.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/client" />

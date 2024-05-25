@@ -34,7 +34,7 @@ public class OrderControll extends HttpServlet {
 		System.out.println("Address "+address);
 		String note = request.getParameter("notes");
 
-		String status = "Order is awaiting confirmation";
+		String status = "Đơn hàng đang chờ xác nhận";
 
 		HttpSession session = request.getSession();
 
@@ -52,6 +52,8 @@ public class OrderControll extends HttpServlet {
 			String date = LocalDate.now().toString();
 			order.setDate(date);
 			order.setAccount(account);
+			order.setConsigneeName(name);
+			order.setConsigneePhone(phone);
 			order.setOrderStatus(status);
 			order.setAddress(address);
 			order.setOrderNotes(note);

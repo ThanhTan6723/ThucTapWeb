@@ -53,7 +53,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <h4 class="card-title">All Orders</h4>
+                                    <h4 class="card-title">Danh sách đơn hàng chờ xác nhận</h4>
                                     <table id="allOrdersTable" class="display">
                                         <thead>
                                         <tr>
