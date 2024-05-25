@@ -103,7 +103,6 @@ public class EditProductControll extends HttpServlet {
 		String product_cate = formFields.get("product-cate");
 		String product_quantity = formFields.get("product-quantity");
 		String product_priceImport = formFields.get("product-priceImport");
-		String product_weight = formFields.get("product-weight");
 		String product_provider = formFields.get("product-provider");
 		String product_NSX = formFields.get("manufacturingDate");
 		String product_HSD = formFields.get("expiryDate");

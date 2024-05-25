@@ -18,6 +18,7 @@ import model.Product;
 @WebServlet("/SearchControl")
 public class SearchControl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+    private static final int RECORDS_PER_PAGE = 8; // Số bản ghi trên mỗi trang
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -69,26 +70,25 @@ public class SearchControl extends HttpServlet {
             if (request.getParameter("cid") != null) {
                 id = Integer.parseInt(request.getParameter("cid"));
             }
-            String indexPage = request.getParameter("index");
-            if(indexPage==null){
-                indexPage="1";
-            }
-            int index = Integer.parseInt(indexPage);
-            ProductDAO dao = new ProductDAO();
-            int count = dao.getTotalProduct(id);
-            int endPage;
-            endPage = count/8;
-            if (count%8 != 0) {
-                endPage++;
-            }
+
             StringTokenizer s = new StringTokenizer(sort, "-");
             String sortName = s.nextToken();
             String type = s.nextToken();
-
-            List<Product> listAll = ProductDAO.pagingProduct(id, index,sortName, type);
-            System.out.println("list search: "+listAll);
+            String pageParam = request.getParameter("page");
+            System.out.println("trang"+pageParam);
+            int page = 1; // Mặc định là trang 1
+            if (pageParam != null) {
+                try {
+                    page = Integer.parseInt(pageParam);
+                } catch (NumberFormatException e) {
+                    // Nếu tham số không phải là số, giữ nguyên giá trị mặc định là 1
+                }
+            }
+            List<Product> list = ProductDAO.pagingProduct(id,sortName,type);
+            List<Product> productListForPage = getProductListForPage(list, page);
+            System.out.println("list search: "+productListForPage);
             PrintWriter out = response.getWriter();
-            for (Product o:listAll){
+            for (Product o:productListForPage){
                 out.println("<div class=\"col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat\">\n" +
                         "\t\t\t\t\t\t\t<div class=\"featured__item\">\n" +
                         "\t\t\t\t\t\t\t\t<div class=\"featured__item__pic set-bg\" >\n" +
@@ -120,10 +120,13 @@ public class SearchControl extends HttpServlet {
         request.setAttribute("txt",txtSearch);
 
 
-        // Chuyển hướng đến trang menu.jsp (kể cả khi không tìm thấy sản phẩm).
 
     }
-
+    private List<Product> getProductListForPage(List<Product> list, int page) {
+        int startIndex = (page - 1) * RECORDS_PER_PAGE;
+        int endIndex = Math.min(startIndex + RECORDS_PER_PAGE, list.size());
+        return list.subList(startIndex, endIndex);
+    }
 protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub

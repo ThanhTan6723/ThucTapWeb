@@ -37,22 +37,20 @@
               <span class="menu-icon">
                 <i class="mdi mdi-laptop"></i>
               </span>
-                <span class="menu-title">Kho</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"><a class="nav-link" href="./LoadProductsPage">Danh sách sản phẩm</a></li>
-                    <li class="nav-item"><a class="nav-link" href="./InventoryProduct">Tồn kho</a></li>
-                    <li class="nav-item"><a class="nav-link" href="./ExpiredProduct">Sản phẩm hết hạn</a></li>
-                </ul>
-            </div>
-        </li>
-
-        <c:url var="bill" value="BillControll"></c:url>
-        <c:url var="billDetail" value="BillDetailControll"></c:url>
-        <li class="nav-item menu-items">
-            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+                    <span class="menu-title">Kho</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-basic">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="./LoadProductsPage">Danh sách sản phẩm</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="./InventoryProduct">Tồn kho</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="./InventoryProduct">Nhập kho</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="./ExpiredProduct">Sản phẩm hết hạn</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item menu-items">
+                <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
               <span class="menu-icon">
                 <i class="mdi mdi-security"></i>
               </span>

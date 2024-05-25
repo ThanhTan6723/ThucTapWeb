@@ -12,7 +12,7 @@
 	<meta name="keywords" content="Ogani, unica, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Ogani | Template</title>
+	<title>Golden Fields</title>
 
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -31,18 +31,18 @@
 			z-index: 900;
 			box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
 		}
-		.paging button {
+		.page-btn {
 			padding: 10px 23px;
 			border-radius: 5px;
 			border: none;
+			background-color: #c2c4c5;
+			color: black;
 			font-weight: 700;
-			background-color: #a9aaab;
-
 		}
 
-		.paging button.active {
+		.page-btn.active {
 			background-color: #7fad39;
-			color: whitesmoke;
+			color: white;
 		}
 
 	</style>
@@ -95,60 +95,69 @@
 							<li><a href="#">Cải bắp cải</a></li>
 						</ul>
 					</div>
-					<div class="sidebar__item">
-						<h4>Price</h4>
-						<div class="price-range-wrap">
-							<div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-								 data-min="10" data-max="540">
-								<div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-								<span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-								<span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-							</div>
-							<div class="range-slider">
-								<div class="price-input">
-									<input type="text" id="minamount">
-									<input type="text" id="maxamount">
-								</div>
-							</div>
-						</div>
-					</div>
 					<div class="sidebar__item sidebar__item__color--option">
-						<h4>Colors</h4>
-						<div class="sidebar__item__color sidebar__item__color--white">
-							<label for="white">
-								White
-								<input type="radio" id="white">
-							</label>
-						</div>
-						<div class="sidebar__item__color sidebar__item__color--gray">
-							<label for="gray">
-								Gray
-								<input type="radio" id="gray">
-							</label>
-						</div>
-						<div class="sidebar__item__color sidebar__item__color--red">
-							<label for="red">
-								Red
-								<input type="radio" id="red">
-							</label>
-						</div>
-						<div class="sidebar__item__color sidebar__item__color--black">
-							<label for="black">
-								Black
-								<input type="radio" id="black">
-							</label>
-						</div>
-						<div class="sidebar__item__color sidebar__item__color--blue">
-							<label for="blue">
-								Blue
-								<input type="radio" id="blue">
-							</label>
-						</div>
-						<div class="sidebar__item__color sidebar__item__color--green">
-							<label for="green">
-								Green
-								<input type="radio" id="green">
-							</label>
+						<h5><b>LỌC SẢN PHẨM</b></h5>
+						<div id="filter" class="filter-container">
+							<form action="./ShowProductControl" method="post" >
+								<fieldset style="border: 2px solid #82ae46;">
+									<legend style="width:150px; font-size: 18px;">Danh mục</legend>
+									<label style="display: block; margin-bottom: 10px; margin-left: 10px">
+										<input type="radio" class="price_sortFilter" name="category" value="1"> Mục 1
+									</label>
+									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
+										<input type="radio" class="price_sortFilter" name="category" value="2"> Mục 2
+									</label>
+									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
+										<input type="radio" class="price_sortFilter" name="category" value="3"> Mục 3
+									</label>
+								</fieldset>
+								<fieldset style="border: 2px solid #82ae46;">
+									<legend style="width:150px; font-size: 18px;">Lọc theo giá</legend>
+									<label style="display: block; margin-bottom: 10px; margin-left: 10px">
+										<input type="radio" class="price_sortFilter" name="price_sort" value="asc"> Giá tăng dần
+									</label>
+									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
+										<input type="radio" class="price_sortFilter" name="price_sort" value="desc"> Giá giảm dần
+									</label>
+								</fieldset>
+
+								<fieldset style="border: 2px solid #82ae46;">
+									<legend style="width: 150px; font-size: 18px;">Lọc theo tên</legend>
+									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
+										<input type="radio" class="name_sortAscFilter" name="name_sort" value="asc"> Tên A-Z
+									</label>
+									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
+										<input type="radio" class="name_sortDescFilter" name="name_sort" value="desc"> Tên Z-A
+									</label>
+								</fieldset>
+								<fieldset style="border: 2px solid #82ae46;">
+									<legend style="width: 150px; font-size: 18px;">Khoảng giá</legend>
+									<div style="display: flex;">
+										<label style="display: block; margin-bottom: 10px;margin-left: 10px">
+											<input type="number" class="price_fromFilter" name="price_from" placeholder="Từ" style="width: 100px;">
+										</label>
+										<label style="display: block; margin-bottom: 10px; margin-right: 10px;margin-left: 10px">
+											<input type="number" class="price_toFilter" name="price_to" placeholder="Đến" style="width: 100px;">
+										</label>
+									</div>
+								</fieldset>
+								<fieldset style="border: 2px solid #82ae46;">
+									<legend style="width: 150px; font-size: 18px;">Địa chỉ</legend>
+									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
+										<input type="radio" class="name_sortAscFilter" name="provider" value="1"> Thành phố HCM
+									</label>
+									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
+										<input type="radio" class="name_sortDescFilter" name="provider" value="2"> Đà Nẵng
+									</label>
+									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
+										<input type="radio" class="name_sortDescFilter" name="provider" value="3"> Hà Nội
+									</label>
+									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
+										<input type="radio" class="name_sortDescFilter" name="provider" value="4"> Nghệ An
+									</label>
+								</fieldset>
+								<input style="margin-top: 5px" type="submit" value="Lọc">
+							</form>
 						</div>
 					</div>
 					<div class="sidebar__item">
@@ -241,24 +250,6 @@
 						</div>
 					</div>
 				</div>
-				<div class="sk-page-title">
-					<h4 >
-						<c:choose>
-							<c:when test="${cid==0}">
-								All
-							</c:when>
-							<c:when test="${cid==1}">
-								Noodle
-							</c:when>
-							<c:when test="${cid==2}">
-								Chicken
-							</c:when>
-							<c:when test="${cid==3}">
-								Rice
-							</c:when>
-						</c:choose>
-					</h4>
-				</div>
 				<div class="filter__item">
 					<div class="row">
 						<div class="col-lg-4 col-md-5">
@@ -271,13 +262,14 @@
 									<span>Sort By</span>
 
 									<select class="sort-by-script" name="sort" id="selectFilter" onchange="submitForm()">
-										<option value="id-asc" <c:if test="${sort==null}">selected</c:if>>Mặc định</option>
+										<option value="id-asc" <c:if test="${sort=='id-asc'}">selected</c:if>>Mặc định</option>
 										<option value="price-asc" <c:if test="${sort=='price-asc'}">selected</c:if>>Giá tăng dần</option>
 										<option value="price-desc" <c:if test="${sort=='price-desc'}">selected</c:if>>Giá giảm dần</option>
 										<option value="name-asc" <c:if test="${sort=='name-asc'}">selected</c:if>>A-Z</option>
 										<option value="name-desc" <c:if test="${sort=='name-desc'}">selected</c:if>>Z-A</option>
 									</select>
 								</form>
+
 								<script>
 									function submitForm() {
 										var form = document.getElementById("productForm");
@@ -285,7 +277,6 @@
 										form.submit();
 									}
 								</script>
-
 							</div>
 						</div>
 						<div class="col-lg-4 col-md-4">
@@ -332,11 +323,12 @@
 				</div>
 				<div class="paging" style="padding-left: 300px">
 					<c:forEach begin="1" end="${endPage}" var="i">
-						<button class="${empty param.index && i == 1 ? 'active' : (param.index eq i ? 'active' : '')}">
-							<a href="/ShowProductControl?cid=${cid}&sort=${sort}&index=${i}" style="color: whitesmoke">${i}</a>
+						<button class="page-btn ${i == 1 ? 'active' : ''}" onclick="loadPage(${i})">
+							<span>${i}</span>
 						</button>
 					</c:forEach>
 				</div>
+
 
 			</div>
 		</div>
@@ -354,7 +346,98 @@
 <script src="js/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+<script>
+	function loadPage(page) {
+		var cid = '${param.cid}';
+		var sort = '${param.sort}';
+		var category = $('#category').val(); // Lấy giá trị của thẻ select category
+		var priceSort = $('#price_sort').val(); // Lấy giá trị của thẻ select price_sort
+		var nameSort = $('#name_sort').val(); // Lấy giá trị của thẻ select name_sort
+		var priceFrom = $('#price_from').val(); // Lấy giá trị của thẻ input price_from
+		var priceTo = $('#price_to').val(); // Lấy giá trị của thẻ input price_to
+		var provider = $('#provider').val(); // Lấy giá trị của thẻ select provider
 
+		$.ajax({
+			url: 'ShowProductControl?page=' + page,
+			type: 'GET',
+			data: {
+				cid: cid,
+				sort: sort,
+				category: category,
+				price_sort: priceSort,
+				name_sort: nameSort,
+				price_from: priceFrom,
+				price_to: priceTo,
+				provider: provider
+			},
+			success: function(response) {
+				$('#content').html(response);
+			},
+			error: function(xhr, status, error) {
+				console.error(xhr.responseText);
+			}
+		});
+	}
+
+</script>
+
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		var buttons = document.querySelectorAll('.page-btn');
+		buttons.forEach(function(button) {
+			button.addEventListener('click', function() {
+				buttons.forEach(function(btn) {
+					btn.classList.remove('active');
+				});
+				this.classList.add('active');
+			});
+		});
+	});
+
+</script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		// Lấy tất cả các fieldset
+		const fieldsets = document.querySelectorAll('fieldset');
+
+		// Lấy nút Lọc
+		const filterButton = document.querySelector('input[type="submit"]');
+
+		// Lắng nghe sự kiện khi người dùng thay đổi trạng thái của các input radio và number
+		fieldsets.forEach(fieldset => {
+			const inputs = fieldset.querySelectorAll('input[type="radio"], input[type="number"]');
+			inputs.forEach(input => {
+				input.addEventListener('change', checkFields);
+			});
+		});
+
+		// Hàm kiểm tra các trường đã được chọn đủ chưa
+		function checkFields() {
+			let allFieldsSelected = true;
+			fieldsets.forEach(fieldset => {
+				const inputs = fieldset.querySelectorAll('input[type="radio"]:checked, input[type="number"]');
+				if (fieldset.querySelector('.price_fromFilter') && fieldset.querySelector('.price_toFilter')) {
+					const priceFrom = parseFloat(fieldset.querySelector('.price_fromFilter').value);
+					const priceTo = parseFloat(fieldset.querySelector('.price_toFilter').value);
+					if (isNaN(priceFrom) || isNaN(priceTo) || priceFrom >= priceTo) {
+						allFieldsSelected = false;
+					}
+				}
+				else {
+					if (inputs.length === 0) {
+						allFieldsSelected = false;
+					}
+				}
+			});
+			// Nếu tất cả các trường đã được chọn, kích hoạt nút Lọc
+			// Ngược lại, vô hiệu hóa nút Lọc
+			filterButton.disabled = !allFieldsSelected;
+		}
+		// Ban đầu, kiểm tra trường hợp mặc định
+		checkFields();
+	});
+</script>
 </body>
 
 </html>

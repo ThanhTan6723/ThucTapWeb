@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.admin.ProductAdminDAO;
 import dao.client.ProductDAO;
 import model.*;
 
@@ -27,7 +30,7 @@ public class DetailControl extends HttpServlet {
 
 		String productId = request.getParameter("pid");
 		int pid=Integer.parseInt(productId);
-		System.out.println(pid);
+		System.out.println("id ne"+pid);
 		Product product = ProductDAO.getProductById(pid);
     
         assert product != null;
@@ -47,8 +50,26 @@ public class DetailControl extends HttpServlet {
 		String nameCategory = ProductDAO.getCategoryById(product.getCategory().getId());
 		List<Batch> listBatch = ProductDAO.getListBatchById(product.getId());
 
-		System.out.println(listBatch.toString());
-		System.out.println(product);
+		List<Product> listInventory = ProductAdminDAO.getListProducts();
+		Map<Integer, Integer> productCurrentQuantities = new HashMap<>();
+
+		for (int i = 0; i < listInventory.size(); i++) {
+			Product p = listInventory.get(i);
+			product = ProductAdminDAO.getProductWithBatchesById(product.getId());
+
+			int totalQuantity = 0;
+			int currentQuantity = 0;
+			for (Batch batch : product.getBatches()) {
+				totalQuantity += batch.getQuantity();
+				currentQuantity += batch.getCurrentQuantity();
+			}
+			productCurrentQuantities.put(p.getId(), currentQuantity);
+
+			listInventory.set(i, p);
+		}
+		System.out.println("danh sach hang"+listBatch.toString());
+		request.setAttribute("productCurrentQuantities", productCurrentQuantities);
+
 		request.setAttribute("listImageProduct",listImageProduct);
 		request.setAttribute("nameCategory",nameCategory);
 		request.setAttribute("detail", product);

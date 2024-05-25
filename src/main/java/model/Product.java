@@ -47,7 +47,7 @@ public class Product {
 		this.batches = batches;
 	}
 
-	public Product(int id, String name, double price, String image, String description, Category category, List<Batch> batches) {
+	public Product(int id, String name, double price, String image, String description, Category category,  List<Batch> batches) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
