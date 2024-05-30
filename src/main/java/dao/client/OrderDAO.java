@@ -69,8 +69,8 @@ public class OrderDAO {
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
-                listOrders.add(new Order(rs.getInt(1), rs.getString(2), AccountDAO.getAccountById(rs.getInt(3)),
-                        rs.getDouble(4), rs.getString(5), rs.getString(6), rs.getString(7)));
+                listOrders.add(new Order(rs.getInt(1), rs.getString(2), AccountDAO.getAccountById(rs.getInt(3)),rs.getString(4),rs.getString(5),
+                        rs.getDouble(6), rs.getString(7), rs.getString(8), rs.getString(9)));
             }
 
             // Close resources
@@ -114,8 +114,8 @@ public class OrderDAO {
             ps.setInt(1, orderId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                return new Order(rs.getInt(1), rs.getString(2), AccountDAO.getAccountById(rs.getInt(3)),
-                        rs.getDouble(4), rs.getString(5), rs.getString(6), rs.getString(7));
+                return new Order(rs.getInt(1), rs.getString(2), AccountDAO.getAccountById(rs.getInt(3)),rs.getString(4),rs.getString(5),
+                        rs.getDouble(6), rs.getString(7), rs.getString(8), rs.getString(9));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -136,6 +136,7 @@ public class OrderDAO {
             while (rs.next()) {
                 list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
                         new Category(rs.getInt(6))));
+
 
 
             }
@@ -165,15 +166,17 @@ public class OrderDAO {
 
     public static void insertOrder(Order order) {
 //		List<Product> list = new ArrayList<>();
-        String sql = "INSERT INTO Orders(date,account_id,address,orderNotes,OrderStatus) VALUES (?,?,?,?,?) ";
+        String sql = "INSERT INTO Orders(date,account_id,consignee_name, consignee_phone, address,orderNotes,OrderStatus) VALUES (?,?,?,?,?,?,?) ";
         try {
             Connection conn = JDBCUtil.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, order.getDate());
             ps.setInt(2, order.getAccount().getId());
-            ps.setString(3, order.getAddress());
-            ps.setString(4, order.getOrderNotes());
-            ps.setString(5, order.getOrderStatus());
+            ps.setString(3,order.getConsigneeName());
+            ps.setString(4, order.getConsigneePhone());
+            ps.setString(5, order.getAddress());
+            ps.setString(6, order.getOrderNotes());
+            ps.setString(7, order.getOrderStatus());
             ps.executeUpdate();
             System.out.println("insert order success");
         } catch (Exception e) {
@@ -223,8 +226,8 @@ public class OrderDAO {
             ps.setString(1, status);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                lists.add(new Order(rs.getInt(1), rs.getString(2), AccountDAO.getAccountById(rs.getInt(3)),
-                        rs.getDouble(4), rs.getString(5), rs.getString(6), rs.getString(7)));
+                lists.add(new Order(rs.getInt(1), rs.getString(2), AccountDAO.getAccountById(rs.getInt(3)),rs.getString(4),rs.getString(5),
+                        rs.getDouble(6), rs.getString(7), rs.getString(8), rs.getString(9)));
             }
         } catch (Exception e) {
             // TODO: handle exception
@@ -243,8 +246,8 @@ public class OrderDAO {
             PreparedStatement ps = connect.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                lists.add(new Order(rs.getInt(1), rs.getString(2), AccountDAO.getAccountById(rs.getInt(3)),
-                        rs.getDouble(4), rs.getString(5), rs.getString(6), rs.getString(7)));
+                lists.add(new Order(rs.getInt(1), rs.getString(2), AccountDAO.getAccountById(rs.getInt(3)),rs.getString(4),rs.getString(5),
+                        rs.getDouble(6), rs.getString(7), rs.getString(8), rs.getString(9)));
             }
         } catch (Exception e) {
             // TODO: handle exception
@@ -392,11 +395,8 @@ public class OrderDAO {
     }
 
     public static void main(String[] args) {
-//		System.out.println(getListOrder(9));
-//		System.out.println(deleteOrderDetail(3));
-//		System.out.println(deleteOrder(3));
-
-
         System.out.println(getCategory(1));
+        System.out.println(getOrderDetailByBid(3));
+        System.out.println(getQuantityWithOderId(3));
     }
 }

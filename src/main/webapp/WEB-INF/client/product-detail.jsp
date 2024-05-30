@@ -1,13 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%@ page contentType="text/html; charset=utf-8" language="java" %>
+<%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8" />
-<title>Oganic|Template</title>
+<title>Product detail</title>
 <style type="text/css">
     .header__fixed{
         position: fixed;
@@ -116,10 +116,9 @@
 
 <span class="header__fixed">
 	<jsp:include page="header/header.jsp"></jsp:include>
-
 </span>
         <!-- Breadcrumb Section Begin -->
-        <div style="height: 140px"></div>
+<%--        <div style="height: 140px"></div>--%>
         <!-- Breadcrumb Section Begin -->
         <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
             <div class="container">
@@ -191,9 +190,6 @@
                                 </form>
 
                             <ul>
-
-
-
                                 <li><b>Share on</b>
                                     <div class="share">
                                         <a href="#"><i class="fa fa-facebook"></i></a>
@@ -229,6 +225,7 @@
                                         <p>${provider.address}</p>
                                     </div>
                                 </div>
+
                                 <div class="tab-pane" id="tabs-2" role="tabpanel">
                                     <div class="product__details__tab__desc">
                                         <h6>Products Infomation</h6>
@@ -250,7 +247,6 @@
                                             nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.</p>
                                     </div>
                                 </div>
-                            </div>
                             <div class="tab-pane" id="tabs-3" role="tabpanel">
                                 <div class="product__details__tab__desc">
                                     <div class="review-container">
@@ -259,8 +255,8 @@
                                                 <h4>Đánh giá sản phẩm</h4>
                                                 <br>
                                                 <c:forEach items="${listReviews}" var="r">
-                                                <h3>${r.accountCreated.name}<span>Đã mua tại Golden Fields</span></h3>
-                                                <p>${r.comment}</p>
+                                                    <h3>${r.accountCreated.name}<span>Đã mua tại Golden Fields</span></h3>
+                                                    <p>${r.comment}</p>
                                                     <div class="line" style="border-bottom: 1px solid #e0e0e0;
                                                     margin: 15px 0;"></div>
                                                 </c:forEach>
@@ -270,22 +266,6 @@
                                             <button style="margin-right: 20px;background-color: white;border: 1px solid gray; color: black">Xem đánh giá</button>
                                             <button>Viết đánh giá</button>
                                         </div>
-                                        <div class="border-review">
-                                            <div class="review-form">
-                                                <h2>Đánh giá sản phẩm</h2>
-                                                <div class="star-rating">
-                                                    <span class="star" data-value="5">&#9733;</span>
-                                                    <span class="star" data-value="4">&#9733;</span>
-                                                    <span class="star" data-value="3">&#9733;</span>
-                                                    <span class="star" data-value="2">&#9733;</span>
-                                                    <span class="star" data-value="1">&#9733;</span>
-                                                </div>
-                                                <textarea id="comment" placeholder="Viết đánh giá của bạn..."></textarea>
-                                                <button id="submit-review">Gửi đánh giá</button>
-                                            </div>
-                                            <div id="reviews"></div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -326,9 +306,7 @@
             </div>
         </section>
         <!-- Related Product Section End -->
-
-
-		<jsp:include page="./footer/footer.jsp"></jsp:include>
+		<jsp:include page="footer/footer.jsp"></jsp:include>
 	</div>
     <script src="assets/js/jquery-3.3.1.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
@@ -423,6 +401,7 @@
         // Gọi hàm để cập nhật số lượng khi trang tải lần đầu
         updateQuantity();
     }
+
     </script>
 </body>
 </html>

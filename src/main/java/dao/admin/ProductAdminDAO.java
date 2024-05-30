@@ -29,6 +29,7 @@ public class ProductAdminDAO {
             while (rs.next()) {
                 list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
                         new Category(rs.getInt(6))));
+
             }
         }catch (Exception e){
 
@@ -652,6 +653,7 @@ public class ProductAdminDAO {
 /*
         System.out.println(getListBatchById(3));
 */
+
     }
 
 }

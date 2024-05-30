@@ -11,6 +11,76 @@ import model.Role;
 
 public class AccountDAO extends AbsDAO<Account> {
 
+    public static boolean isUserLocked(int userId) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean isLocked = false;
+
+        try {
+            conn = JDBCUtil.getConnection(); // Lấy kết nối tới cơ sở dữ liệu
+            String sql = "SELECT isLocked FROM Accounts WHERE id = ?"; // Truy vấn để lấy trạng thái khóa
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, userId);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                isLocked = rs.getBoolean("locked"); // Lấy trạng thái khóa từ kết quả truy vấn
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Đóng tất cả các tài nguyên
+            JDBCUtil.closeConnection(conn);
+        }
+
+        return isLocked;
+    }
+
+    // Khóa tài khoản
+    public static boolean lockAccount(int userId) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        boolean success = false;
+        try {
+            conn = JDBCUtil.getConnection();
+            String sql = "UPDATE Accounts SET isLocked = 1 WHERE id = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, userId);
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                success = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.closeConnection(conn);
+        }
+        return success;
+    }
+
+    // Mở khóa tài khoản
+    public static boolean unlockAccount(int userId) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        boolean success = false;
+        try {
+            conn = JDBCUtil.getConnection();
+            String sql = "UPDATE accounts SET isLocked = 0 WHERE id = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, userId);
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                success = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.closeConnection(conn);
+        }
+        return success;
+    }
+
     public Account findByEmail(String email) {
         String sql = "SELECT * FROM Accounts WHERE email = ?";
         try (Connection conn = JDBCUtil.getConnection();

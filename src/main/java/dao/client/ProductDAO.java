@@ -11,9 +11,25 @@ import java.util.*;
 import model.*;
 
 public class ProductDAO {
+    public static List<Review> getListReviewsByProductId(int productId) {
+        List<Review> list = new ArrayList<>();
+        String query = "Select * from reviews where product_id = ?";
+        try {
+            Connection con = JDBCUtil.getConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, productId);
+            ResultSet rs = ps.executeQuery();
 
+            while (rs.next()) {
+                list.add(new Review(rs.getInt(1), AccountDAO.getAccountById(rs.getInt(2)), ProductDAO.getProductById(rs.getInt(3)), rs.getInt(4), rs.getString(5), rs.getDate(6)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
-	public static List<Product> getSellProduct() {
+  public static List<Product> getSellProduct() {
 		List<Product> list = new ArrayList<>();
 		try {
 			Connection connect = JDBCUtil.getConnection();
