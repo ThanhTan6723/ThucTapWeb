@@ -80,15 +80,7 @@
                                         </div>
 
                                         <span class="error" id="error_productWeight" style="color: red; font-size: 14px;"></span>
-                                        <div class="form-group">
-                                            <label >Nhà cung cấp</label>
-                                            <select	class="form-control" id="productProvider"
-                                                       name="product-provider">
-                                                <c:forEach items="${providerList}" var="cate">
-                                                    <option value="${cate.id}" selected>${cate.name}</option>
-                                                </c:forEach>
-                                            </select>
-                                        </div>
+
                                         <div class="form-group">
                                             <label for="batchSelect">Lô hàng</label>
                                             <select id="batchSelect" name="selectedBatchId" onchange="updateQuantity()">
@@ -96,7 +88,7 @@
                                                     <option value="${batch.id}" data-quantity="${batch.quantity}"
                                                             data-expiryDate="${batch.expiryDate}"
                                                             data-manufacturingDate="${batch.manufacturingDate}"
-                                                            data-priceImport="${batch.priceImport}" selected>
+                                                            data-priceImport="${batch.priceImport}">
                                                             ${batch.name}
                                                     </option>
                                                 </c:forEach>
@@ -106,30 +98,30 @@
                                         <div class="form-group">
                                             <label for="productQuantity">Số lượng</label>
                                             <input type="text" class="form-control" id="productQuantity" placeholder="Số lượng" name="product-quantity">
+                                            <span class="error" id="error_productQuantity" style="color: red; font-size: 14px;"></span>
                                         </div>
-                                        <span class="error" id="error_productQuantity" style="color: red; font-size: 14px;"></span>
 
                                         <div class="form-group">
                                             <label for="manufacturingDate">Ngày sản xuất</label>
                                             <input type="date" class="form-control" id="manufacturingDate" name="manufacturingDate">
+                                            <span class="error" id="error_productNSX" style="color: red; font-size: 14px;"></span>
                                         </div>
-                                        <span class="error" id="error_productNSX" style="color: red; font-size: 14px;"></span>
 
                                         <div class="form-group">
                                             <label for="expiryDate">Hạn sử dụng</label>
                                             <input type="date" class="form-control" id="expiryDate" name="expiryDate">
+                                            <span class="error" id="error_productHSD" style="color: red; font-size: 14px;"></span>
                                         </div>
-                                        <span class="error" id="error_productHSD" style="color: red; font-size: 14px;"></span>
 
                                         <div class="form-group">
                                             <label for="productPriceImport">Giá nhập</label>
-                                            <input type="text" class="form-control" id="productPriceImport" placeholder="Giá" name="product-priceImport" >
+                                            <input type="text" class="form-control" id="productPriceImport" placeholder="Giá" name="product-priceImport">
                                             <span class="error" id="error_productPriceImport" style="color: red; font-size: 14px;"></span>
                                         </div>
 
+
                                         <div class="form-footer">
-                                            <a class="btn btn-danger"
-                                               href="./LoadProductsPage">Hủy</a>
+                                            <a class="btn btn-danger" href="./LoadProductsPage">Hủy</a>
                                             <button type="submit" class="btn btn-success" id="submit-btn">Cập
                                                 nhật</button>
                                         </div>
@@ -352,6 +344,8 @@
         document.getElementById("manufacturingDate").value = manufacturingDate;
         productPriceImportInput.value = priceImport; // Cập nhật giá trị giá nhập
     }
+
+
 </script>
 </body>
 </html>

@@ -28,6 +28,11 @@ public class Account implements IModel {
         this.isLocked = isLocked;
     }
 
+    public Account(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Account(int anInt) {
     }
 

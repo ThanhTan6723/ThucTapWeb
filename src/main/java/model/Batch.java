@@ -7,7 +7,6 @@ import java.util.List;
 
 public class Batch {
     private int id;
-    private int productId;
     private String name;
     private Date manufacturingDate;
     private Date expiryDate;
@@ -18,9 +17,23 @@ public class Batch {
     private Provider provider;
     private Account adminCreate;
 
-    public Batch(int id, int productId, String name, Date manufacturingDate, Date expiryDate, Date dateOfImporting, int quantity, double priceImport, Provider provider) {
+    public Batch() {
+    }
+
+    public Batch(String name, Date manufacturingDate, Date expiryDate, Date dateOfImporting, int quantity, int currentQuantity, double priceImport, Provider provider,Account account) {
+        this.name = name;
+        this.manufacturingDate = manufacturingDate;
+        this.expiryDate = expiryDate;
+        this.dateOfImporting = dateOfImporting;
+        this.quantity = quantity;
+        this.currentQuantity = currentQuantity;
+        this.priceImport = priceImport;
+        this.provider = provider;
+        this.adminCreate = account;
+    }
+
+    public Batch(int id, String name, Date manufacturingDate, Date expiryDate, Date dateOfImporting, int quantity, double priceImport, Provider provider) {
         this.id = id;
-        this.productId = productId;
         this.name = name;
         this.manufacturingDate = manufacturingDate;
         this.expiryDate = expiryDate;
@@ -30,9 +43,8 @@ public class Batch {
         this.provider = provider;
     }
 
-    public Batch(int id, int productId, String name, Date manufacturingDate, Date expiryDate, Date dateOfImporting, int quantity,int currentQuantity, double priceImport, Provider provider, Account adminCreate) {
+    public Batch(int id,  String name, Date manufacturingDate, Date expiryDate, Date dateOfImporting, int quantity,int currentQuantity, double priceImport, Provider provider, Account adminCreate) {
         this.id = id;
-        this.productId = productId;
         this.name = name;
         this.manufacturingDate = manufacturingDate;
         this.expiryDate = expiryDate;
@@ -45,9 +57,8 @@ public class Batch {
 
     }
 
-    public Batch(int id, int productId, String name, Date manufacturingDate, Date expiryDate, Date dateOfImporting, int quantity, double priceImport, Provider provider, Account adminCreate) {
+    public Batch(int id, String name, Date manufacturingDate, Date expiryDate, Date dateOfImporting, int quantity, double priceImport, Provider provider, Account adminCreate) {
         this.id = id;
-        this.productId = productId;
         this.name = name;
         this.manufacturingDate = manufacturingDate;
         this.expiryDate = expiryDate;
@@ -58,9 +69,8 @@ public class Batch {
         this.adminCreate = adminCreate;
     }
 
-    public Batch(int id, int productId, String name, Date manufacturingDate, Date expiryDate, Date dateOfImporting, int quantity, int currentQuantity) {
+    public Batch(int id,  String name, Date manufacturingDate, Date expiryDate, Date dateOfImporting, int quantity, int currentQuantity) {
         this.id = id;
-        this.productId = productId;
         this.name = name;
         this.manufacturingDate = manufacturingDate;
         this.expiryDate = expiryDate;
@@ -77,9 +87,8 @@ public class Batch {
         this.currentQuantity = currentQuantity;
     }
 
-    public Batch(int id, int productId, String name, Date manufacturingDate, Date expiryDate, Date dateOfImporting, int quantity, double priceImport) {
+    public Batch(int id,  String name, Date manufacturingDate, Date expiryDate, Date dateOfImporting, int quantity, double priceImport) {
         this.id = id;
-        this.productId = productId;
         this.name = name;
         this.manufacturingDate = manufacturingDate;
         this.expiryDate = expiryDate;
@@ -96,13 +105,7 @@ public class Batch {
         this.id = id;
     }
 
-    public int getProductId() {
-        return productId;
-    }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
 
     public String getName() {
         return name;
@@ -169,6 +172,7 @@ public class Batch {
     }
 
     public Account getAdminCreate() {
+
         return adminCreate;
     }
 
@@ -176,15 +180,16 @@ public class Batch {
         this.adminCreate = adminCreate;
     }
 
+
     @Override
     public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return "Batch{" +
                 "id=" + id +
-                ", productId=" + productId +
                 ", name='" + name + '\'' +
-                ", manufacturingDate=" + manufacturingDate +
-                ", expiryDate=" + expiryDate +
-                ", dateOfImporting=" + dateOfImporting +
+                ", manufacturingDate=" + (manufacturingDate != null ? sdf.format(manufacturingDate) : "null") +
+                ", expiryDate=" + (expiryDate != null ? sdf.format(expiryDate) : "null") +
+                ", dateOfImporting=" + (dateOfImporting != null ? sdf.format(dateOfImporting) : "null") +
                 ", quantity=" + quantity +
                 ", currentQuantity=" + currentQuantity +
                 ", priceImport=" + priceImport +
@@ -194,6 +199,6 @@ public class Batch {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Batch(1,1,"hihi",null,null,null,100,200,12,null,null));
+        System.out.println(new Batch(1,"hihi",null,null,null,100,200,12,null,null));
     }
 }

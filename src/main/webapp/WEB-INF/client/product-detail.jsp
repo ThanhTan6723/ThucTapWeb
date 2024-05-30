@@ -147,7 +147,6 @@
                                 <img class="product__details__pic__item--large"
                                      src="${detail.image}" alt="">
                             </div>
-
                             <div class="product__details__pic__slider__nav">
                                 <div class="owl-prev"><i class="fa fa-angle-left"></i></div>
                                 <div class="product__details__pic__slider owl-carousel">
@@ -177,10 +176,7 @@
                             <div class="product__details__price">${detail.price}</div>
                             <b>Phân loại: </b> ${nameCategory}<br>
                             <b>Mô tả: </b> ${detail.description}<br>
-                            <div>
-                                <b>Kho: </b> <span id="batchQuantity">0</span>
-                            </div>
-
+                                     <b>Kho: </b> <span id="batchQuantity">${productCurrentQuantities[detail.id]}</span>
                             <c:url var="addToCart" value="AddToCartControl"></c:url>
                             <br>
                                 <form action="${addToCart}?pid=${detail.id}" method="post">

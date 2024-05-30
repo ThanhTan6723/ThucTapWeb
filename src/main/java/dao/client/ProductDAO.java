@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import model.*;
@@ -217,29 +219,6 @@ public class ProductDAO {
 		return null;
 	}
 
-	public static List<Product> getListProducts() {
-		List<Product> list = new ArrayList<>();
-		String query = "       SELECT *\n" +
-				"FROM Products\n" +
-				"WHERE id IN (\n" +
-				"    SELECT DISTINCT product_id\n" +
-				"    FROM Batch\n" +
-				"    WHERE expiryDate > CURDATE()\n" +
-				");";
-		try{
-			Connection con = JDBCUtil.getConnection();
-			PreparedStatement ps = con.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-
-			while (rs.next()) {
-				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						new Category(rs.getInt(6))) );
-			}
-		}catch (Exception e){
-
-		}
-		return list;
-	}
 
 	public static List<Provider> getListProvider(){
 		List<Provider> providerList = new ArrayList<>();
@@ -275,7 +254,7 @@ public class ProductDAO {
 	}
 	public static List<Batch> getListBatchById(int id) {
 		List<Batch> list = new ArrayList<>();
-		String sql = "SELECT b.id, b.product_id, b.name, b.manufacturingDate, b.expiryDate, b.dateOfImporting, " +
+		String sql = "SELECT b.id, b.name, b.manufacturingDate, b.expiryDate, b.dateOfImporting, " +
 				"b.quantity,b.currentQuantity, b.priceImport, p.id AS provider_id, p.name AS provider_name, p.address AS provider_address, " +
 				"a.id AS admin_id, a.name AS admin_name " +
 				"FROM Batch b " +
@@ -292,14 +271,13 @@ public class ProductDAO {
 				Account adminCreate = new Account(rs.getInt("admin_id"), rs.getString("admin_name")); // Giả sử Account có constructor với các tham số này
 				Batch batch = new Batch(
 						rs.getInt(1),
-						rs.getInt(2),
-						rs.getString(3),
+						rs.getString(2),
+						rs.getDate(3),
 						rs.getDate(4),
 						rs.getDate(5),
-						rs.getDate(6),
+						rs.getInt(6),
 						rs.getInt(7),
-						rs.getInt(8),
-						rs.getDouble(9),
+						rs.getDouble(8),
 						provider,
 						adminCreate
 				);
@@ -331,8 +309,8 @@ public class ProductDAO {
 			ps.setInt(1,id);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()){
-				return  new Batch(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getDate(4),rs.getDate(5),rs.getDate(6),rs.getInt(7),rs.getInt(8),rs.getDouble(9),
-						new Provider(rs.getInt(10)),new Account(rs.getInt(11)));
+				return  new Batch(rs.getInt(1),rs.getString(2),rs.getDate(3),rs.getDate(4),rs.getDate(5),rs.getInt(6),rs.getInt(7),rs.getDouble(8),
+						new Provider(rs.getInt(9)),new Account(rs.getInt(10)));
 			}
 		}catch (Exception e) {
 
@@ -340,44 +318,7 @@ public class ProductDAO {
 		return null;
 	}
 
-	public static void updateProductAndBatches(Product product, List<Batch> updatedBatches,int id) {
-		String updateProductSQL = "UPDATE Products SET name = ?, price = ?, image = ?, description = ?, category_id = ?, weight = ? WHERE id = ?";
-		String updateBatchSQL = "UPDATE Batch SET manufacturingDate = ?, expiryDate = ?, dateOfImporting = ?, quantity = ?, priceImport = ?, provider_id=? WHERE id = ?";
 
-		try (Connection conn = JDBCUtil.getConnection();
-			 PreparedStatement psProduct = conn.prepareStatement(updateProductSQL);
-			 PreparedStatement psBatch = conn.prepareStatement(updateBatchSQL)) {
-			conn.setAutoCommit(false);
-			// Cập nhật thông tin sản phẩm
-			psProduct.setString(1, product.getName());
-			psProduct.setDouble(2, product.getPrice());
-			psProduct.setString(3, product.getImage());
-			psProduct.setString(4, product.getDescription());
-			psProduct.setInt(5, product.getCategory().getId());
-			psProduct.setInt(6, product.getId());
-			psProduct.executeUpdate();
-
-			// Cập nhật thông tin các lô hàng
-			for (Batch batch : updatedBatches) {
-				// Kiểm tra xem trường provider của batch có null hay không
-				System.out.println(batch);
-				psBatch.setDate(1, new java.sql.Date(batch.getManufacturingDate().getTime()));
-				psBatch.setDate(2, new java.sql.Date(batch.getExpiryDate().getTime()));
-				psBatch.setDate(3, new java.sql.Date(batch.getDateOfImporting().getTime()));
-				psBatch.setInt(4, batch.getQuantity());
-				psBatch.setDouble(5, batch.getPriceImport());
-				psBatch.setInt(6,batch.getProvider().getId());
-				psBatch.setInt(7, id);
-				psBatch.addBatch();
-			}
-			psBatch.executeBatch();
-
-			conn.commit();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			// Rollback trong trường hợp có lỗi xảy ra
-		}
-	}
 	public static Provider getProviderById(int providerId) {
 		String sql = "SELECT * FROM Providers WHERE id = ?";
 		Provider provider = null;
@@ -447,10 +388,8 @@ public class ProductDAO {
 									batchResultSet.getString("admin_name")
 							);
 							int quantity = batchResultSet.getInt("currentQuantity");
-							System.out.println(quantity);
 							Batch batch = new Batch(
 									batchResultSet.getInt("id"),
-									id, // product_id
 									batchResultSet.getString("name"),
 									batchResultSet.getDate("manufacturingDate"),
 									batchResultSet.getDate("expiryDate"),
@@ -469,7 +408,6 @@ public class ProductDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 		return product;
 	}
 	public static List<Product> pagingProduct(int cid, String sort, String type) {
@@ -556,16 +494,123 @@ public class ProductDAO {
 		}
 		return list;
 	}
+	public static List<Product> getListProducts() {
+		List<Product> list = new ArrayList<>();
+		String query = "       SELECT *\n" +
+				"FROM Products\n" +
+				"WHERE id IN (\n" +
+				"    SELECT DISTINCT product_id\n" +
+				"    FROM Batch\n" +
+				"    WHERE expiryDate > CURDATE()\n" +
+				");";
+		try{
+			Connection con = JDBCUtil.getConnection();
+			PreparedStatement ps = con.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
 
+			while (rs.next()) {
+				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+						new Category(rs.getInt(6))) );
+			}
+		}catch (Exception e){
 
+		}
+		return list;
+	}
+	public static void updateProductAndBatches(Product product, List<Batch> updatedBatches,int id) {
+		String updateProductSQL = "UPDATE Products SET name = ?, price = ?, image = ?, description = ?, category_id = ?  WHERE id = ?";
+		String updateBatchSQL = "UPDATE Batch SET manufacturingDate = ?, expiryDate = ?, dateOfImporting = ?, quantity = ?,currentQuantity=?, priceImport = ?, provider_id=? WHERE id = ?";
+
+		try (Connection conn = JDBCUtil.getConnection();
+			 PreparedStatement psProduct = conn.prepareStatement(updateProductSQL);
+			 PreparedStatement psBatch = conn.prepareStatement(updateBatchSQL)) {
+			conn.setAutoCommit(false);
+			// Cập nhật thông tin sản phẩm
+			psProduct.setString(1, product.getName());
+			psProduct.setDouble(2, product.getPrice());
+			psProduct.setString(3, product.getImage());
+			psProduct.setString(4, product.getDescription());
+			psProduct.setInt(5, product.getCategory().getId());
+			psProduct.setInt(6, product.getId());
+			psProduct.executeUpdate();
+
+			// Cập nhật thông tin các lô hàng
+			for (Batch batch : updatedBatches) {
+				psBatch.setDate(1, new java.sql.Date(batch.getManufacturingDate().getTime()));
+				psBatch.setDate(2, new java.sql.Date(batch.getExpiryDate().getTime()));
+				psBatch.setDate(3, new java.sql.Date(batch.getDateOfImporting().getTime()));
+				psBatch.setInt(4, batch.getQuantity());
+				psBatch.setInt(5,batch.getCurrentQuantity());
+				psBatch.setDouble(6, batch.getPriceImport());
+				psBatch.setInt(7,batch.getProvider().getId());
+				psBatch.setInt(8, id);
+				psBatch.addBatch();
+			}
+			psBatch.executeBatch();
+
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// Rollback trong trường hợp có lỗi xảy ra
+		}
+	}
 	public static void main(String[] args) {
+	/*	try {
+			// Định dạng ngày tháng
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+			// Tạo danh sách Batch cập nhật
+			List<Batch> updatedBatches = new ArrayList<>();*/
 /*
-		System.out.println(pagingProduct(0,"name","asc").toString());
+
+			Batch batch1 = new Batch();
+			batch1.setId(1); // ID của lô hàng cần cập nhật
+			batch1.setManufacturingDate(sdf.parse("10/10/2023")); // Ngày sản xuất
+			batch1.setExpiryDate(sdf.parse("10/07/2024")); // Hạn sử dụng
+			batch1.setDateOfImporting(sdf.parse("05/01/2024")); // Ngày nhập
+			batch1.setQuantity(100);
+			batch1.setCurrentQuantity(50); // Giả sử currentQuantity là 50
+			batch1.setPriceImport(50.0);
+			batch1.setProvider(new Provider(1, "Provider Name", "Provider Address")); // Giả sử Provider có ID là 1
 */
 
-		System.out.println(getFilteredProducts(1,2,1,20,"ASC","ASC"));
+			// Thêm Batch vào danh sách
 /*
-		System.out.println(getProductWithBatchesById(1));
+			updatedBatches.add(batch1);
 */
+/*			Batch batch2 = new Batch();
+			batch2.setId(1); // ID của lô hàng cần cập nhật
+			batch2.setManufacturingDate(sdf.parse("13/10/2023")); // Ngày sản xuất
+			batch2.setExpiryDate(sdf.parse("01/07/2024")); // Hạn sử dụng
+			batch2.setDateOfImporting(sdf.parse("06/01/2024")); // Ngày nhập
+			batch2.setQuantity(500);
+			batch2.setCurrentQuantity(35); // Giả sử currentQuantity là 50
+			batch2.setPriceImport(12.34);
+			batch2.setProvider(new Provider(2, "Provider Name", "Provider Address")); // Giả sử Provider có ID là 1
+			// Thêm Batch vào danh sách
+			updatedBatches.add(batch2);
+
+			// Giả sử bạn đã có đối tượng Product để cập nhật
+			Product product = new Product();
+			product.setId(1); // ID của sản phẩm cần cập nhật
+			product.setName("Updated Product Name");
+			product.setPrice(199.99);
+			product.setImage("updated_image.jpg");
+			product.setDescription("Updated Description");
+			product.setCategory(new Category(1)); // Giả sử Category có ID là 1
+*//*			System.out.println(product.toString());
+			System.out.println(updatedBatches.toString());*//*
+			System.out.println(getProductWithBatchesById(1));
+			// Gọi phương thức để cập nhật sản phẩm và các lô hàng
+			updateProductAndBatches(product, updatedBatches, batch2.getId());
+			System.out.println(getProductWithBatchesById(1));
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}*/
+/*
+		System.out.println(getListBatchById(2));
+*/
+		System.out.println(getProductById(1));
 	}
 }

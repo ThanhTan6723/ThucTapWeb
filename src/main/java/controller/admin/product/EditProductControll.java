@@ -31,13 +31,13 @@ public class EditProductControll extends HttpServlet {
 		request.setAttribute("catelist", cateList);
 		List<Provider> providerList = ProductDAO.getListProvider();
 		List<Batch> batchList = ProductDAO.getListBatchById(product_id);
+
 		request.setAttribute("providerList", providerList);
 		Product product = ProductDAO.getProductById(product_id);
 		request.setAttribute("product", product);
 		request.setAttribute("batchList", batchList);
 		request.getRequestDispatcher("WEB-INF/admin/edit-product.jsp").forward(request, response);
 	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -103,13 +103,10 @@ public class EditProductControll extends HttpServlet {
 		String product_cate = formFields.get("product-cate");
 		String product_quantity = formFields.get("product-quantity");
 		String product_priceImport = formFields.get("product-priceImport");
-		String product_provider = formFields.get("product-provider");
 		String product_NSX = formFields.get("manufacturingDate");
 		String product_HSD = formFields.get("expiryDate");
 		String batch_id = formFields.get("selectedBatchId");
-
 		int bid = Integer.parseInt(batch_id);
-
 		List<Batch> listBatch = ProductDAO.getListBatchById(Integer.parseInt(product_id));
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		for (Batch b : listBatch) {
@@ -123,18 +120,14 @@ public class EditProductControll extends HttpServlet {
 				b.setQuantity(Integer.parseInt(product_quantity));
 				b.setPriceImport(Double.parseDouble(product_priceImport));
 				break;
-
 			}
-
+		}
 			Category category = new Category(Integer.parseInt(product_cate));
-			Provider provider = new Provider(Integer.parseInt(product_provider));
-			Account account = new Account(1);
-
 			Product p = new Product(Integer.parseInt(product_id), product_name, Double.parseDouble(product_price),
-					productImageFileName, product_desc, category, listBatch);
+					productImageFileName, product_desc, category,listBatch);
 			ProductDAO.updateProductAndBatches(p, listBatch, bid);
 			response.sendRedirect("/LoadProductsPage");
-		}
+
 
 	}
 }

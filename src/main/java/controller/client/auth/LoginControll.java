@@ -35,7 +35,8 @@ public class LoginControll extends HttpServlet {
 
         String userName = request.getParameter("username");
         String passWord = request.getParameter("password");
-
+        System.out.println(userName);
+        System.out.println(passWord);
         boolean checkSpaceName = userName.trim().isEmpty();
         boolean checkSpacePass = passWord.trim().isEmpty();
 
@@ -53,8 +54,11 @@ public class LoginControll extends HttpServlet {
         }
 
         if (userName != null && passWord != null && !checkSpaceName && !checkSpacePass) {
+/*
             String enpass = Encode.toSHA1(passWord);
-            Account account = AccountDAO.checkLogin(userName, enpass);
+*/
+            Account account = AccountDAO.checkLogin(userName, passWord);
+            System.out.println(account.toString());
 
             if (account != null) {
                 // not Admin
