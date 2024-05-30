@@ -18,11 +18,9 @@ public class IndexControll extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         List<Product> listTop = IndexDAO.getTop8();
-        List<Product> listRandProduct = IndexDAO.listRandProduct();
         List<Product> list4 = IndexDAO.listRand4Product();
         request.setAttribute("list4Rand",list4);
         request.setAttribute("listTop",listTop);
-        request.setAttribute("listRandProduct",listRandProduct);
         request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
     }
 

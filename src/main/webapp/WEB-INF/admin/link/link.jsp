@@ -37,4 +37,6 @@
 <!-- endinject -->
 <!-- Custom js for this page -->
 <script src="assetsAD/js/dashboard.js"></script>
+<script src="assets/js/menu.js"></script>
+
 

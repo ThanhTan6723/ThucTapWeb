@@ -22,15 +22,9 @@ public class AccessDAO {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-<<<<<<< HEAD
 						new Category(rs.getInt(6))));
             }
-=======
-						new Category(rs.getInt(6)), rs.getInt(7), rs.getDouble(8), rs.getDouble(9), AccountDAO.getAccountById(rs.getInt(1)),
-						new Provider(rs.getInt(1)), rs.getString(12), rs.getString(13))
-				);
-			}
->>>>>>> 00301fa2cb20cb3153f77321fea171646624712d
+
 		} catch (Exception e) {
 		}
 
@@ -48,15 +42,9 @@ public class AccessDAO {
 			ps.setInt(2, cid);
 			ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-<<<<<<< HEAD
 				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
 						new Category(rs.getInt(6))));
-=======
-                list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-                        new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),AccountDAO.getAccountById(rs.getInt(1)),
-                        new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
-                );
->>>>>>> 00301fa2cb20cb3153f77321fea171646624712d
+
             }
 		} catch (Exception e) {
 		}
@@ -92,16 +80,9 @@ public static List<Product> pagingProductSearch(int index, String txtSearch, Str
 			ps.setInt(2, (index - 1) * 12);
 			ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-<<<<<<< HEAD
 				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
 						new Category(rs.getInt(6))));
-=======
-                list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-                        new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),AccountDAO.getAccountById(rs.getInt(1)),
-                        new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
-                );
 
->>>>>>> 00301fa2cb20cb3153f77321fea171646624712d
             }
 		} catch (Exception e) {
 

@@ -29,7 +29,6 @@ public class DetailControl extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		String productId = request.getParameter("pid");
 		int pid=Integer.parseInt(productId);
-		System.out.println("id ne"+pid);
 		Product product = ProductDAO.getProductById(pid);
     
         assert product != null;
@@ -65,12 +64,12 @@ public class DetailControl extends HttpServlet {
 
 			listInventory.set(i, p);
 		}
-		System.out.println("danh sach hang"+listBatch.toString());
 		request.setAttribute("productCurrentQuantities", productCurrentQuantities);
 		request.setAttribute("listImageProduct",listImageProduct);
 		request.setAttribute("nameCategory",nameCategory);
 		request.setAttribute("detail", product);
 		request.setAttribute("listBatch",listBatch);
+		request.setAttribute("listInventory",listInventory);
 		request.getRequestDispatcher("/WEB-INF/client/product-detail.jsp").forward(request, response);
 	}
 

@@ -44,6 +44,71 @@
 			background-color: #7fad39;
 			color: white;
 		}
+		.product-carousel {
+			display: flex;
+			overflow-x: hidden;
+		}
+
+		.product-carousel .product__discount__item {
+			flex: 0 0 auto;
+			margin-right: 10px; /* Điều chỉnh khoảng cách giữa các sản phẩm */
+			width: calc(25% - 10px); /* 4 sản phẩm trên mỗi hàng */
+		}
+
+		.prev, .next {
+			cursor: pointer;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			background-color: #f1f1f1;
+			color: #000;
+			padding: 10px;
+			border: none;
+			outline: none;
+			z-index: 1;
+		}
+
+		.product-carousel-container {
+			display: flex;
+			align-items: center;
+			position: relative;
+		}
+
+		.product-carousel {
+			display: flex;
+			overflow-x: hidden;
+			scroll-behavior: smooth;
+			flex-grow: 1;
+		}
+
+		.product-carousel .product__discount__item {
+			flex: 0 0 auto;
+			margin-right: 10px; /* Điều chỉnh khoảng cách giữa các sản phẩm */
+			width: calc(25% - 10px); /* 4 sản phẩm trên mỗi hàng */
+		}
+
+		.prev, .next {
+			cursor: pointer;
+			background-color: rgb(212, 213, 215);
+			color: #000;
+			padding: 10px;
+			border: none;
+			outline: none;
+			position: absolute;
+			top: 40%;
+			transform: translateY(-50%);
+			z-index: 1;
+		}
+
+		.prev {
+			left: -38px;
+		}
+
+		.next {
+			right: -25px;
+		}
+
+
 
 	</style>
 </head>
@@ -188,69 +253,45 @@
 							</label>
 						</div>
 					</div>
+
 					<div class="sidebar__item">
-						<div class="latest-product__text">
+
+					<div class="latest-product__text">
 							<h4>Latest Products</h4>
 							<div class="latest-product__slider owl-carousel">
-								<div class="latest-prdouct__slider__item">
-									<c:forEach var="b" items="${listRandProduct}">
-										<a href="${detail}?pid=${b.id}" class="latest-product__item">
-											<div class="latest-product__item__pic">
-												<img src="${b.image}" alt="">
-											</div>
-											<div class="latest-product__item__text">
-												<h6>${b.name}</h6>
-												<span>${b.price}</span>
-											</div>
-										</a>
-									</c:forEach>
-								</div>
-								<div class="latest-prdouct__slider__item">
-									<c:forEach var="b" items="${listRandProduct}">
-										<a href="${detail}?pid=${b.id}" class="latest-product__item">
-											<div class="latest-product__item__pic">
-												<img src="${b.image}" alt="" style="width: 200px;height: 300px">
-											</div>
-											<div class="latest-product__item__text">
-												<h6>${b.name}</h6>
-												<span>${b.price}</span>
-											</div>
-										</a>
-									</c:forEach>
-								</div>
+
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+
+		</div>
 			<div class="col-lg-9 col-md-7">
 				<div class="product__discount">
 					<div class="section-title product__discount__title">
 						<h2>Giảm giá</h2>
 					</div>
-					<div class="row">
-						<div class="product__discount__slider owl-carousel">
-							<c:forEach var="b" items="${listSale}">
-								<div class="col-lg-4">
-									<a href="${detail}?pid=${b.id}">
-										<div class="product__discount__item">
-											<div class="product__discount__item__pic set-bg"
-												 data-setbg="${b.image}">
-												<div class="product__discount__percent">-20%</div>
-											</div>
-											<div class="product__discount__item__text">
-												<span>Dried Fruit</span>
-												<h5><a href="#">${b.name}</a></h5>
-												<div class="product__item__price">${b.price} <span>$30.00</span></div>
-											</div>
-										</div>
-									</a>
-								</div>
-							</c:forEach>
-
-						</div>
-					</div>
-				</div>
+                    <div class="row">
+                        <div class="product-carousel-container">
+                            <button class="prev" onclick="scrollCarousel(-1)">&#10094;</button>
+                            <div class="product-carousel">
+                                <c:forEach var="b" items="${listSale}">
+                                    <div class="product__discount__item">
+                                        <div class="product__discount__item__pic set-bg" data-setbg="${b.image}">
+                                            <div class="product__discount__percent">-20%</div>
+                                        </div>
+                                        <div class="product__discount__item__text">
+                                            <span>Dried Fruit</span>
+                                            <h5><a href="${detail}?pid=${b.id}">${b.name}</a></h5>
+                                            <div class="product__item__price">${b.price} <span>$30.00</span></div>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                            <button class="next" onclick="scrollCarousel(1)">&#10095;</button>
+                        </div>
+                    </div>
+                </div>
 				<div class="filter__item">
 					<div class="row">
 						<div class="col-lg-4 col-md-5">
@@ -439,6 +480,32 @@
 		checkFields();
 	});
 </script>
+<script>
+    function scrollCarousel(direction) {
+        const carousel = document.querySelector('.product-carousel');
+        const itemWidth = carousel.querySelector('.product__discount__item').clientWidth + 10; // Bao gồm cả margin-right
+
+        if (direction === 1) {
+            // Cuộn sang phải
+            if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth) {
+                // Nếu đang ở cuối, cuộn lại đầu
+                carousel.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                carousel.scrollBy({ left: itemWidth, behavior: 'smooth' });
+            }
+        } else {
+            // Cuộn sang trái
+            if (carousel.scrollLeft === 0) {
+                // Nếu đang ở đầu, cuộn đến cuối
+                carousel.scrollTo({ left: carousel.scrollWidth, behavior: 'smooth' });
+            } else {
+                carousel.scrollBy({ left: -itemWidth, behavior: 'smooth' });
+            }
+        }
+    }
+</script>
+
+
 </body>
 
 </html>

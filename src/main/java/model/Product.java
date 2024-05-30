@@ -16,7 +16,6 @@ public class Product {
 	private Category category;
 	private List<Image> images;
 	private List<Batch> batches;
-
 	public Product() {
 
 		super();
@@ -27,13 +26,33 @@ public class Product {
 		}
 		batches.add(batch);
 	}
-	public Product(int id, String name, double price, String image, String description, Category category) {
+
+	public Product(String name, double price, String image, String description, Category category, List<Image> images, List<Batch> batches) {
+		this.name = name;
+		this.price = price;
+		this.image = image;
+		this.description = description;
+		this.category = category;
+		this.images = images;
+		this.batches = batches;
+	}
+
+	public Product(int id, String name, double price, String image,String description, Category category) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.image = image;
 		this.description = description;
 		this.category = category;
+	}
+
+	public Product(int id, String name, double price, String description, Category category, List<Batch> batches) {
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.description = description;
+		this.category = category;
+		this.batches = batches;
 	}
 
 	public Product(int id, String name, double price, String image, String description, Category category, List<Image> images, List<Batch> batches) {
@@ -140,7 +159,6 @@ public class Product {
 		if (batches != null && !batches.isEmpty()) {
 			for (Batch batch : batches) {
 				builder.append("Batch{id=").append(batch.getId())
-						.append(", productId=").append(batch.getProductId())
 						.append(", name='").append(batch.getName()).append('\'')
 						.append(", manufacturingDate=").append(dateFormat.format(batch.getManufacturingDate()))
 						.append(", expiryDate=").append(dateFormat.format(batch.getExpiryDate()))
