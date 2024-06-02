@@ -54,6 +54,12 @@
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Hiệu ứng bóng đổ */
         }
 
+        /* Flex container for buttons */
+        .action-buttons {
+            display: flex;
+            gap: 10px; /* Space between buttons */
+        }
+
     </style>
     <!-- Include common links -->
     <jsp:include page="./link/link.jsp"></jsp:include>
@@ -81,17 +87,18 @@
                         <div class="card">
                             <div class="card-body" style="background-color: white">
                                 <div class="table-responsive">
-                                    <h4 class="card-title">Danh Sách Đơn Hàng Chờ Xác Nhận</h4>
+                                    <h4 style="color: black">Danh Sách Đơn Hàng Chờ Xác Nhận</h4>
                                     <table id="example" class="display" style="width:100%;">
                                         <thead>
                                         <tr>
-                                            <th>STT</th>
                                             <th>Mã đơn hàng</th>
                                             <th style="width: 110px">Ngày đặt</th>
                                             <th>Account thực hiện</th>
                                             <th>Tên người nhận</th>
                                             <th>SĐT người nhận</th>
                                             <th>Địa chỉ giao hàng</th>
+                                            <th>Tổng tiền hàng</th>
+                                            <th>Ship</th>
                                             <th>Tổng tiền</th>
                                             <th>Ghi chú đơn hàng</th>
                                             <th>Hành động</th>
@@ -124,11 +131,6 @@
                 dataSrc: ''
             },
             columns: [
-                {
-                    data: null, render: function (data, type, row, meta) {
-                        return meta.row + 1; // Auto increment index
-                    }
-                },
                 {data: 'id'},
                 {data: 'date'},
                 {
@@ -146,26 +148,58 @@
                 {
                     data: null, render: function (data, type, row) {
                         return `
-
-                        <a href="AcceptControll?id=${row.id}">
-                           <button class="btn btn-success">Accept</button>
-                        </a>
-                         <a href="RefuseBillControll?id=${row.id}">
-                            <button class="btn btn-danger">Refuse</button>
-                         </a>
-
-                        `;
+                        <div class="buttons">
+                            <button class="btn btn-success accept-btn" data-id="${row.id}">Accept</button>
+                            <button class="btn btn-danger refuse-btn" data-id="${row.id}">Refuse</button>
+                        </div>
+                    `;
                     }
                 },
                 {
                     data: null, render: function (data, type, row) {
                         return `
-                       <a href="BillDetailControll?id=${row.id}"><i class="fa-solid fa-eye" style="color:black; font-size: 20px; cursor: pointer;"></i></a>
-                        `;
+                        <a href="BillDetailControll?id=${row.id}">
+                            <i class="fa-solid fa-eye" style="color:black; font-size: 20px; cursor: pointer;"></i>
+                        </a>
+                    `;
                     }
                 },
             ]
         });
+
+        $('#example tbody').on('click', '.accept-btn', function () {
+            var orderId = $(this).data('id');
+            $.ajax({
+                url: 'AcceptControll',
+                type: 'POST',
+                data: { id: orderId },
+                success: function (response) {
+                    // Remove the row from the table
+                    table.row($(this).parents('tr')).remove().draw();
+                }.bind(this),
+                error: function (xhr, status, error) {
+                    console.error('Error accepting order:', error);
+                }
+            });
+        });
+
+        $('#example tbody').on('click', '.refuse-btn', function () {
+            var orderId = $(this).data('id');
+            $.ajax({
+                url: 'RefuseBillControll',
+                type: 'POST',
+                data: { id: orderId },
+                success: function (response) {
+                    // Remove the row from the table
+                    table.row($(this).parents('tr')).remove().draw();
+                }.bind(this),
+                error: function (xhr, status, error) {
+                    console.error('Error refusing order:', error);
+                }
+            });
+        });
+
+
 
         // Show account details when clicking on account name
         $(document).on('click', '.account-detail', function (e) {

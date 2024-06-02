@@ -35,7 +35,7 @@ public class ForgotPasswordControll extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 
 		String email = request.getParameter("email");
-		boolean checkMail = AccountDAO.checkEmail(email);
+		boolean checkMail = AccountDAO.checkFieldExists("email",email);
 
 		if (email == null || email.trim().isEmpty()) {
 			request.setAttribute("error", "Enter your email");

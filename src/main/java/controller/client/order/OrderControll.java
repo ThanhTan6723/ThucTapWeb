@@ -50,7 +50,7 @@ public class OrderControll extends HttpServlet {
 		if (obj != null) {
 			Order order = new Order();
 			String date = LocalDate.now().toString();
-			order.setDate(date);
+			order.setBooking_date(date);
 			order.setAccount(account);
 			order.setConsigneeName(name);
 			order.setConsigneePhone(phone);

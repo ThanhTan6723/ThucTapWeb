@@ -5,13 +5,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Bill Detail</title>
     <!-- plugins:css -->
     <jsp:include page="./link/link.jsp"></jsp:include>
+    <!-- Include Bootstrap Icons CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
     <style>
         tr, td {
             color: white;
@@ -22,6 +23,16 @@
 
             }
         }
+        .back-button {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-button i {
+            margin-right: 8px;
+        }
+
     </style>
 </head>
 <body>
@@ -36,6 +47,13 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="table-responsive">
+                                    <!-- Back Button -->
+                                    <div class="back-button">
+                                        <a href="./LoadBillControll" class="btn btn-light">
+                                            <i class="bi bi-arrow-left"></i>
+                                            Trở về
+                                        </a>
+                                    </div>
                                     <h4 class="card-title">Chi tiết đơn hàng</h4>
                                     <p>Mã đơn hàng: <span style="color: springgreen">${listBillDetails[0].order.id}</span></p>
                                     <p>Tổng số lượng: ${sumQ}</p>

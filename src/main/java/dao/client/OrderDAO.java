@@ -22,8 +22,7 @@ public class OrderDAO {
 
             while (rs.next()) {
                 listProducts.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-                        new Category(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),AccountDAO.getAccountById(rs.getInt(1)),
-                        new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
+                       ProductDAO.getCategoryById1(rs.getInt(6))));
             }
 
             // Close resources
@@ -69,8 +68,8 @@ public class OrderDAO {
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
-                listOrders.add(new Order(rs.getInt(1), rs.getString(2), AccountDAO.getAccountById(rs.getInt(3)),rs.getString(4),rs.getString(5),
-                        rs.getDouble(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+                listOrders.add(new Order(rs.getInt(1), rs.getString(2),rs.getString(3), AccountDAO.getAccountById(rs.getInt(4)),rs.getString(5),rs.getString(6),
+                      rs.getDouble(7), rs.getDouble(8), rs.getString(9), rs.getString(10), rs.getString(11)));
             }
 
             // Close resources
@@ -114,8 +113,8 @@ public class OrderDAO {
             ps.setInt(1, orderId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                return new Order(rs.getInt(1), rs.getString(2), AccountDAO.getAccountById(rs.getInt(3)),rs.getString(4),rs.getString(5),
-                        rs.getDouble(6), rs.getString(7), rs.getString(8), rs.getString(9));
+                return new Order(rs.getInt(1), rs.getString(2),rs.getString(3), AccountDAO.getAccountById(rs.getInt(4)),rs.getString(5),rs.getString(6),
+                        rs.getDouble(7), rs.getDouble(8), rs.getString(9), rs.getString(10), rs.getString(11));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -135,8 +134,7 @@ public class OrderDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-                        ProductDAO.getCategoryById1(rs.getInt(6)),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),AccountDAO.getAccountById(rs.getInt(1)),
-                        new Provider(rs.getInt(1)),rs.getString(12),rs.getString(13))
+                        ProductDAO.getCategoryById1(rs.getInt(6)))
                 );
             }
         } catch (Exception e) {
@@ -165,11 +163,11 @@ public class OrderDAO {
 
     public static void insertOrder(Order order) {
 //		List<Product> list = new ArrayList<>();
-        String sql = "INSERT INTO Orders(date,account_id,consignee_name, consignee_phone, address,orderNotes,OrderStatus) VALUES (?,?,?,?,?,?,?) ";
+        String sql = "INSERT INTO Orders(booking_date,delivery_date,account_id,consignee_name, consignee_phone, address,orderNotes,OrderStatus) VALUES (?,?,?,?,?,?,?,?,?) ";
         try {
             Connection conn = JDBCUtil.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, order.getDate());
+            ps.setString(1, order.getBooking_date());
             ps.setInt(2, order.getAccount().getId());
             ps.setString(3,order.getConsigneeName());
             ps.setString(4, order.getConsigneePhone());
@@ -225,8 +223,8 @@ public class OrderDAO {
             ps.setString(1, status);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                lists.add(new Order(rs.getInt(1), rs.getString(2), AccountDAO.getAccountById(rs.getInt(3)),rs.getString(4),rs.getString(5),
-                        rs.getDouble(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+                lists.add(new Order(rs.getInt(1), rs.getString(2),rs.getString(3), AccountDAO.getAccountById(rs.getInt(4)),rs.getString(5),rs.getString(6),
+                        rs.getDouble(7), rs.getDouble(8), rs.getString(9), rs.getString(10), rs.getString(11)));
             }
         } catch (Exception e) {
             // TODO: handle exception
@@ -245,8 +243,8 @@ public class OrderDAO {
             PreparedStatement ps = connect.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                lists.add(new Order(rs.getInt(1), rs.getString(2), AccountDAO.getAccountById(rs.getInt(3)),rs.getString(4),rs.getString(5),
-                        rs.getDouble(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+                lists.add(new Order(rs.getInt(1), rs.getString(2),rs.getString(3), AccountDAO.getAccountById(rs.getInt(4)),rs.getString(5),rs.getString(6),
+                        rs.getDouble(7), rs.getDouble(8), rs.getString(9), rs.getString(10), rs.getString(11)));
             }
         } catch (Exception e) {
             // TODO: handle exception
@@ -297,7 +295,7 @@ public class OrderDAO {
         try {
             Connection connect = JDBCUtil.getConnection();
             String sql = "\r\n"
-                    + "SELECT O.id , P.id ,O.orderStatus,O.address,O.account_id, P.name, P.price,OD.quantity,OD.price , P.image, P.description, P.category_Id,O.totalMoney,O.date\r\n"
+                    + "SELECT O.id , P.id ,O.orderStatus,O.address,O.account_id, P.name, P.price,OD.quantity,OD.price , P.image, P.description, P.category_Id,O.totalMoney,O.booking_date,O.delivery_date\r\n"
                     + "FROM Orders O\r\n" + "INNER JOIN OrderDetails OD ON O.id = OD.order_id\r\n"
                     + "INNER JOIN Products P ON OD.product_id = P.id\r\n"
                     + "INNER JOIN Category C ON P.category_id = C.id\r\n" + "WHERE O.account_id = ?\r\n"
@@ -309,7 +307,8 @@ public class OrderDAO {
             while (rs.next()) {
                 Order order = new Order();
                 order.setId(rs.getInt("id"));
-                order.setDate(rs.getString("date"));
+                order.setBooking_date(rs.getString("booking_date"));
+                order.setDilivery_date(rs.getString("delivery_date"));
                 order.setTotalMoney(rs.getFloat("totalMoney"));
                 order.setOrderStatus(rs.getString(3));
                 order.setAddress(rs.getString(4));

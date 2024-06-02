@@ -23,16 +23,18 @@
         tr:hover {
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Shadow effect on hover */
             transition: box-shadow 0.3s ease; /* Smooth transition */
-
         }
 
-
-        .lock-toggle[data-status="lock"] {
-            background-color: orange; /* Màu cam cho trạng thái khóa */
+        .lock-toggle {
+            cursor: pointer;
+            font-size: 20px;
+            margin-right: 10px;
         }
 
-        .lock-toggle[data-status="unlock"] {
-            background-color: green; /* Màu xanh lá cây cho trạng thái mở khóa */
+        .delete-icon {
+            cursor: pointer;
+            font-size: 20px;
+            margin-right: 10px;
         }
     </style>
     <!-- Include common links -->
@@ -58,7 +60,6 @@
                                         <tr>
                                             <th>STT</th>
                                             <th>Tên</th>
-                                            <th>Mật khẩu</th>
                                             <th>Email</th>
                                             <th>Số điện thoại</th>
                                             <th>Hành động</th>
@@ -96,20 +97,19 @@
                         return meta.row + 1; // Auto increment index
                     }},
                 { data: 'name' },
-                { data: 'password' },
                 { data: 'email' },
                 { data: 'telephone' },
                 { data: null, render: function(data, type, row) {
                         return `
-                    <i class="fa-solid fa-trash delete-icon" data-id="${row.id}" style="color: red; font-size: 20px; cursor: pointer; margin-right: 15px;"></i>
-                    <a href="EditUser?id=${row.id}">
-                        <i class="fa-solid fa-pen-to-square" style="color:#efe63a; font-size: 20px; cursor: pointer; margin-right: 15px;"></i>
-                    </a>`;
+                <i class="fa-solid fa-trash delete-icon" data-id="${row.id}" style="color: red;"></i>
+                <a href="EditUser?id=${row.id}">
+                    <i class="fa-solid fa-pen-to-square" style="color:#efe63a;"></i>
+                </a>`;
                     }},
                 { data: null, render: function(data, type, row) {
-                        return ` <a href="?id=${row.id}">
-                           <button class="btn btn-success" data-id="${row.id}" data-status="${row.locked ? 'unlock' : 'lock'}"></button>
-                        </a>`;
+                        var iconClass = row.isLocked ? 'fa-lock-open' : 'fa-lock';
+                        var iconColor = row.isLocked ? 'color: green;' : 'color: red;';
+                        return `<i class="fa ${iconClass} lock-toggle" data-id="${row.id}" data-status="${row.isLocked ? 'unlock' : 'lock'}" style="${iconColor}"></i>`;
                     }},
                 { data: null, render: function(data, type, row) {
                         var roles = ['Quản lý tài khoản', 'Quản lý đơn hàng', 'Quản lý kho', 'Khách hàng']; // Example list of roles
@@ -117,47 +117,45 @@
                             return `<option value="${role}">${role}</option>`;
                         }).join('');
                         return `
-    <select class="role-select">
-        ${options}
-    </select>
-    <button class="save-role" data-id="${row.id}">Lưu</button>
-    <button class="cancel-role">Hủy</button>
-`;
+                        <select class="role-select">
+                            ${options}
+                        </select>
+                        <button class="save-role" data-id="${row.id}">Lưu</button>
+                        <button class="cancel-role">Hủy</button>
+                    `;
                     }}
             ]
         });
 
         // Add event listener for lock/unlock action
         $('#example').on('click', '.lock-toggle', function() {
-            var button = $(this);
-            var id = button.data('id');
-            var status = button.data('status');
-            var action = status === 'lock' ? 'khóa' : 'mở khóa';
+            var icon = $(this);
+            var id = icon.data('id');
+            var status = icon.data('status');
+            var action = status === 'lock' ? 'lock' : 'unlock'; // Set the action corresponding to servlet
 
-            if (confirm(`Bạn có chắc chắn muốn ${action} tài khoản này không?`)) {
+            if (confirm(`Bạn có chắc chắn muốn ${action == 'lock' ? 'khóa' : 'mở khóa'} tài khoản này không?`)) {
                 $.ajax({
-                    url: 'LockAccountControll',
+                    url: 'LockAccountControll', // Path to servlet
                     type: 'POST',
-                    data: { userId: id, action: status },
+                    data: { userId: id, action: action }, // Information to send to servlet
+                    dataType: 'json', // Define the data type received as JSON
                     success: function(response) {
-                        if (response === 'success') {
-                            // Toggle the button text and data-status attribute
-                            if (status === 'lock') {
-                                button.text('Mở khóa');
-                                button.data('status', 'unlock');
-                                button.css('background-color', 'green'); // Change button color
+                        if (response.success) { // Check the status returned from the servlet
+                            // Toggle the icon class and data-status attribute
+                            if (action === 'lock') {
+                                icon.removeClass('fa-lock').addClass('fa-lock-open');
+                                icon.css('color', 'green');
+                                icon.data('status', 'unlock');
                             } else {
-                                button.text('Khóa');
-                                button.data('status', 'lock');
-                                button.css('background-color', 'orange'); // Change button color
+                                icon.removeClass('fa-lock-open').addClass('fa-lock');
+                                icon.css('color', 'red');
+                                icon.data('status', 'lock');
                             }
                         } else {
-                            alert('Thao tác không thành công');
+                            alert(response.message); // Show error message from servlet
                         }
                     },
-                    error: function() {
-                        alert('Có lỗi xảy ra khi gửi yêu cầu');
-                    }
                 });
             }
         });
@@ -169,7 +167,7 @@
             var selectedRole = button.closest('tr').find('.role-select').val();
             $.ajax({
                 url: 'UpdateUserRoleControll',
-                type: 'post',
+                type: 'POST',
                 data: { id: id, role: selectedRole },
                 success: function(response) {
                     // Update the user role in the table
@@ -181,7 +179,8 @@
             // Reset the dropdown to the previous value if needed
         });
     });
-
 </script>
+
+
 </body>
 </html>
