@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="container-scroller">
-	<jsp:include page="./header/sidebar.jsp"></jsp:include>
+	<jsp:include page="header/sidebar.jsp"></jsp:include>
 	<div class="container-fluid page-body-wrapper">
 		<jsp:include page="./header/navbar.jsp"></jsp:include>
 		<div class="main-panel">
@@ -30,7 +30,7 @@
 										<form id="productForm" action="AddProductControll" method="post" enctype="multipart/form-data">
 											<div id="productFields">
 												<!-- Các trường sản phẩm sẽ được thêm vào đây -->
-											</div>
+											</div>)
 											<button type="button" class="btn btn-success" onclick="addProductFields()">Thêm sản phẩm</button>
 											<button type="submit" class="btn btn-success">Nhập kho</button>
 										</form>

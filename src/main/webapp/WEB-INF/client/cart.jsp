@@ -141,6 +141,15 @@
             </c:if>
         </div>
     </div>
+
+    <ul>
+        <li><a href="./CartControll">
+            <i><img style="width: 40px; height: 40px;" src="assets/img/cart.svg" alt=""></i>
+            <c:if test="${empty sessionScope.size}"><span id="cart-count">0</span></c:if>
+            <c:if test="${not empty sessionScope.size}"><span id="cart-count">${sessionScope.size}</span></c:if>
+        </a></li>
+    </ul>
+
 </section>
 <!-- Shoping Cart Section End -->
 
@@ -201,6 +210,7 @@
                     $("#row_" + key).remove();
                     // Update the total amount in the UI
                     $(".total-amount").text(response.totalAmount + "₫");
+
                 }
             });
         });
