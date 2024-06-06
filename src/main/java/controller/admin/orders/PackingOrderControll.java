@@ -10,8 +10,8 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "PackingProductControll", value = "/PackingProductControll")
-public class PackingProductControll extends HttpServlet {
+@WebServlet(name = "PackingOrderControll", value = "/PackingOrderControll")
+public class PackingOrderControll extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
