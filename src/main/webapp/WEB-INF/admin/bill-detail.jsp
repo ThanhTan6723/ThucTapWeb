@@ -49,10 +49,11 @@
                                 <div class="table-responsive">
                                     <!-- Back Button -->
                                     <div class="back-button">
-                                        <a href="./LoadBillControll" class="btn btn-light">
+                                        <a href="#" class="btn btn-light" id="back-button">
                                             <i class="bi bi-arrow-left"></i>
                                             Trở về
                                         </a>
+
                                     </div>
                                     <h4 class="card-title">Chi tiết đơn hàng</h4>
                                     <p>Mã đơn hàng: <span style="color: springgreen">${listBillDetails[0].order.id}</span></p>
@@ -97,6 +98,13 @@
     </div>
     <!-- page-body-wrapper ends -->
 </div>
-
+<script>
+    document.getElementById('back-button').addEventListener('click', function() {
+        // Lấy tab hiện tại từ localStorage
+        var activeTab = localStorage.getItem('activeTab') || 'all';
+        // Điều hướng quay lại trang chính với tham số tab
+        window.location.href = './LoadBillControll?tab=' + activeTab;
+    });
+</script>
 </body>
 </html>

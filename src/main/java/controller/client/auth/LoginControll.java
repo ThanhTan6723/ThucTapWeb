@@ -30,7 +30,13 @@ public class LoginControll extends HttpServlet {
         }
         request.getRequestDispatcher("/WEB-INF/client/login.jsp").forward(request, response);
     }
-
+    private String getSourceIp(HttpServletRequest request) {
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipAddress == null || ipAddress.isEmpty()) {
+            ipAddress = request.getRemoteAddr();
+        }
+        return ipAddress;
+    }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -39,6 +45,10 @@ public class LoginControll extends HttpServlet {
 
         String identifier = request.getParameter("identifier");
         String passWord = request.getParameter("password");
+        String userAgent = request.getHeader("User-Agent");
+        String sourceIp = getSourceIp(request);
+        System.out.println(userAgent);
+        System.out.println(sourceIp);
 
         boolean checkSpaceIdentifier = identifier.trim().isEmpty();
         boolean checkSpacePass = passWord.trim().isEmpty();
@@ -65,7 +75,7 @@ public class LoginControll extends HttpServlet {
             if (isValidEmail(identifier)) {
                 checkEmailExist = AccountDAO.checkFieldExists("email",identifier);
                 if (checkEmailExist) {
-                    account = dao.login("email", identifier, enpass,account);
+                    account = dao.getAccountByField("email", identifier, enpass);
                 }
             } else if (isValidPhone(identifier)) {
                 checkPhoneExist = AccountDAO.checkFieldExists("phonenumber",identifier);
@@ -118,7 +128,7 @@ public class LoginControll extends HttpServlet {
                     response.addCookie(c1);
                     response.addCookie(c2);
 
-                    response.sendRedirect(request.getContextPath() + "IndexAdminControll");
+                    response.sendRedirect(request.getContextPath() + "IndexControll");
                     return;
                 }
             } else {

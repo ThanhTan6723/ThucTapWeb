@@ -1,6 +1,7 @@
-package model;
+package controller.admin.log;
 
 import dao.client.LOG_LEVEL;
+import model.Account;
 
 public class Log {
     private int id;

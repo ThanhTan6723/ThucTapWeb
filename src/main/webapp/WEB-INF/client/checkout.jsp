@@ -1,6 +1,5 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
 <%@ page contentType="text/html; charset=utf-8" language="java" %>
 <%@ page isELIgnored="false" %>
 
@@ -24,6 +23,14 @@
             padding-top: 10px;
             padding-bottom: 20px;
             text-align: center;
+        }
+        .suggestion {
+            padding: 10px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+        .suggestion:hover {
+            background-color: #f0f0f0;
         }
     </style>
     <!-- Include Google Places API -->
@@ -55,10 +62,6 @@
                                 </div>
                             </div>
                         </div>
-                        <%--                        <div class="checkout__input">--%>
-                        <%--                            <p>Email<span>*</span></p>--%>
-                        <%--                            <input type="email" name="email" value="${email}" style="width: 70%;">--%>
-                        <%--                        </div>--%>
                         <div class="checkout__input">
                             <select class="form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm">
                                 <option value="" selected>Chọn tỉnh thành</option>
@@ -127,7 +130,7 @@
     </div>
 </section>
 <!-- Checkout Section End -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhltZISk1lb0b0FYP-SBva29rLlmMYL4Y&libraries=places"></script>
+
 <script>
     // Khởi tạo AutocompleteService của Google Places API
     var autocompleteService = new google.maps.places.AutocompleteService();

@@ -1,12 +1,16 @@
 package dao.client;
 
+import model.Account;
+
 public interface IDAO<T> {
 
-    public T login(String field, String value, String password,T t);
-    public  int insert(T t);
-    public int update(T t);
-    public int delete(T t);
+    Account login(T t);
 
+    int insert(T t);
+
+    int update(T t);
+
+    int delete(T t);
 
 
 }

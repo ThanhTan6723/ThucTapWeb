@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Order {
     private int id;
-    private String booking_date;
-    private String dilivery_date;
+    private String bookingDate;
+    private String diliveryDate;
     private Account account;
     private String consigneeName;
     private String consigneePhone;
@@ -19,9 +19,9 @@ public class Order {
         super();
     }
 
-    public Order(int id, String booking_date, Account account, String consigneeName, String consigneePhone, double ship, double totalMoney, String address, String orderNotes, String orderStatus) {
+    public Order(int id, String bookingDate, Account account, String consigneeName, String consigneePhone, double ship, double totalMoney, String address, String orderNotes, String orderStatus) {
         this.id = id;
-        this.booking_date = booking_date;
+        this.bookingDate = bookingDate;
         this.account = account;
         this.consigneeName = consigneeName;
         this.consigneePhone = consigneePhone;
@@ -32,10 +32,10 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public Order(int id, String booking_date, String dilivery_date, Account account, String consigneeName, String consigneePhone, double ship, double totalMoney, String address, String orderNotes, String orderStatus) {
+    public Order(int id, String bookingDate, String diliveryDate, Account account, String consigneeName, String consigneePhone, double ship, double totalMoney, String address, String orderNotes, String orderStatus) {
         this.id = id;
-        this.booking_date = booking_date;
-        this.dilivery_date = dilivery_date;
+        this.bookingDate = bookingDate;
+        this.diliveryDate = diliveryDate;
         this.account = account;
         this.consigneeName = consigneeName;
         this.consigneePhone = consigneePhone;
@@ -111,20 +111,20 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public String getBooking_date() {
-        return booking_date;
+    public String getBookingDate() {
+        return bookingDate;
     }
 
-    public void setBooking_date(String booking_date) {
-        this.booking_date = booking_date;
+    public void setBookingDate(String bookingDate) {
+        this.bookingDate = bookingDate;
     }
 
-    public String getDilivery_date() {
-        return dilivery_date;
+    public String getDiliveryDate() {
+        return diliveryDate;
     }
 
-    public void setDilivery_date(String dilivery_date) {
-        this.dilivery_date = dilivery_date;
+    public void setDiliveryDate(String diliveryDate) {
+        this.diliveryDate = diliveryDate;
     }
 
     public double getShip() {
@@ -139,8 +139,8 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", booking_date='" + booking_date + '\'' +
-                ", dilivery_date='" + dilivery_date + '\'' +
+                ", bookingDate='" + bookingDate + '\'' +
+                ", diliveryDate='" + diliveryDate + '\'' +
                 ", account=" + account +
                 ", consigneeName='" + consigneeName + '\'' +
                 ", consigneePhone='" + consigneePhone + '\'' +

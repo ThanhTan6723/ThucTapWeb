@@ -163,11 +163,11 @@ public class OrderDAO {
 
     public static void insertOrder(Order order) {
 //		List<Product> list = new ArrayList<>();
-        String sql = "INSERT INTO Orders(booking_date,delivery_date,account_id,consignee_name, consignee_phone, address,orderNotes,OrderStatus) VALUES (?,?,?,?,?,?,?,?,?) ";
+        String sql = "INSERT INTO Orders(booking_date,account_id,consignee_name, consignee_phone, address,orderNotes,OrderStatus) VALUES (?,?,?,?,?,?,?) ";
         try {
             Connection conn = JDBCUtil.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, order.getBooking_date());
+            ps.setString(1, order.getBookingDate());
             ps.setInt(2, order.getAccount().getId());
             ps.setString(3,order.getConsigneeName());
             ps.setString(4, order.getConsigneePhone());
@@ -307,8 +307,8 @@ public class OrderDAO {
             while (rs.next()) {
                 Order order = new Order();
                 order.setId(rs.getInt("id"));
-                order.setBooking_date(rs.getString("booking_date"));
-                order.setDilivery_date(rs.getString("delivery_date"));
+                order.setBookingDate(rs.getString("booking_date"));
+                order.setDiliveryDate(rs.getString("delivery_date"));
                 order.setTotalMoney(rs.getFloat("totalMoney"));
                 order.setOrderStatus(rs.getString(3));
                 order.setAddress(rs.getString(4));

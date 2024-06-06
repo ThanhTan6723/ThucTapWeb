@@ -1,16 +1,13 @@
 package dao.client;
 
 import model.Account;
-import model.Log;
 
 public abstract class AbsDAO<T extends IModel> implements IDAO<T> {
 
     @Override
-    public T login(String field, String value, String password) {
-        Log log = new Log();
-        log.setAccount(AccountDAO.getAccountByField());
-        Logging.login(log);
-        return ;
+    public Account login(T model) {
+        Logging.login(model);
+        return null;
     }
 
     @Override

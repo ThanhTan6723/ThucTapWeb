@@ -2,6 +2,7 @@ package controller.client.order;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -49,8 +50,8 @@ public class OrderControll extends HttpServlet {
 
 		if (obj != null) {
 			Order order = new Order();
-			String date = LocalDate.now().toString();
-			order.setBooking_date(date);
+			String date = LocalDateTime.now().toString();
+			order.setBookingDate(date);
 			order.setAccount(account);
 			order.setConsigneeName(name);
 			order.setConsigneePhone(phone);
