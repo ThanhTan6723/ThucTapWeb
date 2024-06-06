@@ -39,11 +39,11 @@
                         <li class=""><a href="./ShowProductControl?cid=3">Rice</a></li>
                     </ul>
                 </li>
-                <c:if test="${sessionScope.account!=null}">
+<%--                <c:if test="${sessionScope.account!=null}">
                     <li><a href="/OrderPlaceControl">
                         <b>Đơn đã đặt</b>
                     </a></li>
-                </c:if>
+                </c:if>--%>
                 <li><a href="/BlogControll">Blog</a></li>
                 <li><a href="./ContactControll">Liên hệ</a></li>
             </ul>

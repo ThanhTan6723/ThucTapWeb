@@ -26,9 +26,9 @@
             top: 0;
             width: 100%;
             height: 140px;
-            background-color: #fff; /* Chỉ định màu nền nếu cần */
-            z-index: 900;/* Đảm bảo nó nằm trên các phần tử khác */
-            border-bottom: 1px solid #969696;
+            background-color: #fff;
+            z-index: 900;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
         }
     </style>
 </head>
@@ -45,7 +45,7 @@
 
 <!-- Categories Section Begin -->
 <div class="container">
-    <div class="hero__item set-bg" data-setbg="assets/img/hero/banner.jpg">
+    <div class="hero__item set-bg" data-setbg="assets/img/hero.banner.jpg">
         <div class="hero__text">
             <span>TRÁI CÂY TƯƠI</span>
             <h2>Rau quả <br />100% Hữu cơ</h2>
@@ -351,15 +351,6 @@
 <jsp:include page="./client/footer/footer.jsp"></jsp:include>
 <!-- Footer Section End -->
 
-<!-- Js Plugins -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/jquery-ui.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     function loadMore() {
@@ -380,6 +371,15 @@
         });
     }
 </script>
+<!-- Js Plugins -->
+<script src="assets/js/jquery-3.3.1.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.nice-select.min.js"></script>
+<script src="assets/js/jquery-ui.min.js"></script>
+<script src="assets/js/jquery.slicknav.js"></script>
+<script src="assets/js/mixitup.min.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/main.js"></script>
 </body>
 
 </html>

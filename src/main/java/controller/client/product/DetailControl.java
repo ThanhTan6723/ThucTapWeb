@@ -27,11 +27,9 @@ public class DetailControl extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
-
 		String productId = request.getParameter("pid");
 		int pid=Integer.parseInt(productId);
 		Product product = ProductDAO.getProductById(pid);
-    
         assert product != null;
         int category_id = product.getCategory().getId();
         List<Product> relativeProduct = ProductDAO.relativeProduct(category_id);
@@ -39,7 +37,6 @@ public class DetailControl extends HttpServlet {
         // Tạo một bản sao của đối tượng Product
         product.setId(product.getId());
         product.setName(product.getName());
-  
 		product.setPrice(product.getPrice());
 		product.setImage(product.getImage());
 		product.setDescription(product.getDescription());
@@ -48,13 +45,13 @@ public class DetailControl extends HttpServlet {
         List<Image> listImageProduct = ProductDAO.listImageProduct(product.getId());
 		String nameCategory = ProductDAO.getCategoryById(product.getCategory().getId());
 		List<Batch> listBatch = ProductDAO.getListBatchById(product.getId());
-
+        List<Provider> listProvider = ProductDAO.getListProviderByIdP(pid);
 		List<Product> listInventory = ProductAdminDAO.getListProducts();
 		Map<Integer, Integer> productCurrentQuantities = new HashMap<>();
 
 		for (int i = 0; i < listInventory.size(); i++) {
 			Product p = listInventory.get(i);
-			product = ProductAdminDAO.getProductWithBatchesById(product.getId());
+			product = ProductAdminDAO.getProductStillExpiredById(product.getId());
 
 			int totalQuantity = 0;
 			int currentQuantity = 0;
@@ -67,12 +64,12 @@ public class DetailControl extends HttpServlet {
 			listInventory.set(i, p);
 		}
 		request.setAttribute("productCurrentQuantities", productCurrentQuantities);
-
 		request.setAttribute("listImageProduct",listImageProduct);
 		request.setAttribute("nameCategory",nameCategory);
 		request.setAttribute("detail", product);
 		request.setAttribute("listBatch",listBatch);
 		request.setAttribute("listInventory",listInventory);
+		request.setAttribute("listProvider",listProvider);
 		request.getRequestDispatcher("/WEB-INF/client/product-detail.jsp").forward(request, response);
 	}
 
