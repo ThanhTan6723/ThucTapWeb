@@ -4,10 +4,12 @@ import java.util.List;
 
 public class Order {
     private int id;
-    private String date;
+    private String bookingDate;
+    private String diliveryDate;
     private Account account;
     private String consigneeName;
     private String consigneePhone;
+    private double ship;
     private double totalMoney;
     private String address;
     private String orderNotes;
@@ -17,12 +19,27 @@ public class Order {
         super();
     }
 
-    public Order(int id, String date, Account account, String consigneeName, String consigneePhone, double totalMoney, String address, String orderNotes, String orderStatus) {
+    public Order(int id, String bookingDate, Account account, String consigneeName, String consigneePhone, double ship, double totalMoney, String address, String orderNotes, String orderStatus) {
         this.id = id;
-        this.date = date;
+        this.bookingDate = bookingDate;
         this.account = account;
         this.consigneeName = consigneeName;
         this.consigneePhone = consigneePhone;
+        this.ship = ship;
+        this.totalMoney = totalMoney;
+        this.address = address;
+        this.orderNotes = orderNotes;
+        this.orderStatus = orderStatus;
+    }
+
+    public Order(int id, String bookingDate, String diliveryDate, Account account, String consigneeName, String consigneePhone, double ship, double totalMoney, String address, String orderNotes, String orderStatus) {
+        this.id = id;
+        this.bookingDate = bookingDate;
+        this.diliveryDate = diliveryDate;
+        this.account = account;
+        this.consigneeName = consigneeName;
+        this.consigneePhone = consigneePhone;
+        this.ship = ship;
         this.totalMoney = totalMoney;
         this.address = address;
         this.orderNotes = orderNotes;
@@ -37,13 +54,6 @@ public class Order {
         this.id = id;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
 
     public Account getAccount() {
         return account;
@@ -101,14 +111,40 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
+    public String getBookingDate() {
+        return bookingDate;
+    }
+
+    public void setBookingDate(String bookingDate) {
+        this.bookingDate = bookingDate;
+    }
+
+    public String getDiliveryDate() {
+        return diliveryDate;
+    }
+
+    public void setDiliveryDate(String diliveryDate) {
+        this.diliveryDate = diliveryDate;
+    }
+
+    public double getShip() {
+        return ship;
+    }
+
+    public void setShip(double ship) {
+        this.ship = ship;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", date='" + date + '\'' +
+                ", bookingDate='" + bookingDate + '\'' +
+                ", diliveryDate='" + diliveryDate + '\'' +
                 ", account=" + account +
                 ", consigneeName='" + consigneeName + '\'' +
                 ", consigneePhone='" + consigneePhone + '\'' +
+                ", ship=" + ship +
                 ", totalMoney=" + totalMoney +
                 ", address='" + address + '\'' +
                 ", orderNotes='" + orderNotes + '\'' +

@@ -38,7 +38,7 @@ public class Cart {
 
 	// them vao gio
 	public void addItem(OrderDetail t) {
-		// có rồi
+		// nếu đã có rồi
 		if (getItemById(t.getProduct().getId()) != null) {
 			OrderDetail m = getItemById(t.getProduct().getId());
 			m.setQuantity(m.getQuantity() + t.getQuantity());

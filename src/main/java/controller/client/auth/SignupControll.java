@@ -57,7 +57,7 @@ public class SignupControll extends HttpServlet {
         if (checkNameExists) {
             request.setAttribute("error2", "Tên đã tồn tại");
         }
-        boolean checkEmailAvailable = AccountDAO.checkEmail(email);
+        boolean checkEmailAvailable = AccountDAO.checkFieldExists("email",email);
         if (checkEmailAvailable) {
             request.setAttribute("error3", "Email đã tồn tại");
         }
