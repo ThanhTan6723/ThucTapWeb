@@ -8,6 +8,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 @WebServlet(name = "CartControll", value = "/CartControll")
 public class CartControll extends HttpServlet {
@@ -18,34 +19,29 @@ public class CartControll extends HttpServlet {
 
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
-
+        Object obj = session.getAttribute("cart");
+        System.out.println("Obj:"+obj);
         if (account == null) {
             response.sendRedirect(request.getContextPath() + "/LoginControll");
         } else {
-            Object obj = session.getAttribute("cart");
             double total = 0;
-
             if (obj != null) {
                 Map<Integer, OrderDetail> cartTemporary = (Map<Integer, OrderDetail>) obj;
-
-                // Tính tổng giá trị của giỏ hàng
-                for (Map.Entry<Integer, OrderDetail> entry : cartTemporary.entrySet()) {
-                    OrderDetail orderDetail = entry.getValue();
-
-                    // Cập nhật giá của từng sản phẩm trong giỏ hàng
-                    double price = orderDetail.getProduct().getPrice() * orderDetail.getQuantity();
-                    orderDetail.setPrice(price);
-                    total += price;
+                Set<Integer> key = cartTemporary.keySet();
+                for (Integer k : key) {
+                    OrderDetail orderDe = cartTemporary.get(k);
+                    //price with number of products
+                    orderDe.setPrice(orderDe.getQuantity() * orderDe.getProduct().getPrice());
+                    cartTemporary.put(k, orderDe);
                 }
-
-                // Cập nhật lại giỏ hàng trong session
                 session.setAttribute("cart", cartTemporary);
+                for (Map.Entry<Integer, OrderDetail> entry : cartTemporary.entrySet()) {
+                    OrderDetail oderDetail = entry.getValue();
+                    // total price
+                    total += oderDetail.getPrice();
+                }
             }
-
-            // Đặt thuộc tính 'total' cho request để hiển thị trong JSP
             request.setAttribute("total", total);
-
-            // Chuyển hướng sang trang giỏ hàng
             request.getRequestDispatcher("/WEB-INF/client/cart.jsp").forward(request, response);
         }
     }
