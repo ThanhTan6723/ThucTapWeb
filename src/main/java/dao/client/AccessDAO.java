@@ -39,7 +39,7 @@ public class AccessDAO {
 		try {
 			Connection con = JDBCUtil.getConnection();
 			PreparedStatement ps = con.prepareStatement(query);
-			ps.setString(1, "%" + txtSearch + "%"); // Chú ý việc sử dụng dấu %
+			ps.setString(1, "%" + txtSearch + "%");
 			ps.setInt(2, cid);
 			ResultSet rs = ps.executeQuery();
             while (rs.next()) {

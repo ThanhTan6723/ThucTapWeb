@@ -554,63 +554,30 @@ public class ProductDAO {
 			// Rollback trong trường hợp có lỗi xảy ra
 		}
 	}
-	public static void main(String[] args) {
-	/*	try {
-			// Định dạng ngày tháng
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-			// Tạo danh sách Batch cập nhật
-			List<Batch> updatedBatches = new ArrayList<>();*/
-/*
-
-			Batch batch1 = new Batch();
-			batch1.setId(1); // ID của lô hàng cần cập nhật
-			batch1.setManufacturingDate(sdf.parse("10/10/2023")); // Ngày sản xuất
-			batch1.setExpiryDate(sdf.parse("10/07/2024")); // Hạn sử dụng
-			batch1.setDateOfImporting(sdf.parse("05/01/2024")); // Ngày nhập
-			batch1.setQuantity(100);
-			batch1.setCurrentQuantity(50); // Giả sử currentQuantity là 50
-			batch1.setPriceImport(50.0);
-			batch1.setProvider(new Provider(1, "Provider Name", "Provider Address")); // Giả sử Provider có ID là 1
-*/
-
-			// Thêm Batch vào danh sách
-/*
-			updatedBatches.add(batch1);
-*/
-/*			Batch batch2 = new Batch();
-			batch2.setId(1); // ID của lô hàng cần cập nhật
-			batch2.setManufacturingDate(sdf.parse("13/10/2023")); // Ngày sản xuất
-			batch2.setExpiryDate(sdf.parse("01/07/2024")); // Hạn sử dụng
-			batch2.setDateOfImporting(sdf.parse("06/01/2024")); // Ngày nhập
-			batch2.setQuantity(500);
-			batch2.setCurrentQuantity(35); // Giả sử currentQuantity là 50
-			batch2.setPriceImport(12.34);
-			batch2.setProvider(new Provider(2, "Provider Name", "Provider Address")); // Giả sử Provider có ID là 1
-			// Thêm Batch vào danh sách
-			updatedBatches.add(batch2);
-
-			// Giả sử bạn đã có đối tượng Product để cập nhật
-			Product product = new Product();
-			product.setId(1); // ID của sản phẩm cần cập nhật
-			product.setName("Updated Product Name");
-			product.setPrice(199.99);
-			product.setImage("updated_image.jpg");
-			product.setDescription("Updated Description");
-			product.setCategory(new Category(1)); // Giả sử Category có ID là 1
-*//*			System.out.println(product.toString());
-			System.out.println(updatedBatches.toString());*//*
-			System.out.println(getProductWithBatchesById(1));
-			// Gọi phương thức để cập nhật sản phẩm và các lô hàng
-			updateProductAndBatches(product, updatedBatches, batch2.getId());
-			System.out.println(getProductWithBatchesById(1));
-
-		} catch (ParseException e) {
+	public static List<Provider> getListProviderByIdP(int id) {
+		List<Provider> list = new ArrayList<>();
+		String sql = "SELECT DISTINCT p.id, p.name, p.address " +
+				"FROM Providers p " +
+				"JOIN Batch b ON p.id = b.provider_id " +
+				"WHERE b.product_id = ?";
+		try {
+			Connection con = JDBCUtil.getConnection();
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				list.add(new Provider(rs.getInt("id"), rs.getString("name"), rs.getString("address")));
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
-		}*/
+		}
+		return list;
+	}
+
+	public static void main(String[] args) {
 /*
-		System.out.println(getListBatchById(2));
-*/
 		System.out.println(getProductById(1));
+*/
+		System.out.println(getListProviderByIdP(15));
 	}
 }

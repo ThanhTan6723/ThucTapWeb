@@ -118,9 +118,10 @@
 	<jsp:include page="header/header.jsp"></jsp:include>
 </span>
         <!-- Breadcrumb Section Begin -->
-<%--        <div style="height: 140px"></div>--%>
+        <div style="height: 140px"></div>
         <!-- Breadcrumb Section Begin -->
-        <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+
+        <section class="breadcrumb-section set-bg" data-setbg="assets/img/breadcrumb.jpg">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 text-center">
@@ -128,8 +129,7 @@
                             <h2>Chi tiết sản phẩm</h2>
                             <div class="breadcrumb__option">
                                 <a href="./IndexControll">Trang chủ</a>
-                                <a href="./IndexControll">Sản phẩm</a>
-                                <span>${detail.name}</span>
+                                <span>${detail.name} </span>
                             </div>
                         </div>
                     </div>
@@ -145,7 +145,7 @@
                         <div class="product__details__pic">
                             <div class="product__details__pic__item">
                                 <img class="product__details__pic__item--large"
-                                     src="${detail.image}" alt="">
+                                     src="${detail.image}" alt="" style="width: 400px;height: 400px">
                             </div>
                             <div class="product__details__pic__slider__nav">
                                 <div class="owl-prev"><i class="fa fa-angle-left"></i></div>
@@ -180,8 +180,8 @@
                             <c:url var="addToCart" value="AddToCartControl"></c:url>
                             <br>
                                 <form action="${addToCart}?pid=${detail.id}" method="post">
-                                   <b>Số lượng: </b> <input style="width: 80px; border-radius: 5px; text-align: center;" type="number" class="single-input-selector" value="1"
-                                           min="1" max="99" name="quantity" placeholder="">
+                                   <b>Số lượng:</b> <input style="width: 80px; border-radius: 5px; text-align: center;" type="number" class="single-input-selector" value="1"
+                                           min="1" max="${productCurrentQuantities[detail.id]}" name="quantity" placeholder="">
                                     <br><br>
                                     <button style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; text-transform: uppercase; font-weight: 700; color: #fff"
                                             type="submit" class="button" title="<c:out value="Đặt hàng" />">
@@ -221,8 +221,10 @@
                                 <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                     <div class="product__details__tab__desc">
                                         <h6>Thông tin về nhà cung cấp</h6>
-                                        <p>${provider.name}</p>
-                                        <p>${provider.address}</p>
+                                        <c:forEach var="o" items="${listProvider}">
+                                        <p>-Tên nhà cung cấp: ${o.name}</p>
+                                        <p>Địa chỉ: ${o.address}</p>
+                                        </c:forEach>
                                     </div>
                                 </div>
 
@@ -273,6 +275,7 @@
                     </div>
                 </div>
             </div>
+            </div>
         </section>
         <!-- Product Details Section End -->
 
@@ -308,14 +311,6 @@
         <!-- Related Product Section End -->
 		<jsp:include page="footer/footer.jsp"></jsp:include>
 	</div>
-    <script src="assets/js/jquery-3.3.1.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.nice-select.min.js"></script>
-    <script src="assets/js/jquery-ui.min.js"></script>
-    <script src="assets/js/jquery.slicknav.js"></script>
-    <script src="assets/js/mixitup.min.js"></script>
-    <script src="assets/js/owl.carousel.min.js"></script>
-    <script src="assets/js/main.js"></script>
 <script>
     $(document).ready(function () {
         $(".product__details__pic__slider").owlCarousel({
@@ -403,5 +398,13 @@
     }
 
     </script>
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.nice-select.min.js"></script>
+    <script src="assets/js/jquery-ui.min.js"></script>
+    <script src="assets/js/jquery.slicknav.js"></script>
+    <script src="assets/js/mixitup.min.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
 </html>

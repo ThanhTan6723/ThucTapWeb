@@ -79,35 +79,32 @@
                         <tbody>
                         <c:forEach items="${sessionScope.cart}" var="o">
                             <tr>
-                                <td class="shoping__cart__item"><a
-                                        href="DetailControl?pid=${o.value.product.id}"> <img
-                                        style="width: 73px; height: auto;"
-                                        src="${o.value.product.image}" width="150px" height="60px"></a>
+                                <td class="shoping__cart__item">
+                                    <a href="DetailControl?pid=${o.value.product.id}">
+                                        <img style="width: 73px; height: auto;" src="${o.value.product.image}" width="150px" height="60px">
+                                    </a>
                                     <a href="DetailControl?pid=${o.value.product.id}">
                                         <h5>${o.value.product.name}</h5>
-                                    </a></td>
+                                    </a>
+                                </td>
                                 <td class="shoping__cart__price">${o.value.product.price}₫</td>
-                                <td class="shoping__cart__quantity"><c:url var="decrease"
-                                                                           value="DecreaseQControl"></c:url> <a
-                                        href="${decrease}?key=${o.key}">
-                                    <button style="border-radius: 6px;" name="minus" value="minus" type="button">-
-                                    </button>
-                                </a> <input style="width: 40px;text-align: center;border-radius: 8px;" type="text"
-                                            value="${o.value.quantity}" name="Lines"
-                                            id="updates_6383545" min="1" readonly> <c:url
-                                        var="increase" value="IncreaseQControll"></c:url> <a
-                                        href="${increase}?key=${o.key}">
-                                    <button style="border-radius: 6px;" name="add" value="add" type="button">+</button>
-                                </a></td>
-                                <td class="shoping__cart__total"><c:set var="sumAll"
-                                                                        value="${o.value.quantity*o.value.price}"></c:set>
-                                        ${o.value.price}</td>
-                                <c:url var="delete" value="DeteleOrderControll"></c:url>
-                                <td class="text-center"><a
-                                        class="fa fa-trash-o item-remove"
-                                        href="${delete}?key=${o.key}"></a></td>
+
+                                <td class="shoping__cart__quantity">
+                                    <c:url var="decrease" value="DecreaseQControl"/>
+                                    <c:url var="increase" value="IncreaseQControl"/>
+
+                                    <button style="border-radius: 6px;" name="minus" value="minus" type="button" onclick="changeQuantity('${decrease}', ${o.key}, 'decrease')">-</button>
+                                    <input style="width: 40px; text-align: center; border-radius: 8px;" type="text" value="${o.value.quantity}" name="Lines" id="updates_${o.key}" min="1" readonly data-price="${o.value.product.price}">
+                                    <button style="border-radius: 6px;" name="plus" value="plus" type="button" onclick="changeQuantity('${increase}', ${o.key}, 'increase')">+</button>
+                                </td>
+                                <td class="shoping__cart__total" id="total_${o.key}">${o.value.quantity * o.value.product.price}₫</td>
+                                <c:url var="delete" value="DeteleOrderControll"/>
+                                <td class="text-center">
+                                    <a class="fa fa-trash-o item-remove" href="${delete}?key=${o.key}"></a>
+                                </td>
                             </tr>
                         </c:forEach>
+
                         </tbody>
                     </table>
                 </div>
@@ -136,7 +133,7 @@
                 <div class="shoping__checkout">
                     <h5>Chi tiết thanh toán</h5>
                     <ul>
-                        <li>Tổng tiền: <span>${total}₫</span></li>
+                        <li>Tổng tiền: <span id="totalPrice">${total}₫</span></li>
                     </ul>
                     <c:url var="checkout" value="CheckOutControll"></c:url>
                     <a href="${pageContext.request.contextPath}/${checkout}"
@@ -147,13 +144,57 @@
         </div>
     </div>
 </section>
-<!-- Shoping Cart Section End -->
 
 <!-- Footer Section Begin -->
 <jsp:include page="./footer/footer.jsp"></jsp:include>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function changeQuantity(url, key, action) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: { key: key },
+            success: function(response) {
+                if (response.trim() === "success") {
+                    // Update the quantity in the input field
+                    let input = document.getElementById("updates_" + key);
+                    let currentQuantity = parseInt(input.value);
+                    let unitPrice = parseFloat(input.getAttribute('data-price'));
 
+                    if (action === 'increase') {
+                        currentQuantity++;
+                    } else if (action === 'decrease' && currentQuantity > 1) {
+                        currentQuantity--;
+                    }
 
-<!-- Js Plugins -->
+                    input.value = currentQuantity;
+
+                    // Update the total price
+                    let totalPrice = currentQuantity * unitPrice;
+                    document.getElementById("total_" + key).innerText = totalPrice.toFixed(2) + '₫';
+                    updateTotalPrice();
+
+                } else {
+                    console.log("Error: " + response);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log("Error: " + error);
+            }
+        });
+    }
+    function updateTotalPrice() {
+        let totalPrice = 0;
+        let totalElements = document.getElementsByClassName("shoping__cart__total");
+
+        for (let i = 0; i < totalElements.length; i++) {
+            totalPrice += parseFloat(totalElements[i].innerText);
+        }
+
+        document.getElementById("totalPrice").innerText = totalPrice.toFixed(2) + '₫';
+    }
+
+</script>
 
 </body>
 

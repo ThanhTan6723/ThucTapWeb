@@ -80,7 +80,6 @@
 			scroll-behavior: smooth;
 			flex-grow: 1;
 		}
-
 		.product-carousel .product__discount__item {
 			flex: 0 0 auto;
 			margin-right: 10px; /* Điều chỉnh khoảng cách giữa các sản phẩm */
@@ -121,6 +120,7 @@
 </span>
 <!-- Breadcrumb Section Begin -->
 <div style="height: 140px"></div>
+<!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section set-bg" data-setbg="assets/img/breadcrumb.jpg">
 	<div class="container">
 		<div class="row">
@@ -129,7 +129,7 @@
 					<h2>Sản phẩm</h2>
 					<div class="breadcrumb__option">
 						<a href="./IndexControll">Trang chủ</a>
-						<span>Sản phẩm</span>
+						<span>Sản phẩm </span>
 					</div>
 				</div>
 			</div>
@@ -377,14 +377,6 @@
 </section>
 <!-- Product Section End -->
 <jsp:include page="footer/footer.jsp"></jsp:include>
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/jquery-ui.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
@@ -503,7 +495,15 @@
         }
     }
 </script>
-
+<!-- Js Plugins -->
+<script src="assets/js/jquery-3.3.1.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.nice-select.min.js"></script>
+<script src="assets/js/jquery-ui.min.js"></script>
+<script src="assets/js/jquery.slicknav.js"></script>
+<script src="assets/js/mixitup.min.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/main.js"></script>
 
 </body>
 
