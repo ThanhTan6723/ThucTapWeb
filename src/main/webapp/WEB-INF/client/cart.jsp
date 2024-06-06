@@ -15,7 +15,7 @@
     <title>Cart</title>
     <jsp:include page="./link/link.jsp"></jsp:include>
     <style>
-        .header__fixed {
+        .header__fixed{
             position: fixed;
             top: 0;
             width: 100%;
@@ -30,8 +30,10 @@
 <body>
 
 <span class="header__fixed">
-    <jsp:include page="header/header.jsp"></jsp:include>
+	<jsp:include page="header/header.jsp"></jsp:include>
+
 </span>
+
 
 <!-- Shoping Cart Section Begin -->
 <div style="height: 140px"></div>
@@ -54,13 +56,14 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="shoping__cart__btns"
-                                     style=" display: block; margin: 0 auto; text-align: center;">
+                                     style=" display: block;margin: 0 auto;text-align: center;">
                                     <c:url var="showProduct" value="ShowProductControl"></c:url>
                                     <a href="${pageContext.request.contextPath}/${showProduct}"
                                        class="primary-btn cart-btn">Tiếp tục mua sắm</a>
                                 </div>
                             </div>
                         </div>
+
                     </c:if>
                     <c:if test="${not empty sessionScope.cart}">
                     <table>
@@ -75,34 +78,33 @@
                         </thead>
                         <tbody>
                         <c:forEach items="${sessionScope.cart}" var="o">
-                            <tr id="row_${o.key}">
+                            <tr>
                                 <td class="shoping__cart__item">
                                     <a href="DetailControl?pid=${o.value.product.id}">
-                                        <img style="width: 73px; height: auto;"
-                                             src="${o.value.product.image}" width="150px" height="60px">
+                                        <img style="width: 73px; height: auto;" src="${o.value.product.image}" width="150px" height="60px">
                                     </a>
                                     <a href="DetailControl?pid=${o.value.product.id}">
                                         <h5>${o.value.product.name}</h5>
                                     </a>
                                 </td>
                                 <td class="shoping__cart__price">${o.value.product.price}₫</td>
+
                                 <td class="shoping__cart__quantity">
-                                    <div class="quantity">
-                                        <div class="pro-qty">
-                                            <span class="dec qtybtn decrease-btn" data-key="${o.key}">-</span>
-                                            <input type="text" value="${o.value.quantity}" min="1" id="updates_${o.key}" readonly>
-                                            <span class="inc qtybtn increase-btn" data-key="${o.key}">+</span>
-                                        </div>
-                                    </div>
+                                    <c:url var="decrease" value="DecreaseQControl"/>
+                                    <c:url var="increase" value="IncreaseQControl"/>
+
+                                    <button style="border-radius: 6px;" name="minus" value="minus" type="button" onclick="changeQuantity('${decrease}', ${o.key}, 'decrease')">-</button>
+                                    <input style="width: 40px; text-align: center; border-radius: 8px;" type="text" value="${o.value.quantity}" name="Lines" id="updates_${o.key}" min="1" readonly data-price="${o.value.product.price}">
+                                    <button style="border-radius: 6px;" name="plus" value="plus" type="button" onclick="changeQuantity('${increase}', ${o.key}, 'increase')">+</button>
                                 </td>
-                                <td class="shoping__cart__total total-price_${o.key}">
-                                        ${o.value.quantity * o.value.product.price}₫
-                                </td>
-                                <td class="shoping__cart__item__close">
-                                    <span class="icon_close remove-btn" data-key="${o.key}"></span>
+                                <td class="shoping__cart__total" id="total_${o.key}">${o.value.quantity * o.value.product.price}₫</td>
+                                <c:url var="delete" value="DeteleOrderControll"/>
+                                <td class="text-center">
+                                    <a class="fa fa-trash-o item-remove" href="${delete}?key=${o.key}"></a>
                                 </td>
                             </tr>
                         </c:forEach>
+
                         </tbody>
                     </table>
                 </div>
@@ -131,7 +133,7 @@
                 <div class="shoping__checkout">
                     <h5>Chi tiết thanh toán</h5>
                     <ul>
-                        <li>Tổng tiền: <span class="total-amount">${total}₫</span></li>
+                        <li>Tổng tiền: <span id="totalPrice">${total}₫</span></li>
                     </ul>
                     <c:url var="checkout" value="CheckOutControll"></c:url>
                     <a href="${pageContext.request.contextPath}/${checkout}"
@@ -142,70 +144,58 @@
         </div>
     </div>
 </section>
-<!-- Shoping Cart Section End -->
 
 <!-- Footer Section Begin -->
 <jsp:include page="./footer/footer.jsp"></jsp:include>
-
-<!-- Add jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function changeQuantity(url, key, action) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: { key: key },
+            success: function(response) {
+                if (response.trim() === "success") {
+                    // Update the quantity in the input field
+                    let input = document.getElementById("updates_" + key);
+                    let currentQuantity = parseInt(input.value);
+                    let unitPrice = parseFloat(input.getAttribute('data-price'));
 
-<!-- Add JavaScript for AJAX functionality -->
-<script>
-    $(document).ready(function() {
-        // Function to handle increasing quantity
-        $(".increase-btn").click(function(e) {
-            e.preventDefault();
-            var key = $(this).data("key");
-            $.ajax({
-                type: "GET",
-                url: "IncreaseQControll?key=" + key,
-                success: function(response) {
-                    // Update the quantity in the UI
-                    $("#updates_" + key).val(response.quantity);
-                    // Update the total price for the item
-                    $(".total-price_" + key).text(response.totalPrice + "₫");
-                    // Update the total amount
-                    $(".total-amount").text(response.totalAmount + "₫");
-                }
-            });
-        });
+                    if (action === 'increase') {
+                        currentQuantity++;
+                    } else if (action === 'decrease' && currentQuantity > 1) {
+                        currentQuantity--;
+                    }
 
-        // Function to handle decreasing quantity
-        $(".decrease-btn").click(function(e) {
-            e.preventDefault();
-            var key = $(this).data("key");
-            $.ajax({
-                type: "GET",
-                url: "DecreaseQControl?key=" + key,
-                success: function(response) {
-                    // Update the quantity in the UI
-                    $("#updates_" + key).val(response.quantity);
-                    // Update the total price for the item
-                    $(".total-price_" + key).text(response.totalPrice + "₫");
-                    // Update the total amount
-                    $(".total-amount").text(response.totalAmount + "₫");
-                }
-            });
-        });
+                    input.value = currentQuantity;
 
-        // Function to handle removing item from the cart
-        $(".remove-btn").click(function(e) {
-            e.preventDefault();
-            var key = $(this).data("key");
-            $.ajax({
-                type: "GET",
-                url: "DeleteOrderControl?key=" + key,
-                success: function(response) {
-                    // Remove the row from the cart in the UI
-                    $("#row_" + key).remove();
-                    // Update the total amount in the UI
-                    $(".total-amount").text(response.totalAmount + "₫");
+                    // Update the total price
+                    let totalPrice = currentQuantity * unitPrice;
+                    document.getElementById("total_" + key).innerText = totalPrice.toFixed(2) + '₫';
+                    updateTotalPrice();
+
+                } else {
+                    console.log("Error: " + response);
                 }
-            });
+            },
+            error: function(xhr, status, error) {
+                console.log("Error: " + error);
+            }
         });
-    });
+    }
+    function updateTotalPrice() {
+        let totalPrice = 0;
+        let totalElements = document.getElementsByClassName("shoping__cart__total");
+
+        for (let i = 0; i < totalElements.length; i++) {
+            totalPrice += parseFloat(totalElements[i].innerText);
+        }
+
+        document.getElementById("totalPrice").innerText = totalPrice.toFixed(2) + '₫';
+    }
+
 </script>
 
 </body>
+
 </html>
