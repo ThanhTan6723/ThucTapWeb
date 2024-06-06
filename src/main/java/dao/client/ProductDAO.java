@@ -268,7 +268,9 @@ public class ProductDAO {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Provider provider = new Provider(rs.getInt("provider_id"), rs.getString("provider_name"), rs.getString("provider_address"));
-				Account adminCreate = new Account(rs.getInt("admin_id"), rs.getString("admin_name")); // Giả sử Account có constructor với các tham số này
+				Account adminCreate = new Account(); // Giả sử Account có constructor với các tham số này
+				adminCreate.setId(rs.getInt("admin_id"));
+				adminCreate.setName(rs.getString("admin_name"));
 				Batch batch = new Batch(
 						rs.getInt(1),
 						rs.getString(2),
@@ -383,10 +385,9 @@ public class ProductDAO {
 									batchResultSet.getString("provider_name"),
 									batchResultSet.getString("provider_address")
 							);
-							Account adminCreate = new Account(
-									batchResultSet.getInt("admin_id"),
-									batchResultSet.getString("admin_name")
-							);
+							Account adminCreate = new Account();
+									adminCreate.setId(batchResultSet.getInt("admin_id"));
+									adminCreate.setName(batchResultSet.getString("admin_name"));
 							int quantity = batchResultSet.getInt("currentQuantity");
 							Batch batch = new Batch(
 									batchResultSet.getInt("id"),

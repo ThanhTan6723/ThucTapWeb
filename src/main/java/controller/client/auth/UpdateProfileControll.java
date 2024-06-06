@@ -63,7 +63,7 @@ public class UpdateProfileControll extends HttpServlet {
 		if (checkNameExits) {
 			request.setAttribute("error2", "Name is already exits");
 		}
-		boolean checkEmailAvailable = AccountDAO.checkEmail(email);
+		boolean checkEmailAvailable = AccountDAO.checkFieldExists("email",email);
 		if (checkEmailAvailable) {
 			request.setAttribute("error3", "Email available");
 		}

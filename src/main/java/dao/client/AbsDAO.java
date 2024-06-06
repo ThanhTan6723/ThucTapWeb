@@ -5,9 +5,9 @@ import model.Account;
 public abstract class AbsDAO<T extends IModel> implements IDAO<T> {
 
     @Override
-    public T login(T model) {
+    public Account login(T model) {
         Logging.login(model);
-        return model;
+        return null;
     }
 
     @Override
