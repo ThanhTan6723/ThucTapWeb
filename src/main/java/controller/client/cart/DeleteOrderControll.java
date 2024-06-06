@@ -30,7 +30,7 @@ public class DeleteOrderControll extends HttpServlet {
 			map.remove(k);
 
 			int sizeCart = (int) session.getAttribute("size");
-			sizeCart -= 1;
+			sizeCart-=1;
 			session.setAttribute("size", sizeCart);
 			session.setAttribute("cart", map);
 
@@ -38,7 +38,7 @@ public class DeleteOrderControll extends HttpServlet {
 
 			// Prepare the JSON response
 			Gson gson = new Gson();
-			String jsonResponse = gson.toJson(new Response(totalAmount));
+			String jsonResponse = gson.toJson(new Response(sizeCart, totalAmount));
 
 			response.getWriter().write(jsonResponse);
 		}
@@ -50,9 +50,11 @@ public class DeleteOrderControll extends HttpServlet {
 	}
 
 	private class Response {
+		private int sizeCart;
 		private double totalAmount;
 
-		public Response(double totalAmount) {
+		public Response(int sizeCart, double totalAmount) {
+			this.sizeCart = sizeCart;
 			this.totalAmount = totalAmount;
 		}
 
