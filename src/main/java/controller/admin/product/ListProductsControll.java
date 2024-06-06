@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dao.admin.AccountsDAO;
+import dao.admin.ProductAdminDAO;
 import dao.client.ProductDAO;
 import model.Account;
 import model.Product;
@@ -26,7 +27,7 @@ public class ListProductsControll extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<Product> productList = ProductDAO.getListProducts();
+		List<Product> productList = ProductAdminDAO.getListProducts();
 
 		JsonArray jsonArray = new JsonArray();
 		for (Product product : productList) {

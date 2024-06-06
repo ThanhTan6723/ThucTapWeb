@@ -23,6 +23,7 @@ public class OrderDAO {
             while (rs.next()) {
                 listProducts.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
                        ProductDAO.getCategoryById1(rs.getInt(6))));
+
             }
 
             // Close resources
@@ -136,6 +137,7 @@ public class OrderDAO {
                 list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
                         ProductDAO.getCategoryById1(rs.getInt(6)))
                 );
+
             }
         } catch (Exception e) {
             e.printStackTrace();

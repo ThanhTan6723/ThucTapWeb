@@ -22,9 +22,9 @@ public class AccessDAO {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						new Category(rs.getInt(6)))
-				);
-			}
+
+						new Category(rs.getInt(6))));
+            }
 		} catch (Exception e) {
 		}
 
@@ -42,9 +42,10 @@ public class AccessDAO {
 			ps.setInt(2, cid);
 			ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-                        new Category(rs.getInt(6)))
-                );
+				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+						new Category(rs.getInt(6))));
+
+
             }
 		} catch (Exception e) {
 		}
@@ -80,9 +81,10 @@ public static List<Product> pagingProductSearch(int index, String txtSearch, Str
 			ps.setInt(2, (index - 1) * 12);
 			ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-                        new Category(rs.getInt(6)))
-                );
+				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+						new Category(rs.getInt(6))));
+
+
             }
 		} catch (Exception e) {
 

@@ -167,7 +167,6 @@
                   </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
-                  
                     <c:url var="home" value="IndexControll"></c:url>
                     <c:url var="logout" value="LogoutAdControll"></c:url>
                     <div class="">

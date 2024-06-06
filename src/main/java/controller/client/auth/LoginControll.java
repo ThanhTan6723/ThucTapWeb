@@ -45,12 +45,14 @@ public class LoginControll extends HttpServlet {
 
         String identifier = request.getParameter("identifier");
         String passWord = request.getParameter("password");
+
         String userAgent = request.getHeader("User-Agent");
         String sourceIp = getSourceIp(request);
         System.out.println(userAgent);
         System.out.println(sourceIp);
 
         boolean checkSpaceIdentifier = identifier.trim().isEmpty();
+
         boolean checkSpacePass = passWord.trim().isEmpty();
         boolean checkEmailExist = false,
                 checkPhoneExist = false;
