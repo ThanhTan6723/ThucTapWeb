@@ -21,6 +21,7 @@ public class BillDetailControll extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         String id = request.getParameter("id");
+//        System.out.println(id);
         List<OrderDetail> listDetail = OrderDAO.getOrderDetailByBid(Integer.parseInt(id));
         int sumQ = OrderDAO.getQuantityWithOderId(Integer.parseInt(id));
 
