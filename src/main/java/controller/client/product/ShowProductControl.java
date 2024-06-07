@@ -72,7 +72,6 @@ public class ShowProductControl extends HttpServlet {
                 int endPage = (int) Math.ceil((double) list.size() / RECORDS_PER_PAGE);
                 request.setAttribute("endPage", endPage);
                 request.setAttribute("listSale", listSale);
-                System.out.println("danh sach sale"+listSale);
 
             } else {
                 // Xử lý lỗi nếu các tham số là null hoặc rỗng

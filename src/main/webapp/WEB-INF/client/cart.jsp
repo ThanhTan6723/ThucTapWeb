@@ -1,6 +1,5 @@
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page contentType="text/html; charset=utf-8" language="java" %>
 <%@ page isELIgnored="false" %>
 
@@ -120,10 +119,16 @@
                 <div class="shoping__continue">
                     <div class="shoping__discount">
                         <h5>Mã giảm giá</h5>
-                        <form action="#">
-                            <input type="text" placeholder="Enter your coupon code">
-                            <button type="submit" class="site-btn">Áp dụng</button>
-                        </form>
+
+                            <form>
+                                <input type="text" id="couponCode" placeholder="Enter your coupon code">
+                                <input type="hidden" id="quantity" value="1" readonly>
+                                <input type="hidden" id="discountValue" value="0"> <!-- Thêm input ẩn để lưu giá trị giảm giá -->
+                                <input type="hidden" id="originalTotalAmount" value="${total}"> <!-- Thêm input ẩn để lưu tổng tiền gốc -->
+                                <button type="button" class="site-btn" onclick="applyDiscountIfCouponExists()">Áp dụng</button>
+                                <button type="button" class="site-btn" style="background-color: #c00808" onclick="cancelDiscount()">Hủy</button> <!-- Nút hủy áp dụng mã giảm giá -->
+                                <div id="discountError" style="color: red; display: none;">Mã giảm giá không tồn tại</div> <!-- Thêm phần tử để hiển thị thông báo lỗi -->
+                            </form>
                     </div>
                 </div>
             </div>
@@ -131,11 +136,11 @@
                 <div class="shoping__checkout">
                     <h5>Chi tiết thanh toán</h5>
                     <ul>
-                        <li>Tổng tiền: <span class="total-amount">${total}₫</span></li>
+                        <!-- Thêm thẻ <span> cho tổng tiền -->
+                        <li><span id="totalAmount" class="total-amount">${total}₫</span></li>
                     </ul>
                     <c:url var="checkout" value="CheckOutControll"></c:url>
-                    <a href="${pageContext.request.contextPath}/${checkout}"
-                       class="primary-btn">Thanh toán</a>
+                    <a href="${pageContext.request.contextPath}/${checkout}" class="primary-btn">Thanh toán</a>
                 </div>
             </div>
             </c:if>
@@ -150,43 +155,101 @@
 <!-- Add jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<!-- Add JavaScript for AJAX functionality -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    $(document).ready(function() {
+        $("#couponCode").on("input", function() {
+            var couponCode = $(this).val().trim();
+            if (couponCode === "") {
+                $('#discountError').hide(); // Ẩn thông báo lỗi khi không có mã giảm giá
+            }
+        });
+    });
+
+    function applyDiscountIfCouponExists() {
+        var couponCode = $("#couponCode").val().trim();
+        if (couponCode !== "") {
+            applyDiscount();
+            $('#discountError').show(); // Hiển thị thông báo lỗi
+
+        } else {
+            // Ẩn thông báo lỗi khi không có mã giảm giá
+            applyDiscount();
+            $('#discountError').hide();
+
+        }
+    }
+    function applyDiscount() {
+        var couponCode = document.getElementById('couponCode').value;
+        var quantity = document.getElementById('quantity').value; // Lấy số lượng sản phẩm
+        var totalAmount = parseFloat($('#originalTotalAmount').val()); // Lấy giá trị tổng tiền gốc (chưa giảm giá)
+
+        $.ajax({
+            type: "POST",
+            url: "CheckDiscountServlet",
+            data: { couponCode: couponCode, quantity: quantity, totalAmount: totalAmount },
+            success: function(response) {
+                if (response.valid) {
+                    var discountedPrice = response.discountedPrice;
+                    $('.total-amount').text(discountedPrice + '₫');
+                    $('#discountValue').val(response.discountValue); // Lưu giá trị giảm giá vào input ẩn
+                    $('#discountError').hide();
+
+                } else {
+                    $('#discountValue').val(0); // Đặt giá trị giảm giá về 0 nếu mã không hợp lệ
+                    $('.total-amount').text(totalAmount + '₫'); // Hiển thị lại tổng tiền gốc nếu mã không hợp lệ
+                    $('#discountError').text(response.error); // Hiển thị thông báo lỗi
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Lỗi khi gửi yêu cầu kiểm tra mã giảm giá: " + error);
+            }
+        });
+    }
+
+
+    function cancelDiscount() {
+        var totalAmount = parseFloat($('#originalTotalAmount').val()); // Lấy giá trị tổng tiền gốc (chưa giảm giá)
+        $('#discountValue').val(0); // Đặt giá trị giảm giá về 0
+        $('.total-amount').text(totalAmount + '₫'); // Hiển thị lại tổng tiền gốc
+        $('#couponCode').val(''); // Xóa mã giảm giá
+        $('#discountError').hide(); // Ẩn thông báo lỗi
+    }
+
+    function updateQuantity(key, action) {
+        $.ajax({
+            type: "GET",
+            url: action + "?key=" + key,
+            success: function(response) {
+                // Cập nhật số lượng trong UI
+                $("#updates_" + key).val(response.quantity);
+                // Cập nhật tổng giá tiền cho sản phẩm
+                $(".total-price_" + key).text(response.totalPrice + "₫");
+                // Cập nhật tổng số tiền
+                var totalAmount = response.totalAmount;
+
+                // Lưu lại tổng số tiền gốc vào input ẩn để sử dụng cho việc tính toán giảm giá
+                $('#originalTotalAmount').val(totalAmount);
+
+                // Áp dụng lại mã giảm giá nếu có
+                applyDiscountIfCouponExists();
+            }
+        });
+    }
+
     $(document).ready(function() {
         // Function to handle increasing quantity
         $(".increase-btn").click(function(e) {
             e.preventDefault();
             var key = $(this).data("key");
-            $.ajax({
-                type: "GET",
-                url: "IncreaseQControll?key=" + key,
-                success: function(response) {
-                    // Update the quantity in the UI
-                    $("#updates_" + key).val(response.quantity);
-                    // Update the total price for the item
-                    $(".total-price_" + key).text(response.totalPrice + "₫");
-                    // Update the total amount
-                    $(".total-amount").text(response.totalAmount + "₫");
-                }
-            });
+            updateQuantity(key, "IncreaseQControll");
         });
 
         // Function to handle decreasing quantity
         $(".decrease-btn").click(function(e) {
             e.preventDefault();
             var key = $(this).data("key");
-            $.ajax({
-                type: "GET",
-                url: "DecreaseQControl?key=" + key,
-                success: function(response) {
-                    // Update the quantity in the UI
-                    $("#updates_" + key).val(response.quantity);
-                    // Update the total price for the item
-                    $(".total-price_" + key).text(response.totalPrice + "₫");
-                    // Update the total amount
-                    $(".total-amount").text(response.totalAmount + "₫");
-                }
-            });
+            updateQuantity(key, "DecreaseQControl");
         });
 
         // Function to handle removing item from the cart
@@ -201,10 +264,17 @@
                     $("#row_" + key).remove();
                     // Update the total amount in the UI
                     $(".total-amount").text(response.totalAmount + "₫");
+
+                    // Lưu lại tổng số tiền gốc vào input ẩn để sử dụng cho việc tính toán giảm giá
+                    $('#originalTotalAmount').val(response.totalAmount);
+
+                    // Áp dụng lại mã giảm giá nếu có
+                    applyDiscountIfCouponExists();
                 }
             });
         });
     });
+
 </script>
 
 </body>
