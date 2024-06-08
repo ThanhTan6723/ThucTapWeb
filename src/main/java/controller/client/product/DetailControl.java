@@ -66,8 +66,10 @@ public class DetailControl extends HttpServlet {
 
 			listInventory.set(i, p);
 		}
-		request.setAttribute("productCurrentQuantities", productCurrentQuantities);
+		List<Review> reviewList = ProductDAO.getListReviewsByProductId(pid);
 
+		request.setAttribute("productCurrentQuantities", productCurrentQuantities);
+		request.setAttribute("reviews", reviewList);
 		request.setAttribute("listImageProduct",listImageProduct);
 		request.setAttribute("nameCategory",nameCategory);
 		request.setAttribute("detail", product);

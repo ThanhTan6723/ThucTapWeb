@@ -119,25 +119,6 @@
 <span class="header__fixed">
 	<jsp:include page="header/header.jsp"></jsp:include>
 </span>
-<!-- Breadcrumb Section Begin -->
-<div style="height: 140px"></div>
-<section class="breadcrumb-section set-bg" data-setbg="assets/img/breadcrumb.jpg">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12 text-center">
-				<div class="breadcrumb__text">
-					<h2>Sản phẩm</h2>
-					<div class="breadcrumb__option">
-						<a href="./IndexControll">Trang chủ</a>
-						<span>Sản phẩm</span>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<!-- Breadcrumb Section End -->
-
 <!-- Product Section Begin -->
 <section class="product spad">
 	<div class="container">
