@@ -26,10 +26,10 @@
 			position: fixed;
 			top: 0;
 			width: 100%;
-			height: 140px;
+			/*height: 140px;*/
 			background-color: #fff;
 			z-index: 900;
-			box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+			/*box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);*/
 		}
 		.page-btn {
 			padding: 10px 23px;

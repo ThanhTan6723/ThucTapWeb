@@ -25,10 +25,10 @@
             position: fixed;
             top: 0;
             width: 100%;
-            height: 140px;
-            background-color: #fff; /* Chỉ định màu nền nếu cần */
+            /*height: 140px;*/
+            background-color: #f5f5f5; /* Chỉ định màu nền nếu cần */
             z-index: 900;/* Đảm bảo nó nằm trên các phần tử khác */
-            border-bottom: 1px solid #969696;
+            /*border-bottom: 1px solid #969696;*/
         }
     </style>
 </head>
