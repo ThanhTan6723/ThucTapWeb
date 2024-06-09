@@ -51,7 +51,7 @@ public class DetailControl extends HttpServlet {
 		List<Image> listImageProduct = ProductDAO.listImageProduct(product.getId());
 		String nameCategory = ProductDAO.getCategoryById(product.getCategory().getId());
 		List<Batch> listBatch = ProductDAO.getListBatchById(product.getId());
-
+		List<Provider> listProvider = ProductDAO.getListProviderByIdP(pid);
 		List<Product> listInventory = ProductAdminDAO.getListProducts();
 		Map<Integer, Integer> productCurrentQuantities = new HashMap<>();
 
@@ -113,6 +113,7 @@ public class DetailControl extends HttpServlet {
 		request.setAttribute("nameCategory", nameCategory);
 		request.setAttribute("detail", product);
 		request.setAttribute("listBatch", listBatch);
+		request.setAttribute("listProvider",listProvider);
 		request.setAttribute("listInventory", listInventory);
 		request.getRequestDispatcher("/WEB-INF/client/product-detail.jsp").forward(request, response);
 	}

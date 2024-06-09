@@ -78,7 +78,7 @@
 
         .stars .rating-row .bar .fill {
             height: 100%;
-            background-color: #ff9900;
+            background-color: #ffa600;
             border-radius: 5px;
         }
 
@@ -88,7 +88,7 @@
         }
 
         .star-icon {
-            color: #ff9900;
+            color: #ffa600;
         }
 
         .review-container {
@@ -105,7 +105,7 @@
         }
 
         .review-item {
-            /*border-bottom: 1px solid #e0e0e0;*/
+            border-bottom: 1px solid #e0e0e0;
             padding: 15px 0;
         }
 
@@ -121,7 +121,7 @@
         }
 
         .review-item h3 span {
-            background-color: #ff9900;
+            background-color: #ffa600;
             color: #fff;
             padding: 2px 5px;
             border-radius: 3px;
@@ -131,7 +131,7 @@
 
         .review-item p {
             margin: 10px 0;
-            border-bottom: 1px solid #d9d9d9;
+            /*border-bottom: 1px solid #d9d9d9;*/
         }
 
         .review-item .response {
@@ -185,7 +185,7 @@
 
 
         .star.selected {
-            color: #ff9900;
+            color: #ffa600;
         }
 
         /* Modal Styles */
@@ -301,7 +301,6 @@
 </head>
 
 <body>
-<<<<<<< HEAD
 <div class="page">
     <span class="header__fixed">
         <jsp:include page="header/header.jsp"></jsp:include>
@@ -315,32 +314,10 @@
                         <div class="breadcrumb__option">
                             <a href="./IndexControll">Trang chủ</a>
                             <span>${detail.name} </span>
-=======
-	<div class="page">
-
-<span class="header__fixed">
-	<jsp:include page="header/header.jsp"></jsp:include>
-</span>
-        <!-- Breadcrumb Section Begin -->
-        <div style="height: 140px"></div>
-        <!-- Breadcrumb Section Begin -->
-
-        <section class="breadcrumb-section set-bg" data-setbg="assets/img/breadcrumb.jpg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <div class="breadcrumb__text">
-                            <h2>Chi tiết sản phẩm</h2>
-                            <div class="breadcrumb__option">
-                                <a href="./IndexControll">Trang chủ</a>
-                                <span>${detail.name} </span>
-                            </div>
->>>>>>> 6ff298deeaef2af48903f2737f7c49c7fe51d41d
                         </div>
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
         </div>
     </section>
     <div class="product-details spad">
@@ -360,24 +337,10 @@
                                              alt="">
                                     </div>
                                 </c:forEach>
-=======
-        </section>
-
-        <!-- Product Details Section Begin -->
-        <section class="product-details spad">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                        <div class="product__details__pic">
-                            <div class="product__details__pic__item">
-                                <img class="product__details__pic__item--large"
-                                     src="${detail.image}" alt="" style="width: 400px;height: 400px">
->>>>>>> 6ff298deeaef2af48903f2737f7c49c7fe51d41d
                             </div>
                             <div class="owl-next"><i class="fa fa-angle-right"></i></div>
                         </div>
                     </div>
-<<<<<<< HEAD
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="product__details__text">
@@ -389,45 +352,6 @@
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star-half-o"></i>
                             <c:if test="${not empty reviews}"> <span>(${allreviews} Đánh giá)</span></c:if>
-=======
-                    <div class="col-lg-6 col-md-6">
-                        <div class="product__details__text">
-                            <h3>${detail.name}</h3>
-                            <div class="product__details__rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-half-o"></i>
-                                <span>(18 reviews)</span>
-                            </div>
-                            <div class="product__details__price">${detail.price}</div>
-                            <b>Phân loại: </b> ${nameCategory}<br>
-                            <b>Mô tả: </b> ${detail.description}<br>
-                                     <b>Kho: </b> <span id="batchQuantity">${productCurrentQuantities[detail.id]}</span>
-                            <c:url var="addToCart" value="AddToCartControl"></c:url>
-                            <br>
-                                <form action="${addToCart}?pid=${detail.id}" method="post">
-                                   <b>Số lượng:</b> <input style="width: 80px; border-radius: 5px; text-align: center;" type="number" class="single-input-selector" value="1"
-                                           min="1" max="${productCurrentQuantities[detail.id]}" name="quantity" placeholder="">
-                                    <br><br>
-                                    <button style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; text-transform: uppercase; font-weight: 700; color: #fff"
-                                            type="submit" class="button" title="<c:out value="Đặt hàng" />">
-                                        <span><c:out value="Đặt hàng" /></span>
-                                    </button>
-                                </form>
-
-                            <ul>
-                                <li><b>Share on</b>
-                                    <div class="share">
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                    </div>
-                                </li>
-                            </ul>
->>>>>>> 6ff298deeaef2af48903f2737f7c49c7fe51d41d
                         </div>
                         <div class="product__details__price">${detail.price}</div>
                         <b>Phân loại: </b> ${nameCategory}<br>
@@ -436,13 +360,12 @@
                         <c:url var="addToCart" value="AddToCartControl"></c:url>
                         <br>
                         <form action="${addToCart}?pid=${detail.id}" method="post">
-                            <b>Số lượng: </b> <input style="width: 80px; border-radius: 5px; text-align: center;"
-                                                     type="number" class="single-input-selector" value="1"
-                                                     min="1" max="99" name="quantity" placeholder="">
+                            <b>Số lượng:</b> <input style="width: 80px; border-radius: 5px; text-align: center;" type="number" class="single-input-selector" value="1"
+                                                    min="1" max="${productCurrentQuantities[detail.id]}" name="quantity" placeholder="">
                             <br><br>
                             <button style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; text-transform: uppercase; font-weight: 700; color: #fff"
-                                    type="submit" class="button" title="<c:out value='Đặt hàng' />">
-                                <span><c:out value="Đặt hàng"/></span>
+                                    type="submit" class="button" title="<c:out value="Đặt hàng" />">
+                                <span><c:out value="Đặt hàng" /></span>
                             </button>
                         </form>
                         <ul>
@@ -456,7 +379,6 @@
                             </li>
                         </ul>
                     </div>
-<<<<<<< HEAD
                 </div>
                 <div class="col-lg-12">
                     <div class="product__details__tab">
@@ -474,35 +396,11 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <div class="product__details__tab__desc">
-                                    <h6>Mô tả sản phẩm</h6>
-                                    <p>${detail.description}</p>
-=======
-                    <div class="col-lg-12">
-                        <div class="product__details__tab">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
-                                       aria-selected="true">Nhà cung cấp</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
-                                       aria-selected="false">Information</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
-                                       aria-selected="false">Reviews <span>(1)</span></a>
-                                </li>
-                            </ul>
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                    <div class="product__details__tab__desc">
-                                        <h6>Thông tin về nhà cung cấp</h6>
-                                        <c:forEach var="o" items="${listProvider}">
+                                    <h6>Thông tin về nhà cung cấp</h6>
+                                    <c:forEach var="o" items="${listProvider}">
                                         <p>-Tên nhà cung cấp: ${o.name}</p>
                                         <p>Địa chỉ: ${o.address}</p>
-                                        </c:forEach>
-                                    </div>
->>>>>>> 6ff298deeaef2af48903f2737f7c49c7fe51d41d
+                                    </c:forEach>
                                 </div>
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
@@ -521,7 +419,7 @@
                                             <c:if test="${not empty reviews}">
                                                 <!-- Review Statistics Section -->
                                                 <div class="review-statistics">
-                                                    <h5><b>${averageRating}  <i class="fa fa-star star-icon"></i> ${allreviews} Đánh giá</b></h5>
+                                                    <h5><b>${averageRating} <i class="fa fa-star star-icon"></i> ${allreviews} Đánh giá</b></h5>
                                                     <div class="stars">
                                                         <c:forEach var="entry" items="${ratingPercentage}">
                                                             <c:set var="i" value="${entry.key}"/>
@@ -552,7 +450,6 @@
                                                     <img style="width: 100px;height: 100px;border-radius: 6px" src="${review.image}">
                                                     <h3>${review.comment}</h3>
                                                     <p>Đã đánh giá vào ngày ${review.dateCreated}</p>
-                                                    <hr>
                                                     <c:if test="${not empty review.response}">
                                                         <div class="response">
                                                             <p>${review.response}</p>
@@ -569,19 +466,18 @@
                                             <button id="writeReviewBtn">Viết đánh giá</button>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
-<<<<<<< HEAD
                     <div id="reviewModal" class="modal">
                         <div class="modal-content">
                             <span class="close">&times;</span>
                             <h2>Viết đánh giá của bạn</h2>
-<%--                            <img class="product__details__pic__item--large" style="width: 80px; height: 80px" src="${detail.image}" alt="">--%>
                             <form action="ReviewControll" method="post" enctype="multipart/form-data">
                                 <input type="hidden" id="id" name="id" value="${detail.id}">
-                                <label for="rating">Đánh giá:</label>
+                                <label for="rating">Đánh giá</label>
                                 <div id="rating" style="text-align: center;">
                                     <i class="fa fa-star star" data-value="1"></i>
                                     <i class="fa fa-star star" data-value="2"></i>
@@ -590,48 +486,20 @@
                                     <i class="fa fa-star star" data-value="5"></i>
                                 </div>
                                 <input type="hidden" id="ratingInput" name="rating" value="0">
-                                <label for="comment">Bình luận:</label>
+                                <label for="comment">Bình luận</label>
                                 <textarea id="comment" name="comments" rows="6"
                                           placeholder="Mời bạn chia sẻ cảm nhận..." required></textarea>
                                 <div class="form-row">
                                     <div class="form-group">
-                                        <label for="name">Họ tên (bắt buộc):</label>
+                                        <label for="name">Họ tên (bắt buộc)</label>
                                         <input type="text" id="name" name="name" required>
-=======
-                </div>
-            </div>
-            </div>
-        </section>
-        <!-- Product Details Section End -->
-
-        <!-- Related Product Section Begin -->
-        <section class="related-product">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-title related__product__title">
-                            <h2>Sản phẩm liên quan</h2>
-                        </div>
-                    </div>
-                </div>
-                <section class="categories">
-                    <div class="container">
-                        <div class="row">
-                            <div class="categories__slider owl-carousel">
-                                <c:forEach var="p" items="${relativeProduct}">
-                                    <div class="col-lg-3">
-                                        <div class="categories__item set-bg">
-                                            <a href="./DetailControl?pid=${p.id}"><img src="${p.image}"></a>
-                                            <h5><a href="./DetailControl?pid=${p.id}">${p.name}</a></h5>
-                                        </div>
->>>>>>> 6ff298deeaef2af48903f2737f7c49c7fe51d41d
                                     </div>
                                     <div class="form-group">
-                                        <label for="phone">Số điện thoại (bắt buộc):</label>
+                                        <label for="phone">Số điện thoại (bắt buộc)</label>
                                         <input type="tel" id="phone" name="phone" required>
                                     </div>
                                 </div>
-                                <label for="images">Gửi ảnh thực tế:</label>
+                                <label for="images">Gửi ảnh thực tế</label>
                                 <span id="image-preview"></span>
                                 <input type="file" id="images" name="images" accept="image/*" multiple>
                                 <button type="submit">Gửi</button>
@@ -642,7 +510,6 @@
                 </div>
 
             </div>
-<<<<<<< HEAD
         </div>
     </div>
 </div>
@@ -657,12 +524,6 @@
 <script src="assets/js/mixitup.min.js"></script>
 <script src="assets/js/owl.carousel.min.js"></script>
 <script src="assets/js/main.js"></script>
-=======
-        </section>
-        <!-- Related Product Section End -->
-		<jsp:include page="footer/footer.jsp"></jsp:include>
-	</div>
->>>>>>> 6ff298deeaef2af48903f2737f7c49c7fe51d41d
 <script>
     $(document).ready(function () {
         $(".product__details__pic__slider").owlCarousel({
@@ -701,7 +562,6 @@
         updateQuantity();
     }
 
-<<<<<<< HEAD
     document.addEventListener('DOMContentLoaded', (event) => {
         const modal = document.getElementById("reviewModal");
         const btn = document.getElementById("writeReviewBtn");
@@ -783,16 +643,5 @@
         });
     });
 </script>
-=======
-    </script>
-    <script src="assets/js/jquery-3.3.1.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.nice-select.min.js"></script>
-    <script src="assets/js/jquery-ui.min.js"></script>
-    <script src="assets/js/jquery.slicknav.js"></script>
-    <script src="assets/js/mixitup.min.js"></script>
-    <script src="assets/js/owl.carousel.min.js"></script>
-    <script src="assets/js/main.js"></script>
->>>>>>> 6ff298deeaef2af48903f2737f7c49c7fe51d41d
 </body>
 </html>
