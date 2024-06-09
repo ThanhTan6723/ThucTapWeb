@@ -24,6 +24,7 @@ public class IndexDAO {
                         new Category(rs.getInt(6)))
                 );
 
+
             }
         } catch (Exception e) {
 
@@ -109,31 +110,8 @@ public class IndexDAO {
 
     }
 
-//    public static List<Product> listRandProduct() {
-//        List<Product> list = new ArrayList<>();
-//        String query = "select * from Products  ORDER BY RAND() LIMIT 3;";
-//        try {
-//            Connection conn = JDBCUtil.getConnection();
-//            PreparedStatement ps = conn.prepareStatement(query);
-//            ResultSet rs = ps.executeQuery();
-//            while (rs.next()) {
-//                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-//                        new Category(rs.getInt(6)), rs.getInt(7), rs.getDouble(8), rs.getDouble(9), AccountDAO.getAccountById(rs.getInt(1)),
-//                        new Provider(rs.getInt(1)), rs.getString(12), rs.getString(13))
-//                );
-//            }
-//        } catch (Exception e) {
-//
-//        }
-//        return list;
-//
-//    }
-
-
-
-    public static void main(String[] args) {
-        IndexDAO pd = new IndexDAO();
-        System.out.println(getTop8());
+	public static void main(String[] args){
+		IndexDAO pd = new IndexDAO();
     }
 
 }

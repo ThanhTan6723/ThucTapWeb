@@ -39,12 +39,12 @@
                         <li class=""><a href="./ShowProductControl?cid=3">Rice</a></li>
                     </ul>
                 </li>
-<%--                <c:if test="${sessionScope.account!=null}">--%>
-<%--                    <li><a href="/OrderPlaceControl">--%>
-<%--                        <b>Đơn mua</b>--%>
-<%--                    </a></li>--%>
-<%--                </c:if>--%>
                 <li><a href="/BlogControll">Voucher</a></li>
+<%--                <c:if test="${sessionScope.account!=null}">
+                    <li><a href="/OrderPlaceControl">
+                        <b>Đơn đã đặt</b>
+                    </a></li>
+                </c:if>--%>
                 <li><a href="/BlogControll">Blog</a></li>
                 <li><a href="./ContactControll">Liên hệ</a></li>
             </ul>

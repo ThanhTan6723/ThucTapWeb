@@ -595,7 +595,6 @@ public class ProductDAO {
                 psBatch.addBatch();
             }
             psBatch.executeBatch();
-
             conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -655,9 +654,37 @@ public class ProductDAO {
 			System.out.println(getProductWithBatchesById(1));
 
 		} catch (ParseException e) {
+=======
+			conn.commit();
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}*/
+			// Rollback trong trường hợp có lỗi xảy ra
+		}
+	}
+	public static List<Provider> getListProviderByIdP(int id) {
+		List<Provider> list = new ArrayList<>();
+		String sql = "SELECT DISTINCT p.id, p.name, p.address " +
+				"FROM Providers p " +
+				"JOIN Batch b ON p.id = b.provider_id " +
+				"WHERE b.product_id = ?";
+		try {
+			Connection con = JDBCUtil.getConnection();
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				list.add(new Provider(rs.getInt("id"), rs.getString("name"), rs.getString("address")));
+			}
+		} catch (Exception e) {
+>>>>>>> 6ff298deeaef2af48903f2737f7c49c7fe51d41d
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public static void main(String[] args) {
 /*
+<<<<<<< HEAD
 		System.out.println(getListBatchById(2));
 */
         System.out.println(getProductById(1));

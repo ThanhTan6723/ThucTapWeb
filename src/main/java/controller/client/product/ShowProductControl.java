@@ -72,6 +72,7 @@ public class ShowProductControl extends HttpServlet {
                 int endPage = (int) Math.ceil((double) list.size() / RECORDS_PER_PAGE);
                 request.setAttribute("endPage", endPage);
                 request.setAttribute("listSale", listSale);
+                System.out.println("danh sach sale"+listSale);
 
             } else {
                 // Xử lý lỗi nếu các tham số là null hoặc rỗng
@@ -79,8 +80,7 @@ public class ShowProductControl extends HttpServlet {
                 double priceToVal = (priceTo != null && !priceTo.isEmpty()) ? Double.parseDouble(priceTo) : Double.MAX_VALUE;
                 int categoryVal = (category != null && !category.isEmpty()) ? Integer.parseInt(category) : 0;
                 int providerVal = (provider != null && !provider.isEmpty()) ? Integer.parseInt(provider) : 0;
-                request.setAttribute("listSale sau", listSale);
-
+                request.setAttribute("listSale", listSale);
                 List<Product> listLoc = ProductDAO.getFilteredProducts(categoryVal, providerVal, priceFromVal, priceToVal, nameSort, priceSort);
                 productListForPage = getProductListForPage(listLoc, page);
                 request.setAttribute("listProducts", productListForPage);

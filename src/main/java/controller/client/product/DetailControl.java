@@ -28,7 +28,6 @@ public class DetailControl extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 
-		// Get product ID from request
 		String productId = request.getParameter("pid");
 		int pid = Integer.parseInt(productId);
 		Product product = ProductDAO.getProductById(pid);
@@ -39,9 +38,9 @@ public class DetailControl extends HttpServlet {
 		List<Product> relativeProduct = ProductDAO.relativeProduct(category_id);
 		request.setAttribute("relativeProduct", relativeProduct);
 
-		// Copy product details
-		product.setId(product.getId());
-		product.setName(product.getName());
+        // Tạo một bản sao của đối tượng Product
+        product.setId(product.getId());
+        product.setName(product.getName());
 		product.setPrice(product.getPrice());
 		product.setImage(product.getImage());
 		product.setDescription(product.getDescription());
@@ -52,13 +51,14 @@ public class DetailControl extends HttpServlet {
 		List<Image> listImageProduct = ProductDAO.listImageProduct(product.getId());
 		String nameCategory = ProductDAO.getCategoryById(product.getCategory().getId());
 		List<Batch> listBatch = ProductDAO.getListBatchById(product.getId());
+
 		List<Product> listInventory = ProductAdminDAO.getListProducts();
 		Map<Integer, Integer> productCurrentQuantities = new HashMap<>();
 
 		// Calculate current quantities for each product
 		for (int i = 0; i < listInventory.size(); i++) {
 			Product p = listInventory.get(i);
-			product = ProductAdminDAO.getProductWithBatchesById(product.getId());
+			product = ProductAdminDAO.getProductStillExpiredById(product.getId());
 
 			int totalQuantity = 0;
 			int currentQuantity = 0;
@@ -114,8 +114,6 @@ public class DetailControl extends HttpServlet {
 		request.setAttribute("detail", product);
 		request.setAttribute("listBatch", listBatch);
 		request.setAttribute("listInventory", listInventory);
-
-		// Forward request to JSP
 		request.getRequestDispatcher("/WEB-INF/client/product-detail.jsp").forward(request, response);
 	}
 
