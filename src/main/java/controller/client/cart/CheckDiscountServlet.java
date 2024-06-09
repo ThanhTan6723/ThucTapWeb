@@ -2,7 +2,7 @@ package controller.client.cart;
 
 import dao.client.ProductDAO;
 import model.Discount;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
