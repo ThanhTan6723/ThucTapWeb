@@ -26,10 +26,10 @@
 			position: fixed;
 			top: 0;
 			width: 100%;
-			height: 140px;
+			/*height: 140px;*/
 			background-color: #fff;
 			z-index: 900;
-			box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+			/*box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);*/
 		}
 		.page-btn {
 			padding: 10px 23px;
@@ -118,6 +118,8 @@
 <span class="header__fixed">
 	<jsp:include page="header/header.jsp"></jsp:include>
 </span>
+<<<<<<< HEAD
+=======
 <!-- Breadcrumb Section Begin -->
 <div style="height: 140px"></div>
 <!-- Breadcrumb Section Begin -->
@@ -138,6 +140,7 @@
 </section>
 <!-- Breadcrumb Section End -->
 
+>>>>>>> 6ff298deeaef2af48903f2737f7c49c7fe51d41d
 <!-- Product Section Begin -->
 <section class="product spad">
 	<div class="container">
