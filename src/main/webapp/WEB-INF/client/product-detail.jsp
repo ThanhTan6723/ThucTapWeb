@@ -42,27 +42,53 @@
         }
 
         .review-statistics {
-            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
-        .review-statistics .stars {
+        .review-statistics h4 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .stars {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .stars .rating-row {
             display: flex;
             align-items: center;
-            margin-bottom: 5px;
+            font-size: 16px;
         }
 
-        .review-statistics .stars .bar {
-            width: 60%;
-            background-color: #f1f1f1;
+        .stars .rating-row span {
+            width: 30px;
+            text-align: center;
+        }
+
+        .stars .rating-row .bar {
+            flex-grow: 0.5;
             height: 10px;
-            margin-left: 10px;
+            background-color: #e0e0e0;
+            margin: 0 10px;
+            border-radius: 5px;
             position: relative;
         }
 
-        .review-statistics .stars .bar .fill {
+        .stars .rating-row .bar .fill {
             height: 100%;
-            background-color: #ffcc00;
-            position: absolute;
+            background-color: #ffa600;
+            border-radius: 5px;
+        }
+
+        .stars .rating-row .percentage {
+            width: 50px;
+            text-align: right;
+        }
+
+        .star-icon {
+            color: #ffa600;
         }
 
         .review-container {
@@ -95,7 +121,7 @@
         }
 
         .review-item h3 span {
-            background-color: #ffcc00;
+            background-color: #ffa600;
             color: #fff;
             padding: 2px 5px;
             border-radius: 3px;
@@ -105,7 +131,7 @@
 
         .review-item p {
             margin: 10px 0;
-            border-bottom: 1px solid #d9d9d9;
+            /*border-bottom: 1px solid #d9d9d9;*/
         }
 
         .review-item .response {
@@ -159,7 +185,7 @@
 
 
         .star.selected {
-            color: gold;
+            color: #ffa600;
         }
 
         /* Modal Styles */
@@ -387,23 +413,23 @@
                                 <div class="product__details__tab__desc">
                                     <div class="review-container">
                                         <div class="reviews">
-                                            <h4>Đánh giá cho sản phẩm: ${detail.name}</h4>
+                                            <h4><b>Đánh giá cho sản phẩm ${detail.name}</b></h4>
                                             <br>
-                                            <c:if test="${empty reviews}"><h5 style="color: gray">Chưa có đánh giá nào
-                                                cho sản phẩm này</h5></c:if>
+                                            <c:if test="${empty reviews}"><h5 style="color: gray">Chưa có đánh giá nào cho sản phẩm này</h5></c:if>
                                             <c:if test="${not empty reviews}">
                                                 <!-- Review Statistics Section -->
                                                 <div class="review-statistics">
-                                                    <h4>Đánh giá trung bình: ${averageRating}</h4>
+                                                    <h5><b>${averageRating} <i class="fa fa-star star-icon"></i> ${allreviews} Đánh giá</b></h5>
                                                     <div class="stars">
                                                         <c:forEach var="entry" items="${ratingPercentage}">
                                                             <c:set var="i" value="${entry.key}"/>
-                                                            <span>${i} <i class="fa fa-star" style="color: gold;"></i></span>
-                                                            <div class="bar">
-                                                                <div class="fill" style="width: ${entry.value}%; background-color: #ffcc00;"></div>
+                                                            <div class="rating-row">
+                                                                <span>${i} <i class="fa fa-star star-icon"></i></span>
+                                                                <div class="bar">
+                                                                    <div class="fill" style="width: ${entry.value}%;"></div>
+                                                                </div>
+                                                                <span class="percentage">${entry.value}%</span>
                                                             </div>
-                                                            <span>${entry.value}%</span>
-                                                            <br>
                                                         </c:forEach>
                                                     </div>
                                                 </div>
@@ -421,8 +447,7 @@
                                                         </c:forEach>
                                                     </h3>
                                                     <br>
-                                                    <img style="width: 100px;height: 100px;border-radius: 6px"
-                                                         src="${review.image}">
+                                                    <img style="width: 100px;height: 100px;border-radius: 6px" src="${review.image}">
                                                     <h3>${review.comment}</h3>
                                                     <p>Đã đánh giá vào ngày ${review.dateCreated}</p>
                                                     <c:if test="${not empty review.response}">
@@ -436,12 +461,12 @@
                                         </div>
                                         <div class="review-footer">
                                             <c:if test="${not empty reviews}">
-                                                <button id="showAllReviewsBtn">Xem tất cả ${allreviews} đánh giá
-                                                </button>
+                                                <button id="showAllReviewsBtn">Xem tất cả ${allreviews} đánh giá</button>
                                             </c:if>
                                             <button id="writeReviewBtn">Viết đánh giá</button>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -452,7 +477,7 @@
                             <h2>Viết đánh giá của bạn</h2>
                             <form action="ReviewControll" method="post" enctype="multipart/form-data">
                                 <input type="hidden" id="id" name="id" value="${detail.id}">
-                                <label for="rating">Đánh giá:</label>
+                                <label for="rating">Đánh giá</label>
                                 <div id="rating" style="text-align: center;">
                                     <i class="fa fa-star star" data-value="1"></i>
                                     <i class="fa fa-star star" data-value="2"></i>
@@ -461,20 +486,20 @@
                                     <i class="fa fa-star star" data-value="5"></i>
                                 </div>
                                 <input type="hidden" id="ratingInput" name="rating" value="0">
-                                <label for="comment">Bình luận:</label>
+                                <label for="comment">Bình luận</label>
                                 <textarea id="comment" name="comments" rows="6"
                                           placeholder="Mời bạn chia sẻ cảm nhận..." required></textarea>
                                 <div class="form-row">
                                     <div class="form-group">
-                                        <label for="name">Họ tên (bắt buộc):</label>
+                                        <label for="name">Họ tên (bắt buộc)</label>
                                         <input type="text" id="name" name="name" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="phone">Số điện thoại (bắt buộc):</label>
+                                        <label for="phone">Số điện thoại (bắt buộc)</label>
                                         <input type="tel" id="phone" name="phone" required>
                                     </div>
                                 </div>
-                                <label for="images">Gửi ảnh thực tế:</label>
+                                <label for="images">Gửi ảnh thực tế</label>
                                 <span id="image-preview"></span>
                                 <input type="file" id="images" name="images" accept="image/*" multiple>
                                 <button type="submit">Gửi</button>
