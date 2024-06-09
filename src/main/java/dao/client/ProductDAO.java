@@ -654,7 +654,6 @@ public class ProductDAO {
 			System.out.println(getProductWithBatchesById(1));
 
 		} catch (ParseException e) {
-=======
 			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -676,17 +675,36 @@ public class ProductDAO {
 				list.add(new Provider(rs.getInt("id"), rs.getString("name"), rs.getString("address")));
 			}
 		} catch (Exception e) {
->>>>>>> 6ff298deeaef2af48903f2737f7c49c7fe51d41d
 			e.printStackTrace();
 		}
 		return list;
 	}
+	public static Discount getDiscountByCode(String code) {
+		String sql = "SELECT * FROM Discounts WHERE code=?";
+		try {
+			Connection con = JDBCUtil.getConnection();
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, code);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				Discount discount = new Discount();
+				discount.setId(rs.getInt("id"));
+				discount.setCode(rs.getString("code"));
+				discount.setDiscountType(rs.getString("discount_type"));
+				discount.setProductId(rs.getInt("product_id"));
+				discount.setCategoryId(rs.getInt("category_id"));
+				discount.setDiscountValue(rs.getDouble("discount_value"));
+				discount.setStartDate(rs.getDate("start_date"));
+				discount.setEndDate(rs.getDate("end_date"));
+				return discount;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public static void main(String[] args) 
 
-	public static void main(String[] args) {
-/*
-<<<<<<< HEAD
-		System.out.println(getListBatchById(2));
-*/
-        System.out.println(getProductById(1));
-    }
+	}
+
 }
