@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import model.Category;
 import model.Product;
+import model.Provider;
 
 public class IndexDAO {
     public static List<Product> getTop8() {
@@ -19,7 +21,11 @@ public class IndexDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-                        new Category(rs.getInt(6))));
+
+                        new Category(rs.getInt(6)))
+                );
+
+
             }
         } catch (Exception e) {
         }
@@ -64,7 +70,7 @@ public class IndexDAO {
         return list;
     }
 
-    public static List<Product> listRandProduct() {
+/*    public static List<Product> listRandProduct() {
         List<Product> list = new ArrayList<>();
         String query = "select * from Products  ORDER BY RAND() LIMIT 3;";
         try {
@@ -82,7 +88,7 @@ public class IndexDAO {
         }
         return list;
 
-    }
+    }*/
 
     public static List<Product> listRand4Product() {
         List<Product> list = new ArrayList<>();

@@ -146,6 +146,15 @@
             </c:if>
         </div>
     </div>
+
+    <ul>
+        <li><a href="./CartControll">
+            <i><img style="width: 40px; height: 40px;" src="assets/img/cart.svg" alt=""></i>
+            <c:if test="${empty sessionScope.size}"><span id="cart-count">0</span></c:if>
+            <c:if test="${not empty sessionScope.size}"><span id="cart-count">${sessionScope.size}</span></c:if>
+        </a></li>
+    </ul>
+
 </section>
 <!-- Shoping Cart Section End -->
 
@@ -265,11 +274,13 @@
                     // Update the total amount in the UI
                     $(".total-amount").text(response.totalAmount + "₫");
 
+
                     // Lưu lại tổng số tiền gốc vào input ẩn để sử dụng cho việc tính toán giảm giá
                     $('#originalTotalAmount').val(response.totalAmount);
 
                     // Áp dụng lại mã giảm giá nếu có
                     applyDiscountIfCouponExists();
+
                 }
             });
         });
