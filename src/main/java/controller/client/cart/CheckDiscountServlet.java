@@ -82,12 +82,10 @@ public class CheckDiscountServlet extends HttpServlet {
                 return jsonResponse;
             }
         }
-
         jsonResponse.put("valid", false);
         jsonResponse.put("error", "Mã giảm giá không tồn tại");
         return jsonResponse;
     }
-
     private LocalDate convertToLocalDate(Date dateToConvert) {
         return new java.sql.Date(dateToConvert.getTime()).toLocalDate();
     }
