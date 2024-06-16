@@ -347,9 +347,7 @@
         </div>
     </div>
 </section>
-<!-- Blog Section End -->
 
-<!-- Footer Section Begin -->
 <jsp:include page="./client/footer/footer.jsp"></jsp:include>
 <script src="assets/js/jquery-3.3.1.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
