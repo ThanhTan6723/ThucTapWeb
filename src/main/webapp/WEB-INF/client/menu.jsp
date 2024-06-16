@@ -26,10 +26,10 @@
 			position: fixed;
 			top: 0;
 			width: 100%;
-			height: 140px;
+			/*height: 140px;*/
 			background-color: #fff;
 			z-index: 900;
-			box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+			/*box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);*/
 		}
 		.page-btn {
 			padding: 10px 23px;
@@ -80,7 +80,6 @@
 			scroll-behavior: smooth;
 			flex-grow: 1;
 		}
-
 		.product-carousel .product__discount__item {
 			flex: 0 0 auto;
 			margin-right: 10px; /* Điều chỉnh khoảng cách giữa các sản phẩm */
@@ -119,8 +118,11 @@
 <span class="header__fixed">
 	<jsp:include page="header/header.jsp"></jsp:include>
 </span>
+<<<<<<< HEAD
+=======
 <!-- Breadcrumb Section Begin -->
 <div style="height: 140px"></div>
+<!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section set-bg" data-setbg="assets/img/breadcrumb.jpg">
 	<div class="container">
 		<div class="row">
@@ -129,7 +131,7 @@
 					<h2>Sản phẩm</h2>
 					<div class="breadcrumb__option">
 						<a href="./IndexControll">Trang chủ</a>
-						<span>Sản phẩm</span>
+						<span>Sản phẩm </span>
 					</div>
 				</div>
 			</div>
@@ -138,6 +140,7 @@
 </section>
 <!-- Breadcrumb Section End -->
 
+>>>>>>> 6ff298deeaef2af48903f2737f7c49c7fe51d41d
 <!-- Product Section Begin -->
 <section class="product spad">
 	<div class="container">
@@ -377,14 +380,6 @@
 </section>
 <!-- Product Section End -->
 <jsp:include page="footer/footer.jsp"></jsp:include>
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/jquery-ui.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
@@ -503,7 +498,15 @@
         }
     }
 </script>
-
+<!-- Js Plugins -->
+<script src="assets/js/jquery-3.3.1.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.nice-select.min.js"></script>
+<script src="assets/js/jquery-ui.min.js"></script>
+<script src="assets/js/jquery.slicknav.js"></script>
+<script src="assets/js/mixitup.min.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/main.js"></script>
 
 </body>
 

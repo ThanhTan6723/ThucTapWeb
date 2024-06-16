@@ -20,41 +20,45 @@ import model.*;
 
 @WebServlet("/DetailControl")
 public class DetailControl extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-  
+	private static final long serialVersionUID = 1L;
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// Set character encoding and content type
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 
 		String productId = request.getParameter("pid");
-		int pid=Integer.parseInt(productId);
+		int pid = Integer.parseInt(productId);
 		Product product = ProductDAO.getProductById(pid);
-    
-        assert product != null;
-        int category_id = product.getCategory().getId();
-        List<Product> relativeProduct = ProductDAO.relativeProduct(category_id);
-        request.setAttribute("relativeProduct", relativeProduct);
+
+		// Ensure product is not null
+		assert product != null;
+		int category_id = product.getCategory().getId();
+		List<Product> relativeProduct = ProductDAO.relativeProduct(category_id);
+		request.setAttribute("relativeProduct", relativeProduct);
+
         // Tạo một bản sao của đối tượng Product
         product.setId(product.getId());
         product.setName(product.getName());
-  
 		product.setPrice(product.getPrice());
 		product.setImage(product.getImage());
 		product.setDescription(product.getDescription());
 		product.setCategory(product.getCategory());
 		product.setImages(product.getImages());
-        List<Image> listImageProduct = ProductDAO.listImageProduct(product.getId());
+
+		// Get additional product details
+		List<Image> listImageProduct = ProductDAO.listImageProduct(product.getId());
 		String nameCategory = ProductDAO.getCategoryById(product.getCategory().getId());
 		List<Batch> listBatch = ProductDAO.getListBatchById(product.getId());
-
+		List<Provider> listProvider = ProductDAO.getListProviderByIdP(pid);
 		List<Product> listInventory = ProductAdminDAO.getListProducts();
 		Map<Integer, Integer> productCurrentQuantities = new HashMap<>();
 
+		// Calculate current quantities for each product
 		for (int i = 0; i < listInventory.size(); i++) {
 			Product p = listInventory.get(i);
-			product = ProductAdminDAO.getProductWithBatchesById(product.getId());
+			product = ProductAdminDAO.getProductStillExpiredById(product.getId());
 
 			int totalQuantity = 0;
 			int currentQuantity = 0;
@@ -63,24 +67,60 @@ public class DetailControl extends HttpServlet {
 				currentQuantity += batch.getCurrentQuantity();
 			}
 			productCurrentQuantities.put(p.getId(), currentQuantity);
-
 			listInventory.set(i, p);
 		}
-		request.setAttribute("productCurrentQuantities", productCurrentQuantities);
 
-		request.setAttribute("listImageProduct",listImageProduct);
-		request.setAttribute("nameCategory",nameCategory);
+		// Get reviews and calculate statistics
+		List<Review> reviewList = ProductDAO.getListReviewsByProductId(pid);
+		Map<Integer, Integer> ratingCount = new HashMap<>();
+		int totalReviews = reviewList.size();
+		int totalRating = 0;
+
+		for (Review review : reviewList) {
+			int rating = review.getRating();
+			ratingCount.put(rating, ratingCount.getOrDefault(rating, 0) + 1);
+			totalRating += rating;
+		}
+
+		// Calculate average rating and rating percentages
+		double averageRating = totalReviews > 0 ? (double) totalRating / totalReviews : 0;
+
+		// Format the average rating to one decimal place
+		DecimalFormat averageRatingFormat = new DecimalFormat("#.#");
+		averageRatingFormat.setRoundingMode(RoundingMode.HALF_UP);
+		String formattedAverageRating = averageRatingFormat.format(averageRating);
+
+		// Calculate and format rating percentages
+		DecimalFormat percentageFormat = new DecimalFormat("#");
+		percentageFormat.setRoundingMode(RoundingMode.HALF_UP);
+		Map<Integer, String> ratingPercentage = new HashMap<>();
+		for (int i = 1; i <= 5; i++) {
+			double percentage = totalReviews > 0 ? (double) ratingCount.getOrDefault(i, 0) * 100 / totalReviews : 0;
+			ratingPercentage.put(i, percentageFormat.format(percentage));
+		}
+
+		// Print statistics for debugging
+		System.out.println("Average Rating: " + formattedAverageRating);
+		System.out.println("Rating Percentage: " + ratingPercentage);
+
+		// Set attributes for JSP
+		request.setAttribute("averageRating", formattedAverageRating);
+		request.setAttribute("ratingPercentage", ratingPercentage);
+		request.setAttribute("allreviews", totalReviews);
+		request.setAttribute("productCurrentQuantities", productCurrentQuantities);
+		request.setAttribute("reviews", reviewList);
+		request.setAttribute("listImageProduct", listImageProduct);
+		request.setAttribute("nameCategory", nameCategory);
 		request.setAttribute("detail", product);
-		request.setAttribute("listBatch",listBatch);
-		request.setAttribute("listInventory",listInventory);
+		request.setAttribute("listBatch", listBatch);
+		request.setAttribute("listProvider",listProvider);
+		request.setAttribute("listInventory", listInventory);
 		request.getRequestDispatcher("/WEB-INF/client/product-detail.jsp").forward(request, response);
 	}
 
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        doGet(request, response);
-    }
-
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// Call doGet method
+		doGet(request, response);
+	}
 }

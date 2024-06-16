@@ -1,12 +1,16 @@
 package dao.client;
 
-public interface IDAO<T extends IModel> {
+import model.Account;
 
-    public T login(T t);
-    public  int insert(T t);
-    public int update(T t);
-    public int delete(T t);
+public interface IDAO<T> {
 
+    Account login(T t);
+
+    int insert(T t);
+
+    int update(T t);
+
+    int delete(T t);
 
 
 }

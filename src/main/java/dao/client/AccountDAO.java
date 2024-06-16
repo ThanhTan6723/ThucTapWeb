@@ -9,7 +9,42 @@ import java.util.ArrayList;
 import model.Account;
 import model.Role;
 
-public class AccountDAO extends AbsDAO<Account> {
+public class AccountDAO extends AbsDAO<Account>{
+
+//    @Override
+//    public Account login(Account model) {
+//        Account account = null;
+//        String sql = "SELECT Accounts.id, Accounts.name, Accounts.password, Accounts.email, " +
+//                "Accounts.phonenumber, Accounts.role_id, Role.role_name, Accounts.failed, Accounts.isLocked " +
+//                "FROM Accounts " +
+//                "JOIN Role ON Accounts.role_id = Role.id " +
+//                "WHERE Accounts." + field + "= ?" + " AND Accounts.password = ?";
+//
+//        try (Connection conn = JDBCUtil.getConnection();
+//             PreparedStatement ps = conn.prepareStatement(sql)) {
+//            ps.setString(1, value);
+//            ps.setString(2, password);
+//            ResultSet rs = ps.executeQuery();
+//
+//            if (rs.next()) {
+//                account = new Account();
+//                account.setId(rs.getInt("id"));
+//                account.setName(rs.getString("name"));
+//                account.setPassword(rs.getString("password"));
+//                account.setEmail(rs.getString("email"));
+//                account.setTelephone(rs.getString("phonenumber"));
+//                account.setRole(new Role(rs.getInt("role_id"), rs.getString("role_name")));
+//                account.setFailed(rs.getInt("failed"));
+//                account.setLocked(rs.getBoolean("isLocked"));
+//
+//                return super.login(model);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return account;
+//    }
 
     public static boolean isUserLocked(int userId) {
         Connection conn = null;
@@ -31,14 +66,13 @@ public class AccountDAO extends AbsDAO<Account> {
             e.printStackTrace();
         } finally {
             // Đóng tất cả các tài nguyên
-            JDBCUtil.closeConnection(conn);
+            JDBCUtil.closeObject(conn);
         }
 
         return isLocked;
     }
 
-    // Khóa tài khoản
-    public static boolean lockAccount(int userId) {
+    public static boolean updateFailed(int accountId) {
         Connection conn = null;
         PreparedStatement stmt = null;
         boolean success = false;
@@ -46,7 +80,7 @@ public class AccountDAO extends AbsDAO<Account> {
             conn = JDBCUtil.getConnection();
             String sql = "UPDATE Accounts SET isLocked = 1 WHERE id = ?";
             stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, userId);
+            stmt.setInt(1, accountId);
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
                 success = true;
@@ -54,7 +88,29 @@ public class AccountDAO extends AbsDAO<Account> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            JDBCUtil.closeConnection(conn);
+            JDBCUtil.closeObject(conn);
+        }
+        return success;
+    }
+
+    // Khóa tài khoản
+    public static boolean lockAccount(String field,Object identifier) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        boolean success = false;
+        try {
+            conn = JDBCUtil.getConnection();
+            String sql = "UPDATE Accounts SET isLocked = 1 WHERE "+field+" = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setObject(1, identifier);
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                success = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.closeObject(conn);
         }
         return success;
     }
@@ -76,7 +132,7 @@ public class AccountDAO extends AbsDAO<Account> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            JDBCUtil.closeConnection(conn);
+            JDBCUtil.closeObject(conn);
         }
         return success;
     }
@@ -122,11 +178,6 @@ public class AccountDAO extends AbsDAO<Account> {
         return role;
     }
 
-    @Override
-    public int insert(Account acc) {
-        return super.insert(acc);
-    }
-
     public ArrayList<Account> selectAll() {
         ArrayList<Account> result = new ArrayList<Account>();
         try {
@@ -154,7 +205,7 @@ public class AccountDAO extends AbsDAO<Account> {
                 Account cus = new Account(id, name, password, email, telephone, new Role(roleId,roleName),failed, isLocked);
                 result.add(cus);
             }
-            JDBCUtil.closeConnection(connect);
+            JDBCUtil.closeObject(connect);
 
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -196,7 +247,7 @@ public class AccountDAO extends AbsDAO<Account> {
                         new Role(roleId,roleName),failed,isLocked);
                 System.out.println(cus);
             }
-            JDBCUtil.closeConnection(connect);
+            JDBCUtil.closeObject(connect);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -205,83 +256,71 @@ public class AccountDAO extends AbsDAO<Account> {
     }
 
 //    @Override
-//    public Account login(Account acc) {
+//    public Account login(String field, String value, String password) {
 //        Account account = null;
-//        try {
-//            Connection connect = JDBCUtil.getConnection();
+//        String sql = "SELECT Accounts.id, Accounts.name, Accounts.password, Accounts.email, " +
+//                "Accounts.phonenumber, Accounts.role_id, Role.role_name, Accounts.failed, Accounts.isLocked " +
+//                "FROM Accounts " +
+//                "JOIN Role ON Accounts.role_id = Role.id " +
+//                "WHERE Accounts." + field + "= ?" + " AND Accounts.password = ?";
 //
-//            String sql = "Select * From Accounts Where name=? And password=?";
+//        try (Connection conn = JDBCUtil.getConnection();
+//             PreparedStatement ps = conn.prepareStatement(sql)) {
+//            ps.setString(1, value);
+//            ps.setString(2, password);
+//            ResultSet rs = ps.executeQuery();
 //
-//            PreparedStatement preSt = connect.prepareStatement(sql);
-//            preSt.setString(1, acc.getName());
-//            preSt.setString(2, acc.getPassword());
+//            if (rs.next()) {
+//                account = new Account();
+//                account.setId(rs.getInt("id"));
+//                account.setName(rs.getString("name"));
+//                account.setPassword(rs.getString("password"));
+//                account.setEmail(rs.getString("email"));
+//                account.setTelephone(rs.getString("phonenumber"));
+//                account.setRole(new Role(rs.getInt("role_id"), rs.getString("role_name")));
+//                account.setFailed(rs.getInt("failed"));
+//                account.setLocked(rs.getBoolean("isLocked"));
 //
-//            // 3.excute function sql
-//            ResultSet rs = preSt.executeQuery();
-//            super.login(acc);
-//
-//            while (rs.next()) {
-//                int id = rs.getInt("id");
-//                String name = rs.getString("name");
-//                String password = rs.getString("password");
-//                String email = rs.getString("email");
-//                String telephone = rs.getString("phonenumber");
-//                int isAdmin = rs.getInt("isAdmin");
-//
-//                account = new Account(id, name, password, email, telephone, isAdmin);
-//                System.out.println(acc);
+//                return super.login(field, value, password);
 //            }
-////			JDBCUtil.closeConnection(connect);
-//
 //        } catch (Exception e) {
-//            // TODO Auto-generated catch block
 //            e.printStackTrace();
 //        }
+//
 //        return account;
+//
 //    }
 
+    public static Account getAccountByField(String field, String value, String password) {
+        Account account = null;
+        String sql = "SELECT Accounts.id, Accounts.name, Accounts.password, Accounts.email, " +
+                "Accounts.phonenumber, Accounts.role_id, Role.role_name, Accounts.failed, Accounts.isLocked " +
+                "FROM Accounts " +
+                "JOIN Role ON Accounts.role_id = Role.id " +
+                "WHERE Accounts." + field + "= ?" + " AND Accounts.password = ?";
 
-    public static Account checkLogin(String username, String pass) {
-        Account acc = null;
-        try {
-            // 1. Kết nối tới cơ sở dữ liệu
-            Connection connect = JDBCUtil.getConnection();
-
-            // 2. Tạo đối tượng statement với câu lệnh JOIN
-            String sql = "SELECT Accounts.id, Accounts.name, Accounts.password, Accounts.email, " +
-                    "Accounts.phonenumber, Accounts.role_id, Role.role_name,Accounts.failed, Accounts.isLocked " +
-                    "FROM Accounts " +
-                    "JOIN Role ON Accounts.role_id = Role.id " +
-                    "WHERE Accounts.name = ? AND Accounts.password = ?";
-
-            PreparedStatement preSt = connect.prepareStatement(sql);
-            preSt.setString(1, username);
-            preSt.setString(2, pass);
-
-            // 3. Thực thi câu lệnh SQL
-            ResultSet rs = preSt.executeQuery();
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, value);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                String password = rs.getString("password");
-                String email = rs.getString("email");
-                String phonenumber = rs.getString("phonenumber");
-                int roleId = rs.getInt("role_id");
-                String roleName = rs.getString("role_name");
-                int failed = rs.getInt("failed");
-                boolean isLocked = rs.getBoolean("isLocked");
-
-                acc = new Account(id, name, password, email, phonenumber, new Role(roleId, roleName),failed,isLocked);
-                System.out.println(acc);
+                account = new Account();
+                account.setId(rs.getInt("id"));
+                account.setName(rs.getString("name"));
+                account.setPassword(rs.getString("password"));
+                account.setEmail(rs.getString("email"));
+                account.setTelephone(rs.getString("phonenumber"));
+                account.setRole(new Role(rs.getInt("role_id"), rs.getString("role_name")));
+                account.setFailed(rs.getInt("failed"));
+                account.setLocked(rs.getBoolean("isLocked"));
             }
-            // Đóng kết nối
-            JDBCUtil.closeConnection(connect);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return acc;
+
+        return account;
     }
 
 
@@ -323,7 +362,7 @@ public class AccountDAO extends AbsDAO<Account> {
 
             res = prSt.executeUpdate();
 
-            JDBCUtil.closeConnection(connect);
+            JDBCUtil.closeObject(connect);
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
@@ -345,7 +384,7 @@ public class AccountDAO extends AbsDAO<Account> {
 
             res = prSt.executeUpdate();
 
-            JDBCUtil.closeConnection(connect);
+            JDBCUtil.closeObject(connect);
 
         } catch (Exception e) {
             // TODO: handle exception
@@ -370,7 +409,7 @@ public class AccountDAO extends AbsDAO<Account> {
 
             res = prSt.executeUpdate();
 
-            JDBCUtil.closeConnection(connect);
+            JDBCUtil.closeObject(connect);
 
         } catch (Exception e) {
             // TODO: handle exception
@@ -404,26 +443,61 @@ public class AccountDAO extends AbsDAO<Account> {
         return res;
     }
 
-    public static boolean checkEmail(String email) {
-        boolean res = false;
+    public static boolean checkFieldExists(String field, String value) {
+        String sql = "SELECT COUNT(*) FROM Accounts WHERE " + field + " = ?";
 
-        try {
-            Connection connect = JDBCUtil.getConnection();
-
-            String sql = "SELECT * FROM Accounts WHERE email=?";
-            PreparedStatement prSt = connect.prepareStatement(sql);
-            prSt.setString(1, email);
-
-            ResultSet rs = prSt.executeQuery();
-
-            while (rs.next()) {
-                res = true;
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, value);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
             }
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
-        return res;
+        return false;
+    }
+
+    public static void resetFailedAttempts(int accountId) {
+        String sql = "UPDATE Accounts SET failed = 0 WHERE id = ?";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, accountId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void incrementFailedAttempts(String field,String identifier) {
+        String sql = "UPDATE Accounts SET failed = failed + 1 WHERE "+field+" = ?";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, identifier);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static int getFailedAttempts(String field,String identifier) {
+        String sql = "SELECT failed FROM Accounts WHERE "+field+" = ?";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, identifier);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("failed");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 
     public static boolean checkPass(String pass) {
@@ -478,7 +552,7 @@ public class AccountDAO extends AbsDAO<Account> {
 
                 return new Account(accId, name, password, email, phonenumber, new Role(roleId,roleName),failed,isLocked);
             }
-//			JDBCUtil.closeConnection(connect);
+//			JDBCUtil.closeObject(connect);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -518,7 +592,6 @@ public class AccountDAO extends AbsDAO<Account> {
         System.out.println(checkUserName("thanhtan"));
         AccountDAO acc = new AccountDAO();
         System.out.println(acc.selectAll());
-        System.out.println(checkLogin("capy", "123"));
         System.out.println(getAccountById(1));
     }
 }

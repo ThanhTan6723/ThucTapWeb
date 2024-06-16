@@ -26,17 +26,16 @@
         <div class="form-content">
             <header>Đăng nhập</header>
             <form action="${log}" method="post">
-                <input type="hidden" name="urlend" value="${returnUrl }">
+                <input type="hidden" name="urlend" value="${returnUrl}">
                 <div class="field input-field">
-                    <input type="text" name="username" value="${username}" placeholder="Tên" class="input">
-                    <span style="color: red; font-weight: 400;">${errorN}</span>
+                    <input type="text" name="identifier" value="${identifier}" placeholder="Email hoặc số điện thoại" class="input">
+                    <span style="color: red; font-weight: 400;">${errorIdenty}</span>
                 </div>
                 <div class="field input-field">
                     <input type="password" name="password" value="${password}" placeholder="Mật khẩu" class="input">
                     <i class='bx bx-hide eye-icon'></i>
                     <span style="color: red; font-weight: 400;">${errorP}</span>
                 </div>
-
                 <div class="form-link">
                     <c:url var="forgot" value="/WEB-INF/client/forgot-password.jsp"></c:url>
                     <a href="/ForgotControll" class="forgot-pass">Forgot password?</a>
@@ -55,7 +54,7 @@
             </div>
         </div>
         <div class="media-options">
-            <a href="https://www.facebook.com/dialog/oauth?client_id=359123991240252&redirect_uri=https://localhost:8443/login-facebook" class="field facebook">
+            <a href="https://www.facebook.com/dialog/oauth?client_id=359123991240252&redirect_uri=https://localhost:8080/login-facebook" class="field facebook">
                 <i class='bx bxl-facebook facebook-icon'></i>
                 <span>Tiếp tục với Facebook</span>
             </a>

@@ -39,11 +39,12 @@
                         <li class=""><a href="./ShowProductControl?cid=3">Rice</a></li>
                     </ul>
                 </li>
-                <c:if test="${sessionScope.account!=null}">
+                <li><a href="/BlogControll">Voucher</a></li>
+<%--                <c:if test="${sessionScope.account!=null}">
                     <li><a href="/OrderPlaceControl">
                         <b>Đơn đã đặt</b>
                     </a></li>
-                </c:if>
+                </c:if>--%>
                 <li><a href="/BlogControll">Blog</a></li>
                 <li><a href="./ContactControll">Liên hệ</a></li>
             </ul>
@@ -54,12 +55,12 @@
         <div class="header__cart">
             <ul>
                 <li><a href="./CartControll">
-                    <i><img style="width: 40px; height: 40px;"
-                            src="assets/img/cart.svg" alt=""></i>
-                    <c:if test="${empty sessionScope.size}"><span>0</span></c:if>
-                    <c:if test="${not empty sessionScope.size}"><span>${sessionScope.size}</span></c:if>
+                    <i><img style="width: 40px; height: 40px;" src="assets/img/cart.svg" alt=""></i>
+                    <c:if test="${empty sessionScope.size}"><span id="cart-count">0</span></c:if>
+                    <c:if test="${not empty sessionScope.size}"><span id="cart-count">${sessionScope.size}</span></c:if>
                 </a></li>
             </ul>
+
             <ul>
                 <c:if test="${empty sessionScope.account}">
                     <div class="header__top__right__auth">
