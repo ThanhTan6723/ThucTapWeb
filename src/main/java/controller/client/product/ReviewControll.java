@@ -112,7 +112,7 @@ public class ReviewControll extends HttpServlet {
             ProductDAO.saveReview(review);
 
             // Chuyển hướng về trang chi tiết sản phẩm
-            response.sendRedirect("DetailControl?pid=" + id);
+            response.sendRedirect("DetailControl?pid=" + id + "#tabs-3");
         } else {
             // Chuyển hướng về trang chi tiết sản phẩm nếu thiếu thông tin cần thiết
             response.sendRedirect("DetailControl?pid=" + id);

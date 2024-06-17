@@ -5,8 +5,7 @@
 <head>
     <%@ page isELIgnored="false" %>
     <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Edit Product</title>
     <jsp:include page="./link/link.jsp"></jsp:include>
 </head>
@@ -30,7 +29,7 @@
 										<form id="productForm" action="AddProductControll" method="post" enctype="multipart/form-data">
 											<div id="productFields">
 												<!-- Các trường sản phẩm sẽ được thêm vào đây -->
-											</div>)
+											</div>
 											<button type="button" class="btn btn-success" onclick="addProductFields()">Thêm sản phẩm</button>
 											<button type="submit" class="btn btn-success">Nhập kho</button>
 										</form>
