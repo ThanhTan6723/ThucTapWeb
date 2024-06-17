@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import model.*;
@@ -623,7 +621,7 @@ public class ProductDAO {
         return list;
     }
 
-    public static Discount getDiscountByCode(String code) {
+    public static Voucher getDiscountByCode(String code) {
         String sql = "SELECT * FROM Discounts WHERE code=?";
         try {
             Connection con = JDBCUtil.getConnection();
@@ -631,7 +629,7 @@ public class ProductDAO {
             ps.setString(1, code);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                Discount discount = new Discount();
+                Voucher discount = new Voucher();
                 discount.setId(rs.getInt("id"));
                 discount.setCode(rs.getString("code"));
                 discount.setDiscountType(rs.getString("discount_type"));

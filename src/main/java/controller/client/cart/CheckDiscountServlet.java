@@ -1,7 +1,7 @@
 package controller.client.cart;
 
 import dao.client.ProductDAO;
-import model.Discount;
+import model.Voucher;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @WebServlet("/CheckDiscountServlet")
@@ -49,7 +48,7 @@ public class CheckDiscountServlet extends HttpServlet {
 
     private JSONObject checkCouponCodeValidity(String couponCode, int quantity, double totalAmount) throws SQLException {
         JSONObject jsonResponse = new JSONObject();
-        Discount discount = ProductDAO.getDiscountByCode(couponCode);
+        Voucher discount = ProductDAO.getDiscountByCode(couponCode);
 
         if (discount != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

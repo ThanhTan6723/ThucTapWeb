@@ -118,26 +118,19 @@
             <div class="col-lg-6">
                 <div class="shoping__continue">
                     <div class="shoping__discount">
-                        <h5>Mã giảm giá</h5>
-
+                        <h5>Voucher</h5>
                             <form>
-                                <input type="text" id="couponCode" placeholder="Enter your coupon code">
-                                <input type="hidden" id="quantity" value="1" readonly>
-                                <input type="hidden" id="discountValue" value="0"> <!-- Thêm input ẩn để lưu giá trị giảm giá -->
-                                <input type="hidden" id="originalTotalAmount" value="${total}"> <!-- Thêm input ẩn để lưu tổng tiền gốc -->
-                                <button type="button" class="site-btn" onclick="applyDiscountIfCouponExists()">Áp dụng</button>
-                                <button type="button" class="site-btn" style="background-color: #c00808" onclick="cancelDiscount()">Hủy</button> <!-- Nút hủy áp dụng mã giảm giá -->
-                                <div id="discountError" style="color: red; display: none;">Mã giảm giá không tồn tại</div> <!-- Thêm phần tử để hiển thị thông báo lỗi -->
                             </form>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="shoping__checkout">
-                    <h5>Chi tiết thanh toán</h5>
+                    <h5>Thanh Toán</h5>
                     <ul>
-                        <!-- Thêm thẻ <span> cho tổng tiền -->
-                        <li><span id="totalAmount" class="total-amount">${total}₫</span></li>
+                        <li>Tạm tính <span></span></li>
+                        <li>Ship <span></span></li>
+                        <li>Tổng <span id="totalAmount" class="total-amount">${total}₫</span></li>
                     </ul>
                     <c:url var="checkout" value="CheckOutControll"></c:url>
                     <a href="${pageContext.request.contextPath}/${checkout}" class="primary-btn">Thanh toán</a>
@@ -147,13 +140,11 @@
         </div>
     </div>
 
-    <ul>
-        <li><a href="./CartControll">
+    <a href="./CartControll">
             <i><img style="width: 40px; height: 40px;" src="assets/img/cart.svg" alt=""></i>
             <c:if test="${empty sessionScope.size}"><span id="cart-count">0</span></c:if>
             <c:if test="${not empty sessionScope.size}"><span id="cart-count">${sessionScope.size}</span></c:if>
-        </a></li>
-    </ul>
+    </a>
 
 </section>
 <!-- Shoping Cart Section End -->

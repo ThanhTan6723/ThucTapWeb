@@ -2,7 +2,7 @@ package model;
 
 import java.util.Date;
 
-public class Discount {
+public class Voucher {
     private int id;
     private String code;
     private String discountType;
@@ -13,10 +13,10 @@ public class Discount {
     private Date endDate;
 
     // Constructors
-    public Discount() {
+    public Voucher() {
     }
 
-    public Discount(String code, String discountType, int productId, int categoryId, double discountValue, Date startDate, Date endDate) {
+    public Voucher(String code, String discountType, int productId, int categoryId, double discountValue, Date startDate, Date endDate) {
         this.code = code;
         this.discountType = discountType;
         this.productId = productId;
