@@ -39,6 +39,7 @@
                         <li class=""><a href="./ShowProductControl?cid=3">Rice</a></li>
                     </ul>
                 </li>
+                <li><a href="/BlogControll">Voucher</a></li>
 <%--                <c:if test="${sessionScope.account!=null}">
                     <li><a href="/OrderPlaceControl">
                         <b>Đơn đã đặt</b>
