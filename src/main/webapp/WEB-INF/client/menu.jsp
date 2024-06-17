@@ -118,8 +118,6 @@
 <span class="header__fixed">
 	<jsp:include page="header/header.jsp"></jsp:include>
 </span>
-<<<<<<< HEAD
-=======
 <!-- Breadcrumb Section Begin -->
 <div style="height: 140px"></div>
 <!-- Breadcrumb Section Begin -->
@@ -140,7 +138,6 @@
 </section>
 <!-- Breadcrumb Section End -->
 
->>>>>>> 6ff298deeaef2af48903f2737f7c49c7fe51d41d
 <!-- Product Section Begin -->
 <section class="product spad">
 	<div class="container">
