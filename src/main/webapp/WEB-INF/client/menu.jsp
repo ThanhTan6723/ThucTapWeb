@@ -170,13 +170,13 @@
 								<fieldset style="border: 2px solid #82ae46;">
 									<legend style="width:150px; font-size: 18px;">Danh mục</legend>
 									<label style="display: block; margin-bottom: 10px; margin-left: 10px">
-										<input type="radio" class="price_sortFilter" name="category" value="1"> Mục 1
+										<input type="radio" class="cate_Filter" name="category" value="1"> Mục 1
 									</label>
 									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="price_sortFilter" name="category" value="2"> Mục 2
+										<input type="radio" class="cate_Filter" name="category" value="2"> Mục 2
 									</label>
 									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="price_sortFilter" name="category" value="3"> Mục 3
+										<input type="radio" class="cate_Filter" name="category" value="3"> Mục 3
 									</label>
 								</fieldset>
 
@@ -194,16 +194,16 @@
 								<fieldset style="border: 2px solid #82ae46;">
 									<legend style="width: 150px; font-size: 18px;">Địa chỉ</legend>
 									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="name_sortAscFilter" name="provider" value="1"> Thành phố HCM
+										<input type="radio" class="provider_sortFilter" name="provider" value="1"> Thành phố HCM
 									</label>
 									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="name_sortDescFilter" name="provider" value="2"> Đà Nẵng
+										<input type="radio" class="provider_sortFilter" name="provider" value="2"> Đà Nẵng
 									</label>
 									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="name_sortDescFilter" name="provider" value="3"> Hà Nội
+										<input type="radio" class="provider_sortFilter" name="provider" value="3"> Hà Nội
 									</label>
 									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="name_sortDescFilter" name="provider" value="4"> Nghệ An
+										<input type="radio" class="provider_sortFilter" name="provider" value="4"> Nghệ An
 									</label>
 								</fieldset>
 								<input style="margin-top: 5px" type="submit" value="Lọc">
@@ -354,8 +354,6 @@
 						</button>
 					</c:forEach>
 				</div>
-
-
 			</div>
 		</div>
 	</div>
@@ -363,18 +361,14 @@
 <!-- Product Section End -->
 <jsp:include page="footer/footer.jsp"></jsp:include>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 <script>
 	function loadPage(page) {
 		var cid = '${param.cid}';
 		var sort = '${param.sort}';
-		var category = $('#category').val(); // Lấy giá trị của thẻ select category
-		var priceSort = $('#price_sort').val(); // Lấy giá trị của thẻ select price_sort
-		var nameSort = $('#name_sort').val(); // Lấy giá trị của thẻ select name_sort
-		var priceFrom = $('#price_from').val(); // Lấy giá trị của thẻ input price_from
-		var priceTo = $('#price_to').val(); // Lấy giá trị của thẻ input price_to
-		var provider = $('#provider').val(); // Lấy giá trị của thẻ select provider
-
+		var category = $('#cate_Filter').val();
+		var priceFrom = $('#price_fromFilter').val();
+		var priceTo = $('#price_toFilter').val();
+		var provider = $('#provider_sortFilter').val();
 		$.ajax({
 			url: 'ShowProductControl?page=' + page,
 			type: 'GET',
@@ -382,21 +376,35 @@
 				cid: cid,
 				sort: sort,
 				category: category,
-				price_sort: priceSort,
-				name_sort: nameSort,
 				price_from: priceFrom,
 				price_to: priceTo,
 				provider: provider
 			},
 			success: function(response) {
 				$('#content').html(response);
+				updatePaging(page);  // Cập nhật phân trang
 			},
 			error: function(xhr, status, error) {
 				console.error(xhr.responseText);
 			}
 		});
 	}
+	function updatePaging(currentPage) {
+		$('.page-btn').removeClass('active');
+		$('.page-btn').each(function() {
+			if ($(this).text() == currentPage) {
+				$(this).addClass('active');
+			}
+		});
+	}
 
+	$(document).ready(function() {
+		// Bắt sự kiện khi nhấn vào nút phân trang
+		$(document).on('click', '.page-btn', function() {
+			var page = $(this).text();
+			loadPage(page);
+		});
+	});
 </script>
 
 
@@ -480,6 +488,7 @@
         }
     }
 </script>
+
 <!-- Js Plugins -->
 <script src="assets/js/jquery-3.3.1.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
@@ -489,7 +498,6 @@
 <script src="assets/js/mixitup.min.js"></script>
 <script src="assets/js/owl.carousel.min.js"></script>
 <script src="assets/js/main.js"></script>
-
 </body>
 
 </html>
