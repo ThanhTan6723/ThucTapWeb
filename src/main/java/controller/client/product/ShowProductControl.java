@@ -16,18 +16,14 @@ import model.Product;
 public class ShowProductControl extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final int RECORDS_PER_PAGE = 8; // Số bản ghi trên mỗi trang
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-
-
         try {
             String sort = request.getParameter("sort");
             if (sort == null || sort.isEmpty()) {
                 sort = "id-asc";
             }
-
             int id = 0;
             if (request.getParameter("cid") != null) {
                 id = Integer.parseInt(request.getParameter("cid"));
@@ -48,15 +44,11 @@ public class ShowProductControl extends HttpServlet {
 
             boolean applyFilter = false;
             String category = request.getParameter("category");
-            String priceSort = request.getParameter("price_sort");
-            String nameSort = request.getParameter("name_sort");
             String priceFrom = request.getParameter("price_from");
             String priceTo = request.getParameter("price_to");
             String provider = request.getParameter("provider");
 
             if ((category != null && !category.isEmpty()) ||
-                    (priceSort != null && !priceSort.isEmpty()) ||
-                    (nameSort != null && !nameSort.isEmpty()) ||
                     (priceFrom != null && !priceFrom.isEmpty()) ||
                     (priceTo != null && !priceTo.isEmpty()) ||
                     (provider != null && !provider.isEmpty())) {
@@ -75,12 +67,16 @@ public class ShowProductControl extends HttpServlet {
 
             } else {
                 // Xử lý lỗi nếu các tham số là null hoặc rỗng
-                double priceFromVal = (priceFrom != null && !priceFrom.isEmpty()) ? Double.parseDouble(priceFrom) : 0;
-                double priceToVal = (priceTo != null && !priceTo.isEmpty()) ? Double.parseDouble(priceTo) : Double.MAX_VALUE;
-                int categoryVal = (category != null && !category.isEmpty()) ? Integer.parseInt(category) : 0;
-                int providerVal = (provider != null && !provider.isEmpty()) ? Integer.parseInt(provider) : 0;
+                Double priceFromVal = (priceFrom != null && !priceFrom.isEmpty()) ? Double.parseDouble(priceFrom) : null;
+                System.out.println("giá từ:"+priceFromVal);
+                Double priceToVal = (priceTo != null && !priceTo.isEmpty()) ? Double.parseDouble(priceTo) : null;
+                System.out.println("giá đến"+priceToVal);
+                Integer categoryVal = (category != null && !category.isEmpty()) ? Integer.parseInt(category) : null;
+                System.out.println("loại "+categoryVal);
+                Integer providerVal = (provider != null && !provider.isEmpty()) ? Integer.parseInt(provider) : null;
+                System.out.println("nhà cung cấp"+providerVal);
                 request.setAttribute("listSale", listSale);
-                List<Product> listLoc = ProductDAO.getFilteredProducts(categoryVal, providerVal, priceFromVal, priceToVal, nameSort, priceSort);
+                List<Product> listLoc = ProductDAO.getFilteredProducts(categoryVal, providerVal, priceFromVal, priceToVal);
                 productListForPage = getProductListForPage(listLoc, page);
                 request.setAttribute("listProducts", productListForPage);
                 int endPage = (int) Math.ceil((double) listLoc.size() / RECORDS_PER_PAGE);
@@ -90,8 +86,7 @@ public class ShowProductControl extends HttpServlet {
             request.setAttribute("sort", sort);
             request.setAttribute("cid", id);
             request.setAttribute("category", category);
-            request.setAttribute("price_sort", priceSort);
-            request.setAttribute("name_sort", nameSort);
+
             request.setAttribute("price_from", priceFrom);
             request.setAttribute("price_to", priceTo);
             request.setAttribute("provider", provider);

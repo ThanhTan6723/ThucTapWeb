@@ -70,7 +70,7 @@ public class IndexDAO {
         return list;
     }
 
-/*    public static List<Product> listRandProduct() {
+    public static List<Product> listRandProduct() {
         List<Product> list = new ArrayList<>();
         String query = "select * from Products  ORDER BY RAND() LIMIT 3;";
         try {
@@ -88,7 +88,7 @@ public class IndexDAO {
         }
         return list;
 
-    }*/
+    }
 
     public static List<Product> listRand4Product() {
         List<Product> list = new ArrayList<>();
@@ -110,7 +110,6 @@ public class IndexDAO {
     }
 
 	public static void main(String[] args){
-
         IndexDAO pd = new IndexDAO();
         System.out.println(getNext4Product(1));
     }

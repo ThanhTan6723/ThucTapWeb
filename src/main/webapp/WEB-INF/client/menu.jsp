@@ -176,25 +176,7 @@
 										<input type="radio" class="price_sortFilter" name="category" value="3"> Mục 3
 									</label>
 								</fieldset>
-								<fieldset style="border: 2px solid #82ae46;">
-									<legend style="width:150px; font-size: 18px;">Lọc theo giá</legend>
-									<label style="display: block; margin-bottom: 10px; margin-left: 10px">
-										<input type="radio" class="price_sortFilter" name="price_sort" value="asc"> Giá tăng dần
-									</label>
-									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="price_sortFilter" name="price_sort" value="desc"> Giá giảm dần
-									</label>
-								</fieldset>
 
-								<fieldset style="border: 2px solid #82ae46;">
-									<legend style="width: 150px; font-size: 18px;">Lọc theo tên</legend>
-									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="name_sortAscFilter" name="name_sort" value="asc"> Tên A-Z
-									</label>
-									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="name_sortDescFilter" name="name_sort" value="desc"> Tên Z-A
-									</label>
-								</fieldset>
 								<fieldset style="border: 2px solid #82ae46;">
 									<legend style="width: 150px; font-size: 18px;">Khoảng giá</legend>
 									<div style="display: flex;">
@@ -447,30 +429,30 @@
 
 		// Hàm kiểm tra các trường đã được chọn đủ chưa
 		function checkFields() {
-			let allFieldsSelected = true;
+			let anyFieldSelected = false;
 			fieldsets.forEach(fieldset => {
-				const inputs = fieldset.querySelectorAll('input[type="radio"]:checked, input[type="number"]');
+				const radioInputs = fieldset.querySelectorAll('input[type="radio"]:checked');
+				const numberInputs = fieldset.querySelectorAll('input[type="number"]');
 				if (fieldset.querySelector('.price_fromFilter') && fieldset.querySelector('.price_toFilter')) {
 					const priceFrom = parseFloat(fieldset.querySelector('.price_fromFilter').value);
 					const priceTo = parseFloat(fieldset.querySelector('.price_toFilter').value);
-					if (isNaN(priceFrom) || isNaN(priceTo) || priceFrom >= priceTo) {
-						allFieldsSelected = false;
+					if (!isNaN(priceFrom) && !isNaN(priceTo) && priceFrom < priceTo) {
+						anyFieldSelected = true;
 					}
 				}
-				else {
-					if (inputs.length === 0) {
-						allFieldsSelected = false;
-					}
+				if (radioInputs.length > 0 || Array.from(numberInputs).some(input => input.value !== '')) {
+					anyFieldSelected = true;
 				}
 			});
-			// Nếu tất cả các trường đã được chọn, kích hoạt nút Lọc
-			// Ngược lại, vô hiệu hóa nút Lọc
-			filterButton.disabled = !allFieldsSelected;
+			// Kích hoạt nút Lọc nếu có bất kỳ trường nào được chọn
+			filterButton.disabled = !anyFieldSelected;
 		}
-		// Ban đầu, kiểm tra trường hợp mặc định
+
+		// Ban đầu, kiểm tra trạng thái mặc định
 		checkFields();
 	});
 </script>
+
 <script>
     function scrollCarousel(direction) {
         const carousel = document.querySelector('.product-carousel');
