@@ -11,9 +11,48 @@ import java.util.*;
 import model.*;
 
 public class ProductDAO {
+
+    private static final String INSERT_REVIEW_SQL = "INSERT INTO Reviews (name_commenter, phonenumber_commenter, product_id, rating, comment,image, date_created) VALUES (?, ?, ?, ?, ?,?,?)";
+
+    public static void saveReview(Review review) {
+        try (Connection connection = JDBCUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_REVIEW_SQL)) {
+            preparedStatement.setString(1, review.getNameCommenter());
+            preparedStatement.setString(2, review.getPhoneNumberCommenter());
+            preparedStatement.setInt(3, review.getProductEvaluated().getId());
+            preparedStatement.setInt(4, review.getRating());
+            preparedStatement.setString(5, review.getComment());
+            preparedStatement.setString(6, review.getImage());
+            preparedStatement.setString(7, review.getDateCreated());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Map<Integer, Integer> getReviewStatistics(int productId) {
+        Map<Integer, Integer> statistics = new HashMap<>();
+        String query = "SELECT rating, COUNT(*) AS count FROM reviews WHERE product_id = ? GROUP BY rating";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, productId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    statistics.put(rs.getInt("rating"), rs.getInt("count"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return statistics;
+    }
+
     public static List<Review> getListReviewsByProductId(int productId) {
         List<Review> list = new ArrayList<>();
-        String query = "Select * from reviews where product_id = ?";
+        String query = "SELECT * FROM reviews WHERE product_id = ? ORDER BY date_created DESC";
         try {
             Connection con = JDBCUtil.getConnection();
             PreparedStatement ps = con.prepareStatement(query);
@@ -21,7 +60,7 @@ public class ProductDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                list.add(new Review(rs.getInt(1), AccountDAO.getAccountById(rs.getInt(2)), ProductDAO.getProductById(rs.getInt(3)), rs.getInt(4), rs.getString(5), rs.getDate(6)));
+                list.add(new Review(rs.getInt(1), rs.getString(2), rs.getString(3), ProductDAO.getProductById(rs.getInt(4)), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getString(8)));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -506,6 +545,7 @@ public class ProductDAO {
 		return list;
 	}
 
+
 	public static List<Product> getListProducts() {
 		List<Product> list = new ArrayList<>();
 		String query = "       SELECT *\n" +
@@ -615,4 +655,5 @@ public class ProductDAO {
 			System.out.println(p.toString());
 		}
 	}
+
 }

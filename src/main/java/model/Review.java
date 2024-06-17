@@ -4,59 +4,63 @@ import java.util.Date;
 
 public class Review {
     private int id;
-    private Account accountCreated;
+    private String nameCommenter;
+    private String phoneNumberCommenter;
     private Product productEvaluated;
     private int rating;
     private String comment;
-    private Date dateCreated;
+    private String dateCreated;
+    private String image;
+    private String response;
 
-    public Review(int id, Account accountCreated, Product productEvaluated, int rating, String comment, Date dateCreated) {
+    public Review() {
+    }
+
+    public Review(int id, String nameCommenter, String phoneNumberCommenter, Product productEvaluated, int rating, String comment, String dateCreated, String image, String response) {
         this.id = id;
-        this.accountCreated = accountCreated;
+        this.nameCommenter = nameCommenter;
+        this.phoneNumberCommenter = phoneNumberCommenter;
         this.productEvaluated = productEvaluated;
         this.rating = rating;
         this.comment = comment;
         this.dateCreated = dateCreated;
+        this.image = image;
+        this.response = response;
     }
 
-    public void setId(int id) {
+    public Review(int id, String nameCommenter, String phoneNumberCommenter, Product productEvaluated, int rating, String comment, String dateCreated, String image) {
         this.id = id;
-    }
-
-    public void setAccountCreated(Account accountCreated) {
-        this.accountCreated = accountCreated;
-    }
-
-    public void setRating(int rating) {
+        this.nameCommenter = nameCommenter;
+        this.phoneNumberCommenter = phoneNumberCommenter;
+        this.productEvaluated = productEvaluated;
         this.rating = rating;
-    }
-
-    public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
+        this.image = image;
     }
 
     public int getId() {
         return id;
     }
 
-    public Account getAccountCreated() {
-        return accountCreated;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getRating() {
-        return rating;
+    public String getNameCommenter() {
+        return nameCommenter;
     }
 
-    public String getComment() {
-        return comment;
+    public void setNameCommenter(String nameCommenter) {
+        this.nameCommenter = nameCommenter;
     }
 
-    public Date getDateCreated() {
-        return dateCreated;
+    public String getPhoneNumberCommenter() {
+        return phoneNumberCommenter;
+    }
+
+    public void setPhoneNumberCommenter(String phoneNumberCommenter) {
+        this.phoneNumberCommenter = phoneNumberCommenter;
     }
 
     public Product getProductEvaluated() {
@@ -67,15 +71,58 @@ public class Review {
         this.productEvaluated = productEvaluated;
     }
 
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
     @Override
     public String toString() {
         return "Review{" +
                 "id=" + id +
-                ", accountCreated=" + accountCreated +
+                ", nameCommenter='" + nameCommenter + '\'' +
+                ", phoneNumberCommenter='" + phoneNumberCommenter + '\'' +
                 ", productEvaluated=" + productEvaluated +
                 ", rating=" + rating +
                 ", comment='" + comment + '\'' +
-                ", dateCreated=" + dateCreated +
+                ", dateCreated='" + dateCreated + '\'' +
+                ", image='" + image + '\'' +
+                ", response='" + response + '\'' +
                 '}';
     }
 }

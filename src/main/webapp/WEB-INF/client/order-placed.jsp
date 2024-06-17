@@ -142,11 +142,11 @@
 								<c:set var="currentOrderId" value="${o.order.id}" />
 								<br>
 								<div class="information">
-									<h5><b>ID</b>${o.order.id}</h5>
-									<h5><b>Ngày đặt</b>${o.order.bookingDate}</h5>
-									<h5><b>Điạ chỉ </b>${o.order.address}</h5>
-									<h5><b>Số điện thoại</b> ${o.order.account.telephone}</h5>
-									<h5><b>Ghi chú </b><span style="color: #7fad39;">${o.order.orderStatus}</span></h5>
+									<h5><b>ID: </b>${o.order.id}</h5>
+									<h5><b>Ngày đặt: </b>${o.order.bookingDate}</h5>
+									<h5><b>Điạ chỉ: </b>${o.order.address}</h5>
+									<h5><b>Số điện thoại:</b> ${o.order.account.telephone}</h5>
+									<h5><b>Ghi chú: </b><span style="color: #7fad39;">${o.order.orderStatus}</span></h5>
 								</div>
 
 								<table>
