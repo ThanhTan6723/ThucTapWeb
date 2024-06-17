@@ -41,7 +41,6 @@ public class ShowProductControl extends HttpServlet {
                     // Log và xử lý ngoại lệ
                 }
             }
-
             boolean applyFilter = false;
             String category = request.getParameter("category");
             String priceFrom = request.getParameter("price_from");
