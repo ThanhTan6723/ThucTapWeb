@@ -447,101 +447,64 @@ public class ProductDAO {
 		}
 		return list;
 	}
-/*	public static List<Product> getFilteredProducts(int id, int idProvider, double startPrice, double endPrice) {
+
+	public static List<Product> getFilteredProducts(Integer categoryId, Integer idProvider, Double startPrice, Double endPrice) {
 		List<Product> list = new ArrayList<>();
-		String query = "";
-		String orderByClause = "AND pr.id = ? " +
-				"AND p.price BETWEEN ? AND ? " +
-				"ORDER BY p.name " ;
-		switch (id) {
-			case 0:
-				query = "SELECT p.* FROM Products p JOIN Batch b ON p.id = b.product_id " +
-						"JOIN Providers pr ON b.provider_id = pr.id JOIN Category c ON p.category_id = c.id " +
-						orderByClause;
-				break;
-			case 1:
-				query = "SELECT p.* FROM Products p JOIN Batch b ON p.id = b.product_id " +
-						"JOIN Providers pr ON b.provider_id = pr.id JOIN Category c ON p.category_id = c.id " +
-						"WHERE category_id = 1 " + orderByClause;
-				break;
-			case 2:
-				query = "SELECT p.* FROM Products p JOIN Batch b ON p.id = b.product_id " +
-						"JOIN Providers pr ON b.provider_id = pr.id JOIN Category c ON p.category_id = c.id " +
-						"WHERE category_id = 2 " + orderByClause;
-				break;
-			case 3:
-				query = "SELECT p.* FROM Products p JOIN Batch b ON p.id = b.product_id " +
-						"JOIN Providers pr ON b.provider_id = pr.id JOIN Category c ON p.category_id = c.id " +
-						"WHERE category_id = 3 " + orderByClause;
-				break;
-			default:
-				// Xử lý trường hợp id không khớp với bất kỳ giá trị nào trong switch
-				break;
+		StringBuilder query = new StringBuilder("SELECT DISTINCT p.* FROM Products p ");
+		query.append("LEFT JOIN Batch b ON p.id = b.product_id ");
+		query.append("LEFT JOIN Providers pr ON b.provider_id = pr.id ");
+		query.append("LEFT JOIN Category c ON p.category_id = c.id ");
+		query.append("WHERE 1=1 "); // Bắt đầu phần điều kiện với "WHERE 1=1" để dễ dàng thêm điều kiện động
+
+		if (categoryId != null) {
+			query.append("AND p.category_id = ? ");
 		}
+		if (idProvider != null) {
+			query.append("AND pr.id = ? ");
+		}
+		if (startPrice != null && endPrice != null) {
+			query.append("AND p.price BETWEEN ? AND ? ");
+		}
+
+		query.append("ORDER BY p.id"); // Đảm bảo có từ khóa ORDER BY
+
 		try {
 			Connection con = JDBCUtil.getConnection();
-			PreparedStatement ps = con.prepareStatement(query);
-			ps.setInt(1, idProvider);
-			ps.setDouble(2, startPrice);
-			ps.setDouble(3, endPrice);
+			PreparedStatement ps = con.prepareStatement(query.toString());
+
+			int parameterIndex = 1;
+
+			if (categoryId != null) {
+				ps.setInt(parameterIndex++, categoryId);
+			}
+			if (idProvider != null) {
+				ps.setInt(parameterIndex++, idProvider);
+			}
+			if (startPrice != null && endPrice != null) {
+				ps.setDouble(parameterIndex++, startPrice);
+				ps.setDouble(parameterIndex++, endPrice);
+			}
+
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						new Category(rs.getInt(6))));
+				list.add(new Product(
+						rs.getInt("id"), // Giả định rằng cột "id" là cột đầu tiên
+						rs.getString("name"), // Giả định rằng cột "name" là cột thứ hai
+						rs.getDouble("price"), // Giả định rằng cột "price" là cột thứ ba
+						rs.getString("image"), // Giả định rằng cột "image" là cột thứ tư
+						rs.getString("description"), // Giả định rằng cột "description" là cột thứ năm
+						new Category(rs.getInt("category_id")) // Giả định rằng cột "category_id" là cột thứ sáu
+				));
 			}
+			rs.close();
+			ps.close();
+			con.close();
 		} catch (Exception e) {
 			// Xử lý exception
 			e.printStackTrace();
 		}
 		return list;
-	}*/
-public static List<Product> getFilteredProducts(Integer categoryId, Integer idProvider, Double startPrice, Double endPrice) {
-	List<Product> list = new ArrayList<>();
-	StringBuilder query = new StringBuilder("SELECT DISTINCT p.* FROM Products p ");
-	query.append("JOIN Batch b ON p.id = b.product_id ");
-	query.append("JOIN Providers pr ON b.provider_id = pr.id ");
-	query.append("JOIN Category c ON p.category_id = c.id ");
-	query.append("WHERE 1=1 ");
-
-	if (categoryId != null) {
-		query.append("AND c.id = ? ");
 	}
-	if (idProvider != null) {
-		query.append("AND pr.id = ? ");
-	}
-	if (startPrice != null && endPrice != null) {
-		query.append("AND p.price BETWEEN ? AND ? ");
-	}
-	query.append("ORDER BY p.name");
-
-	try {
-		Connection con = JDBCUtil.getConnection();
-		PreparedStatement ps = con.prepareStatement(query.toString());
-
-		int parameterIndex = 1;
-
-		if (categoryId != null) {
-			ps.setInt(parameterIndex++, categoryId);
-		}
-		if (idProvider != null) {
-			ps.setInt(parameterIndex++, idProvider);
-		}
-		if (startPrice != null && endPrice != null) {
-			ps.setDouble(parameterIndex++, startPrice);
-			ps.setDouble(parameterIndex++, endPrice);
-		}
-
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-			list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-					new Category(rs.getInt(6))));
-		}
-	} catch (Exception e) {
-		// Xử lý exception
-		e.printStackTrace();
-	}
-	return list;
-}
 
 	public static List<Product> getListProducts() {
 		List<Product> list = new ArrayList<>();
@@ -647,7 +610,7 @@ public static List<Product> getFilteredProducts(Integer categoryId, Integer idPr
 		return null;
 	}
 	public static void main(String[] args) {
-		List<Product> list = ProductDAO.getFilteredProducts(null,1,10.0,50.0);
+		List<Product> list = ProductDAO.getFilteredProducts(3,null,null,null);
 		for (Product p : list){
 			System.out.println(p.toString());
 		}

@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import dao.client.IndexDAO;
 import dao.client.ProductDAO;
 import model.Product;
-
 @WebServlet("/ShowProductControl")
 public class ShowProductControl extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final int RECORDS_PER_PAGE = 8; // Số bản ghi trên mỗi trang
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
@@ -24,21 +24,21 @@ public class ShowProductControl extends HttpServlet {
             if (sort == null || sort.isEmpty()) {
                 sort = "id-asc";
             }
-            int id = 0;
-            if (request.getParameter("cid") != null) {
-                id = Integer.parseInt(request.getParameter("cid"));
+            int categoryId = 0;
+            if (request.getParameter("cid") != null && !request.getParameter("cid").isEmpty()) {
+                categoryId = Integer.parseInt(request.getParameter("cid"));
             }
-
-            ProductDAO dao = new ProductDAO();
             StringTokenizer s = new StringTokenizer(sort, "-");
             String sortName = s.nextToken();
-            String type = s.nextToken();
-            String pageParam = request.getParameter("page");
+            String sortType = s.nextToken();
+
             int page = 1; // Mặc định là trang 1
-            if (pageParam != null) {
+            String pageParam = request.getParameter("page");
+            if (pageParam != null && !pageParam.isEmpty()) {
                 try {
                     page = Integer.parseInt(pageParam);
                 } catch (NumberFormatException e) {
+                    // Log và xử lý ngoại lệ
                 }
             }
 
@@ -48,50 +48,45 @@ public class ShowProductControl extends HttpServlet {
             String priceTo = request.getParameter("price_to");
             String provider = request.getParameter("provider");
 
-            if ((category != null && !category.isEmpty()) ||
+            applyFilter = (category != null && !category.isEmpty()) ||
                     (priceFrom != null && !priceFrom.isEmpty()) ||
                     (priceTo != null && !priceTo.isEmpty()) ||
-                    (provider != null && !provider.isEmpty())) {
-                applyFilter = true;
-            }
+                    (provider != null && !provider.isEmpty());
 
             List<Product> listSale = IndexDAO.getTop8();
             List<Product> productListForPage;
-            if (!applyFilter) {
-                List<Product> list = ProductDAO.pagingProduct(id, sortName, type);
-                productListForPage = getProductListForPage(list, page);
-                request.setAttribute("listProducts", productListForPage);
-                int endPage = (int) Math.ceil((double) list.size() / RECORDS_PER_PAGE);
-                request.setAttribute("endPage", endPage);
-                request.setAttribute("listSale", listSale);
 
-            } else {
-                // Xử lý lỗi nếu các tham số là null hoặc rỗng
-                Double priceFromVal = (priceFrom != null && !priceFrom.isEmpty()) ? Double.parseDouble(priceFrom) : null;
-                System.out.println("giá từ:"+priceFromVal);
-                Double priceToVal = (priceTo != null && !priceTo.isEmpty()) ? Double.parseDouble(priceTo) : null;
-                System.out.println("giá đến"+priceToVal);
-                Integer categoryVal = (category != null && !category.isEmpty()) ? Integer.parseInt(category) : null;
-                System.out.println("loại "+categoryVal);
-                Integer providerVal = (provider != null && !provider.isEmpty()) ? Integer.parseInt(provider) : null;
-                System.out.println("nhà cung cấp"+providerVal);
-                request.setAttribute("listSale", listSale);
-                List<Product> listLoc = ProductDAO.getFilteredProducts(categoryVal, providerVal, priceFromVal, priceToVal);
-                productListForPage = getProductListForPage(listLoc, page);
+            if (!applyFilter) {
+                List<Product> productList = ProductDAO.pagingProduct(categoryId, sortName, sortType);
+                productListForPage = getProductListForPage(productList, page);
+                for(Product p:productListForPage){
+                    System.out.println(p.toString());
+                }
                 request.setAttribute("listProducts", productListForPage);
-                int endPage = (int) Math.ceil((double) listLoc.size() / RECORDS_PER_PAGE);
+                int endPage = (int) Math.ceil((double) productList.size() / RECORDS_PER_PAGE);
+                request.setAttribute("endPage", endPage);
+            } else {
+                Double priceFromVal = (priceFrom != null && !priceFrom.isEmpty()) ? Double.parseDouble(priceFrom) : null;
+                Double priceToVal = (priceTo != null && !priceTo.isEmpty()) ? Double.parseDouble(priceTo) : null;
+                Integer categoryVal = (category != null && !category.isEmpty()) ? Integer.parseInt(category) : null;
+                Integer providerVal = (provider != null && !provider.isEmpty()) ? Integer.parseInt(provider) : null;
+                List<Product> filteredProducts = ProductDAO.getFilteredProducts(categoryVal, providerVal, priceFromVal, priceToVal);
+                productListForPage = getProductListForPage(filteredProducts, page);
+                for(Product p:productListForPage){
+                    System.out.println(p.toString());
+                }
+                request.setAttribute("listProducts", productListForPage);
+                int endPage = (int) Math.ceil((double) filteredProducts.size() / RECORDS_PER_PAGE);
                 request.setAttribute("endPage", endPage);
             }
-            // Đặt các giá trị bộ lọc trong request
+            request.setAttribute("listSale", listSale);
             request.setAttribute("sort", sort);
-            request.setAttribute("cid", id);
+            request.setAttribute("cid", categoryId);
             request.setAttribute("category", category);
-
             request.setAttribute("price_from", priceFrom);
             request.setAttribute("price_to", priceTo);
             request.setAttribute("provider", provider);
 
-            // Xử lý forward chỉ một lần
             if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
                 request.getRequestDispatcher("/WEB-INF/client/product-list.jsp").forward(request, response);
             } else {
