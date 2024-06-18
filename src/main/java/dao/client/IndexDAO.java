@@ -21,15 +21,14 @@ public class IndexDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
+
                         new Category(rs.getInt(6)))
                 );
 
 
             }
         } catch (Exception e) {
-
         }
-
         return list;
     }
 
@@ -55,7 +54,7 @@ public class IndexDAO {
 
     public static List<Product> getNext4Product(int amount) {
         List<Product> list = new ArrayList<>();
-        String query = "select * from Products where price>40 order by id limit 4 offset ?;";
+        String query = "select * from Products where price>10 order by id limit 4 offset ?;";
         try {
             Connection con = JDBCUtil.getConnection();
             PreparedStatement ps = con.prepareStatement(query);
@@ -111,7 +110,8 @@ public class IndexDAO {
     }
 
 	public static void main(String[] args){
-		IndexDAO pd = new IndexDAO();
+        IndexDAO pd = new IndexDAO();
+        System.out.println(getNext4Product(1));
     }
 
 }
