@@ -191,7 +191,7 @@
         }
 
         button[type="button"]:hover {
-            background-color: #94c94d;
+            background-color: #78a143;
         }
 
     </style>
@@ -549,7 +549,7 @@
                         var response = JSON.parse(xhr.responseText);
 
                         // Ví dụ: hiển thị thông báo cho người dùng
-                        alert('Sản phẩm đã được thêm vào giỏ hàng thành công!');
+                        // alert('Sản phẩm đã được thêm vào giỏ hàng thành công!');
 
                         // Cập nhật size giỏ hàng
                         document.getElementById('cart-count').innerText = response.size;
