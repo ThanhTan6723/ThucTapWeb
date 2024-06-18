@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import model.OrderDetail;
 
-@WebServlet("/DecreaseQControl")
+@WebServlet("/DecreaseQControll")
 public class DecreaseQuantityControll extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

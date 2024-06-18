@@ -55,27 +55,6 @@
                     </div>
                 </div>
                 <div class="shoping__cart__table">
-<%--                    <c:if test="${empty sessionScope.cart}">--%>
-<%--                        <div class="img" style="text-align: center; line-height: 50vh;">--%>
-<%--                            <img alt="" src="assets/img/empty-cart.svg"--%>
-<%--                                 style="vertical-align: middle;">--%>
-<%--                            <h3>--%>
-<%--                                <b>Giỏ hàng rỗng</b>--%>
-<%--                            </h3>--%>
-<%--                            <p>Hiện tại bạn chưa có sản phẩm nào trong giỏ hàng. Hãy dạo quanh cửa hàng để chọn được sản--%>
-<%--                                phẩm ưng ý nhé!</p>--%>
-<%--                        </div>--%>
-<%--                        <div class="row">--%>
-<%--                            <div class="col-lg-12">--%>
-<%--                                <div class="shoping__cart__btns"--%>
-<%--                                     style=" display: block; margin: 0 auto; text-align: center;">--%>
-<%--                                    <c:url var="showProduct" value="ShowProductControl"></c:url>--%>
-<%--                                    <a href="${pageContext.request.contextPath}/${showProduct}"--%>
-<%--                                       class="primary-btn cart-btn">Tiếp tục mua sắm</a>--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                    </c:if>--%>
                     <c:if test="${not empty sessionScope.cart}">
                     <table>
                         <thead>
@@ -246,10 +225,10 @@
                 $(".total-price_" + key).text(response.totalPrice + "₫");
                 // Cập nhật tổng số tiền
                 var totalAmount = response.totalAmount;
-
                 // Lưu lại tổng số tiền gốc vào input ẩn để sử dụng cho việc tính toán giảm giá
                 $('#originalTotalAmount').val(totalAmount);
-
+                // Cập nhật tổng tiền trong UI
+                $('.total-amount').text(totalAmount + '₫');
                 // Áp dụng lại mã giảm giá nếu có
                 applyDiscountIfCouponExists();
 
@@ -270,7 +249,7 @@
         $(".decrease-btn").click(function(e) {
             e.preventDefault();
             var key = $(this).data("key");
-            updateQuantity(key, "DecreaseQControl");
+            updateQuantity(key, "DecreaseQControll");
         });
 
         // Function to handle removing item from the cart
