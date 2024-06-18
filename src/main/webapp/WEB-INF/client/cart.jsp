@@ -19,9 +19,9 @@
             top: 0;
             width: 100%;
             height: 140px;
-            background-color: #fff;
+            background-color: #f5f5f5;
             z-index: 900;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+            /*box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);*/
         }
     </style>
 </head>
@@ -39,28 +39,22 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="shoping__cart__table">
-                    <c:if test="${empty sessionScope.cart}">
-                        <div class="img" style="text-align: center; line-height: 50vh;">
-                            <img alt="" src="assets/img/empty-cart.svg"
-                                 style="vertical-align: middle;">
-                            <h3>
-                                <b>Giỏ hàng rỗng</b>
-                            </h3>
-                            <p>Hiện tại bạn chưa có sản phẩm nào trong giỏ hàng. Hãy dạo quanh cửa hàng để chọn được sản
-                                phẩm ưng ý nhé!</p>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="shoping__cart__btns"
-                                     style=" display: block; margin: 0 auto; text-align: center;">
-                                    <c:url var="showProduct" value="ShowProductControl"></c:url>
-                                    <a href="${pageContext.request.contextPath}/${showProduct}"
-                                       class="primary-btn cart-btn">Tiếp tục mua sắm</a>
-                                </div>
+                <div class="empty-cart-message" style="display: none;">
+                    <div class="img" style="text-align: center; line-height: 50vh;">
+                        <img alt="" src="assets/img/empty-cart.svg" style="vertical-align: middle;">
+                        <h3><b>Giỏ hàng rỗng</b></h3>
+                        <p>Hiện tại bạn chưa có sản phẩm nào trong giỏ hàng. Hãy dạo quanh cửa hàng để chọn được sản phẩm ưng ý nhé!</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="shoping__cart__btn" style=" display: block; margin: 0 auto; text-align: center;">
+                                <c:url var="showProduct" value="ShowProductControl"></c:url>
+                                <a href="${pageContext.request.contextPath}/${showProduct}" class="primary-btn cart-btn">Tiếp tục mua sắm</a>
                             </div>
                         </div>
-                    </c:if>
+                    </div>
+                </div>
+                <div class="shoping__cart__table">
                     <c:if test="${not empty sessionScope.cart}">
                     <table>
                         <thead>
@@ -119,8 +113,14 @@
                 <div class="shoping__continue">
                     <div class="shoping__discount">
                         <h5>Voucher</h5>
-                            <form>
-                            </form>
+                        <form>
+                            <input type="text" id="couponCode" placeholder="Enter your coupon code">
+                            <input type="hidden" id="quantity" value="1" readonly>
+                            <input type="hidden" id="discountValue" value="0"> <!-- Thêm input ẩn để lưu giá trị giảm giá -->
+                            <input type="hidden" id="originalTotalAmount" value="${total}"> <!-- Thêm input ẩn để lưu tổng tiền gốc -->
+                            <button type="button" class="site-btn" onclick="applyDiscountIfCouponExists()">Áp dụng</button>
+                            <div id="discountError" style="color: red; display: none;">Mã giảm giá không tồn tại</div> <!-- Thêm phần tử để hiển thị thông báo lỗi -->
+                        </form>
                     </div>
                 </div>
             </div>
@@ -140,11 +140,7 @@
         </div>
     </div>
 
-    <a href="./CartControll">
-            <i><img style="width: 40px; height: 40px;" src="assets/img/cart.svg" alt=""></i>
-            <c:if test="${empty sessionScope.size}"><span id="cart-count">0</span></c:if>
-            <c:if test="${not empty sessionScope.size}"><span id="cart-count">${sessionScope.size}</span></c:if>
-    </a>
+
 
 </section>
 <!-- Shoping Cart Section End -->
@@ -158,6 +154,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Kiểm tra giỏ hàng trống khi trang vừa tải
+        checkEmptyCart();
         $("#couponCode").on("input", function() {
             var couponCode = $(this).val().trim();
             if (couponCode === "") {
@@ -227,12 +225,14 @@
                 $(".total-price_" + key).text(response.totalPrice + "₫");
                 // Cập nhật tổng số tiền
                 var totalAmount = response.totalAmount;
-
                 // Lưu lại tổng số tiền gốc vào input ẩn để sử dụng cho việc tính toán giảm giá
                 $('#originalTotalAmount').val(totalAmount);
-
+                // Cập nhật tổng tiền trong UI
+                $('.total-amount').text(totalAmount + '₫');
                 // Áp dụng lại mã giảm giá nếu có
                 applyDiscountIfCouponExists();
+
+                checkEmptyCart();
             }
         });
     }
@@ -249,7 +249,7 @@
         $(".decrease-btn").click(function(e) {
             e.preventDefault();
             var key = $(this).data("key");
-            updateQuantity(key, "DecreaseQControl");
+            updateQuantity(key, "DecreaseQControll");
         });
 
         // Function to handle removing item from the cart
@@ -264,18 +264,51 @@
                     $("#row_" + key).remove();
                     // Update the total amount in the UI
                     $(".total-amount").text(response.totalAmount + "₫");
-
-
-                    // Lưu lại tổng số tiền gốc vào input ẩn để sử dụng cho việc tính toán giảm giá
+                    // Update cart size in the UI
+                    $("#cart-count").text(response.sizeCart);
+                    // Save the original total amount to a hidden input for discount calculations
                     $('#originalTotalAmount').val(response.totalAmount);
 
-                    // Áp dụng lại mã giảm giá nếu có
+                    // Apply discount if there is any coupon
                     applyDiscountIfCouponExists();
 
+                    checkEmptyCart();
                 }
             });
         });
     });
+
+    function toggleCartDisplay(isEmpty) {
+        var cartTable = $(".shoping__cart__table");
+        var emptyCartMessage = $(".empty-cart-message");
+        var checkoutSection = $(".shoping__checkout");
+        var continueSection = $(".shoping__continue");
+        var cartBtnsSection = $(".shoping__cart__btns");
+
+        if (isEmpty) {
+            cartTable.hide();
+            emptyCartMessage.show();
+            checkoutSection.hide();
+            continueSection.hide();
+            cartBtnsSection.hide();
+        } else {
+            cartTable.show();
+            emptyCartMessage.hide();
+            checkoutSection.show();
+            continueSection.show();
+            cartBtnsSection.show();
+        }
+    }
+
+
+    function checkEmptyCart() {
+        var cartTable = $(".shoping__cart__table");
+        var isEmpty = $(".shoping__cart__table table tbody tr").length === 0;
+
+        toggleCartDisplay(isEmpty);
+    }
+
+
 
 </script>
 
