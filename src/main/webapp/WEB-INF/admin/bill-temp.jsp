@@ -27,31 +27,32 @@
 
         /* Style for account details section */
         .account-details {
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            padding: 20px;
+            background-color: #e1e1e1;
+            border: 1px solid #c4c4c4;
+            color: black;
+            padding: 50px;
             margin-top: 20px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1;
-            width: 100%;
+            position: fixed;
+            border-radius: 8px;
+            top: 50%; /* Center vertically */
+            left: 50%; /* Center horizontally */
+            transform: translate(-50%, -50%);
+            z-index: 9999; /* Ensure it's on top */
             display: none; /* Initially hide the account details */
         }
+
+        /* Style for the close button */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
 
         .table-container {
             position: relative;
             margin-top: 150px; /* Adjust as needed */
-        }
-
-        /* Đảm bảo rằng nút đóng được hiển thị */
-        .close-btn {
-            display: block;
-            background-color: #fff; /* Chỉ định màu nền nếu cần thiết */
-            padding: 5px 10px; /* Các thuộc tính padding tùy chỉnh */
-            border: 1px solid #ccc; /* Đường viền nếu cần thiết */
-            border-radius: 5px; /* Độ cong của góc nút */
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Hiệu ứng bóng đổ */
         }
 
         /* Flex container for buttons */
@@ -146,6 +147,14 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Account Details Section -->
+                <div class="account-details" id="account-details">
+                    <div class="close-btn" onclick="closeAccountDetails()">X</div>
+                    <h2>Thông Tin Tài Khoản</h2>
+                    <div class="account-details-content"></div>
+                </div>
+
 
                 <div class="table-section" id="pending">
                     <div class="row">
@@ -290,28 +299,31 @@
                 });
             }
 
-            // Handle account detail click
-            $(document).on('click', '.account-detail', function (e) {
-                e.preventDefault();
-                var accountId = $(this).data('account-id');
+            function loadAccountDetails(accountId) {
                 $.ajax({
                     url: 'AccountDetailControll',
                     type: 'GET',
                     data: { id: accountId },
-                    success: function (response) {
-                        // Construct HTML for account details
-                        var html = '<h4>Thông Tin Tài Khoản</h4>';
-                        html += '<p><strong>ID:</strong> ' + response.id + '</p>';
-                        html += '<p><strong>Tên Tài Khoản:</strong> ' + response.name + '</p>';
-                        html += '<p><strong>Email:</strong> ' + response.email + '</p>';
-                        html += '<p><strong>Số Điện Thoại:</strong> ' + response.telephone + '</p>';
-                        // Display account details in the accountDetails section
-                        $('#accountDetails').html(html).css('display', 'block');
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
+                    success: function (data) {
+                        var details = `
+                    <h5>Name: <span>${data.name}</span></h5>
+                    <h5>Email: <span>${data.email}</span></h5>
+                    <h5>Phone: <span>${data.telephone}</span></h5>
+                `;
+                        $('.account-details-content').html(details);
+                        $('#account-details').show();
                     }
                 });
+            }
+            window.closeAccountDetails = function () {
+                $('.account-details').hide();
+                $('.account-details-overlay').hide();
+            }
+
+            $(document).on('click', '.account-detail', function (e) {
+                e.preventDefault();
+                var accountId = $(this).data('account-id');
+                loadAccountDetails(accountId);
             });
 
             // Handle accept button click
@@ -346,11 +358,6 @@
                         console.error('Error refusing order:', error);
                     }
                 });
-            });
-
-            // Hide account details when clicking on close button
-            $(document).on('click', '.close-btn', function () {
-                $('#accountDetails').css('display', 'none');
             });
         }
 
@@ -396,18 +403,9 @@
         $('#' + tab).addClass('active');
         initDataTable(tab);
 
-        // Logic điều hướng tab
-        $('.tab').on('click', function () {
-            $('.tab').removeClass('active');
-            $(this).addClass('active');
-            var tab = $(this).data('tab');
-            $('.table-section').removeClass('active');
-            $('#' + tab).addClass('active');
-            initDataTable(tab);
-            // Lưu trữ tab hiện tại vào localStorage
-            localStorage.setItem('activeTab', tab);
-        });
     });
+
+
 </script>
 </body>
 </html>

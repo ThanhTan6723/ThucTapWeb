@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-		 pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+		 pageEncoding="UTF-8" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -18,11 +18,12 @@
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 	<jsp:include page="link/link.jsp"></jsp:include>
 	<style>
-		.paging a .active{
+		.paging a .active {
 			color: #00a045;
 			font-weight: bold;
 		}
-		.header__fixed{
+
+		.header__fixed {
 			position: fixed;
 			top: 0;
 			width: 100%;
@@ -31,6 +32,7 @@
 			z-index: 900;
 			/*box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);*/
 		}
+
 		.page-btn {
 			padding: 10px 23px;
 			border-radius: 5px;
@@ -44,6 +46,7 @@
 			background-color: #7fad39;
 			color: white;
 		}
+
 		.product-carousel {
 			display: flex;
 			overflow-x: hidden;
@@ -80,6 +83,7 @@
 			scroll-behavior: smooth;
 			flex-grow: 1;
 		}
+
 		.product-carousel .product__discount__item {
 			flex: 0 0 auto;
 			margin-right: 10px; /* Điều chỉnh khoảng cách giữa các sản phẩm */
@@ -107,7 +111,88 @@
 			right: -25px;
 		}
 
+		/* Modal background */
+		.modal {
+			display: none; /* Hidden by default */
+			position: fixed; /* Stay in place */
+			z-index: 1000; /* Sit on top */
+			left: 0;
+			top: 0;
+			width: 100%; /* Full width */
+			height: 100%; /* Full height */
+			overflow: auto; /* Enable scroll if needed */
+			background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+			padding-top: 60px;
+		}
 
+		/* Modal content */
+		.modal-content {
+			background-color: #fefefe;
+			margin: 5% auto; /* 15% from the top and centered */
+			padding: 20px;
+			border: 1px solid #888;
+			width: 80%; /* Could be more or less, depending on screen size */
+			max-width: 600px;
+			border-radius: 15px;
+			position: relative;
+		}
+
+		/* Close button */
+		.close {
+			color: #aaa;
+			float: right;
+			font-size: 28px;
+			font-weight: bold;
+		}
+
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
+
+		/* Form styles */
+		.data form {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		#modalProductName {
+			font-size: 24px;
+			margin-bottom: 20px;
+		}
+
+		#modalProductImage {
+			margin-bottom: 20px;
+		}
+
+		label {
+			font-size: 18px;
+			margin-bottom: 10px;
+		}
+
+		#quantity {
+			width: 50px;
+			padding: 5px;
+			font-size: 16px;
+			margin-bottom: 20px;
+		}
+
+		button[type="button"] {
+			background-color: #8fbe41;
+			color: white;
+			padding: 15px 20px;
+			border: none;
+			cursor: pointer;
+			font-size: 18px;
+			border-radius: 30px;
+		}
+
+		button[type="button"]:hover {
+			background-color: #94c94d;
+		}
 
 	</style>
 </head>
@@ -118,8 +203,7 @@
 <span class="header__fixed">
 	<jsp:include page="header/header.jsp"></jsp:include>
 </span>
-<<<<<<< HEAD
-=======
+
 <!-- Breadcrumb Section Begin -->
 <div style="height: 140px"></div>
 <!-- Breadcrumb Section Begin -->
@@ -140,7 +224,6 @@
 </section>
 <!-- Breadcrumb Section End -->
 
->>>>>>> 6ff298deeaef2af48903f2737f7c49c7fe51d41d
 <!-- Product Section Begin -->
 <section class="product spad">
 	<div class="container">
@@ -170,34 +253,16 @@
 								<fieldset style="border: 2px solid #82ae46;">
 									<legend style="width:150px; font-size: 18px;">Danh mục</legend>
 									<label style="display: block; margin-bottom: 10px; margin-left: 10px">
-										<input type="radio" class="price_sortFilter" name="category" value="1"> Mục 1
+										<input type="radio" class="cate_Filter" name="category" value="1"> Mục 1
 									</label>
 									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="price_sortFilter" name="category" value="2"> Mục 2
+										<input type="radio" class="cate_Filter" name="category" value="2"> Mục 2
 									</label>
 									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="price_sortFilter" name="category" value="3"> Mục 3
-									</label>
-								</fieldset>
-								<fieldset style="border: 2px solid #82ae46;">
-									<legend style="width:150px; font-size: 18px;">Lọc theo giá</legend>
-									<label style="display: block; margin-bottom: 10px; margin-left: 10px">
-										<input type="radio" class="price_sortFilter" name="price_sort" value="asc"> Giá tăng dần
-									</label>
-									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="price_sortFilter" name="price_sort" value="desc"> Giá giảm dần
+										<input type="radio" class="cate_Filter" name="category" value="3"> Mục 3
 									</label>
 								</fieldset>
 
-								<fieldset style="border: 2px solid #82ae46;">
-									<legend style="width: 150px; font-size: 18px;">Lọc theo tên</legend>
-									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="name_sortAscFilter" name="name_sort" value="asc"> Tên A-Z
-									</label>
-									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="name_sortDescFilter" name="name_sort" value="desc"> Tên Z-A
-									</label>
-								</fieldset>
 								<fieldset style="border: 2px solid #82ae46;">
 									<legend style="width: 150px; font-size: 18px;">Khoảng giá</legend>
 									<div style="display: flex;">
@@ -212,16 +277,16 @@
 								<fieldset style="border: 2px solid #82ae46;">
 									<legend style="width: 150px; font-size: 18px;">Địa chỉ</legend>
 									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="name_sortAscFilter" name="provider" value="1"> Thành phố HCM
+										<input type="radio" class="provider_sortFilter" name="provider" value="1"> Thành phố HCM
 									</label>
 									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="name_sortDescFilter" name="provider" value="2"> Đà Nẵng
+										<input type="radio" class="provider_sortFilter" name="provider" value="2"> Đà Nẵng
 									</label>
 									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="name_sortDescFilter" name="provider" value="3"> Hà Nội
+										<input type="radio" class="provider_sortFilter" name="provider" value="3"> Hà Nội
 									</label>
 									<label style="display: block; margin-bottom: 10px;margin-left: 10px">
-										<input type="radio" class="name_sortDescFilter" name="provider" value="4"> Nghệ An
+										<input type="radio" class="provider_sortFilter" name="provider" value="4"> Nghệ An
 									</label>
 								</fieldset>
 								<input style="margin-top: 5px" type="submit" value="Lọc">
@@ -258,7 +323,7 @@
 
 					<div class="sidebar__item">
 
-					<div class="latest-product__text">
+						<div class="latest-product__text">
 							<h4>Latest Products</h4>
 							<div class="latest-product__slider owl-carousel">
 
@@ -267,33 +332,33 @@
 					</div>
 				</div>
 
-		</div>
+			</div>
 			<div class="col-lg-9 col-md-7">
 				<div class="product__discount">
 					<div class="section-title product__discount__title">
 						<h2>Giảm giá</h2>
 					</div>
-                    <div class="row">
-                        <div class="product-carousel-container">
-                            <button class="prev" onclick="scrollCarousel(-1)">&#10094;</button>
-                            <div class="product-carousel">
-                                <c:forEach var="b" items="${listSale}">
-                                    <div class="product__discount__item">
-                                        <div class="product__discount__item__pic set-bg" data-setbg="${b.image}">
-                                            <div class="product__discount__percent">-20%</div>
-                                        </div>
-                                        <div class="product__discount__item__text">
-                                            <span>Dried Fruit</span>
-                                            <h5><a href="${detail}?pid=${b.id}">${b.name}</a></h5>
-                                            <div class="product__item__price">${b.price} <span>$30.00</span></div>
-                                        </div>
-                                    </div>
-                                </c:forEach>
-                            </div>
-                            <button class="next" onclick="scrollCarousel(1)">&#10095;</button>
-                        </div>
-                    </div>
-                </div>
+					<div class="row">
+						<div class="product-carousel-container">
+							<button class="prev" onclick="scrollCarousel(-1)">&#10094;</button>
+							<div class="product-carousel">
+								<c:forEach var="b" items="${listSale}">
+									<div class="product__discount__item">
+										<div class="product__discount__item__pic set-bg" data-setbg="${b.image}">
+											<div class="product__discount__percent">-20%</div>
+										</div>
+										<div class="product__discount__item__text">
+											<span>Dried Fruit</span>
+											<h5><a href="${detail}?pid=${b.id}">${b.name}</a></h5>
+											<div class="product__item__price">${b.price} <span>$30.00</span></div>
+										</div>
+									</div>
+								</c:forEach>
+							</div>
+							<button class="next" onclick="scrollCarousel(1)">&#10095;</button>
+						</div>
+					</div>
+				</div>
 				<div class="filter__item">
 					<div class="row">
 						<div class="col-lg-4 col-md-5">
@@ -353,11 +418,12 @@
 								<div class="text-center">
 									<c:url var="addToCart" value="/AddToCartControl"></c:url>
 									<form action="${addToCart}?pid=${o.id}" method="post" enctype="multipart/form-data">
-										<button
-												style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; font-weight: 700"
-												type="submit">
-											<a href="${detail}?pid=${o.id}" style="color:#ffffff">
-												MUA NGAY</a>
+										<button class="buy-now-btn"
+												data-product-id="${o.id}"
+												data-product-name="${o.name}"
+												data-product-image="${o.image}"
+												style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; font-weight: 700; color: #ffffff">
+											MUA NGAY
 										</button>
 									</form>
 								</div>
@@ -365,6 +431,25 @@
 						</div>
 					</c:forEach>
 				</div>
+
+				<!-- Modal Form -->
+				<div id="myModal" class="modal">
+					<div class="modal-content">
+						<div class="exit"><span class="close">&times;</span></div>
+						<div class="data">
+							<form id="addToCartForm" action="/AddToCartControl" method="post">
+								<input type="hidden" id="productId" name="pid">
+								<h3 id="modalProductName"></h3>
+								<img id="modalProductImage" src="" style="width: 30vh;height: 30vh" alt="Product Image">
+								<label for="quantity">Số lượng:</label>
+								<input type="number" id="quantity" name="quantity" value="1" min="1">
+								<button type="button" id="addToCartButton">Thêm vào giỏ hàng</button>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!---End Modal-->
+
 				<div class="paging" style="padding-left: 300px">
 					<c:forEach begin="1" end="${endPage}" var="i">
 						<button class="page-btn ${i == 1 ? 'active' : ''}" onclick="loadPage(${i})">
@@ -372,8 +457,6 @@
 						</button>
 					</c:forEach>
 				</div>
-
-
 			</div>
 		</div>
 	</div>
@@ -381,18 +464,95 @@
 <!-- Product Section End -->
 <jsp:include page="footer/footer.jsp"></jsp:include>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		var modal = document.getElementById('myModal');
+		var span = document.getElementsByClassName('close')[0];
 
+		document.querySelectorAll('.buy-now-btn').forEach(function (button) {
+			button.addEventListener('click', function (event) {
+				event.preventDefault();
+				var productId = button.getAttribute('data-product-id');
+				var productName = button.getAttribute('data-product-name');
+				var productImage = button.getAttribute('data-product-image');
+
+				document.getElementById('productId').value = productId;
+				document.getElementById('modalProductName').textContent = productName;
+				document.getElementById('modalProductImage').setAttribute('src', productImage);
+
+				modal.style.display = 'block';
+			});
+		});
+
+		span.onclick = function () {
+			modal.style.display = 'none';
+		};
+
+		window.onclick = function (event) {
+			if (event.target == modal) {
+				modal.style.display = 'none';
+			}
+		};
+	});
+
+	document.addEventListener('DOMContentLoaded', function() {
+		// Lắng nghe sự kiện click vào nút "Thêm vào giỏ hàng"
+		document.getElementById('addToCartButton').addEventListener('click', function() {
+			// Lấy giá trị của productId và quantity từ form
+			var productId = document.getElementById('productId').value;
+			var quantity = document.getElementById('quantity').value;
+
+			// Tạo đối tượng XMLHttpRequest để gửi request Ajax
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', '/AddToCartControl', true);
+			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+			// Xử lý khi nhận được phản hồi từ server
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === XMLHttpRequest.DONE) {
+					if (xhr.status === 200) {
+						// Xử lý phản hồi từ server (nếu cần)
+						var response = JSON.parse(xhr.responseText);
+
+						// Ví dụ: hiển thị thông báo cho người dùng
+						// alert('Sản phẩm đã được thêm vào giỏ hàng thành công!');
+
+						// Cập nhật size giỏ hàng
+						document.getElementById('cart-count').innerText = response.size;
+
+						// Đặt lại giá trị của trường số lượng về 1
+						document.getElementById('quantity').value = 1;
+
+						// Đóng modal (nếu có)
+						closeModal();
+					} else {
+						// Xử lý lỗi (nếu có)
+						alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.');
+					}
+				}
+			};
+
+			// Gửi dữ liệu form lên server
+			var formData = 'pid=' + encodeURIComponent(productId) + '&quantity=' + encodeURIComponent(quantity);
+			xhr.send(formData);
+		});
+
+		// Hàm đóng modal
+		function closeModal() {
+			var modal = document.getElementById('myModal');
+			modal.style.display = 'none';
+		}
+	});
+
+</script>
 <script>
 	function loadPage(page) {
 		var cid = '${param.cid}';
 		var sort = '${param.sort}';
-		var category = $('#category').val(); // Lấy giá trị của thẻ select category
-		var priceSort = $('#price_sort').val(); // Lấy giá trị của thẻ select price_sort
-		var nameSort = $('#name_sort').val(); // Lấy giá trị của thẻ select name_sort
-		var priceFrom = $('#price_from').val(); // Lấy giá trị của thẻ input price_from
-		var priceTo = $('#price_to').val(); // Lấy giá trị của thẻ input price_to
-		var provider = $('#provider').val(); // Lấy giá trị của thẻ select provider
-
+		var category = $('#cate_Filter').val();
+		var priceFrom = $('#price_fromFilter').val();
+		var priceTo = $('#price_toFilter').val();
+		var provider = $('#provider_sortFilter').val();
 		$.ajax({
 			url: 'ShowProductControl?page=' + page,
 			type: 'GET',
@@ -400,30 +560,43 @@
 				cid: cid,
 				sort: sort,
 				category: category,
-				price_sort: priceSort,
-				name_sort: nameSort,
 				price_from: priceFrom,
 				price_to: priceTo,
 				provider: provider
 			},
 			success: function(response) {
 				$('#content').html(response);
+				updatePaging(page);  // Cập nhật phân trang
 			},
 			error: function(xhr, status, error) {
 				console.error(xhr.responseText);
 			}
 		});
 	}
-
+	function updatePaging(currentPage) {
+		$('.page-btn').removeClass('active');
+		$('.page-btn').each(function() {
+			if ($(this).text() == currentPage) {
+				$(this).addClass('active');
+			}
+		});
+	}
+	$(document).ready(function() {
+		// Bắt sự kiện khi nhấn vào nút phân trang
+		$(document).on('click', '.page-btn', function() {
+			var page = $(this).text();
+			loadPage(page);
+		});
+	});
 </script>
 
 
 <script>
-	document.addEventListener('DOMContentLoaded', function() {
+	document.addEventListener('DOMContentLoaded', function () {
 		var buttons = document.querySelectorAll('.page-btn');
-		buttons.forEach(function(button) {
-			button.addEventListener('click', function() {
-				buttons.forEach(function(btn) {
+		buttons.forEach(function (button) {
+			button.addEventListener('click', function () {
+				buttons.forEach(function (btn) {
 					btn.classList.remove('active');
 				});
 				this.classList.add('active');
@@ -450,54 +623,56 @@
 
 		// Hàm kiểm tra các trường đã được chọn đủ chưa
 		function checkFields() {
-			let allFieldsSelected = true;
+			let anyFieldSelected = false;
 			fieldsets.forEach(fieldset => {
-				const inputs = fieldset.querySelectorAll('input[type="radio"]:checked, input[type="number"]');
+				const radioInputs = fieldset.querySelectorAll('input[type="radio"]:checked');
+				const numberInputs = fieldset.querySelectorAll('input[type="number"]');
 				if (fieldset.querySelector('.price_fromFilter') && fieldset.querySelector('.price_toFilter')) {
 					const priceFrom = parseFloat(fieldset.querySelector('.price_fromFilter').value);
 					const priceTo = parseFloat(fieldset.querySelector('.price_toFilter').value);
-					if (isNaN(priceFrom) || isNaN(priceTo) || priceFrom >= priceTo) {
-						allFieldsSelected = false;
+					if (!isNaN(priceFrom) && !isNaN(priceTo) && priceFrom < priceTo) {
+						anyFieldSelected = true;
 					}
 				}
-				else {
-					if (inputs.length === 0) {
-						allFieldsSelected = false;
-					}
+				if (radioInputs.length > 0 || Array.from(numberInputs).some(input => input.value !== '')) {
+					anyFieldSelected = true;
 				}
 			});
-			// Nếu tất cả các trường đã được chọn, kích hoạt nút Lọc
-			// Ngược lại, vô hiệu hóa nút Lọc
-			filterButton.disabled = !allFieldsSelected;
+			// Kích hoạt nút Lọc nếu có bất kỳ trường nào được chọn
+			filterButton.disabled = !anyFieldSelected;
 		}
-		// Ban đầu, kiểm tra trường hợp mặc định
+
+		// Ban đầu, kiểm tra trạng thái mặc định
 		checkFields();
 	});
 </script>
-<script>
-    function scrollCarousel(direction) {
-        const carousel = document.querySelector('.product-carousel');
-        const itemWidth = carousel.querySelector('.product__discount__item').clientWidth + 10; // Bao gồm cả margin-right
 
-        if (direction === 1) {
-            // Cuộn sang phải
-            if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth) {
-                // Nếu đang ở cuối, cuộn lại đầu
-                carousel.scrollTo({ left: 0, behavior: 'smooth' });
-            } else {
-                carousel.scrollBy({ left: itemWidth, behavior: 'smooth' });
-            }
-        } else {
-            // Cuộn sang trái
-            if (carousel.scrollLeft === 0) {
-                // Nếu đang ở đầu, cuộn đến cuối
-                carousel.scrollTo({ left: carousel.scrollWidth, behavior: 'smooth' });
-            } else {
-                carousel.scrollBy({ left: -itemWidth, behavior: 'smooth' });
-            }
-        }
-    }
+<script>
+	function scrollCarousel(direction) {
+		const carousel = document.querySelector('.product-carousel');
+		const itemWidth = carousel.querySelector('.product__discount__item').clientWidth + 10; // Bao gồm cả margin-right
+
+		if (direction === 1) {
+			// Cuộn sang phải
+			if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth) {
+				// Nếu đang ở cuối, cuộn lại đầu
+				carousel.scrollTo({left: 0, behavior: 'smooth'});
+			} else {
+				carousel.scrollBy({left: itemWidth, behavior: 'smooth'});
+			}
+		} else {
+			// Cuộn sang trái
+			if (carousel.scrollLeft === 0) {
+				// Nếu đang ở đầu, cuộn đến cuối
+				carousel.scrollTo({left: carousel.scrollWidth, behavior: 'smooth'});
+			} else {
+				carousel.scrollBy({left: -itemWidth, behavior: 'smooth'});
+			}
+		}
+	}
+
 </script>
+
 <!-- Js Plugins -->
 <script src="assets/js/jquery-3.3.1.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
@@ -507,7 +682,6 @@
 <script src="assets/js/mixitup.min.js"></script>
 <script src="assets/js/owl.carousel.min.js"></script>
 <script src="assets/js/main.js"></script>
-
 </body>
 
 </html>

@@ -157,7 +157,7 @@
         }
 
         .review-footer button {
-            background-color: #456bbd;
+            background-color: #7fad39;
             color: whitesmoke;
             margin-right: 20px;
             border: none;
@@ -167,7 +167,7 @@
         }
 
         .review-footer button:hover {
-            background-color: #4573d3;
+            background-color: #77a233;
         }
 
         .review-form {
@@ -209,7 +209,7 @@
             border: 1px solid #888;
             width: 80%;
             max-width: 600px;
-            border-radius: 10px;
+            border-radius: 15px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
@@ -251,7 +251,7 @@
             color: #fff;
             border: none;
             padding: 10px 30px;
-            border-radius: 8px;
+            border-radius: 40px;
             cursor: pointer;
         }
 
@@ -420,6 +420,7 @@
                                                 <!-- Review Statistics Section -->
                                                 <div class="review-statistics">
                                                     <h5><b>${averageRating} <i class="fa fa-star star-icon"></i> ${allreviews} Đánh giá</b></h5>
+                                                    <br>
                                                     <div class="stars">
                                                         <c:forEach var="entry" items="${ratingPercentage}">
                                                             <c:set var="i" value="${entry.key}"/>
@@ -435,7 +436,9 @@
                                                 </div>
                                             </c:if>
                                             <!-- End of Review Statistics Section -->
-
+<%--                                            <div class="review-footer">--%>
+<%--                                            <button id="writeReviewBtn" class="hidden"><b>Viết đánh giá</b></button>--%>
+<%--                                            </div>--%>
                                             <c:forEach var="review" items="${reviews}" varStatus="loop">
                                                 <div class="review-item ${loop.index > 1 ? 'hidden' : ''}">
                                                     <h3><b>${review.nameCommenter}</b>
@@ -448,8 +451,9 @@
                                                     </h3>
                                                     <br>
                                                     <img style="width: 100px;height: 100px;border-radius: 6px" src="${review.image}">
-                                                    <h3>${review.comment}</h3>
-                                                    <p>Đã đánh giá vào ngày ${review.dateCreated}</p>
+                                                    <div class="cmt" style="background-color: #fff5e3; margin-top: 15px;padding: 10px; width:60%; border-radius: 5px">
+                                                        <h3>${review.comment}</h3></div>
+                                                    <p>${review.dateCreated}</p>
                                                     <c:if test="${not empty review.response}">
                                                         <div class="response">
                                                             <p>${review.response}</p>
@@ -460,10 +464,10 @@
                                             </c:forEach>
                                         </div>
                                         <div class="review-footer">
-                                            <c:if test="${not empty reviews}">
-                                                <button id="showAllReviewsBtn">Xem tất cả ${allreviews} đánh giá</button>
+                                            <c:if test="${not empty reviews and allreviews >= 3}">
+                                                <button id="showAllReviewsBtn" style="background-color: #f6f6f6;color: black;"><b>Xem tất cả ${allreviews} đánh giá</b></button>
                                             </c:if>
-                                            <button id="writeReviewBtn">Viết đánh giá</button>
+                                            <button id="writeReviewBtn"><b>Viết đánh giá</b></button>
                                         </div>
                                     </div>
 
@@ -472,7 +476,7 @@
                         </div>
                     </div>
                     <div id="reviewModal" class="modal">
-                        <div class="modal-content">
+                        <div class="modal-content" style="border-radius: 15px">
                             <span class="close">&times;</span>
                             <h2>Viết đánh giá của bạn</h2>
                             <form action="ReviewControll" method="post" enctype="multipart/form-data">
@@ -506,9 +510,7 @@
                             </form>
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>
@@ -642,6 +644,23 @@
             showAllReviewsBtn.style.display = 'none';
         });
     });
+
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     const showAllReviewsBtn = document.getElementById('showAllReviewsBtn');
+    //     const reviewItems = document.querySelectorAll('.review-item');
+    //     const writeReviewBtn = document.getElementById('writeReviewBtn');
+    //
+    //     showAllReviewsBtn.addEventListener('click', function () {
+    //         // Hiển thị tất cả các đánh giá
+    //         reviewItems.forEach(function (item) {
+    //             item.classList.remove('hidden');
+    //         });
+    //         // Ẩn nút "Xem tất cả đánh giá" sau khi đã hiển thị tất cả
+    //         showAllReviewsBtn.style.display = 'none';
+    //         // Hiển thị nút "Viết đánh giá"
+    //         writeReviewBtn.classList.remove('hidden');
+    //     });
+    // });
 </script>
 </body>
 </html>
