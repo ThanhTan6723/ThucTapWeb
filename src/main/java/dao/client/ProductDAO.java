@@ -275,22 +275,7 @@ public class ProductDAO {
 		return providerList;
 	}
 
-	public static List<Product> getListExpiredProduct(){
-		List<Product> list = new ArrayList<>();
-		String sql = "SELECT * FROM Products WHERE expriredDay <= CURDATE() ORDER BY dateOfImporting ASC";
-		try{
-			Connection con = JDBCUtil.getConnection();
-			PreparedStatement ps = con.prepareStatement(sql);
-			ResultSet rs= ps.executeQuery();
-			while (rs.next()) {
-				list.add( new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5),
-						new Category(rs.getInt(6))) );
-			}
-		}catch (Exception e){
 
-		}
-		return list;
-	}
 	public static List<Batch> getListBatchById(int id) {
 		List<Batch> list = new ArrayList<>();
 		String sql = "SELECT b.id, b.name, b.manufacturingDate, b.expiryDate, b.dateOfImporting, " +

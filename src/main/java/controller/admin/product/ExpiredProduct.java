@@ -1,6 +1,7 @@
 package controller.admin.product;
 
-import dao.client.ProductDAO;
+import com.google.gson.Gson;
+import dao.admin.ProductAdminDAO;
 import model.Product;
 
 import javax.servlet.*;
@@ -13,15 +14,14 @@ import java.util.List;
 public class ExpiredProduct extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("utf-8");
-        response.setContentType("text/html;charset=utf-8");
-        List<Product> list = ProductDAO.getListExpiredProduct();
-        request.setAttribute("listExpiredProduct",list);
-        request.getRequestDispatcher("WEB-INF/admin/expired-product.jsp").forward(request,response);
+        List<Product> productList = ProductAdminDAO.getListExpiredProduct();
+        String json = new Gson().toJson(productList);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }
