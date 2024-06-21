@@ -13,6 +13,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin/nhap.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin/show-product.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin/user.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/admin" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/client/cart.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/client" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/client/login.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/client" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/client/menu.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/client" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/client/order-placed.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/client" />
