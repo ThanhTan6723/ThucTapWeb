@@ -1,32 +1,37 @@
 package model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Voucher {
     private int id;
     private String code;
-    private String discountType;
-    private int productId;
-    private int categoryId;
-    private double discountValue;
+    private DiscountType discountType;
+    private BigDecimal discountPercentage;
+    private Product product;
+    private Category category;
+    private int quantity;
     private Date startDate;
     private Date endDate;
+    private boolean isActive;
 
-    // Constructors
     public Voucher() {
+        this.isActive = true;
     }
 
-    public Voucher(String code, String discountType, int productId, int categoryId, double discountValue, Date startDate, Date endDate) {
+    public Voucher(int id, String code, DiscountType discountType, BigDecimal discountPercentage, Product product, Category category, int quantity, Date startDate, Date endDate, boolean isActive) {
+        this.id = id;
         this.code = code;
         this.discountType = discountType;
-        this.productId = productId;
-        this.categoryId = categoryId;
-        this.discountValue = discountValue;
+        this.discountPercentage = discountPercentage;
+        this.product = product;
+        this.category = category;
+        this.quantity = quantity;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.isActive = isActive;
     }
 
-    // Getters and setters
     public int getId() {
         return id;
     }
@@ -43,36 +48,44 @@ public class Voucher {
         this.code = code;
     }
 
-    public String getDiscountType() {
+    public DiscountType getDiscountType() {
         return discountType;
     }
 
-    public void setDiscountType(String discountType) {
+    public void setDiscountType(DiscountType discountType) {
         this.discountType = discountType;
     }
 
-    public int getProductId() {
-        return productId;
+    public BigDecimal getDiscountPercentage() {
+        return discountPercentage;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setDiscountPercentage(BigDecimal discountPercentage) {
+        this.discountPercentage = discountPercentage;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public double getDiscountValue() {
-        return discountValue;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setDiscountValue(double discountValue) {
-        this.discountValue = discountValue;
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public Date getStartDate() {
@@ -91,17 +104,27 @@ public class Voucher {
         this.endDate = endDate;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
     @Override
     public String toString() {
-        return "Discount{" +
+        return "Voucher{" +
                 "id=" + id +
                 ", code='" + code + '\'' +
-                ", discountType='" + discountType + '\'' +
-                ", productId=" + productId +
-                ", categoryId=" + categoryId +
-                ", discountValue=" + discountValue +
+                ", discountType=" + discountType +
+                ", discountPercentage=" + discountPercentage +
+                ", product=" + product +
+                ", category=" + category +
+                ", quantity=" + quantity +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
+                ", isActive=" + isActive +
                 '}';
     }
 }

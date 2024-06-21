@@ -1893,9 +1893,9 @@ ol {
 }
 
 .shoping__cart__table table thead th {
-	font-size: 20px;
-	font-weight: 700;
-	color: #1c1c1c;
+	/*font-size: 20px;*/
+	/*font-weight: 700;*/
+	/*color: #1c1c1c;*/
 	padding-bottom: 20px;
 	text-align: center;
 }
@@ -2098,9 +2098,9 @@ ol {
 .checkout__form h4 {
 	color: #1c1c1c;
 	font-weight: 700;
-	border-bottom: 1px solid #e1e1e1;
+	/*border-bottom: 1px solid #e1e1e1;*/
 	padding-bottom: 20px;
-	margin-bottom: 25px;
+	/*margin-bottom: 25px;*/
 }
 
 .checkout__form p {

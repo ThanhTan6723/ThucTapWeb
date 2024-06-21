@@ -9,15 +9,15 @@
     <title>Product detail</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style type="text/css">
-        .header__fixed {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            height: 140px;
-            background-color: #fff;
-            z-index: 900;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
-        }
+        /*.header__fixed {*/
+        /*    position: fixed;*/
+        /*    top: 0;*/
+        /*    width: 100%;*/
+        /*    height: 140px;*/
+        /*    background-color: #fff;*/
+        /*    z-index: 900;*/
+        /*    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);*/
+        /*}*/
 
 
         .product__details__pic__slider__nav {
@@ -359,13 +359,15 @@
                         <b>Kho: </b> <span id="batchQuantity">${productCurrentQuantities[detail.id]}</span>
                         <c:url var="addToCart" value="AddToCartControl"></c:url>
                         <br>
-                        <form action="${addToCart}?pid=${detail.id}" method="post">
-                            <b>Số lượng:</b> <input style="width: 80px; border-radius: 5px; text-align: center;" type="number" class="single-input-selector" value="1"
-                                                    min="1" max="${productCurrentQuantities[detail.id]}" name="quantity" placeholder="">
+                        <form id="addToCartForm" action="${addToCart}?pid=${detail.id}" method="post">
+                            <b>Số lượng:</b> <input style="width: 80px; border-radius: 5px; text-align: center;"
+                                                    type="number" class="single-input-selector" value="1"
+                                                    min="1" max="${productCurrentQuantities[detail.id]}" name="quantity"
+                                                    placeholder="">
                             <br><br>
-                            <button style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; text-transform: uppercase; font-weight: 700; color: #fff"
-                                    type="submit" class="button" title="<c:out value="Đặt hàng" />">
-                                <span><c:out value="Đặt hàng" /></span>
+                            <button style="padding: 10px 23px; border-radius: 30px; border: none; background-color: #7fad39; text-transform: uppercase; font-weight: 700; color: #fff"
+                                    type="submit" class="button" title="<c:out value='Đặt hàng' />">
+                                <span><c:out value="Đặt hàng"/></span>
                             </button>
                         </form>
                         <ul>
@@ -415,11 +417,14 @@
                                         <div class="reviews">
                                             <h4><b>Đánh giá cho sản phẩm ${detail.name}</b></h4>
                                             <br>
-                                            <c:if test="${empty reviews}"><h5 style="color: gray">Chưa có đánh giá nào cho sản phẩm này</h5></c:if>
+                                            <c:if test="${empty reviews}"><h5 style="color: gray">Chưa có đánh giá nào
+                                                cho sản phẩm này</h5></c:if>
                                             <c:if test="${not empty reviews}">
                                                 <!-- Review Statistics Section -->
                                                 <div class="review-statistics">
-                                                    <h5><b>${averageRating} <i class="fa fa-star star-icon"></i> ${allreviews} Đánh giá</b></h5>
+                                                    <h5><b>${averageRating} <i
+                                                            class="fa fa-star star-icon"></i> ${allreviews} Đánh giá</b>
+                                                    </h5>
                                                     <br>
                                                     <div class="stars">
                                                         <c:forEach var="entry" items="${ratingPercentage}">
@@ -427,7 +432,8 @@
                                                             <div class="rating-row">
                                                                 <span>${i} <i class="fa fa-star star-icon"></i></span>
                                                                 <div class="bar">
-                                                                    <div class="fill" style="width: ${entry.value}%;"></div>
+                                                                    <div class="fill"
+                                                                         style="width: ${entry.value}%;"></div>
                                                                 </div>
                                                                 <span class="percentage">${entry.value}%</span>
                                                             </div>
@@ -436,9 +442,9 @@
                                                 </div>
                                             </c:if>
                                             <!-- End of Review Statistics Section -->
-<%--                                            <div class="review-footer">--%>
-<%--                                            <button id="writeReviewBtn" class="hidden"><b>Viết đánh giá</b></button>--%>
-<%--                                            </div>--%>
+                                            <%--                                            <div class="review-footer">--%>
+                                            <%--                                            <button id="writeReviewBtn" class="hidden"><b>Viết đánh giá</b></button>--%>
+                                            <%--                                            </div>--%>
                                             <c:forEach var="review" items="${reviews}" varStatus="loop">
                                                 <div class="review-item ${loop.index > 1 ? 'hidden' : ''}">
                                                     <h3><b>${review.nameCommenter}</b>
@@ -450,8 +456,10 @@
                                                         </c:forEach>
                                                     </h3>
                                                     <br>
-                                                    <img style="width: 100px;height: 100px;border-radius: 6px" src="${review.image}">
-                                                    <div class="cmt" style="background-color: #fff5e3; margin-top: 15px;padding: 10px; width:60%; border-radius: 5px">
+                                                    <img style="width: 100px;height: 100px;border-radius: 6px"
+                                                         src="${review.image}">
+                                                    <div class="cmt"
+                                                         style="background-color: #fff5e3; margin-top: 15px;padding: 10px; width:60%; border-radius: 5px">
                                                         <h3>${review.comment}</h3></div>
                                                     <p>${review.dateCreated}</p>
                                                     <c:if test="${not empty review.response}">
@@ -465,7 +473,9 @@
                                         </div>
                                         <div class="review-footer">
                                             <c:if test="${not empty reviews and allreviews >= 3}">
-                                                <button id="showAllReviewsBtn" style="background-color: #f6f6f6;color: black;"><b>Xem tất cả ${allreviews} đánh giá</b></button>
+                                                <button id="showAllReviewsBtn"
+                                                        style="background-color: #f6f6f6;color: black;"><b>Xem tất
+                                                    cả ${allreviews} đánh giá</b></button>
                                             </c:if>
                                             <button id="writeReviewBtn"><b>Viết đánh giá</b></button>
                                         </div>
@@ -546,6 +556,34 @@
     });
 
     var batchQuantities = {};
+
+    // Xử lý form submission với AJAX
+    $('#addToCartForm').on('submit', function (e) {
+        e.preventDefault(); // Ngăn chặn form submit mặc định
+
+        const form = $(this);
+        const actionUrl = form.attr('action');
+        const formData = form.serialize();
+        const quantityInput = form.find('.single-input-selector'); // Tìm trường input trong form
+
+        $.ajax({
+            type: 'POST',
+            url: actionUrl,
+            data: formData,
+            success: function (response) {
+                // Xử lý phản hồi từ server
+                alert('Sản phẩm đã được thêm vào giỏ hàng!');
+                // Cập nhật size cart
+                $('#cart-count').text(response.size);
+                // Đặt lại giá trị của trường input về 1
+                quantityInput.val(1);
+            },
+            error: function (error) {
+                // Xử lý lỗi nếu có
+                alert('Có lỗi xảy ra. Vui lòng thử lại.');
+            }
+        });
+    });
 
     function updateQuantity() {
         var batchSelect = document.getElementById("batchSelect");

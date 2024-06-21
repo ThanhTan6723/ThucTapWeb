@@ -14,22 +14,22 @@
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ogani | Template</title>
+    <title>Blog</title>
     <jsp:include page="link/link.jsp"></jsp:include>
     <style>
         .paging a .active{
             color: #00a045;
             font-weight: bold;
         }
-        .header__fixed{
-            position: fixed;
-            top: 0;
-            width: 100%;
-            height: 140px;
-            background-color: #fff;
-            z-index: 900;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
-        }
+        /*.header__fixed{*/
+        /*    position: fixed;*/
+        /*    top: 0;*/
+        /*    width: 100%;*/
+        /*    height: 140px;*/
+        /*    background-color: #fff;*/
+        /*    z-index: 900;*/
+        /*    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);*/
+        /*}*/
         .paging button {
             padding: 10px 23px;
             border-radius: 5px;

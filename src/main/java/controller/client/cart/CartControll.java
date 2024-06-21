@@ -1,12 +1,15 @@
 package controller.client.cart;
 
+import dao.client.VoucherDAO;
 import model.Account;
 import model.OrderDetail;
+import model.Voucher;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,7 +23,7 @@ public class CartControll extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
         Object obj = session.getAttribute("cart");
-        System.out.println("Obj:"+obj);
+
         if (account == null) {
             response.sendRedirect(request.getContextPath() + "/LoginControll");
         } else {
@@ -41,6 +44,9 @@ public class CartControll extends HttpServlet {
                     total += oderDetail.getPrice();
                 }
             }
+            VoucherDAO voucherDAO = new VoucherDAO();
+            List<Voucher> savedVouchers = voucherDAO.getVoucherForAccount(account.getId());
+            request.setAttribute("savedVouchers", savedVouchers);
             request.setAttribute("total", total);
             request.getRequestDispatcher("/WEB-INF/client/cart.jsp").forward(request, response);
         }
