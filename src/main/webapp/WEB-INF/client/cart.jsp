@@ -145,6 +145,7 @@
             color: white;
             cursor: pointer;
         }
+
         /* Add this CSS to your stylesheet */
 
         .voucher-modal-footer {
@@ -301,11 +302,13 @@
         .voucher-select input:checked ~ .checkmark:after {
             display: block;
         }
+
         /* Thêm lớp CSS cho voucher-item khi được chọn */
         .voucher-item.selected {
             background-color: #e0f7fa;
             border: 1px solid #007bff;
         }
+
         /* Thêm lớp CSS cho thông báo lỗi */
         .error-message {
             color: red;
@@ -315,16 +318,10 @@
 
     </style>
 </head>
-
 <body>
-
-<span class="header__fixed">
-    <jsp:include page="header/header.jsp"></jsp:include>
-</span>
-
+<jsp:include page="header/header.jsp"></jsp:include>
 <!-- Shoping Cart Section Begin -->
-<br>
-<section class="shoping-cart spad" style="background-color: #f8f8f8">
+<section class="shoping-cart spad">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -411,7 +408,7 @@
                             <input type="hidden" id="quantity" value="1" readonly>
                             <input type="hidden" id="discountValue" value="0">
                             <!-- Thêm input ẩn để lưu giá trị giảm giá -->
-                            <input type="hidden" id="originalTotalAmount" value="${total}">
+<%--                            <input type="hidden" id="originalTotalAmount" value="${total}">--%>
                             <!-- Thêm input ẩn để lưu tổng tiền gốc -->
                             <button type="button" class="site-btn" onclick="applyDiscountIfCouponExists()">Áp dụng
                             </button>
@@ -425,8 +422,13 @@
             <div class="col-lg-6">
                 <div class="shoping__checkout" style="background-color: #f5f5f5">
                     <h5><b>Thanh Toán</b></h5>
+                        <%--                    <input type="hidden" id="originalTotalAmount" value="${total}">--%>
+                        <%--                    <input type="hidden" id="discountValue" value="0">--%>
+                        <%--                    <input type="hidden" id="temporaryTotal" value="${total}">--%>
                     <ul>
-                        <li>Tổng tiền<span id="totalAmount" class="total-amount">${total}₫</span></li>
+                        <li>Tạm tính<span id="originalTotalAmount" class="total-amount">${total}₫</span></li>
+                        <li>Giảm giá<span id="discountAmount">0₫</span></li>
+                        <li>Tổng tiền<span id="totalAmount"></span></li>
                     </ul>
                     <ul>
                         <li>Vouncher<span> <i class="bi bi-ticket-perforated-fill" style="font-size: 2rem;"></i><a
@@ -452,53 +454,55 @@
             <input type="text" id="voucherCode" placeholder="Nhập mã voucher">
             <button id="applyVoucher" disabled>ÁP DỤNG</button>
         </div>
-            <div class="voucher-list-container">
-                <div class="voucher-list">
-                    <!-- Example voucher item, repeat this block for each voucher -->
-                    <c:forEach var="voucher" items="${savedVouchers}">
-                        <c:set var="voucherApplies" value="false" />
-                        <c:choose>
-                            <c:when test="${voucher.discountType.type == 'All'}">
-                                <c:set var="voucherApplies" value="true" />
-                            </c:when>
-                            <c:otherwise>
-                        <c:forEach items="${cartProducts}" var="entry">
-                            <c:set var="o" value="${entry.value}"/>
-                            <c:if test="${voucher.product != null || voucher.category != null}">
-                            <c:if test="${voucher.product.id.contains(o.product.id) || voucher.category.id.contains(o.product.category.id)}">
-                                        <c:set var="voucherApplies" value="true" />
-                            </c:if>
-                            </c:if>
-                        </c:forEach>
-                            </c:otherwise>
+        <div class="voucher-list-container">
+            <div class="voucher-list">
+                <!-- Example voucher item, repeat this block for each voucher -->
+                <c:forEach var="voucher" items="${savedVouchers}">
+                    <c:set var="voucherApplies" value="false"/>
+                    <c:choose>
+                        <c:when test="${voucher.discountType.type == 'All'}">
+                            <c:set var="voucherApplies" value="true"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach items="${sessionScope.cart}" var="cart">
+                                <c:if test="${voucher.product != null && voucher.product.id == cart.value.product.id}">
+                                    <c:set var="voucherApplies" value="true"/>
+                                </c:if>
+                                <c:if test="${voucher.category != null && voucher.category.id  == cart.value.product.category.id}">
+                                    <c:set var="voucherApplies" value="true"/>
+                                </c:if>
+                            </c:forEach>
+                        </c:otherwise>
                     </c:choose>
 
-                        <div class="voucher-item" <c:if test="${!voucherApplies}">style="opacity: 0.5; pointer-events: none;"</c:if>>
-                            <div class="voucher-left">
-                                <img src="https://via.placeholder.com/50" alt="Voucher Image">
-                                <span>${voucher.code}</span>
-                            </div>
-                            <div class="voucher-right">
-                                <div class="voucher-right-top">
-                                    <p class="voucher-desc">Giảm tối đa ${voucher.discountPercentage}%<br>${voucher.discountType.type}</p>
-                                    <span class="voucher-quantity">x1</span>
-                                </div>
-                                <p class="voucher-expiry">Sắp hết hạn: Còn 12 giờ <a href="#">Điều Kiện</a></p>
-                                <label class="voucher-select">
-                                    <input type="radio" name="voucher" value="${voucher.code}" onclick="applyVoucher('${voucher.code}')" <c:if test="${!voucherApplies}">disabled</c:if>>
-                                </label>
-                            </div>
+                    <div class="voucher-item"
+                         <c:if test="${!voucherApplies}">style="opacity: 0.5; pointer-events: none;"</c:if>>
+                        <div class="voucher-left">
+                            <img src="https://via.placeholder.com/50" alt="Voucher Image">
+                            <span>${voucher.code}</span>
                         </div>
-                    </c:forEach>
-
-
-                </div>
+                        <div class="voucher-right">
+                            <div class="voucher-right-top">
+                                <p class="voucher-desc">Giảm tối
+                                    đa ${voucher.discountPercentage}%<br>${voucher.discountType.type}</p>
+                                <span class="voucher-quantity">x1</span>
+                            </div>
+                            <p class="voucher-expiry">Sắp hết hạn: Còn 12 giờ <a href="#">Điều Kiện</a></p>
+                            <label class="voucher-select">
+                                <input type="radio" name="voucher" value="${voucher.code}"
+                                       data-discount="${voucher.discountPercentage}"
+                                       <c:if test="${!voucherApplies}">disabled</c:if>>
+                            </label>
+                        </div>
+                    </div>
+                </c:forEach>
             </div>
-            <!-- Button container at the bottom -->
-            <div class="voucher-modal-footer">
-                <button id="backButton">TRỞ LẠI</button>
-                <button id="okButton">OK</button>
-            </div>
+        </div>
+        <!-- Button container at the bottom -->
+        <div class="voucher-modal-footer">
+            <button id="backButton">TRỞ LẠI</button>
+            <button id="okButton">OK</button>
+        </div>
     </div>
 </div>
 <!-- Voucher Modal End -->
@@ -507,12 +511,66 @@
 
 <!-- Add jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-    var savedVouchers = ${savedVouchers};
-    var cartProducts = ${sessionScope.cart};
-</script>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Xử lý khi người dùng nhấn nút OK trong modal voucher
+        $('#okButton').on('click', function () {
+            var selectedVoucherCode = $("input[name='voucher']:checked").val();
+            alert("Đã chọn voucher có mã: " + selectedVoucherCode);
+            // Kiểm tra xem người dùng đã chọn voucher hay chưa
+            if (selectedVoucherCode) {
+                var selectedVoucher = findVoucher(selectedVoucherCode); // Hàm này sẽ tìm voucher từ danh sách có sẵn
+
+                if (selectedVoucher) {
+                    // Tính toán giảm giá
+                    var totalAmount = calculateDiscount(selectedVoucher);
+
+                    // Hiển thị số tiền giảm giá và tổng tiền
+                    $('#discountAmount').text(formatCurrency(selectedVoucher.discountAmount) + '₫');
+                    $('#totalAmount span').text(formatCurrency(totalAmount) + '₫');
+                }
+            }
+
+            // Đóng modal voucher sau khi xử lý
+            $('#voucherModal').css('display', 'none');
+            $('body').removeClass('modal-open');
+        });
+    });
+
+    // Hàm tìm voucher từ danh sách
+    function findVoucher(voucherCode) {
+        var vouchers = ${savedVouchers}; // Lấy danh sách voucher từ backend, chú ý cần truyền danh sách này từ JSP
+        for (var i = 0; i < vouchers.length; i++) {
+            if (vouchers[i].code === voucherCode) {
+                return vouchers[i];
+            }
+        }
+        return null;
+    }
+
+    // Hàm tính toán giảm giá
+    function calculateDiscount(voucher) {
+        var totalAmount = parseInt($('#originalTotalAmount').val()); // Lấy tổng tiền gốc
+        var discountPercentage = voucher.discountPercentage;
+        var discountType = voucher.discountType.type;
+
+        if (discountType === 'All') {
+            // Giảm giá theo phần trăm
+            var discountAmount = (totalAmount * discountPercentage) / 100;
+            totalAmount -= discountAmount;
+            return totalAmount;
+        }
+        // Xử lý các trường hợp giảm giá khác (nếu có)
+        return totalAmount;
+    }
+
+    // Hàm định dạng số tiền hiển thị
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+    }
+
+</script>
 <script>
 
     $(document).ready(function () {
@@ -542,20 +600,41 @@
 
         // Handle voucher item click
         $(".voucher-item").on("click", function () {
-            $(".voucher-item").removeClass("selected");
-            $(this).addClass("selected");
-            $(this).find("input[type='radio']").prop("checked", true);
+            var radioButton = $(this).find("input[type='radio']");
+
+            // Kiểm tra trạng thái của radio button
+            if (radioButton.prop("checked")) {
+                // Nếu đã được chọn, bỏ chọn lại
+                radioButton.prop("checked", false);
+                $(this).removeClass("selected");
+            } else {
+                // Bỏ chọn tất cả các voucher khác trước khi chọn mới
+                $(".voucher-item").removeClass("selected");
+                $("input[type='radio'][name='voucher']").prop("checked", false);
+
+                // Chọn voucher và đánh dấu màu viền
+                radioButton.prop("checked", true);
+                $(this).addClass("selected");
+            }
         });
 
         // Handle radio button click
         $("input[type='radio'][name='voucher']").on("change", function () {
-            $(".voucher-item").removeClass("selected");
-            $(this).closest(".voucher-item").addClass("selected");
+            if ($(this).prop("checked")) {
+                // Bỏ chọn tất cả các voucher khác trước khi chọn mới
+                $(".voucher-item").removeClass("selected");
+                $("input[type='radio'][name='voucher']").prop("checked", false);
+
+                // Đánh dấu màu viền cho voucher được chọn
+                $(this).closest(".voucher-item").addClass("selected");
+            } else {
+                // Nếu không được chọn, loại bỏ màu viền
+                $(this).closest(".voucher-item").removeClass("selected");
+            }
         });
 
-
         // Kích hoạt nút "ÁP DỤNG" khi nhập mã voucher
-        $('#voucherCode').on('input', function() {
+        $('#voucherCode').on('input', function () {
             var code = $(this).val().trim();
             if (code) {
                 $('#applyVoucher').prop('disabled', false).addClass('active');
@@ -627,7 +706,7 @@
             var key = $(this).data("key");
             $.ajax({
                 type: "GET",
-                url: "DeleteOrderControl?key=" + key,
+                url: "DeleteOrderControll?key=" + key,
                 success: function (response) {
                     // Remove the row from the cart in the UI
                     $("#row_" + key).remove();
@@ -636,6 +715,9 @@
                     $('.total-amount').text(totalAmount + '₫');
                     // Update cart size in the UI
                     $("#cart-count").text(response.sizeCart);
+                    // Cập nhật voucher
+                    // updateVouchers(response.vouchers);
+                    // Kiểm tra giỏ hàng rỗng
                     checkEmptyCart();
                 }
             });
