@@ -14,13 +14,9 @@ import java.util.List;
 public class ProductAdminDAO {
     public static List<Product> getListProducts() {
         List<Product> list = new ArrayList<>();
-        String query = "       SELECT *\n" +
-                "FROM Products\n" +
-                "WHERE id IN (\n" +
-                "    SELECT DISTINCT product_id\n" +
-                "    FROM Batch\n" +
-                "    WHERE expiryDate > CURDATE()\n" +
-                ");";
+        String query = "SELECT * FROM Products WHERE id IN (" +
+                "SELECT product_id FROM Batch WHERE expiryDate > CURDATE()" +
+                ") ORDER BY id ASC;";
         try{
             Connection con = JDBCUtil.getConnection();
             PreparedStatement ps = con.prepareStatement(query);
@@ -503,49 +499,56 @@ public class ProductAdminDAO {
         }
         return list;
     }
+    public static List<Product> getListExpiredProduct() {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT P.id AS ProductID, P.name AS ProductName, P.price AS ProductPrice, " +
+                "P.image AS ProductImage, B.id AS BatchID, B.name AS BatchName, B.dateOfImporting AS DateOfImporting, " +
+                "B.currentQuantity AS CurrentQuantity " +
+                "FROM Products P JOIN Batch B ON P.id = B.product_id " +
+                "WHERE B.expiryDate < CURDATE() ORDER BY P.id;";
+
+        try (Connection con = JDBCUtil.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                int productId = rs.getInt(1);
+                String productName = rs.getString(2);
+                double productPrice = rs.getDouble(3);
+                String productImage = rs.getString(4);
+                int batchId = rs.getInt(5);
+                String batchName = rs.getString(6);
+                java.sql.Date dateOfImporting = rs.getDate(7);
+                int currentQuantity = rs.getInt(8);
+                Batch batch = new Batch(batchId,batchName,dateOfImporting,currentQuantity);
+                List<Batch> batchList = new ArrayList<>();
+                batchList.add(batch);
+                Product product = new Product(productId, productName, productPrice, productImage,batchList);
+                list.add(product);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception for debugging
+        }
+
+        return list;
+
+    }
+    public static void removeBatchById(int id){
+        String sql = "delete from Batch where id =?";
+        try{
+            Connection con = JDBCUtil.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1,id);
+            ps.executeUpdate();
+        }catch (Exception e){
+
+        }
+    }
     public static void main(String[] args) {
-        System.out.println(getListBatchById(2));
-		try {
-            // Định dạng ngày tháng
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			// Tạo danh sách Batch cập nhật
-			List<Batch> updatedBatches = new ArrayList<>();
-			Batch batch1 = new Batch();
-			batch1.setName("hihihi"); // ID của lô hàng cần cập nhật
-			batch1.setManufacturingDate(sdf.parse("10/10/2023")); // Ngày sản xuất
-			batch1.setExpiryDate(sdf.parse("10/07/2024")); // Hạn sử dụng
-			batch1.setDateOfImporting(sdf.parse("05/01/2024")); // Ngày nhập
-			batch1.setQuantity(100);
-			batch1.setCurrentQuantity(50); // Giả sử currentQuantity là 50
-			batch1.setPriceImport(50.0);
-			batch1.setProvider(new Provider( "Provider Name", "Provider Address")); // Giả sử Provider có ID là 1
-            batch1.setAdminCreate(new Account(1,"hiih"));
-
-        // Thêm Batch vào danh sách
-
-			updatedBatches.add(batch1);
-
-			Batch batch2 = new Batch();
-			batch2.setName("heheh"); // ID của lô hàng cần cập nhật
-			batch2.setManufacturingDate(sdf.parse("13/10/2023")); // Ngày sản xuất
-			batch2.setExpiryDate(sdf.parse("01/07/2024")); // Hạn sử dụng
-			batch2.setDateOfImporting(sdf.parse("06/01/2024")); // Ngày nhập
-			batch2.setQuantity(500);
-			batch2.setCurrentQuantity(35); // Giả sử currentQuantity là 50
-			batch2.setPriceImport(12.34);
-			batch2.setProvider(new Provider( "Provider Name", "Provider Address")); // Giả sử Provider có ID là 1
-            batch2.setAdminCreate(new Account(1,"hihi"));
-			updatedBatches.add(batch2);
-            System.out.println(updatedBatches);
-            addBatchesToProduct(2,updatedBatches);
-
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-        System.out.println(getListBatchById(2));
-/*
-        System.out.println(getListBatchById(3));
-*/
+        removeBatchById(7);
+        for(Product p:ProductAdminDAO.getListExpiredProduct()){
+            System.out.println(p.toString());
+        }
 
     }
 

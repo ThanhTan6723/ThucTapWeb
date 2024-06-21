@@ -45,7 +45,6 @@ public class InventoryProduct extends HttpServlet {
             }
             productTotalQuantities.put(product.getId(), totalQuantity);
             productCurrentQuantities.put(product.getId(), currentQuantity);
-
             listInventory.set(i, product);
         }
 
@@ -109,8 +108,6 @@ public class InventoryProduct extends HttpServlet {
         }
 
     }
-
-
     private List<Product> getProductListForPage(List<Product> listInventory, int page) {
         int startIndex = (page - 1) * RECORDS_PER_PAGE;
         int endIndex = Math.min(startIndex + RECORDS_PER_PAGE, listInventory.size());

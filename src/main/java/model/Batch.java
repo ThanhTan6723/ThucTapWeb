@@ -96,6 +96,13 @@ public class Batch {
         this.priceImport = priceImport;
     }
 
+    public Batch(int id, String name, Date dateOfImporting, int currentQuantity) {
+        this.id = id;
+        this.name = name;
+        this.dateOfImporting = dateOfImporting;
+        this.currentQuantity = currentQuantity;
+    }
+
     public int getId() {
         return id;
     }

@@ -71,18 +71,20 @@ public class LoginControll extends HttpServlet {
         }
 
         if (identifier != null && passWord != null && !checkSpaceIdentifier && !checkSpacePass) {
+/*
             String enpass = Encode.toSHA1(passWord);
+*/
             Account account = null;
             AccountDAO dao = new AccountDAO();
             if (isValidEmail(identifier)) {
                 checkEmailExist = AccountDAO.checkFieldExists("email",identifier);
                 if (checkEmailExist) {
-                    account = dao.getAccountByField("email", identifier, enpass);
+                    account = dao.getAccountByField("email", identifier, passWord);
                 }
             } else if (isValidPhone(identifier)) {
                 checkPhoneExist = AccountDAO.checkFieldExists("phonenumber",identifier);
                 if (checkPhoneExist) {
-                    account = AccountDAO.getAccountByField("phonenumber", identifier, enpass);
+                    account = AccountDAO.getAccountByField("phonenumber", identifier, passWord);
                 }
             }
 

@@ -76,6 +76,14 @@ public class Product {
 		this.batches = batches;
 	}
 
+	public Product(int id, String name, double price, String image, List<Batch> batches) {
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.image = image;
+		this.batches = batches;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -153,14 +161,31 @@ public class Product {
 				.append(", category=").append(category)
 				.append(", images=").append(images)
 				.append(", batches=[");
+
 		if (batches != null && !batches.isEmpty()) {
 			for (Batch batch : batches) {
 				builder.append("Batch{id=").append(batch.getId())
-						.append(", name='").append(batch.getName()).append('\'')
-						.append(", manufacturingDate=").append(dateFormat.format(batch.getManufacturingDate()))
-						.append(", expiryDate=").append(dateFormat.format(batch.getExpiryDate()))
-						.append(", dateOfImporting=").append(dateFormat.format(batch.getDateOfImporting()))
-						.append(", quantity=").append(batch.getQuantity())
+						.append(", name='").append(batch.getName()).append('\'');
+
+				if (batch.getManufacturingDate() != null) {
+					builder.append(", manufacturingDate=").append(dateFormat.format(batch.getManufacturingDate()));
+				} else {
+					builder.append(", manufacturingDate=null");
+				}
+
+				if (batch.getExpiryDate() != null) {
+					builder.append(", expiryDate=").append(dateFormat.format(batch.getExpiryDate()));
+				} else {
+					builder.append(", expiryDate=null");
+				}
+
+				if (batch.getDateOfImporting() != null) {
+					builder.append(", dateOfImporting=").append(dateFormat.format(batch.getDateOfImporting()));
+				} else {
+					builder.append(", dateOfImporting=null");
+				}
+
+				builder.append(", quantity=").append(batch.getQuantity())
 						.append(", currentQuantity=").append(batch.getCurrentQuantity())
 						.append(", priceImport=").append(batch.getPriceImport())
 						.append(", adminCreate=").append(batch.getAdminCreate())

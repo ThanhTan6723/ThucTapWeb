@@ -109,7 +109,7 @@ public class IndexDAO {
 
     }
 
-	public static void main(String[] args){
+    public static void main(String[] args){
         IndexDAO pd = new IndexDAO();
         System.out.println(getNext4Product(1));
     }
