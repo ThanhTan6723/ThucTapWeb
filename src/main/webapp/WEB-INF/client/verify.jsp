@@ -30,7 +30,7 @@
         <header>
             <i class="bx bxs-check-shield"></i>
         </header>
-        <h4>Enter OTP Code</h4>
+        <h4>Xác thực</h4>
         <form action="${verify}" method="post" id="form">
             <div class="input-field">
                 <input id="n1" name="num1" type="tel" maxlength="1"/>
@@ -38,6 +38,7 @@
                 <input id="n3" name="num3" type="tel" maxlength="1" disabled/>
                 <input id="n4" name="num4" type="tel" maxlength="1" disabled/>
             </div>
+            <br>
             <div class="input-field">
                 <div class="g-recaptcha" data-sitekey="6LckfeEpAAAAANP4T8SSXYGGdY-n86aJvX-DcREy"></div>
             </div>

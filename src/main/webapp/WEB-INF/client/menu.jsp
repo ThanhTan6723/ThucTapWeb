@@ -23,21 +23,21 @@
 			font-weight: bold;
 		}
 
-		.header__fixed {
-			position: fixed;
-			top: 0;
-			width: 100%;
-			/*height: 140px;*/
-			background-color: #fff;
-			z-index: 900;
-			/*box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);*/
-		}
+		/*.header__fixed {*/
+		/*	position: fixed;*/
+		/*	top: 0;*/
+		/*	width: 100%;*/
+		/*	!*height: 140px;*!*/
+		/*	background-color: #f6f6f6;*/
+		/*	z-index: 900;*/
+		/*	!*box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);*!*/
+		/*}*/
 
 		.page-btn {
 			padding: 10px 23px;
 			border-radius: 5px;
 			border: none;
-			background-color: #c2c4c5;
+			background-color: #ececec;
 			color: black;
 			font-weight: 700;
 		}
@@ -122,7 +122,7 @@
 			height: 100%; /* Full height */
 			overflow: auto; /* Enable scroll if needed */
 			background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-			padding-top: 60px;
+			padding-top: 40px;
 		}
 
 		/* Modal content */
@@ -132,7 +132,7 @@
 			padding: 20px;
 			border: 1px solid #888;
 			width: 80%; /* Could be more or less, depending on screen size */
-			max-width: 600px;
+			max-width: 500px;
 			border-radius: 15px;
 			position: relative;
 		}
@@ -205,7 +205,7 @@
 </span>
 
 <!-- Breadcrumb Section Begin -->
-<div style="height: 140px"></div>
+
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section set-bg" data-setbg="assets/img/breadcrumb.jpg">
 	<div class="container">
@@ -422,7 +422,7 @@
 												data-product-id="${o.id}"
 												data-product-name="${o.name}"
 												data-product-image="${o.image}"
-												style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; font-weight: 700; color: #ffffff">
+												style="padding: 10px 23px; border-radius: 30px; border: none; background-color: #7fad39; font-weight: 700; color: #ffffff">
 											MUA NGAY
 										</button>
 									</form>

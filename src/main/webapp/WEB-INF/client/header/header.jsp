@@ -16,6 +16,83 @@
 <body>
 <c:set var="log" value="Login/Sign up"></c:set>
 
+
+<div class="header__top">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="header__top__left">
+                    <ul>
+                        <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
+                        <li>Free Shipping for all Order of $99</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="header__top__right">
+                    <div class="header__top__right__social">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-linkedin"></i></a>
+                        <a href="#"><i class="fa fa-pinterest-p"></i></a>
+                    </div>
+                    <div class="header__top__right__language">
+                        <img src="assets/img/usa.png" alt="">
+                        <img src="assets/img/vietnam.png" alt="">
+                        <div>Vietnamese</div>
+                        <span class="arrow_carrot-down"></span>
+                        <ul>
+                            <li><a href="#">Korean</a></li>
+                            <li><a href="#">English</a></li>
+                        </ul>
+                    </div>
+                    <c:if test="${empty sessionScope.account}">
+                        <div class="header__top__right__auth">
+                            <a href="./LoginControll"><i><img
+                                    src="assets/img/login.png" alt=""></i>Đăng nhập/Đăng ký</a>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${not empty sessionScope.account}">
+                        <div class="header__top__right__auth">
+                            <!-- Dropdown for Logged-in User -->
+                            <div class="dropdown">
+                                <c:url var="indexAd" value="IndexAdminControll"></c:url>
+                                <c:url var="profile" value="UpdateProfileControll"></c:url>
+                                <c:url var="changepass" value="ChangePassword"></c:url>
+                                <c:url var="logout" value="LogoutControll"></c:url>
+                                    <%--                                    <c:url var="url" value="assets"></c:url>--%>
+                                <ul>
+                                    <i><img src="assets/img/avatar.png" alt="">${sessionScope.account.name}<i
+                                            class="fa fa-caret-down"></i></i>
+                                </ul>
+                                <div class="dropdown-content">
+                                    <c:if test="${sessionScope.account.role.id == 1}">
+                                        <a href="/IndexAdminControll">
+                                            <b>Quản lý</b></a>
+                                    </c:if>
+                                    <c:if test="${sessionScope.account!=null}">
+                                        <a href="/OrderPlaceControl">
+                                            <b>Đơn đã đặt</b></a>
+                                    </c:if>
+                                    <a href="">
+                                        <b>Kho voucher</b></a>
+                                    <a href="${pageContext.request.contextPath}/${profile}">
+                                        <b>Tài khoản</b></a>
+                                    <a href="${pageContext.request.contextPath}/${changepass}">
+                                        <b>Đổi mật khẩu</b></a>
+                                    <a href="${pageContext.request.contextPath}/${logout}">
+                                        <b>Đăng xuất</b></a>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Header Bottom -->
 <div class="container">
     <div class="row">
@@ -39,13 +116,13 @@
                         <li class=""><a href="./ShowProductControl?cid=3">Rice</a></li>
                     </ul>
                 </li>
-                <li><a href="/BlogControll">Voucher</a></li>
+                <li><a href="./VoucherControll">Voucher</a></li>
 <%--                <c:if test="${sessionScope.account!=null}">
                     <li><a href="/OrderPlaceControl">
                         <b>Đơn đã đặt</b>
                     </a></li>
                 </c:if>--%>
-                <li><a href="/BlogControll">Blog</a></li>
+                <li><a href="./BlogControll">Blog</a></li>
                 <li><a href="./ContactControll">Liên hệ</a></li>
             </ul>
         </nav>
@@ -54,59 +131,12 @@
     <div class="col-lg-3">
         <div class="header__cart">
             <ul>
+                <li><a href="#"><img style="width: 40px; height: 40px;" src="assets/img/love.png" alt=""></i> <span>1</span></a></li>
                 <li><a href="./CartControll">
                     <i><img style="width: 40px; height: 40px;" src="assets/img/cart.svg" alt=""></i>
                     <c:if test="${empty sessionScope.size}"><span id="cart-count">0</span></c:if>
                     <c:if test="${not empty sessionScope.size}"><span id="cart-count">${sessionScope.size}</span></c:if>
                 </a></li>
-            </ul>
-
-            <ul>
-                <c:if test="${empty sessionScope.account}">
-                    <div class="header__top__right__auth">
-                        <a href="./LoginControll"><i><img
-                                src="assets/img/login.png" alt=""></i>Đăng nhập/Đăng ký</a>
-                    </div>
-
-                </c:if>
-
-                <c:if test="${not empty sessionScope.account}">
-                    <div class="header__top__right__auth">
-                        <!-- Dropdown for Logged-in User -->
-                        <div class="dropdown">
-                            <c:url var="indexAd" value="IndexAdminControll"></c:url>
-                            <c:url var="profile" value="UpdateProfileControll"></c:url>
-                            <c:url var="changepass" value="ChangePassword"></c:url>
-                            <c:url var="logout" value="LogoutControll"></c:url>
-                                <%--                                    <c:url var="url" value="assets"></c:url>--%>
-                            <ul>
-                                <i><img src="assets/img/avatar.png" alt="">${sessionScope.account.name}<i
-                                        class="fa fa-caret-down"></i></i>
-
-                            </ul>
-                            <div class="dropdown-content">
-                                <c:if test="${sessionScope.account.role.id == 1}">
-                                    <a href="/IndexAdminControll">
-                                        <b>Quản lý</b>
-                                    </a>
-                                </c:if>
-                                <c:if test="${sessionScope.account!=null}">
-                                    <a href="/OrderPlaceControl">
-                                        <b>Đơn đã đặt</b>
-                                    </a>
-                                </c:if>
-                                <a href="${pageContext.request.contextPath}/${profile}">
-                                    <b>Tài khoản</b></a>
-                                <a href="${pageContext.request.contextPath}/${changepass}">
-                                    <b>Đổi mật khẩu</b>
-                                </a>
-                                <a href="${pageContext.request.contextPath}/${logout}">
-                                    <b>Đăng xuất</b>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </c:if>
             </ul>
         </div>
     </div>
@@ -153,9 +183,9 @@
                                    placeholder="Bạn cần gì?"
                                    name="query">
                             <!-- Search Button -->
-                            <button class="site-btn">
-                                Tìm kiếm
-                            </button>
+<%--                            <button class="site-btn">--%>
+<%--                                Tìm kiếm--%>
+<%--                            </button>--%>
                         </form>
                     </div>
                     <!-- Hero Phone Contact -->

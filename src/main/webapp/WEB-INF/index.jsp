@@ -21,22 +21,19 @@
         .container .row .col-lg-6 ul li{
             margin-right: 30px;
         }
-        .header__fixed{
-            position: fixed;
-            top: 0;
-            width: 100%;
-<<<<<<< HEAD
-            /*height: 140px;*/
-            background-color: #f5f5f5; /* Chỉ định màu nền nếu cần */
-            z-index: 900;/* Đảm bảo nó nằm trên các phần tử khác */
-            /*border-bottom: 1px solid #969696;*/
-=======
-            height: 140px;
-            background-color: #fff;
-            z-index: 900;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
->>>>>>> 6ff298deeaef2af48903f2737f7c49c7fe51d41d
-        }
+        /*.header__fixed{*/
+        /*    position: fixed;*/
+        /*    top: 0;*/
+        /*    width: 100%;*/
+        /*    !*height: 140px;*!*/
+        /*    background-color: #f5f5f5; !* Chỉ định màu nền nếu cần *!*/
+        /*    z-index: 900;!* Đảm bảo nó nằm trên các phần tử khác *!*/
+        /*    !*border-bottom: 1px solid #969696;*!*/
+        /*    height: 140px;*/
+        /*    background-color: #fff;*/
+        /*    z-index: 900;*/
+        /*    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);*/
+        /*}*/
     </style>
 </head>
 
@@ -48,11 +45,11 @@
 
 </span>
 <!-- Breadcrumb Section Begin -->
-<div style="height: 140px"></div><br>
+<%--<div style="height: 140px"></div><br>--%>
 
 <!-- Categories Section Begin -->
 <div class="container">
-    <div class="hero__item set-bg" data-setbg="assets/img/hero.banner.jpg">
+    <div class="hero__item set-bg" data-setbg="assets/img/banner.jpg">
         <div class="hero__text">
             <span>TRÁI CÂY TƯƠI</span>
             <h2>Rau quả <br />100% Hữu cơ</h2>
@@ -109,7 +106,7 @@
                             <c:url var="addToCart" value="/AddToCartControl"></c:url>
                             <form action="${addToCart}?pid=${o.id}" method="post" enctype="multipart/form-data">
                                 <button
-                                        style="padding: 10px 23px; border-radius: 5px; border: none; background-color: #7fad39; font-weight: 700"
+                                        style="padding: 10px 23px; border-radius: 30px; border: none; background-color: #7fad39; font-weight: 700"
                                         type="submit">
                                     <a href="${detail}?pid=${o.id}" style="color:#ffffff">
                                         MUA NGAY</a>
