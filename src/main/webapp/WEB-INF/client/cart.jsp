@@ -71,7 +71,7 @@
             background-color: #f9f9f9;
             padding: 10px;
             border: 1px solid #e0e0e0;
-            border-radius: 5px;
+            /*border-radius: 5px;*/
             margin-bottom: 20px;
         }
 
@@ -84,7 +84,7 @@
             flex-grow: 1;
             padding: 10px;
             border: 1px solid #e0e0e0;
-            border-radius: 5px;
+            /*border-radius: 5px;*/
             margin-right: 10px;
         }
 
@@ -92,7 +92,7 @@
             padding: 10px 20px;
             background-color: #e0e0e0;
             border: none;
-            border-radius: 5px;
+            /*borderradius-: 5px;*/
             cursor: not-allowed;
             color: #a0a0a0;
         }
@@ -113,7 +113,7 @@
             background-color: #f9f9f9;
             padding: 10px;
             border: 1px solid #e0e0e0;
-            border-radius: 5px;
+            /*border-radius: 5px;*/
             margin-bottom: 20px;
             width: fit-content;
         }
@@ -127,7 +127,7 @@
             flex-grow: 1;
             padding: 10px;
             border: 1px solid #e0e0e0;
-            border-radius: 5px;
+            /*border-radius: 5px;*/
             margin-right: 10px;
         }
 
@@ -135,7 +135,7 @@
             padding: 10px 20px;
             background-color: #e0e0e0;
             border: none;
-            border-radius: 5px;
+            /*border-radius: 5px;*/
             cursor: not-allowed;
             color: #a0a0a0;
         }
@@ -163,6 +163,7 @@
         .voucher-modal-footer button {
             padding: 10px 20px;
             margin-left: 10px;
+            width: 120px;
             border: none;
             background-color: #7fad39;
             color: white;
@@ -194,7 +195,7 @@
             max-height: 300px;
             overflow-y: auto;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            /*border-radius: 5px;*/
             padding: 10px;
             background: #f9f9f9;
         }
@@ -210,7 +211,7 @@
             margin-bottom: 10px;
             background: #fff;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            /*border-radius: 5px;*/
             position: relative;
         }
 
@@ -221,7 +222,7 @@
             justify-content: center;
             padding: 10px;
             background: #bde4e2;
-            border-radius: 5px 0 0 5px;
+            /*border-radius: 5px 0 0 5px;*/
             width: 120px;
             text-align: center;
             border-right: 1px solid #ddd;
@@ -447,7 +448,6 @@
 <!-- Voucher Modal Begin -->
 <div id="voucherModal" class="modal">
     <div class="modal-content">
-        <%--        <span class="close">&times;</span>--%>
         <h5>Chọn Voucher</h5><br>
         <div class="voucher-search">
             <label for="voucherCode">Mã Voucher</label>
@@ -475,7 +475,7 @@
                         </c:otherwise>
                     </c:choose>
 
-                    <div class="voucher-item"
+                    <div class="voucher-item" data-voucher="${voucher.id}"
                          <c:if test="${!voucherApplies}">style="opacity: 0.5; pointer-events: none;"</c:if>>
                         <div class="voucher-left">
                             <img src="https://via.placeholder.com/50" alt="Voucher Image">
@@ -483,15 +483,12 @@
                         </div>
                         <div class="voucher-right">
                             <div class="voucher-right-top">
-                                <p class="voucher-desc">Giảm tối
-                                    đa ${voucher.discountPercentage}%<br>${voucher.discountType.type}</p>
+                                <p class="voucher-desc">Giảm tối đa ${voucher.discountPercentage}%<br>${voucher.discountType.type}</p>
                                 <span class="voucher-quantity">x1</span>
                             </div>
                             <p class="voucher-expiry">Sắp hết hạn: Còn 12 giờ <a href="#">Điều Kiện</a></p>
                             <label class="voucher-select">
-                                <input type="radio" name="voucher" value="${voucher.code}"
-                                       data-discount="${voucher.discountPercentage}"
-                                       <c:if test="${!voucherApplies}">disabled</c:if>>
+                                <input type="radio" name="voucher" value="${voucher.id}">
                             </label>
                         </div>
                     </div>
@@ -508,71 +505,72 @@
 <!-- Voucher Modal End -->
 <!-- Footer Section Begin -->
 <jsp:include page="./footer/footer.jsp"></jsp:include>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var selectedVoucher = null;
+
+        // Handle OK button click
+        var okButton = document.getElementById("okButton");
+        okButton.addEventListener("click", function () {
+            if (selectedVoucher) {
+                console.log("Selected voucherId:", selectedVoucher);
+                applyVoucher(selectedVoucher);
+            } else {
+                alert("Chưa chọn voucher");
+            }
+        });
+
+        function applyVoucher(voucherId) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "ApplyVoucherControll", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        updateDiscountAndTotal(response.discountAmount, response.totalAmount);
+                    } else {
+                        console.error("Request failed: " + xhr.status);
+                    }
+                }
+            };
+            xhr.send("voucherId=" + encodeURIComponent(voucherId));
+        }
+
+        function updateDiscountAndTotal(discountAmount, totalAmount) {
+            document.getElementById("discountAmount").textContent = discountAmount + "₫";
+            document.getElementById("totalAmount").textContent = totalAmount + "₫";
+            $('#voucherModal').css('display', 'none');
+            $('body').removeClass('modal-open');
+        }
+
+        // Open Modal
+        var applyButton = document.querySelector('.apply');
+        applyButton.addEventListener("click", function () {
+            $('#voucherModal').css('display', 'block');
+            $('body').addClass('modal-open');
+        });
+
+        // Close Modal
+        var modalClose = document.querySelector('.modal .close');
+        modalClose.addEventListener("click", function () {
+            $('#voucherModal').css('display', 'none');
+            $('body').removeClass('modal-open');
+        });
+
+        // Handle voucher item click
+        $(".voucher-item").on("click", function () {
+            $(".voucher-item").removeClass("selected");
+            $(this).addClass("selected");
+            selectedVoucher = $(this).data("voucher");
+        });
+    });
+</script>
 
 <!-- Add jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function () {
-        // Xử lý khi người dùng nhấn nút OK trong modal voucher
-        $('#okButton').on('click', function () {
-            var selectedVoucherCode = $("input[name='voucher']:checked").val();
-            alert("Đã chọn voucher có mã: " + selectedVoucherCode);
-            // Kiểm tra xem người dùng đã chọn voucher hay chưa
-            if (selectedVoucherCode) {
-                var selectedVoucher = findVoucher(selectedVoucherCode); // Hàm này sẽ tìm voucher từ danh sách có sẵn
-
-                if (selectedVoucher) {
-                    // Tính toán giảm giá
-                    var totalAmount = calculateDiscount(selectedVoucher);
-
-                    // Hiển thị số tiền giảm giá và tổng tiền
-                    $('#discountAmount').text(formatCurrency(selectedVoucher.discountAmount) + '₫');
-                    $('#totalAmount span').text(formatCurrency(totalAmount) + '₫');
-                }
-            }
-
-            // Đóng modal voucher sau khi xử lý
-            $('#voucherModal').css('display', 'none');
-            $('body').removeClass('modal-open');
-        });
-    });
-
-    // Hàm tìm voucher từ danh sách
-    function findVoucher(voucherCode) {
-        var vouchers = ${savedVouchers}; // Lấy danh sách voucher từ backend, chú ý cần truyền danh sách này từ JSP
-        for (var i = 0; i < vouchers.length; i++) {
-            if (vouchers[i].code === voucherCode) {
-                return vouchers[i];
-            }
-        }
-        return null;
-    }
-
-    // Hàm tính toán giảm giá
-    function calculateDiscount(voucher) {
-        var totalAmount = parseInt($('#originalTotalAmount').val()); // Lấy tổng tiền gốc
-        var discountPercentage = voucher.discountPercentage;
-        var discountType = voucher.discountType.type;
-
-        if (discountType === 'All') {
-            // Giảm giá theo phần trăm
-            var discountAmount = (totalAmount * discountPercentage) / 100;
-            totalAmount -= discountAmount;
-            return totalAmount;
-        }
-        // Xử lý các trường hợp giảm giá khác (nếu có)
-        return totalAmount;
-    }
-
-    // Hàm định dạng số tiền hiển thị
-    function formatCurrency(amount) {
-        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-    }
-
-</script>
-<script>
-
     $(document).ready(function () {
         // Kiểm tra giỏ hàng trống khi trang vừa tải
         checkEmptyCart();
@@ -617,7 +615,12 @@
                 $(this).addClass("selected");
             }
         });
-
+        // Handle voucher item click
+        $(".voucher-item").on("click", function () {
+            $(".voucher-item").removeClass("selected");
+            $(this).addClass("selected");
+            selectedVoucher = $(this).data("voucher");
+        });
         // Handle radio button click
         $("input[type='radio'][name='voucher']").on("change", function () {
             if ($(this).prop("checked")) {

@@ -107,6 +107,33 @@ public class VoucherDAO {
         return savedVouchers;
     }
 
+    public static Voucher getVoucherById(int voucherId) {
+        Voucher voucher = null;
+        String query = "SELECT v.*, dt.type as discount_type_name FROM Vouchers v " +
+                "LEFT JOIN DiscountType dt ON v.discount_type = dt.id " +
+                "WHERE v.id = ?";
+        try (Connection connection = JDBCUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, voucherId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    voucher = new Voucher();
+                    voucher.setId(resultSet.getInt("id"));
+                    voucher.setCode(resultSet.getString("code"));
+                    voucher.setDiscountType(new DiscountType(resultSet.getInt("discount_type"), resultSet.getString("discount_type_name")));
+                    voucher.setDiscountPercentage(resultSet.getBigDecimal("discount_percentage"));
+                    voucher.setQuantity(resultSet.getInt("quantity"));
+                    voucher.setStartDate(resultSet.getDate("start_date"));
+                    voucher.setEndDate(resultSet.getDate("end_date"));
+                    voucher.setActive(resultSet.getBoolean("is_active"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return voucher;
+    }
+
     // Get saved vouchers for a specific user
     public List<Voucher> getVoucherForAccount(int accountId) {
         List<Voucher> savedVouchers = new ArrayList<>();
