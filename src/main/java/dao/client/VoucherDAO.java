@@ -17,8 +17,8 @@ public class VoucherDAO {
                 "LEFT JOIN Products p ON v.product_id = p.id " +
                 "LEFT JOIN Category c ON v.category_id = c.id";
         try (Connection connection = JDBCUtil.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 Voucher voucher = new Voucher();
                 voucher.setId(resultSet.getInt("id"));
@@ -109,8 +109,11 @@ public class VoucherDAO {
 
     public static Voucher getVoucherById(int voucherId) {
         Voucher voucher = null;
-        String query = "SELECT v.*, dt.type as discount_type_name FROM Vouchers v " +
+        String query = "SELECT v.*, dt.type as discount_type_name, p.id as product_id, p.name as product_name, c.id as category_id, c.name as category_name " +
+                "FROM Vouchers v " +
                 "LEFT JOIN DiscountType dt ON v.discount_type = dt.id " +
+                "LEFT JOIN Products p ON v.product_id = p.id " +
+                "LEFT JOIN Category c ON v.category_id = c.id " +
                 "WHERE v.id = ?";
         try (Connection connection = JDBCUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -122,6 +125,21 @@ public class VoucherDAO {
                     voucher.setCode(resultSet.getString("code"));
                     voucher.setDiscountType(new DiscountType(resultSet.getInt("discount_type"), resultSet.getString("discount_type_name")));
                     voucher.setDiscountPercentage(resultSet.getBigDecimal("discount_percentage"));
+
+                    if (resultSet.getInt("product_id") != 0) {
+                        Product product = new Product();
+                        product.setId(resultSet.getInt("product_id"));
+                        product.setName(resultSet.getString("product_name"));
+                        voucher.setProduct(product);
+                    }
+
+                    if (resultSet.getInt("category_id") != 0) {
+                        Category category = new Category();
+                        category.setId(resultSet.getInt("category_id"));
+                        category.setName(resultSet.getString("category_name"));
+                        voucher.setCategory(category);
+                    }
+
                     voucher.setQuantity(resultSet.getInt("quantity"));
                     voucher.setStartDate(resultSet.getDate("start_date"));
                     voucher.setEndDate(resultSet.getDate("end_date"));
@@ -133,6 +151,7 @@ public class VoucherDAO {
         }
         return voucher;
     }
+
 
     // Get saved vouchers for a specific user
     public List<Voucher> getVoucherForAccount(int accountId) {
@@ -182,5 +201,6 @@ public class VoucherDAO {
     public static void main(String[] args) {
         System.out.println(getAllVouchers());
         System.out.println(saveEVoucher(1, 2));
+        System.out.println(getVoucherById(3));
     }
 }

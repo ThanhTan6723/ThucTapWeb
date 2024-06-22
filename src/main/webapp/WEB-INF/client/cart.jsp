@@ -409,7 +409,7 @@
                             <input type="hidden" id="quantity" value="1" readonly>
                             <input type="hidden" id="discountValue" value="0">
                             <!-- Thêm input ẩn để lưu giá trị giảm giá -->
-<%--                            <input type="hidden" id="originalTotalAmount" value="${total}">--%>
+                                <%--                            <input type="hidden" id="originalTotalAmount" value="${total}">--%>
                             <!-- Thêm input ẩn để lưu tổng tiền gốc -->
                             <button type="button" class="site-btn" onclick="applyDiscountIfCouponExists()">Áp dụng
                             </button>
@@ -429,7 +429,7 @@
                     <ul>
                         <li>Tạm tính<span id="originalTotalAmount" class="total-amount">${total}₫</span></li>
                         <li>Giảm giá<span id="discountAmount">0₫</span></li>
-                        <li>Tổng tiền<span id="totalAmount"></span></li>
+                        <li>Tổng tiền<span id="totalAmount">${total}₫</span></li>
                     </ul>
                     <ul>
                         <li>Vouncher<span> <i class="bi bi-ticket-perforated-fill" style="font-size: 2rem;"></i><a
@@ -483,7 +483,8 @@
                         </div>
                         <div class="voucher-right">
                             <div class="voucher-right-top">
-                                <p class="voucher-desc">Giảm tối đa ${voucher.discountPercentage}%<br>${voucher.discountType.type}</p>
+                                <p class="voucher-desc">Giảm tối
+                                    đa ${voucher.discountPercentage}%<br>${voucher.discountType.type}</p>
                                 <span class="voucher-quantity">x1</span>
                             </div>
                             <p class="voucher-expiry">Sắp hết hạn: Còn 12 giờ <a href="#">Điều Kiện</a></p>
@@ -505,68 +506,6 @@
 <!-- Voucher Modal End -->
 <!-- Footer Section Begin -->
 <jsp:include page="./footer/footer.jsp"></jsp:include>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var selectedVoucher = null;
-
-        // Handle OK button click
-        var okButton = document.getElementById("okButton");
-        okButton.addEventListener("click", function () {
-            if (selectedVoucher) {
-                console.log("Selected voucherId:", selectedVoucher);
-                applyVoucher(selectedVoucher);
-            } else {
-                alert("Chưa chọn voucher");
-            }
-        });
-
-        function applyVoucher(voucherId) {
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "ApplyVoucherControll", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        var response = JSON.parse(xhr.responseText);
-                        updateDiscountAndTotal(response.discountAmount, response.totalAmount);
-                    } else {
-                        console.error("Request failed: " + xhr.status);
-                    }
-                }
-            };
-            xhr.send("voucherId=" + encodeURIComponent(voucherId));
-        }
-
-        function updateDiscountAndTotal(discountAmount, totalAmount) {
-            document.getElementById("discountAmount").textContent = discountAmount + "₫";
-            document.getElementById("totalAmount").textContent = totalAmount + "₫";
-            $('#voucherModal').css('display', 'none');
-            $('body').removeClass('modal-open');
-        }
-
-        // Open Modal
-        var applyButton = document.querySelector('.apply');
-        applyButton.addEventListener("click", function () {
-            $('#voucherModal').css('display', 'block');
-            $('body').addClass('modal-open');
-        });
-
-        // Close Modal
-        var modalClose = document.querySelector('.modal .close');
-        modalClose.addEventListener("click", function () {
-            $('#voucherModal').css('display', 'none');
-            $('body').removeClass('modal-open');
-        });
-
-        // Handle voucher item click
-        $(".voucher-item").on("click", function () {
-            $(".voucher-item").removeClass("selected");
-            $(this).addClass("selected");
-            selectedVoucher = $(this).data("voucher");
-        });
-    });
-</script>
-
 <!-- Add jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -596,6 +535,16 @@
             }
         });
 
+        $("#okButton").click(function () {
+            var selectedVoucherId = $("input[name='voucher']:checked").val();
+            if (selectedVoucherId) {
+                var totalAmount = parseFloat($("#originalTotalAmount").text().replace(/[^\d.-]/g, ''));
+                applyVoucher(selectedVoucherId, totalAmount);
+            } else {
+                alert("Vui lòng chọn một voucher.");
+            }
+        });
+
         // Handle voucher item click
         $(".voucher-item").on("click", function () {
             var radioButton = $(this).find("input[type='radio']");
@@ -615,12 +564,7 @@
                 $(this).addClass("selected");
             }
         });
-        // Handle voucher item click
-        $(".voucher-item").on("click", function () {
-            $(".voucher-item").removeClass("selected");
-            $(this).addClass("selected");
-            selectedVoucher = $(this).data("voucher");
-        });
+
         // Handle radio button click
         $("input[type='radio'][name='voucher']").on("change", function () {
             if ($(this).prop("checked")) {
@@ -646,49 +590,55 @@
             }
         });
 
-        // Handle voucher code input
-        $("#voucherCode").on("input", function () {
-            var input = $(this).val().toLowerCase();
-            var found = false;
+        function applyVoucher(voucherId, totalAmount) {
+            console.log("Applying voucher with ID:", voucherId, "and total amount:", totalAmount);
+            $.ajax({
+                type: "POST",
+                url: "ApplyVoucherControll",
+                data: {
+                    voucherId: voucherId,
+                    totalAmount: totalAmount
+                },
+                success: function (response) {
+                    var discountValue = parseFloat(response.discountValue);
+                    var finalAmount = parseFloat(response.finalAmount);
 
-            $(".voucher-item").each(function () {
-                var voucherCode = $(this).data("voucher").toLowerCase();
-                if (voucherCode.includes(input)) {
-                    $(this).show();
-                    found = true;
-                } else {
-                    $(this).hide();
+                    // Cập nhật giảm giá và tổng tiền cuối cùng trong UI
+                    $("#discountAmount").text(discountValue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+                    $("#totalAmount").text(finalAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+
+                    // Đóng modal khi áp dụng thành công
+                    $('#voucherModal').css('display', 'none');
+                    $('body').removeClass('modal-open');
+                },
+                error: function () {
+                    alert("Áp dụng voucher thất bại. Vui lòng thử lại.");
                 }
             });
+        }
 
-            if (!found) {
-                $("#errorMessage").show();
-                $("#applyVoucher").prop("disabled", true); // Disable the button if no voucher found
-            } else {
-                $("#errorMessage").hide();
-                $("#applyVoucher").prop("disabled", false); // Enable the button if voucher found
-            }
-        });
-    });
+        function updateQuantity(key, action) {
+            $.ajax({
+                type: "GET",
+                url: action + "?key=" + key,
+                success: function (response) {
+                    // Cập nhật số lượng trong UI
+                    $("#updates_" + key).val(response.quantity);
+                    // Cập nhật tổng giá tiền cho sản phẩm
+                    $(".total-price_" + key).text(response.totalPrice + "₫");
+                    // Cập nhật tổng tiền trong UI
+                    var totalAmount = response.totalAmount;
+                    $('.total-amount').text(totalAmount + '₫');
+                    // Cập nhật giảm giá nếu có voucher
+                    var selectedVoucherId = $("input[name='voucher']:checked").val();
+                    if (selectedVoucherId) {
+                        applyVoucher(selectedVoucherId, totalAmount);
+                    }
+                    checkEmptyCart();
+                }
+            });
+        }
 
-    function updateQuantity(key, action) {
-        $.ajax({
-            type: "GET",
-            url: action + "?key=" + key,
-            success: function (response) {
-                // Cập nhật số lượng trong UI
-                $("#updates_" + key).val(response.quantity);
-                // Cập nhật tổng giá tiền cho sản phẩm
-                $(".total-price_" + key).text(response.totalPrice + "₫");
-                // Cập nhật tổng tiền trong UI
-                var totalAmount = response.totalAmount;
-                $('.total-amount').text(totalAmount + '₫');
-                checkEmptyCart();
-            }
-        });
-    }
-
-    $(document).ready(function () {
         // Function to handle increasing quantity
         $(".increase-btn").click(function (e) {
             e.preventDefault();
@@ -718,46 +668,47 @@
                     $('.total-amount').text(totalAmount + '₫');
                     // Update cart size in the UI
                     $("#cart-count").text(response.sizeCart);
-                    // Cập nhật voucher
-                    // updateVouchers(response.vouchers);
+                    // Cập nhật giảm giá nếu có voucher
+                    var selectedVoucherId = $("input[name='voucher']:checked").val();
+                    if (selectedVoucherId) {
+                        applyVoucher(selectedVoucherId, totalAmount);
+                    }
                     // Kiểm tra giỏ hàng rỗng
                     checkEmptyCart();
                 }
             });
         });
+
+        function toggleCartDisplay(isEmpty) {
+            var cartTable = $(".shoping__cart__table");
+            var emptyCartMessage = $(".empty-cart-message");
+            var checkoutSection = $(".shoping__checkout");
+            var continueSection = $(".shoping__continue");
+            var cartBtnsSection = $(".shoping__cart__btns");
+
+            if (isEmpty) {
+                cartTable.hide();
+                emptyCartMessage.show();
+                checkoutSection.hide();
+                continueSection.hide();
+                cartBtnsSection.hide();
+            } else {
+                cartTable.show();
+                emptyCartMessage.hide();
+                checkoutSection.show();
+                continueSection.show();
+                cartBtnsSection.show();
+            }
+        }
+
+        function checkEmptyCart() {
+            var cartTable = $(".shoping__cart__table");
+            var isEmpty = $(".shoping__cart__table table tbody tr").length === 0;
+
+            toggleCartDisplay(isEmpty);
+        }
     });
 
-    function toggleCartDisplay(isEmpty) {
-        var cartTable = $(".shoping__cart__table");
-        var emptyCartMessage = $(".empty-cart-message");
-        var checkoutSection = $(".shoping__checkout");
-        var continueSection = $(".shoping__continue");
-        var cartBtnsSection = $(".shoping__cart__btns");
-
-        if (isEmpty) {
-            cartTable.hide();
-            emptyCartMessage.show();
-            checkoutSection.hide();
-            continueSection.hide();
-            cartBtnsSection.hide();
-        } else {
-            cartTable.show();
-            emptyCartMessage.hide();
-            checkoutSection.show();
-            continueSection.show();
-            cartBtnsSection.show();
-        }
-    }
-
-    function checkEmptyCart() {
-        var cartTable = $(".shoping__cart__table");
-        var isEmpty = $(".shoping__cart__table table tbody tr").length === 0;
-
-        toggleCartDisplay(isEmpty);
-    }
-
-
 </script>
-
 </body>
 </html>

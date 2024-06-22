@@ -1,75 +1,82 @@
 package controller.client.voucher;
 
 import dao.client.VoucherDAO;
+import model.OrderDetail;
 import model.Voucher;
+import model.Product;
+import model.Category;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.io.PrintWriter;
+import java.util.Map;
 
-@WebServlet(name = "ApplyVoucherControll", value = "/ApplyVoucherControll")
+@WebServlet(name = "ApplyVoucherControll", urlPatterns = {"/ApplyVoucherControll"})
 public class ApplyVoucherControll extends HttpServlet {
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String voucherIdStr = request.getParameter("voucherId");
+        int voucherId = Integer.parseInt(request.getParameter("voucherId"));
+        BigDecimal totalAmount = new BigDecimal(request.getParameter("totalAmount"));
 
-        if (voucherIdStr != null && !voucherIdStr.isEmpty()) {
-            int voucherId = Integer.parseInt(voucherIdStr);
-            // Lấy thông tin voucher từ cơ sở dữ liệu
-            Voucher voucher = VoucherDAO.getVoucherById(voucherId);
-            System.out.println(voucherId);
-            System.out.println(voucher);
-            if (voucher != null) {
-                String discountType = voucher.getDiscountType().getType();
+        Voucher voucher = VoucherDAO.getVoucherById(voucherId);
+        BigDecimal discountValue = BigDecimal.ZERO;
 
-                if ("All".equalsIgnoreCase(discountType)) {
-                    // Tính toán và áp dụng giảm giá cho loại voucher "All"
-                    BigDecimal totalAmount = getTotalAmountFromRequest(request); // Thay bằng phương thức lấy tổng tiền từ request của bạn
-                    BigDecimal discountPercentage = voucher.getDiscountPercentage();
-                    BigDecimal discountedAmount = calculateDiscountedAmount(totalAmount, discountPercentage);
+        System.out.println(voucher);
 
-                    // Cập nhật các giá trị trả về cho client
-                    response.setContentType("application/json");
-                    response.setCharacterEncoding("UTF-8");
-                    PrintWriter out = response.getWriter();
-                    out.print("{\"discountedAmount\": \"" + discountedAmount.toString() + "\"}");
-                    out.flush();
-                } else {
-                    // Xử lý các loại giảm giá khác nếu cần
-                    response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
-                }
-            } else {
-                // Xử lý khi không tìm thấy voucher
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        if (voucher != null) {
+            HttpSession session = request.getSession();
+            Object obj = session.getAttribute("cart");
+            Map<Integer, OrderDetail> cart = (Map<Integer, OrderDetail>) obj;
+            System.out.println(cart);
+
+            switch (voucher.getDiscountType().getType()) {
+                case "Product":
+                    // Lấy % giảm giá
+                    BigDecimal productDiscountPercentage = voucher.getDiscountPercentage().divide(new BigDecimal(100));
+
+                    // Duyệt qua các sản phẩm trong giỏ hàng và tính giảm giá cho sản phẩm có product id tương ứng
+                    for (OrderDetail orderDetail : cart.values()) {
+                        if (orderDetail.getProduct().getId() == voucher.getProduct().getId()) {
+                            BigDecimal totalProductPrice = new BigDecimal(orderDetail.getPrice()).multiply(new BigDecimal(orderDetail.getQuantity()));
+                            BigDecimal productDiscount = totalProductPrice.multiply(productDiscountPercentage);
+                            discountValue = discountValue.add(productDiscount);
+                        }
+                    }
+                    break;
+                case "Category":
+                    // Lấy % giảm giá
+                    BigDecimal categoryDiscountPercentage = voucher.getDiscountPercentage().divide(new BigDecimal(100));
+
+                    // Duyệt qua danh sách đơn hàng và tính giảm giá cho tất cả sản phẩm thuộc category tương ứng
+                    for (OrderDetail orderDetail : cart.values()) {
+                        if (orderDetail.getProduct().getCategory().getId() == voucher.getCategory().getId()) {
+                            BigDecimal totalCategoryPrice = new BigDecimal(orderDetail.getPrice()).multiply(new BigDecimal(orderDetail.getQuantity()));
+                            discountValue = discountValue.add(totalCategoryPrice);
+                        }
+                    }
+                    discountValue = discountValue.multiply(categoryDiscountPercentage);
+                    break;
+                case "All":
+                    // Lấy % giảm giá
+                    BigDecimal allDiscountPercentage = voucher.getDiscountPercentage().divide(new BigDecimal(100));
+
+                    // Áp dụng giảm giá cho tổng hóa đơn
+                    discountValue = totalAmount.multiply(allDiscountPercentage);
+                    break;
             }
-        } else {
-            // Xử lý khi thiếu thông tin voucherId
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
+
+        BigDecimal finalAmount = totalAmount.subtract(discountValue);
+
+        response.setContentType("application/json");
+        response.getWriter().write("{\"discountValue\": \"" + discountValue.toPlainString() + "\", \"finalAmount\": \"" + finalAmount.toPlainString() + "\"}");
     }
 
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
-    }
-
-    private BigDecimal getTotalAmountFromRequest(HttpServletRequest request) {
-        // Thực hiện lấy tổng tiền từ request, ví dụ:
-        String totalAmountStr = request.getParameter("totalAmount");
-        if (totalAmountStr != null && !totalAmountStr.isEmpty()) {
-            return new BigDecimal(totalAmountStr);
-        }
-        return BigDecimal.ZERO;
-    }
-
-    private BigDecimal calculateDiscountedAmount(BigDecimal totalAmount, BigDecimal discountPercentage) {
-        // Thực hiện tính toán giảm giá dựa vào tổng tiền và phần trăm giảm giá
-        return totalAmount.multiply(discountPercentage).divide(new BigDecimal(100));
     }
 }
