@@ -49,7 +49,7 @@
 
 <!-- Categories Section Begin -->
 <div class="container">
-    <div class="hero__item set-bg" data-setbg="assets/img/banner.jpg">
+    <div class="hero__item set-bg" data-setbg="assets/img/banner.jpeg">
         <div class="hero__text">
             <span>TRÁI CÂY TƯƠI</span>
             <h2>Rau quả <br />100% Hữu cơ</h2>

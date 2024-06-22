@@ -72,6 +72,7 @@ public class ApplyVoucherControll extends HttpServlet {
 
         BigDecimal finalAmount = totalAmount.subtract(discountValue);
 
+
         response.setContentType("application/json");
         response.getWriter().write("{\"discountValue\": \"" + discountValue.toPlainString() + "\", \"finalAmount\": \"" + finalAmount.toPlainString() + "\"}");
     }

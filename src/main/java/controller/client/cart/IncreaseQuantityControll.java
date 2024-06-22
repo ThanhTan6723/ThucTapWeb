@@ -29,6 +29,7 @@ public class IncreaseQuantityControll extends HttpServlet {
             Map<Integer, OrderDetail> map = (Map<Integer, OrderDetail>) obj;
             OrderDetail orderDetail = map.get(k);
             orderDetail.setQuantity(orderDetail.getQuantity() + 1);
+            orderDetail.setPrice((orderDetail.getQuantity())*orderDetail.getProduct().getPrice());
             map.put(k, orderDetail);
             session.setAttribute("cart", map);
 

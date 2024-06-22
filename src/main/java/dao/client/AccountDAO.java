@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import model.Account;
 import model.Role;
 
-public class AccountDAO extends AbsDAO<Account>{
+public class AccountDAO extends AbsDAO<Account> {
 
 //    @Override
 //    public Account login(Account model) {
@@ -94,13 +94,13 @@ public class AccountDAO extends AbsDAO<Account>{
     }
 
     // Khóa tài khoản
-    public static boolean lockAccount(String field,Object identifier) {
+    public static boolean lockAccount(String field, Object identifier) {
         Connection conn = null;
         PreparedStatement stmt = null;
         boolean success = false;
         try {
             conn = JDBCUtil.getConnection();
-            String sql = "UPDATE Accounts SET isLocked = 1 WHERE "+field+" = ?";
+            String sql = "UPDATE Accounts SET isLocked = 1 WHERE " + field + " = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setObject(1, identifier);
             int rowsAffected = stmt.executeUpdate();
@@ -202,7 +202,7 @@ public class AccountDAO extends AbsDAO<Account>{
                 int failed = rs.getInt("failed");
                 boolean isLocked = rs.getBoolean("isLocked");
 
-                Account cus = new Account(id, name, password, email, telephone, new Role(roleId,roleName),failed, isLocked);
+                Account cus = new Account(id, name, password, email, telephone, new Role(roleId, roleName), failed, isLocked);
                 result.add(cus);
             }
             JDBCUtil.closeObject(connect);
@@ -224,7 +224,7 @@ public class AccountDAO extends AbsDAO<Account>{
             String sql = "SELECT Accounts.id, Accounts.name, Accounts.password, Accounts.email, " +
                     "Accounts.phonenumber, Accounts.role_id, Role.role_name,Accounts.failed, Accounts.isLocked " +
                     "FROM Accounts " +
-                    "JOIN Role ON Accounts.role_id = Role.id "+"where Accounts.name=?";
+                    "JOIN Role ON Accounts.role_id = Role.id " + "where Accounts.name=?";
             PreparedStatement preSt = connect.prepareStatement(sql);
             preSt.setString(1, t.getName());
             ;
@@ -244,7 +244,7 @@ public class AccountDAO extends AbsDAO<Account>{
                 boolean isLocked = rs.getBoolean("isLocked");
 
                 Account cus = new Account(id, name, password, email, telephone,
-                        new Role(roleId,roleName),failed,isLocked);
+                        new Role(roleId, roleName), failed, isLocked);
                 System.out.println(cus);
             }
             JDBCUtil.closeObject(connect);
@@ -471,8 +471,8 @@ public class AccountDAO extends AbsDAO<Account>{
         }
     }
 
-    public static void incrementFailedAttempts(String field,String identifier) {
-        String sql = "UPDATE Accounts SET failed = failed + 1 WHERE "+field+" = ?";
+    public static void incrementFailedAttempts(String field, String identifier) {
+        String sql = "UPDATE Accounts SET failed = failed + 1 WHERE " + field + " = ?";
 
         try (Connection conn = JDBCUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -483,8 +483,8 @@ public class AccountDAO extends AbsDAO<Account>{
         }
     }
 
-    public static int getFailedAttempts(String field,String identifier) {
-        String sql = "SELECT failed FROM Accounts WHERE "+field+" = ?";
+    public static int getFailedAttempts(String field, String identifier) {
+        String sql = "SELECT failed FROM Accounts WHERE " + field + " = ?";
 
         try (Connection conn = JDBCUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -532,7 +532,7 @@ public class AccountDAO extends AbsDAO<Account>{
             String sql = "SELECT Accounts.id, Accounts.name, Accounts.password, Accounts.email, " +
                     "Accounts.phonenumber, Accounts.role_id, Role.role_name,Accounts.failed, Accounts.isLocked " +
                     "FROM Accounts " +
-                    "JOIN Role ON Accounts.role_id = Role.id " +" Where Accounts.id=?";
+                    "JOIN Role ON Accounts.role_id = Role.id " + " Where Accounts.id=?";
             PreparedStatement preSt = connect.prepareStatement(sql);
             preSt.setInt(1, id);
 
@@ -550,7 +550,44 @@ public class AccountDAO extends AbsDAO<Account>{
                 int failed = rs.getInt("failed");
                 boolean isLocked = rs.getBoolean("isLocked");
 
-                return new Account(accId, name, password, email, phonenumber, new Role(roleId,roleName),failed,isLocked);
+                return new Account(accId, name, password, email, phonenumber, new Role(roleId, roleName), failed, isLocked);
+            }
+//			JDBCUtil.closeObject(connect);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Account getAccountByEmail(String email) {
+        try {
+            // 1.connect to database
+            Connection connect = JDBCUtil.getConnection();
+
+            // 2.create object statement
+            String sql = "SELECT Accounts.id, Accounts.name, Accounts.password, Accounts.email, " +
+                    "Accounts.phonenumber, Accounts.role_id, Role.role_name,Accounts.failed, Accounts.isLocked " +
+                    "FROM Accounts " +
+                    "JOIN Role ON Accounts.role_id = Role.id " + " Where Accounts.email=?";
+            PreparedStatement preSt = connect.prepareStatement(sql);
+            preSt.setString(1, email);
+
+            // 3.excute function sql
+            ResultSet rs = preSt.executeQuery();
+
+            while (rs.next()) {
+                int accId = rs.getInt("id");
+                String name = rs.getString("name");
+                String password = rs.getString("password");
+                String mail = rs.getString("email");
+                String phonenumber = rs.getString("phonenumber");
+                int roleId = rs.getInt("role_id");
+                String roleName = rs.getString("role_name");
+                int failed = rs.getInt("failed");
+                boolean isLocked = rs.getBoolean("isLocked");
+
+                return new Account(accId, name, password, mail, phonenumber, new Role(roleId, roleName), failed, isLocked);
             }
 //			JDBCUtil.closeObject(connect);
         } catch (Exception e) {
