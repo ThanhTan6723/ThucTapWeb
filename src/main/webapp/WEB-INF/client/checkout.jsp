@@ -162,6 +162,44 @@
                             <input type="text" name="notes" value="" placeholder="Ghi chú">
                         </div>
                     </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="checkout__order" style="box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);">
+                            <h4>Danh sách order</h4>
+                            <p>${sessionScope.cart.OrderDetail.id}</p>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th class="shoping__product">Sản phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Số lượng</th>
+                                    <th>Thành tiền</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${sessionScope.cart}" var="o">
+                                    <tr>
+                                        <td class="shoping__cart__item" style="text-align: left;">
+                                            <b>${o.value.product.name}</b>
+                                        </td>
+                                        <td class="shoping__cart__price">${o.value.product.price}₫</td>
+                                        <td class="shoping__cart__quantity" style="">${o.value.quantity}</td>
+                                        <td class="shoping__cart__total" style="">
+<%--                                            <c:set var="sumAll" value="${o.value.quantity*o.value.price}"></c:set>--%>
+                                                ${o.value.price}
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                            <div class="checkout__order__total">Ship: <span></span></div>
+                            <div class="checkout__order__total">Tổng tiền hàng: <span></span></div>
+                            <div class="checkout__order__total">Tổng: <span>${total}</span></div>
+
+                            <c:url var="pay" value="OrderControll"></c:url>
+                            <input style="padding: 10px 100px 10px;border: none;" type="submit" class="primary-btn"
+                                   value="Thanh toán">
+                        </div>
+                    </div>
 
                 </div>
             </form>

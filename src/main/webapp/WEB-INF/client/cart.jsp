@@ -432,10 +432,12 @@
                         <li>Tổng tiền<span id="totalAmount">${total}₫</span></li>
                     </ul>
                     <ul>
-                        <li>Vouncher<span> <i class="bi bi-ticket-perforated-fill" style="font-size: 2rem;"></i><a
+                        <li>Vouncher<span> <i  class="bi bi-ticket-perforated-fill" style="font-size: 2rem;"></i><a
                                 href="#"
-                                class="apply"><p style="color: #6fa6d6">Chọn hoặc nhập mã</p></a></span></li>
+                                class="apply"><p style="color: #6fa6d6" id="voucher-input">Chọn hoặc nhập mã</p></a></span>
+<%--                                <span id="voucher-applied" style="display: none;" class="voucher-value">Đã áp mã</span></li>--%>
                     </ul>
+
                     <c:url var="checkout" value="CheckOutControll"></c:url>
                     <a href="${pageContext.request.contextPath}/${checkout}" class="primary-btn">Thanh toán</a>
                 </div>
@@ -592,6 +594,12 @@
 
         function applyVoucher(voucherId, totalAmount) {
             console.log("Applying voucher with ID:", voucherId, "and total amount:", totalAmount);
+
+            // var voucherInputSection = document.getElementById('voucher-input');
+            // var voucherAppliedSection = document.getElementById('voucher-applied');
+            // voucherInputSection.style.display = 'none';
+            // voucherAppliedSection.style.display = 'block';
+
             $.ajax({
                 type: "POST",
                 url: "ApplyVoucherControll",

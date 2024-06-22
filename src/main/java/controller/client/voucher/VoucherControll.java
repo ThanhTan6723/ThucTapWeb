@@ -22,6 +22,7 @@ public class VoucherControll extends HttpServlet {
 
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
+        System.out.println(account);
 
         List<Integer> savedVoucherIds = null;
         if (account != null) {

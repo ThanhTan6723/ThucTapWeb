@@ -6,6 +6,7 @@ import dao.client.AccountDAO;
 import dao.client.Logging;
 
 import model.Account;
+import model.Role;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -33,20 +34,23 @@ public class LoginGoogleControll extends HttpServlet {
                 account.setName(googlePojo.getName());
                 account.setEmail(googlePojo.getEmail());
                 account.setPassword(""); // Mật khẩu để trống hoặc đặt một giá trị mặc định
-//                account.setRole(0,); // Giả định tài khoản người dùng không phải admin
+                Role role = new Role();
+                role.setId(0);
+                account.setRole(role);
                 System.out.println(account);
                 accountDAO.insertAccount(account);
+                account=AccountDAO.getAccountByEmail(googlePojo.getEmail());
+                System.out.println(account);
+                // Tạo session cho người dùng
+                HttpSession session = request.getSession();
+                session.setAttribute("account", account);
+                session.setMaxInactiveInterval(60 * 60);
             }
 
 //            // Ghi log đăng nhập
 //            Logging.login(account);
 
-            // Tạo session cho người dùng
-            HttpSession session = request.getSession();
-            session.setAttribute("account", account);
-            session.setMaxInactiveInterval(60 * 60);
-
-            // Chuyển hướng tới trang chính
+           // Chuyển hướng tới trang chính
             RequestDispatcher dis = request.getRequestDispatcher("/WEB-INF/index.jsp");
             dis.forward(request, response);
         }

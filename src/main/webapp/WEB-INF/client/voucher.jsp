@@ -118,6 +118,9 @@
                             <c:when test="${voucher.quantity <= 0 and empty sessionScope.account}">
                                 <span class="soldout-button">Đã hết mã</span>
                             </c:when>
+                            <c:when test="${voucher.quantity <= 0 and not empty sessionScope.account and not savedVoucherIds.contains(voucher.id)}">
+                                <span class="soldout-button">Đã hết mã</span>
+                            </c:when>
                             <c:when test="${not empty savedVoucherIds and savedVoucherIds.contains(voucher.id)}">
                                 <span class="saved-button">Đã lưu</span>
                             </c:when>
@@ -129,6 +132,7 @@
                     </div>
                 </div>
             </c:forEach>
+
         </div>
     </div>
 </section>
