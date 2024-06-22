@@ -71,7 +71,7 @@
             background-color: #f9f9f9;
             padding: 10px;
             border: 1px solid #e0e0e0;
-            border-radius: 5px;
+            /*border-radius: 5px;*/
             margin-bottom: 20px;
         }
 
@@ -84,7 +84,7 @@
             flex-grow: 1;
             padding: 10px;
             border: 1px solid #e0e0e0;
-            border-radius: 5px;
+            /*border-radius: 5px;*/
             margin-right: 10px;
         }
 
@@ -92,7 +92,7 @@
             padding: 10px 20px;
             background-color: #e0e0e0;
             border: none;
-            border-radius: 5px;
+            /*borderradius-: 5px;*/
             cursor: not-allowed;
             color: #a0a0a0;
         }
@@ -113,7 +113,7 @@
             background-color: #f9f9f9;
             padding: 10px;
             border: 1px solid #e0e0e0;
-            border-radius: 5px;
+            /*border-radius: 5px;*/
             margin-bottom: 20px;
             width: fit-content;
         }
@@ -127,7 +127,7 @@
             flex-grow: 1;
             padding: 10px;
             border: 1px solid #e0e0e0;
-            border-radius: 5px;
+            /*border-radius: 5px;*/
             margin-right: 10px;
         }
 
@@ -135,7 +135,7 @@
             padding: 10px 20px;
             background-color: #e0e0e0;
             border: none;
-            border-radius: 5px;
+            /*border-radius: 5px;*/
             cursor: not-allowed;
             color: #a0a0a0;
         }
@@ -163,6 +163,7 @@
         .voucher-modal-footer button {
             padding: 10px 20px;
             margin-left: 10px;
+            width: 120px;
             border: none;
             background-color: #7fad39;
             color: white;
@@ -194,7 +195,7 @@
             max-height: 300px;
             overflow-y: auto;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            /*border-radius: 5px;*/
             padding: 10px;
             background: #f9f9f9;
         }
@@ -210,7 +211,7 @@
             margin-bottom: 10px;
             background: #fff;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            /*border-radius: 5px;*/
             position: relative;
         }
 
@@ -221,7 +222,7 @@
             justify-content: center;
             padding: 10px;
             background: #bde4e2;
-            border-radius: 5px 0 0 5px;
+            /*border-radius: 5px 0 0 5px;*/
             width: 120px;
             text-align: center;
             border-right: 1px solid #ddd;
@@ -408,7 +409,7 @@
                             <input type="hidden" id="quantity" value="1" readonly>
                             <input type="hidden" id="discountValue" value="0">
                             <!-- Thêm input ẩn để lưu giá trị giảm giá -->
-<%--                            <input type="hidden" id="originalTotalAmount" value="${total}">--%>
+                                <%--                            <input type="hidden" id="originalTotalAmount" value="${total}">--%>
                             <!-- Thêm input ẩn để lưu tổng tiền gốc -->
                             <button type="button" class="site-btn" onclick="applyDiscountIfCouponExists()">Áp dụng
                             </button>
@@ -428,7 +429,7 @@
                     <ul>
                         <li>Tạm tính<span id="originalTotalAmount" class="total-amount">${total}₫</span></li>
                         <li>Giảm giá<span id="discountAmount">0₫</span></li>
-                        <li>Tổng tiền<span id="totalAmount"></span></li>
+                        <li>Tổng tiền<span id="totalAmount">${total}₫</span></li>
                     </ul>
                     <ul>
                         <li>Vouncher<span> <i class="bi bi-ticket-perforated-fill" style="font-size: 2rem;"></i><a
@@ -447,7 +448,6 @@
 <!-- Voucher Modal Begin -->
 <div id="voucherModal" class="modal">
     <div class="modal-content">
-        <%--        <span class="close">&times;</span>--%>
         <h5>Chọn Voucher</h5><br>
         <div class="voucher-search">
             <label for="voucherCode">Mã Voucher</label>
@@ -475,7 +475,7 @@
                         </c:otherwise>
                     </c:choose>
 
-                    <div class="voucher-item"
+                    <div class="voucher-item" data-voucher="${voucher.id}"
                          <c:if test="${!voucherApplies}">style="opacity: 0.5; pointer-events: none;"</c:if>>
                         <div class="voucher-left">
                             <img src="https://via.placeholder.com/50" alt="Voucher Image">
@@ -489,9 +489,7 @@
                             </div>
                             <p class="voucher-expiry">Sắp hết hạn: Còn 12 giờ <a href="#">Điều Kiện</a></p>
                             <label class="voucher-select">
-                                <input type="radio" name="voucher" value="${voucher.code}"
-                                       data-discount="${voucher.discountPercentage}"
-                                       <c:if test="${!voucherApplies}">disabled</c:if>>
+                                <input type="radio" name="voucher" value="${voucher.id}">
                             </label>
                         </div>
                     </div>
@@ -508,71 +506,10 @@
 <!-- Voucher Modal End -->
 <!-- Footer Section Begin -->
 <jsp:include page="./footer/footer.jsp"></jsp:include>
-
 <!-- Add jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function () {
-        // Xử lý khi người dùng nhấn nút OK trong modal voucher
-        $('#okButton').on('click', function () {
-            var selectedVoucherCode = $("input[name='voucher']:checked").val();
-            alert("Đã chọn voucher có mã: " + selectedVoucherCode);
-            // Kiểm tra xem người dùng đã chọn voucher hay chưa
-            if (selectedVoucherCode) {
-                var selectedVoucher = findVoucher(selectedVoucherCode); // Hàm này sẽ tìm voucher từ danh sách có sẵn
-
-                if (selectedVoucher) {
-                    // Tính toán giảm giá
-                    var totalAmount = calculateDiscount(selectedVoucher);
-
-                    // Hiển thị số tiền giảm giá và tổng tiền
-                    $('#discountAmount').text(formatCurrency(selectedVoucher.discountAmount) + '₫');
-                    $('#totalAmount span').text(formatCurrency(totalAmount) + '₫');
-                }
-            }
-
-            // Đóng modal voucher sau khi xử lý
-            $('#voucherModal').css('display', 'none');
-            $('body').removeClass('modal-open');
-        });
-    });
-
-    // Hàm tìm voucher từ danh sách
-    function findVoucher(voucherCode) {
-        var vouchers = ${savedVouchers}; // Lấy danh sách voucher từ backend, chú ý cần truyền danh sách này từ JSP
-        for (var i = 0; i < vouchers.length; i++) {
-            if (vouchers[i].code === voucherCode) {
-                return vouchers[i];
-            }
-        }
-        return null;
-    }
-
-    // Hàm tính toán giảm giá
-    function calculateDiscount(voucher) {
-        var totalAmount = parseInt($('#originalTotalAmount').val()); // Lấy tổng tiền gốc
-        var discountPercentage = voucher.discountPercentage;
-        var discountType = voucher.discountType.type;
-
-        if (discountType === 'All') {
-            // Giảm giá theo phần trăm
-            var discountAmount = (totalAmount * discountPercentage) / 100;
-            totalAmount -= discountAmount;
-            return totalAmount;
-        }
-        // Xử lý các trường hợp giảm giá khác (nếu có)
-        return totalAmount;
-    }
-
-    // Hàm định dạng số tiền hiển thị
-    function formatCurrency(amount) {
-        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-    }
-
-</script>
-<script>
-
     $(document).ready(function () {
         // Kiểm tra giỏ hàng trống khi trang vừa tải
         checkEmptyCart();
@@ -595,6 +532,16 @@
             if ($(event.target).is('#voucherModal')) {
                 $('#voucherModal').css('display', 'none');
                 $('body').removeClass('modal-open');
+            }
+        });
+
+        $("#okButton").click(function () {
+            var selectedVoucherId = $("input[name='voucher']:checked").val();
+            if (selectedVoucherId) {
+                var totalAmount = parseFloat($("#originalTotalAmount").text().replace(/[^\d.-]/g, ''));
+                applyVoucher(selectedVoucherId, totalAmount);
+            } else {
+                alert("Vui lòng chọn một voucher.");
             }
         });
 
@@ -643,49 +590,55 @@
             }
         });
 
-        // Handle voucher code input
-        $("#voucherCode").on("input", function () {
-            var input = $(this).val().toLowerCase();
-            var found = false;
+        function applyVoucher(voucherId, totalAmount) {
+            console.log("Applying voucher with ID:", voucherId, "and total amount:", totalAmount);
+            $.ajax({
+                type: "POST",
+                url: "ApplyVoucherControll",
+                data: {
+                    voucherId: voucherId,
+                    totalAmount: totalAmount
+                },
+                success: function (response) {
+                    var discountValue = parseFloat(response.discountValue);
+                    var finalAmount = parseFloat(response.finalAmount);
 
-            $(".voucher-item").each(function () {
-                var voucherCode = $(this).data("voucher").toLowerCase();
-                if (voucherCode.includes(input)) {
-                    $(this).show();
-                    found = true;
-                } else {
-                    $(this).hide();
+                    // Cập nhật giảm giá và tổng tiền cuối cùng trong UI
+                    $("#discountAmount").text(discountValue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+                    $("#totalAmount").text(finalAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+
+                    // Đóng modal khi áp dụng thành công
+                    $('#voucherModal').css('display', 'none');
+                    $('body').removeClass('modal-open');
+                },
+                error: function () {
+                    alert("Áp dụng voucher thất bại. Vui lòng thử lại.");
                 }
             });
+        }
 
-            if (!found) {
-                $("#errorMessage").show();
-                $("#applyVoucher").prop("disabled", true); // Disable the button if no voucher found
-            } else {
-                $("#errorMessage").hide();
-                $("#applyVoucher").prop("disabled", false); // Enable the button if voucher found
-            }
-        });
-    });
+        function updateQuantity(key, action) {
+            $.ajax({
+                type: "GET",
+                url: action + "?key=" + key,
+                success: function (response) {
+                    // Cập nhật số lượng trong UI
+                    $("#updates_" + key).val(response.quantity);
+                    // Cập nhật tổng giá tiền cho sản phẩm
+                    $(".total-price_" + key).text(response.totalPrice + "₫");
+                    // Cập nhật tổng tiền trong UI
+                    var totalAmount = response.totalAmount;
+                    $('.total-amount').text(totalAmount + '₫');
+                    // Cập nhật giảm giá nếu có voucher
+                    var selectedVoucherId = $("input[name='voucher']:checked").val();
+                    if (selectedVoucherId) {
+                        applyVoucher(selectedVoucherId, totalAmount);
+                    }
+                    checkEmptyCart();
+                }
+            });
+        }
 
-    function updateQuantity(key, action) {
-        $.ajax({
-            type: "GET",
-            url: action + "?key=" + key,
-            success: function (response) {
-                // Cập nhật số lượng trong UI
-                $("#updates_" + key).val(response.quantity);
-                // Cập nhật tổng giá tiền cho sản phẩm
-                $(".total-price_" + key).text(response.totalPrice + "₫");
-                // Cập nhật tổng tiền trong UI
-                var totalAmount = response.totalAmount;
-                $('.total-amount').text(totalAmount + '₫');
-                checkEmptyCart();
-            }
-        });
-    }
-
-    $(document).ready(function () {
         // Function to handle increasing quantity
         $(".increase-btn").click(function (e) {
             e.preventDefault();
@@ -715,46 +668,47 @@
                     $('.total-amount').text(totalAmount + '₫');
                     // Update cart size in the UI
                     $("#cart-count").text(response.sizeCart);
-                    // Cập nhật voucher
-                    // updateVouchers(response.vouchers);
+                    // Cập nhật giảm giá nếu có voucher
+                    var selectedVoucherId = $("input[name='voucher']:checked").val();
+                    if (selectedVoucherId) {
+                        applyVoucher(selectedVoucherId, totalAmount);
+                    }
                     // Kiểm tra giỏ hàng rỗng
                     checkEmptyCart();
                 }
             });
         });
+
+        function toggleCartDisplay(isEmpty) {
+            var cartTable = $(".shoping__cart__table");
+            var emptyCartMessage = $(".empty-cart-message");
+            var checkoutSection = $(".shoping__checkout");
+            var continueSection = $(".shoping__continue");
+            var cartBtnsSection = $(".shoping__cart__btns");
+
+            if (isEmpty) {
+                cartTable.hide();
+                emptyCartMessage.show();
+                checkoutSection.hide();
+                continueSection.hide();
+                cartBtnsSection.hide();
+            } else {
+                cartTable.show();
+                emptyCartMessage.hide();
+                checkoutSection.show();
+                continueSection.show();
+                cartBtnsSection.show();
+            }
+        }
+
+        function checkEmptyCart() {
+            var cartTable = $(".shoping__cart__table");
+            var isEmpty = $(".shoping__cart__table table tbody tr").length === 0;
+
+            toggleCartDisplay(isEmpty);
+        }
     });
 
-    function toggleCartDisplay(isEmpty) {
-        var cartTable = $(".shoping__cart__table");
-        var emptyCartMessage = $(".empty-cart-message");
-        var checkoutSection = $(".shoping__checkout");
-        var continueSection = $(".shoping__continue");
-        var cartBtnsSection = $(".shoping__cart__btns");
-
-        if (isEmpty) {
-            cartTable.hide();
-            emptyCartMessage.show();
-            checkoutSection.hide();
-            continueSection.hide();
-            cartBtnsSection.hide();
-        } else {
-            cartTable.show();
-            emptyCartMessage.hide();
-            checkoutSection.show();
-            continueSection.show();
-            cartBtnsSection.show();
-        }
-    }
-
-    function checkEmptyCart() {
-        var cartTable = $(".shoping__cart__table");
-        var isEmpty = $(".shoping__cart__table table tbody tr").length === 0;
-
-        toggleCartDisplay(isEmpty);
-    }
-
-
 </script>
-
 </body>
 </html>

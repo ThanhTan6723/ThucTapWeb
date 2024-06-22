@@ -137,6 +137,10 @@
 			position: relative;
 		}
 
+		body.modal-open {
+			overflow: hidden;
+		}
+
 		/* Close button */
 		.close {
 			color: #aaa;
@@ -181,7 +185,7 @@
 		}
 
 		button[type="button"] {
-			background-color: #8fbe41;
+			background-color: #7ea641;
 			color: white;
 			padding: 15px 20px;
 			border: none;
@@ -191,8 +195,9 @@
 		}
 
 		button[type="button"]:hover {
-			background-color: #94c94d;
+			background-color: #77a14a;
 		}
+
 
 	</style>
 </head>
@@ -481,16 +486,19 @@
 				document.getElementById('modalProductImage').setAttribute('src', productImage);
 
 				modal.style.display = 'block';
+				document.body.classList.add('modal-open'); // Thêm lớp để ẩn thanh cuộn
 			});
 		});
 
 		span.onclick = function () {
 			modal.style.display = 'none';
+			document.body.classList.remove('modal-open'); // Loại bỏ lớp để hiện thanh cuộn
 		};
 
 		window.onclick = function (event) {
 			if (event.target == modal) {
 				modal.style.display = 'none';
+				document.body.classList.remove('modal-open'); // Loại bỏ lớp để hiện thanh cuộn
 			}
 		};
 	});
@@ -541,6 +549,7 @@
 		function closeModal() {
 			var modal = document.getElementById('myModal');
 			modal.style.display = 'none';
+			document.body.classList.remove('modal-open'); // Loại bỏ lớp để hiện thanh cuộn
 		}
 	});
 
