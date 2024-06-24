@@ -41,9 +41,9 @@ public class ApplyVoucherControll extends HttpServlet {
                     // Duyệt qua các sản phẩm trong giỏ hàng và tính giảm giá cho sản phẩm có product id tương ứng
                     for (OrderDetail orderDetail : cart.values()) {
                         if (orderDetail.getProduct().getId() == voucher.getProduct().getId()) {
-                            BigDecimal totalProductPrice = new BigDecimal(orderDetail.getPrice()).multiply(new BigDecimal(orderDetail.getQuantity()));
-                            BigDecimal productDiscount = totalProductPrice.multiply(productDiscountPercentage);
-                            discountValue = discountValue.add(productDiscount);
+                            BigDecimal totalProductPrice = new BigDecimal(orderDetail.getPrice());
+                            discountValue = totalProductPrice.multiply(productDiscountPercentage);
+//                            discountValue = discountValue.add(productDiscount);
                         }
                     }
                     break;
@@ -52,13 +52,15 @@ public class ApplyVoucherControll extends HttpServlet {
                     BigDecimal categoryDiscountPercentage = voucher.getDiscountPercentage().divide(new BigDecimal(100));
 
                     // Duyệt qua danh sách đơn hàng và tính giảm giá cho tất cả sản phẩm thuộc category tương ứng
+                    BigDecimal totalCategoryPrice = BigDecimal.ZERO;
                     for (OrderDetail orderDetail : cart.values()) {
                         if (orderDetail.getProduct().getCategory().getId() == voucher.getCategory().getId()) {
-                            BigDecimal totalCategoryPrice = new BigDecimal(orderDetail.getPrice()).multiply(new BigDecimal(orderDetail.getQuantity()));
-                            discountValue = discountValue.add(totalCategoryPrice);
+                            BigDecimal productPrice = new BigDecimal(orderDetail.getPrice());
+                            totalCategoryPrice = totalCategoryPrice.add(productPrice);
                         }
                     }
-                    discountValue = discountValue.multiply(categoryDiscountPercentage);
+                    BigDecimal categoryDiscount = totalCategoryPrice.multiply(categoryDiscountPercentage);
+                    discountValue = discountValue.add(categoryDiscount);
                     break;
                 case "All":
                     // Lấy % giảm giá
@@ -70,8 +72,8 @@ public class ApplyVoucherControll extends HttpServlet {
             }
         }
 
+        // Tổng tiền trừ đi giảm giá
         BigDecimal finalAmount = totalAmount.subtract(discountValue);
-
 
         response.setContentType("application/json");
         response.getWriter().write("{\"discountValue\": \"" + discountValue.toPlainString() + "\", \"finalAmount\": \"" + finalAmount.toPlainString() + "\"}");

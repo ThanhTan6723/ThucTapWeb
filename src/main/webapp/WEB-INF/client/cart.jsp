@@ -432,10 +432,11 @@
                         <li>Tổng tiền<span id="totalAmount">${total}₫</span></li>
                     </ul>
                     <ul>
-                        <li>Vouncher<span> <i  class="bi bi-ticket-perforated-fill" style="font-size: 2rem;"></i><a
+                        <li>Vouncher<span> <i class="bi bi-ticket-perforated-fill" style="font-size: 2rem;"></i><a
                                 href="#"
-                                class="apply"><p style="color: #6fa6d6" id="voucher-input">Chọn hoặc nhập mã</p></a></span>
-<%--                                <span id="voucher-applied" style="display: none;" class="voucher-value">Đã áp mã</span></li>--%>
+                                class="apply"><p style="color: #6fa6d6"
+                                                 id="voucher-input">Chọn hoặc nhập mã</p></a></span>
+                                <%--                                <span id="voucher-applied" style="display: none;" class="voucher-value">Đã áp mã</span></li>--%>
                     </ul>
 
                     <c:url var="checkout" value="CheckOutControll"></c:url>
@@ -453,12 +454,14 @@
         <h5>Chọn Voucher</h5><br>
         <div class="voucher-search">
             <label for="voucherCode">Mã Voucher</label>
-            <input type="text" id="voucherCode" placeholder="Nhập mã voucher">
+            <input type="text" id="voucherCode" name="voucher-search" placeholder="Nhập mã voucher">
             <button id="applyVoucher" disabled>ÁP DỤNG</button>
         </div>
         <div class="voucher-list-container">
             <div class="voucher-list">
-                <!-- Example voucher item, repeat this block for each voucher -->
+                <c:if test="${empty savedVouchers}">
+                    <span style="text-align: center; color: #707070">Bạn chưa lưu voucher nào</span>
+                </c:if>
                 <c:forEach var="voucher" items="${savedVouchers}">
                     <c:set var="voucherApplies" value="false"/>
                     <c:choose>
@@ -476,8 +479,7 @@
                             </c:forEach>
                         </c:otherwise>
                     </c:choose>
-
-                    <div class="voucher-item" data-voucher="${voucher.id}"
+                    <div class="voucher-item" data-voucher="${voucher.id}" data-expiry="${voucher.endDate}"
                          <c:if test="${!voucherApplies}">style="opacity: 0.5; pointer-events: none;"</c:if>>
                         <div class="voucher-left">
                             <img src="https://via.placeholder.com/50" alt="Voucher Image">
@@ -489,7 +491,7 @@
                                     đa ${voucher.discountPercentage}%<br>${voucher.discountType.type}</p>
                                 <span class="voucher-quantity">x1</span>
                             </div>
-                            <p class="voucher-expiry">Sắp hết hạn: Còn 12 giờ <a href="#">Điều Kiện</a></p>
+                            <p class="voucher-expiry">Sắp hết hạn: ${voucher.endDate} <a href="#">Điều Kiện</a></p>
                             <label class="voucher-select">
                                 <input type="radio" name="voucher" value="${voucher.id}">
                             </label>
@@ -501,7 +503,9 @@
         <!-- Button container at the bottom -->
         <div class="voucher-modal-footer">
             <button id="backButton">TRỞ LẠI</button>
-            <button id="okButton">OK</button>
+            <button id="okButton" <c:if test="${empty savedVouchers}">disabled
+                    style="background-color: #b6b6b6" </c:if>>OK
+            </button>
         </div>
     </div>
 </div>
@@ -515,6 +519,7 @@
     $(document).ready(function () {
         // Kiểm tra giỏ hàng trống khi trang vừa tải
         checkEmptyCart();
+        checkVoucherExpiry();
 
         // Mở modal khi click vào "Chọn hoặc nhập mã"
         $('.apply').on('click', function (event) {
@@ -522,7 +527,13 @@
             $('#voucherModal').css('display', 'block');
             $('body').addClass('modal-open');
         });
-
+        // Xử lý khi click vào nút "TRỞ LẠI" trên modal
+        $("#backButton").click(function () {
+            // Đóng modal
+            $('#voucherModal').css('display', 'none');
+            // Xóa lớp modal-open khỏi thẻ body
+            $('body').removeClass('modal-open');
+        });
         // Đóng modal khi click vào nút đóng
         $('.close').on('click', function () {
             $('#voucherModal').css('display', 'none');
@@ -546,7 +557,6 @@
                 alert("Vui lòng chọn một voucher.");
             }
         });
-
         // Handle voucher item click
         $(".voucher-item").on("click", function () {
             var radioButton = $(this).find("input[type='radio']");
@@ -566,6 +576,7 @@
                 $(this).addClass("selected");
             }
         });
+
 
         // Handle radio button click
         $("input[type='radio'][name='voucher']").on("change", function () {
@@ -612,8 +623,11 @@
                     var finalAmount = parseFloat(response.finalAmount);
 
                     // Cập nhật giảm giá và tổng tiền cuối cùng trong UI
-                    $("#discountAmount").text(discountValue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
-                    $("#totalAmount").text(finalAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+                    $("#discountAmount").text(discountValue.toLocaleString('vi-VN', {
+                        style: 'currency',
+                        currency: 'VND'
+                    }));
+                    $("#totalAmount").text(finalAmount.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'}));
 
                     // Đóng modal khi áp dụng thành công
                     $('#voucherModal').css('display', 'none');
@@ -624,6 +638,50 @@
                 }
             });
         }
+        function applyVoucher() {
+            var voucherCode = document.getElementById('voucherCode').value;
+            var totalAmount = document.getElementById('totalAmount').value; // Giá trị totalAmount cần lấy từ input hoặc từ nơi khác
+
+            fetch('ApplySearchVoucher', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'voucherCode=' + encodeURIComponent(voucherCode) + '&totalAmount=' + encodeURIComponent(totalAmount)
+            })
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error('Yêu cầu không thành công - ' + response.status);
+                    }
+                    return response.text(); // Đọc phản hồi dưới dạng văn bản
+                })
+                .then(function (responseText) {
+                    var response = JSON.parse(responseText); // Phân tích văn bản thành đối tượng JSON
+
+                    if (response.success) {
+                        alert(response.message);
+                        var discountValue = parseFloat(response.discountValue);
+                        var finalAmount = parseFloat(response.finalAmount);
+                        // Cập nhật giảm giá và tổng tiền cuối cùng trong UI
+                        document.querySelector("#discountAmount").textContent = discountValue.toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND'
+                        });
+                        document.querySelector("#totalAmount").textContent = finalAmount.toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND'
+                        });
+
+                        // Đóng modal khi áp dụng thành công
+                        document.getElementById('voucherModal').style.display = 'none';
+                        document.body.classList.remove('modal-open');
+                    } else {
+                        alert(response.message);
+                    }
+                })
+        }
+
+        document.getElementById('applyVoucher').addEventListener('click', applyVoucher);
 
         function updateQuantity(key, action) {
             $.ajax({
@@ -707,6 +765,20 @@
                 continueSection.show();
                 cartBtnsSection.show();
             }
+        }
+
+        // Hàm kiểm tra hạn sử dụng của voucher
+        function checkVoucherExpiry() {
+            $(".voucher-item").each(function () {
+                var expiryDate = $(this).data("expiry");
+                if (expiryDate) {
+                    var currentDate = new Date();
+                    var expiry = new Date(expiryDate);
+                    if (expiry < currentDate) {
+                        $(this).css("display", "none");
+                    }
+                }
+            });
         }
 
         function checkEmptyCart() {

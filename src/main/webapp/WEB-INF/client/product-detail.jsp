@@ -213,6 +213,11 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
+        /* CSS để ẩn scrollbar */
+        body.modal-open {
+            overflow: hidden;
+        }
+
         .close {
             color: #aaa;
             float: right;
@@ -609,15 +614,18 @@
 
         btn.onclick = function () {
             modal.style.display = "block";
+            document.body.classList.add("modal-open");
         }
 
         span.onclick = function () {
             modal.style.display = "none";
+            document.body.classList.remove("modal-open");
         }
 
         window.onclick = function (event) {
             if (event.target == modal) {
                 modal.style.display = "none";
+                document.body.classList.remove("modal-open");
             }
         }
 

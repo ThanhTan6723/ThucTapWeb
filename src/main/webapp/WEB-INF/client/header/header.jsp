@@ -61,7 +61,7 @@
                                 <c:url var="profile" value="UpdateProfileControll"></c:url>
                                 <c:url var="changepass" value="ChangePassword"></c:url>
                                 <c:url var="logout" value="LogoutControll"></c:url>
-                                    <%--                                    <c:url var="url" value="assets"></c:url>--%>
+
                                 <ul>
                                     <i><img src="assets/img/avatar.png" alt="">${sessionScope.account.name}<i
                                             class="fa fa-caret-down"></i></i>
@@ -77,10 +77,12 @@
                                     </c:if>
                                     <a href="">
                                         <b>Kho voucher</b></a>
+                                    <c:if test="${not empty sessionScope.account.telephone}">
                                     <a href="${pageContext.request.contextPath}/${profile}">
                                         <b>Tài khoản</b></a>
                                     <a href="${pageContext.request.contextPath}/${changepass}">
                                         <b>Đổi mật khẩu</b></a>
+                                    </c:if>
                                     <a href="${pageContext.request.contextPath}/${logout}">
                                         <b>Đăng xuất</b></a>
                                 </div>
