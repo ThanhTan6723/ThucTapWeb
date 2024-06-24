@@ -119,7 +119,7 @@
                             <div class="card">
                                 <div class="card-body" style="background-color: white">
                                     <div class="table-responsive">
-                                        <h4 style="color: black">Danh Sách Đơn Hàng Chờ Xác Nhận</h4>
+                                        <h4 style="color: black">Danh Sách Voucher</h4>
                                         <table id="example1" class="display" style="width:100%;">
                                             <thead>
                                             <tr>

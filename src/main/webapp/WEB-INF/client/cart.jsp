@@ -678,6 +678,7 @@
                         document.getElementById('voucherModal').style.display = 'none';
                         document.body.classList.remove('modal-open');
                         $('#voucherCode').val('');
+                        document.querySelector("#error").textContent = '';
                     } else {
                         // var errorMessage = document.getElementById('error-message');
                         // errorMessage.classList.remove('hidden');
