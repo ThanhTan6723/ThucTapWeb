@@ -88,7 +88,7 @@ public class VoucherDAO {
         }
     }
 
-    public List<Integer> getSavedVouchers(int accountId) {
+    public static List<Integer> getSavedVouchers(int accountId) {
         List<Integer> savedVouchers = new ArrayList<>();
         String query = "SELECT voucher_id FROM eVouchers WHERE account_id = ?";
 
@@ -107,6 +107,26 @@ public class VoucherDAO {
         return savedVouchers;
     }
 
+    public static int checkUsageVoucher(int accountId, int voucherId) {
+        int check = 0;
+        String query = "SELECT usage_limit FROM eVouchers WHERE account_id = ? and voucher_id = ?";
+
+        try (Connection connection = JDBCUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, accountId);
+            preparedStatement.setInt(2, voucherId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    check = resultSet.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return check;
+    }
+
     public static Voucher getVoucherById(int voucherId) {
         Voucher voucher = null;
         String query = "SELECT v.*, dt.type as discount_type_name, p.id as product_id, p.name as product_name, c.id as category_id, c.name as category_name " +
@@ -118,6 +138,51 @@ public class VoucherDAO {
         try (Connection connection = JDBCUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, voucherId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    voucher = new Voucher();
+                    voucher.setId(resultSet.getInt("id"));
+                    voucher.setCode(resultSet.getString("code"));
+                    voucher.setDiscountType(new DiscountType(resultSet.getInt("discount_type"), resultSet.getString("discount_type_name")));
+                    voucher.setDiscountPercentage(resultSet.getBigDecimal("discount_percentage"));
+
+                    if (resultSet.getInt("product_id") != 0) {
+                        Product product = new Product();
+                        product.setId(resultSet.getInt("product_id"));
+                        product.setName(resultSet.getString("product_name"));
+                        voucher.setProduct(product);
+                    }
+
+                    if (resultSet.getInt("category_id") != 0) {
+                        Category category = new Category();
+                        category.setId(resultSet.getInt("category_id"));
+                        category.setName(resultSet.getString("category_name"));
+                        voucher.setCategory(category);
+                    }
+
+                    voucher.setQuantity(resultSet.getInt("quantity"));
+                    voucher.setStartDate(resultSet.getDate("start_date"));
+                    voucher.setEndDate(resultSet.getDate("end_date"));
+                    voucher.setActive(resultSet.getBoolean("is_active"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return voucher;
+    }
+
+    public static Voucher getVoucherByCode(String code) {
+        Voucher voucher = null;
+        String query = "SELECT v.*, dt.type as discount_type_name, p.id as product_id, p.name as product_name, c.id as category_id, c.name as category_name " +
+                "FROM Vouchers v " +
+                "LEFT JOIN DiscountType dt ON v.discount_type = dt.id " +
+                "LEFT JOIN Products p ON v.product_id = p.id " +
+                "LEFT JOIN Category c ON v.category_id = c.id " +
+                "WHERE v.code = ?";
+        try (Connection connection = JDBCUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, code);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     voucher = new Voucher();

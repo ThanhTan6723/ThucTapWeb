@@ -98,7 +98,10 @@
                     }},
                 { data: 'name' },
                 { data: 'email' },
-                { data: 'telephone' },
+                {
+                    data: 'telephone',
+                    defaultContent: '' // Set default content for 'telephone' column if data is null
+                },
                 { data: null, render: function(data, type, row) {
                         return `
                 <i class="fa-solid fa-trash delete-icon" data-id="${row.id}" style="color: red;"></i>

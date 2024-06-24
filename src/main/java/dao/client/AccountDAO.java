@@ -137,7 +137,7 @@ public class AccountDAO extends AbsDAO<Account> {
         return success;
     }
 
-    public Account findByEmail(String email) {
+    public static Account findByEmail(String email) {
         String sql = "SELECT * FROM Accounts WHERE email = ?";
         try (Connection conn = JDBCUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -150,6 +150,7 @@ public class AccountDAO extends AbsDAO<Account> {
                 account.setName(rs.getString("name"));
                 account.setEmail(rs.getString("email"));
                 account.setPassword(rs.getString("password"));
+                account.setTelephone(rs.getString("phonenumber"));
                 account.setRole(AccountDAO.getRole(rs.getInt("role_id")));
                 account.setFailed(rs.getInt("failed"));
                 account.setLocked(rs.getBoolean("isLocked"));
@@ -163,10 +164,11 @@ public class AccountDAO extends AbsDAO<Account> {
 
     public static Role getRole(int roleId) {
         Role role = null;
-        String sql = "Select * from Role";
+        String sql = "Select * from Role where id=?";
         try {
             Connection connect = JDBCUtil.getConnection();
             PreparedStatement ps = connect.prepareStatement(sql);
+            ps.setInt(1, roleId);
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -197,12 +199,11 @@ public class AccountDAO extends AbsDAO<Account> {
                 String password = rs.getString("password");
                 String email = rs.getString("email");
                 String telephone = rs.getString("phonenumber");
-                int roleId = rs.getInt("role_id");
-                String roleName = rs.getString("role_name");
+                Role role = AccountDAO.getRole(rs.getInt("role_id"));
                 int failed = rs.getInt("failed");
                 boolean isLocked = rs.getBoolean("isLocked");
 
-                Account cus = new Account(id, name, password, email, telephone, new Role(roleId, roleName), failed, isLocked);
+                Account cus = new Account(id, name, password, email, telephone, role, failed, isLocked);
                 result.add(cus);
             }
             JDBCUtil.closeObject(connect);
@@ -629,6 +630,8 @@ public class AccountDAO extends AbsDAO<Account> {
         System.out.println(checkUserName("thanhtan"));
         AccountDAO acc = new AccountDAO();
         System.out.println(acc.selectAll());
-        System.out.println(getAccountById(1));
+        System.out.println(getAccountById(13));
+        System.out.println(getAccountByEmail("anhtuan542100@gmail.com"));
+        System.out.println(findByEmail("anhtuan542100@gmail.com"));
     }
 }

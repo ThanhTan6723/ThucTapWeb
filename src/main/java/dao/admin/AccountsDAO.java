@@ -126,6 +126,6 @@ public class AccountsDAO {
 
     public static void main(String[] args) {
         AccountsDAO a = new AccountsDAO();
-
+        System.out.println(getListAccount());
     }
 }
