@@ -455,8 +455,9 @@
         <div class="voucher-search">
             <label for="voucherCode">Mã Voucher</label>
             <input type="text" id="voucherCode" name="voucher-search" placeholder="Nhập mã voucher">
-            <button id="applyVoucher" disabled>ÁP DỤNG</button>
+            <button id="applySearchVoucher" disabled>ÁP DỤNG</button>
         </div>
+        <span id="error" style="text-align: center;color: red"></span>
         <div class="voucher-list-container">
             <div class="voucher-list">
                 <c:if test="${empty savedVouchers}">
@@ -597,9 +598,9 @@
         $('#voucherCode').on('input', function () {
             var code = $(this).val().trim();
             if (code) {
-                $('#applyVoucher').prop('disabled', false).addClass('active');
+                $('#applySearchVoucher').prop('disabled', false).addClass('active');
             } else {
-                $('#applyVoucher').prop('disabled', true).removeClass('active');
+                $('#applySearchVoucher').prop('disabled', true).removeClass('active');
             }
         });
 
@@ -638,9 +639,11 @@
                 }
             });
         }
-        function applyVoucher() {
+
+        function applySearchVoucher() {
             var voucherCode = document.getElementById('voucherCode').value;
-            var totalAmount = document.getElementById('totalAmount').value; // Giá trị totalAmount cần lấy từ input hoặc từ nơi khác
+            console.log("Applying voucher with ID:", voucherCode, "and total amount:", totalAmount);
+            var totalAmount = parseFloat($("#originalTotalAmount").text().replace(/[^\d.-]/g, '')); // Giá trị totalAmount cần lấy từ input hoặc từ nơi khác
 
             fetch('ApplySearchVoucher', {
                 method: 'POST',
@@ -659,7 +662,6 @@
                     var response = JSON.parse(responseText); // Phân tích văn bản thành đối tượng JSON
 
                     if (response.success) {
-                        alert(response.message);
                         var discountValue = parseFloat(response.discountValue);
                         var finalAmount = parseFloat(response.finalAmount);
                         // Cập nhật giảm giá và tổng tiền cuối cùng trong UI
@@ -675,13 +677,16 @@
                         // Đóng modal khi áp dụng thành công
                         document.getElementById('voucherModal').style.display = 'none';
                         document.body.classList.remove('modal-open');
+                        $('#voucherCode').val('');
                     } else {
-                        alert(response.message);
+                        // var errorMessage = document.getElementById('error-message');
+                        // errorMessage.classList.remove('hidden');
+                        document.querySelector("#error").textContent = response.message;
                     }
                 })
         }
 
-        document.getElementById('applyVoucher').addEventListener('click', applyVoucher);
+        document.getElementById('applySearchVoucher').addEventListener('click', applySearchVoucher);
 
         function updateQuantity(key, action) {
             $.ajax({
@@ -697,8 +702,12 @@
                     $('.total-amount').text(totalAmount + '₫');
                     // Cập nhật giảm giá nếu có voucher
                     var selectedVoucherId = $("input[name='voucher']:checked").val();
+                    var voucherCode = document.getElementById('voucherCode').value;
                     if (selectedVoucherId) {
                         applyVoucher(selectedVoucherId, totalAmount);
+                    }
+                    if (voucherCode) {
+                        applySearchVoucher();
                     }
                     checkEmptyCart();
                 }
@@ -738,6 +747,9 @@
                     var selectedVoucherId = $("input[name='voucher']:checked").val();
                     if (selectedVoucherId) {
                         applyVoucher(selectedVoucherId, totalAmount);
+                    }
+                    if (voucherCode) {
+                        applySearchVoucher();
                     }
                     // Kiểm tra giỏ hàng rỗng
                     checkEmptyCart();

@@ -36,16 +36,15 @@ public class ApplySearchVoucher extends HttpServlet {
             response.getWriter().write("{\"success\": false, \"message\": \"Bạn cần đăng nhập để áp dụng voucher.\"}");
             return;
         }
-
         try {
             // Kiểm tra xem mã voucher có tồn tại không
             Voucher voucher = VoucherDAO.getVoucherByCode(voucherCode);
+            System.out.println(voucher);
 
             if (voucher == null) {
                 response.getWriter().write("{\"success\": false, \"message\": \"Mã voucher không tồn tại.\"}");
                 return;
             }
-
             // Kiểm tra xem mã voucher đã được lưu chưa
             List<Integer> savedVoucherIds = VoucherDAO.getSavedVouchers(account.getId());
             boolean isSaved = savedVoucherIds.contains(voucher.getId());
@@ -57,13 +56,12 @@ public class ApplySearchVoucher extends HttpServlet {
                     response.getWriter().write("{\"success\": false, \"message\": \"Mã voucher đã được sử dụng.\"}");
                     return;
                 }
-
                 // Kiểm tra mã voucher có khớp với sản phẩm trong giỏ hàng không
                 boolean isMatching = isVoucherApplicable(voucher, cart);
                 if (isMatching) {
                     BigDecimal discountValue = calculateDiscount(voucher, totalAmount, cart);
                     BigDecimal finalAmount = totalAmount.subtract(discountValue);
-                    String jsonResponse = "{\"success\": true, \"message\": \"Voucher đã được áp dụng thành công!\", \"discountValue\": \"" + discountValue.toPlainString() + "\", \"finalAmount\": \"" + finalAmount.toPlainString() + "\"}";
+                    String jsonResponse = "{\"success\": true, \"message\": \"\", \"discountValue\": \"" + discountValue.toPlainString() + "\", \"finalAmount\": \"" + finalAmount.toPlainString() + "\"}";
                     response.getWriter().write(jsonResponse);
                 } else {
                     response.getWriter().write("{\"success\": false, \"message\": \"Không khớp với sản phẩm hiện có.\"}");
@@ -77,7 +75,7 @@ public class ApplySearchVoucher extends HttpServlet {
                     if (savedVoucher) {
                         BigDecimal discountValue = calculateDiscount(voucher, totalAmount, cart);
                         BigDecimal finalAmount = totalAmount.subtract(discountValue);
-                        String jsonResponse = "{\"success\": true, \"message\": \"Voucher đã được áp dụng thành công!\", \"discountValue\": \"" + discountValue.toPlainString() + "\", \"finalAmount\": \"" + finalAmount.toPlainString() + "\"}";
+                        String jsonResponse = "{\"success\": true, \"message\": \"\", \"discountValue\": \"" + discountValue.toPlainString() + "\", \"finalAmount\": \"" + finalAmount.toPlainString() + "\"}";
                         response.getWriter().write(jsonResponse);
                     } else {
                         response.getWriter().write("{\"success\": false, \"message\": \"Lỗi khi lưu voucher.\"}");
@@ -103,7 +101,7 @@ public class ApplySearchVoucher extends HttpServlet {
                     return true;
                 }
             } else if ("Category".equals(voucher.getDiscountType().getType())) {
-                if (voucher.getProduct().getCategory().getId() == orderDetail.getProduct().getCategory().getId()) {
+                if (voucher.getCategory().getId() == orderDetail.getProduct().getCategory().getId()) {
                     return true;
                 }
             }
@@ -129,7 +127,7 @@ public class ApplySearchVoucher extends HttpServlet {
                 BigDecimal categoryDiscountPercentage = voucher.getDiscountPercentage().divide(BigDecimal.valueOf(100));
                 BigDecimal totalCategoryPrice = BigDecimal.ZERO;
                 for (OrderDetail orderDetail : cart.values()) {
-                    if (orderDetail.getProduct().getCategory().getId() == voucher.getProduct().getCategory().getId()) {
+                    if (orderDetail.getProduct().getCategory().getId() == voucher.getCategory().getId()) {
                         BigDecimal productPrice = new BigDecimal(orderDetail.getPrice());
                         totalCategoryPrice = totalCategoryPrice.add(productPrice);
                     }
