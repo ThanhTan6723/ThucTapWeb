@@ -88,6 +88,31 @@
         .table-section.active {
             display: block; /* Show the active section */
         }
+
+        .orderModal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(239, 239, 239);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modalDetail-content {
+            background-color: #191c24;
+            margin: 100px auto; /* Cách phía trên 100px và tự động căn giữa ngang */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 60%; /* Độ dài 50% */
+        }
+        body.modal-open {
+            overflow: hidden;
+        }
+
     </style>
     <!-- Include common links -->
     <jsp:include page="./link/link.jsp"></jsp:include>
@@ -190,10 +215,17 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Add more table sections for other tabs here -->
-
             </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Structure -->
+<div id="orderModal" class="orderModal">
+    <div class="modalDetail-content">
+        <span class="close">&times;</span>
+        <div id="order-details-content">
+            <!-- Order details will be populated here -->
         </div>
     </div>
 </div>
@@ -201,6 +233,7 @@
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- DataTables JS -->
+
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -249,9 +282,9 @@
                         {
                             data: null, render: function (data, type, row) {
                                 return `
-                                <a href="BillDetailControll?id=${row.id}">
+                                 <div class="view-order-details" data-order-id="${row.id}">
                                     <i class="fa-solid fa-eye" style="color:black; font-size: 20px; cursor: pointer;"></i>
-                                </a>
+                                </div>
                             `;
                             }
                         },
@@ -290,9 +323,10 @@
                         {
                             data: null, render: function (data, type, row) {
                                 return `
-                                <a href="BillDetailControll?id=${row.id}">
+                                 <div class="view-order-details" data-order-id="${row.id}">
                                     <i class="fa-solid fa-eye" style="color:black; font-size: 20px; cursor: pointer;"></i>
-                                </a>`;
+                                </div>
+                            `;
                             }
                         },
                     ]
@@ -303,7 +337,7 @@
                 $.ajax({
                     url: 'AccountDetailControll',
                     type: 'GET',
-                    data: { id: accountId },
+                    data: {id: accountId},
                     success: function (data) {
                         var details = `
                     <h5>Name: <span>${data.name}</span></h5>
@@ -315,6 +349,7 @@
                     }
                 });
             }
+
             window.closeAccountDetails = function () {
                 $('.account-details').hide();
                 $('.account-details-overlay').hide();
@@ -332,7 +367,7 @@
                 $.ajax({
                     url: 'AcceptControll',
                     type: 'POST',
-                    data: { id: orderId },
+                    data: {id: orderId},
                     success: function (response) {
                         // Remove the row from the table
                         table1.row($(this).parents('tr')).remove().draw();
@@ -349,7 +384,7 @@
                 $.ajax({
                     url: 'RefuseBillControll',
                     type: 'POST',
-                    data: { id: orderId },
+                    data: {id: orderId},
                     success: function (response) {
                         // Remove the row from the table
                         table1.row($(this).parents('tr')).remove().draw();
@@ -403,9 +438,87 @@
         $('#' + tab).addClass('active');
         initDataTable(tab);
 
+        // Modal
+        const modal = document.getElementById("orderModal");
+        const span = document.getElementsByClassName("close")[0];
+        const orderDetailsContent = document.getElementById("order-details-content");
+
+        // Xử lý sự kiện click cho icon xem chi tiết đơn hàng
+        $(document).on('click', '.view-order-details', function(event) {
+            event.preventDefault();
+            const orderId = $(this).data('order-id');
+            fetchOrderDetails(orderId);
+        });
+
+        // Đóng modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        };
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+
+        function fetchOrderDetails(orderId) {
+            $.ajax({
+                url: `/BillDetailControll?id=${orderId}`,
+                type: 'GET',
+                success: function(response) {
+                    populateModal(response);
+                    modal.style.display = "block";
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching order details:', error);
+                }
+            });
+        }
+
+        function populateModal(response) {
+            const { listBillDetails, sumQ } = response;
+            const order = listBillDetails[0].order;
+
+            let content = `
+        <h4 class="card-title">Chi tiết đơn hàng</h4>
+        <p>Mã đơn hàng: <span style="color: springgreen">${order.id}</span></p>
+        <p>Tổng số lượng: ${sumQ}</p>
+        <p>Tổng tiền: ${order.totalMoney}</p>
+        <p>Trạng thái: <span style="color: #00d25b;">${order.orderStatus}</span></p>
+        <table class="table table-hover custom-table">
+            <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên sản phẩm</th>
+                <th>Hình ảnh</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+            </tr>
+            </thead>
+            <tbody>
+        `;
+
+            listBillDetails.forEach((b, index) => {
+                content += `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${b.product.name}</td>
+                <td><img style="with=50px; height=50px" src="${b.product.image}" alt="${b.product.name}"><td>
+                <td>${b.product.price}</td>
+                <td>${b.quantity}</td>
+                <td>${b.price}</td>
+            </tr>
+            `;
+            });
+
+            content += `
+            </tbody>
+        </table>
+        `;
+            orderDetailsContent.innerHTML = content;
+        }
     });
-
-
 </script>
 </body>
 </html>

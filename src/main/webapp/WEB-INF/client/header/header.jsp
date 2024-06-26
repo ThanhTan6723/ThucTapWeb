@@ -68,14 +68,14 @@
                                 </ul>
                                 <div class="dropdown-content">
                                     <c:if test="${sessionScope.account.role.id == 1}">
-                                        <a href="/IndexAdminControll">
+                                        <a href="./IndexAdminControll">
                                             <b>Quản lý</b></a>
                                     </c:if>
                                     <c:if test="${sessionScope.account!=null}">
-                                        <a href="/OrderPlaceControl">
+                                        <a href="./OrderPlaceControl">
                                             <b>Đơn đã đặt</b></a>
                                     </c:if>
-                                    <a href="">
+                                    <a href="./VoucherWareHouse">
                                         <b>Kho voucher</b></a>
                                     <c:if test="${not empty sessionScope.account.telephone}">
                                     <a href="${pageContext.request.contextPath}/${profile}">
@@ -112,10 +112,10 @@
                 <li><a href="./ShowProductControl?cid=0">Sản phẩm</a>
                     <!-- Dropdown Menu for Product Categories -->
                     <ul class="header__menu__dropdown">
-                        <li class=""><a href="./ShowProductControl?cid=0">All</a></li>
-                        <li class=""><a href="./ShowProductControl?cid=1">Noodle</a></li>
-                        <li class=""><a href="./ShowProductControl?cid=2">Chicken</a></li>
-                        <li class=""><a href="./ShowProductControl?cid=3">Rice</a></li>
+                        <li class=""><a href="./ShowProductControl?cid=0">Tất cả</a></li>
+                        <li class=""><a href="./ShowProductControl?cid=1">Rau lá</a></li>
+                        <li class=""><a href="./ShowProductControl?cid=2">Trái cây</a></li>
+                        <li class=""><a href="./ShowProductControl?cid=3">Củ quả</a></li>
                     </ul>
                 </li>
                 <li><a href="./VoucherControll">Voucher</a></li>

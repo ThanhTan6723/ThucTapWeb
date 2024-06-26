@@ -37,20 +37,20 @@
             <form action="${change}" method="post">
                 <div class="field input-field">
                     <input name="oldpass" type="password" placeholder="Mật khẩu cũ" class="password" id="old">
-                    <i class='bx bx-hide eye-icon' onclick="togglePassword('pass', 'eye-icon-pass')"></i>
+                    <i class='bx bx-hide eye-icon'></i>
                     <span style="color: red;">${errorOP}</span>
                 </div>
                 <div class="field input-field">
                     <input name="newpass" type="password" onkeyup="validatePassword()" placeholder="Mật khẩu mới"
                            class="password" id="pass">
-                    <i class='bx bx-hide eye-icon' onclick="togglePassword('pass', 'eye-icon-pass')"></i>
+                    <i class='bx bx-hide eye-icon'></i>
                     <p id="noti1" style="color: red;">${errorNP}</p>
                 </div>
 
                 <div class="field input-field">
                     <input name="repass" type="password" onkeyup="validateRePass()" placeholder="Xác nhận mật khẩu"
                            class="password" id="re">
-                    <i class='bx bx-hide eye-icon' onclick="togglePassword('re', 'eye-icon-re')"></i>
+                    <i class='bx bx-hide eye-icon'></i>
                     <span id="noti2" style="color: red; ">${errorCFP}</span>
                 </div>
 
@@ -111,24 +111,21 @@
             }
         }
 
-        function togglePassword(inputId, eyeIconId) {
-            var passwordInput = document.getElementById(inputId);
-            var eyeIcon = document.getElementById(eyeIconId);
+        const pwShowHide = document.querySelectorAll(".eye-icon");
 
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                eyeIcon.classList.remove("bx-hide");
-                eyeIcon.classList.add("bx-show");
-            } else {
-                passwordInput.type = "password";
-                eyeIcon.classList.remove("bx-show");
-                eyeIcon.classList.add("bx-hide");
-            }
+        pwShowHide.forEach(eyeIcon => {
+            eyeIcon.addEventListener("click", () => {
+                const passwordField = eyeIcon.previousElementSibling; // Get the previous sibling which is the password input
 
-            eyeIcon.classList.toggle("bx-hide-eye", passwordInput.type === "text");
-            eyeIcon.classList.toggle("bx-show-eye", passwordInput.type === "password");
-        }
-
+                if (passwordField.type === "password") {
+                    passwordField.type = "text";
+                    eyeIcon.classList.replace("bx-hide", "bx-show");
+                } else {
+                    passwordField.type = "password";
+                    eyeIcon.classList.replace("bx-show", "bx-hide");
+                }
+            });
+        });
 
     </script>
 </body>
