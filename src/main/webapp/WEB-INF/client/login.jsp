@@ -54,7 +54,7 @@
             </div>
         </div>
         <div class="media-options">
-            <a href="https://www.facebook.com/v19.0/dialog/oauth?client_id=859487865990246&redirect_uri=https://localhost:8080/login-facebook" class="field facebook">
+            <a href="https://www.facebook.com/v20.0/dialog/oauth?client_id=463688686382911&redirect_uri=http://localhost:8080/login-facebook" class="field facebook">
                 <i class='bx bxl-facebook facebook-icon'></i>
                 <span>Tiếp tục với Facebook</span>
             </a>

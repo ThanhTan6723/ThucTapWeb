@@ -27,17 +27,17 @@
 
         /* Style for account details section */
         .account-details {
-            background-color: #e1e1e1;
-            border: 1px solid #c4c4c4;
-            color: black;
+            background-color: #191c24;
+            border: 1px solid #dedede;
+            color: #f8f8f8;
             padding: 50px;
             margin-top: 20px;
             position: fixed;
-            border-radius: 8px;
-            top: 50%; /* Center vertically */
+            /*border-radius: 8px;*/
+            top: 30%; /* Center vertically */
             left: 50%; /* Center horizontally */
             transform: translate(-50%, -50%);
-            z-index: 9999; /* Ensure it's on top */
+            z-index: 1000; /* Ensure it's on top */
             display: none; /* Initially hide the account details */
         }
 
@@ -109,7 +109,23 @@
             border: 1px solid #888;
             width: 60%; /* Độ dài 50% */
         }
-        body.modal-open {
+        /* Close button */
+        .close-x {
+            color: #dadada;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-x:hover,
+        .close-x:focus {
+            color: #f5f5f5;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+        body.orderModal-open {
             overflow: hidden;
         }
 
@@ -173,14 +189,6 @@
                     </div>
                 </div>
 
-                <!-- Account Details Section -->
-                <div class="account-details" id="account-details">
-                    <div class="close-btn" onclick="closeAccountDetails()">X</div>
-                    <h2>Thông Tin Tài Khoản</h2>
-                    <div class="account-details-content"></div>
-                </div>
-
-
                 <div class="table-section" id="pending">
                     <div class="row">
                         <div class="col-12 grid-margin">
@@ -223,13 +231,18 @@
 <!-- Modal Structure -->
 <div id="orderModal" class="orderModal">
     <div class="modalDetail-content">
-        <span class="close">&times;</span>
+        <div class="exit"><span class="close-x">&times;</span></div>
         <div id="order-details-content">
             <!-- Order details will be populated here -->
         </div>
     </div>
 </div>
-
+<!-- Account Details Section -->
+<div class="account-details" id="account-details">
+    <div class="close-btn" onclick="closeAccountDetails()">X</div>
+    <h2>Thông Tin Tài Khoản</h2>
+    <div class="account-details-content"></div>
+</div>
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- DataTables JS -->
@@ -440,7 +453,7 @@
 
         // Modal
         const modal = document.getElementById("orderModal");
-        const span = document.getElementsByClassName("close")[0];
+        const span = document.getElementsByClassName("close-x")[0];
         const orderDetailsContent = document.getElementById("order-details-content");
 
         // Xử lý sự kiện click cho icon xem chi tiết đơn hàng
@@ -453,11 +466,14 @@
         // Đóng modal
         span.onclick = function() {
             modal.style.display = "none";
+            document.body.classList.remove('orderModal-open');
+
         };
 
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
+                document.body.classList.remove('modal-open');
             }
         };
 
