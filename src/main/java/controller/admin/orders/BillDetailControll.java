@@ -23,7 +23,7 @@ public class BillDetailControll extends HttpServlet {
         String id = request.getParameter("id");
         List<OrderDetail> listDetail = OrderDAO.getOrderDetailByBid(Integer.parseInt(id));
         int sumQ = OrderDAO.getQuantityWithOderId(Integer.parseInt(id));
-
+        System.out.println(listDetail);
         // Tạo một object để chứa thông tin trả về
         OrderDetailResponse orderDetailResponse = new OrderDetailResponse(listDetail, sumQ);
 

@@ -262,10 +262,62 @@ public class VoucherDAO {
         }
         return savedVouchers;
     }
+    public static List<Voucher> getVoucherByType(String type) {
+        List<Voucher> vouchers = new ArrayList<>();
+        String query = "SELECT v.*, dt.type as discount_type_name, p.id as product_id, p.name as product_name, c.id as category_id, c.name as category_name " +
+                "FROM Vouchers v " +
+                "LEFT JOIN DiscountType dt ON v.discount_type = dt.id " +
+                "LEFT JOIN Products p ON v.product_id = p.id " +
+                "LEFT JOIN Category c ON v.category_id = c.id " +
+                "WHERE dt.type = ?";
+
+        try (Connection connection = JDBCUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, type);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Voucher voucher = new Voucher();
+                    voucher.setId(resultSet.getInt("id"));
+                    voucher.setCode(resultSet.getString("code"));
+                    voucher.setDiscountType(new DiscountType(resultSet.getInt("discount_type"), resultSet.getString("discount_type_name")));
+                    voucher.setDiscountPercentage(resultSet.getBigDecimal("discount_percentage"));
+                    voucher.setQuantity(resultSet.getInt("quantity"));
+                    voucher.setStartDate(resultSet.getDate("start_date"));
+                    voucher.setEndDate(resultSet.getDate("end_date"));
+                    voucher.setActive(resultSet.getBoolean("is_active"));
+
+                    int productId = resultSet.getInt("product_id");
+                    if (productId != 0) {
+                        Product product = new Product();
+                        product.setId(productId);
+                        product.setName(resultSet.getString("product_name"));
+                        voucher.setProduct(product);
+                    }
+
+                    int categoryId = resultSet.getInt("category_id");
+                    if (categoryId != 0) {
+                        Category category = new Category();
+                        category.setId(categoryId);
+                        category.setName(resultSet.getString("category_name"));
+                        voucher.setCategory(category);
+                    }
+
+                    vouchers.add(voucher);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return vouchers;
+    }
 
     public static void main(String[] args) {
         System.out.println(getAllVouchers());
         System.out.println(saveEVoucher(1, 2));
         System.out.println(getVoucherById(3));
+        System.out.println(getVoucherByType("All"));
     }
 }

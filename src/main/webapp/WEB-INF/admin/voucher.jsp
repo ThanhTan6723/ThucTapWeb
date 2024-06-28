@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh Sách Đơn Hàng</title>
+    <title>Danh Sách Voucher</title>
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <!-- FontAwesome CSS -->
@@ -24,31 +24,6 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Shadow effect on hover */
             transition: box-shadow 0.3s ease; /* Smooth transition */
         }
-
-        /* Style for account details section */
-        .account-details {
-            background-color: #e1e1e1;
-            border: 1px solid #c4c4c4;
-            color: black;
-            padding: 50px;
-            margin-top: 20px;
-            position: fixed;
-            border-radius: 8px;
-            top: 50%; /* Center vertically */
-            left: 50%; /* Center horizontally */
-            transform: translate(-50%, -50%);
-            z-index: 9999; /* Ensure it's on top */
-            display: none; /* Initially hide the account details */
-        }
-
-        /* Style for the close button */
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-        }
-
 
         .table-container {
             position: relative;
@@ -103,13 +78,9 @@
             <div class="content-wrapper">
                 <!-- Tabs -->
                 <div class="tabs">
-                    <div class="tab active" data-tab="all">Chờ xác nhận</div>
-                    <div class="tab" data-tab="pending">Chờ đóng gói</div>
-                    <div class="tab" data-tab="shipping">Vận chuyển</div>
-                    <div class="tab" data-tab="delivering">Chờ giao hàng</div>
-                    <div class="tab" data-tab="completed">Hoàn thành</div>
-                    <div class="tab" data-tab="cancelled">Đã hủy</div>
-                    <div class="tab" data-tab="return-refund">Trả hàng/Hoàn tiền</div>
+                    <div class="tab active" data-tab="all">All</div>
+                    <div class="tab" data-tab="product">Product</div>
+                    <div class="tab" data-tab="category">Category</div>
                 </div>
 
                 <!-- Table Sections -->
@@ -123,18 +94,14 @@
                                         <table id="example1" class="display" style="width:100%;">
                                             <thead>
                                             <tr>
-                                                <th>Mã đơn hàng</th>
-                                                <th style="width: 110px">Ngày đặt</th>
-                                                <th>Account thực hiện</th>
-                                                <th>Tên người nhận</th>
-                                                <th>SĐT người nhận</th>
-                                                <th>Địa chỉ giao hàng</th>
-                                                <th>Tổng tiền hàng</th>
-                                                <th>Ship</th>
-                                                <th>Tổng tiền</th>
-                                                <th>Ghi chú đơn hàng</th>
-                                                <th>Hành động</th>
-                                                <th>Xem chi tiết</th>
+                                                <th>ID</th>
+                                                <th>Code</th>
+                                                <th>Type</th>
+                                                <th>Percentage</th>
+                                                <th>Quantity</th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
+                                                <th>Action</th>
                                             </tr>
                                             </thead>
                                             <tbody id="order-table-body">
@@ -148,36 +115,25 @@
                     </div>
                 </div>
 
-                <!-- Account Details Section -->
-                <div class="account-details" id="account-details">
-                    <div class="close-btn" onclick="closeAccountDetails()">X</div>
-                    <h2>Thông Tin Tài Khoản</h2>
-                    <div class="account-details-content"></div>
-                </div>
-
-
-                <div class="table-section" id="pending">
+                <div class="table-section" id="product">
                     <div class="row">
                         <div class="col-12 grid-margin">
                             <div class="card">
                                 <div class="card-body" style="background-color: white">
                                     <div class="table-responsive">
-                                        <h4 style="color: black">Danh Sách Đơn Chờ Đóng Gói</h4>
+                                        <h4 style="color: black">Danh Sách Voucher</h4>
                                         <table id="example2" class="display" style="width:100%;">
                                             <thead>
                                             <tr>
-                                                <th>Mã đơn hàng</th>
-                                                <th style="width: 110px">Ngày đặt</th>
-                                                <th>Account thực hiện</th>
-                                                <th>Tên người nhận</th>
-                                                <th>SĐT người nhận</th>
-                                                <th>Địa chỉ giao hàng</th>
-                                                <th>Tổng tiền hàng</th>
-                                                <th>Ship</th>
-                                                <th>Tổng tiền</th>
-                                                <th>Ghi chú đơn hàng</th>
-                                                <th>Hành động</th>
-                                                <th>Xem chi tiết</th>
+                                                <th>ID</th>
+                                                <th>Code</th>
+                                                <th>Type</th>
+                                                <th>Product Name</th>
+                                                <th>Percentage</th>
+                                                <th>Quantity</th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
+                                                <th>Action</th>
                                             </tr>
                                             </thead>
                                             <tbody id="order-table-body">
@@ -191,7 +147,37 @@
                     </div>
                 </div>
 
-                <!-- Add more table sections for other tabs here -->
+                <div class="table-section" id="category">
+                    <div class="row">
+                        <div class="col-12 grid-margin">
+                            <div class="card">
+                                <div class="card-body" style="background-color: white">
+                                    <div class="table-responsive">
+                                        <h4 style="color: black">Danh Sách Voucher</h4>
+                                        <table id="example3" class="display" style="width:100%;">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Code</th>
+                                                <th>Type</th>
+                                                <th>Category Name</th>
+                                                <th>Percentage</th>
+                                                <th>Quantity</th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="order-table-body">
+                                            <!-- Data will be populated by DataTables -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -202,5 +188,120 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- DataTables JS -->
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Initialize DataTables
+        var table1, table2, table3;
+
+        function initDataTable(tab) {
+            if ($.fn.DataTable.isDataTable('#example1')) {
+                $('#example1').DataTable().destroy();
+            }
+            if ($.fn.DataTable.isDataTable('#example2')) {
+                $('#example2').DataTable().destroy();
+            }
+            if ($.fn.DataTable.isDataTable('#example3')) {
+                $('#example3').DataTable().destroy();
+            }
+
+            if (tab === 'all') {
+                table1 = $('#example1').DataTable({
+                    ajax: {
+                        url: 'ManageVoucherControll?type=all',
+                        dataSrc: ''
+                    },
+                    columns: [
+                        {data: 'id'},
+                        {data: 'code'},
+                        {data: 'discountType.type'},
+                        {data: 'discountPercentage'},
+                        {data: 'quantity'},
+                        {data: 'startDate'},
+                        {data: 'endDate'},
+                        {
+                            data: null, render: function (data, type, row) {
+                                return `
+                                <div class="buttons">
+                                    <button class="btn btn-danger refuse-btn" data-id="">Delete</button>
+                                </div>
+                            `;
+                            }
+                        },
+                    ]
+                });
+            } else if (tab === 'product') {
+                table2 = $('#example2').DataTable({
+                    ajax: {
+                        url: 'ManageVoucherControll?type=product',
+                        dataSrc: ''
+                    },
+                    columns: [
+                        {data: 'id'},
+                        {data: 'code'},
+                        {data: 'discountType.type'},
+                        {data: 'product.name'},
+                        {data: 'discountPercentage'},
+                        {data: 'quantity'},
+                        {data: 'startDate'},
+                        {data: 'endDate'},
+                        {
+                            data: null, render: function (data, type, row) {
+                                return `
+                                <div class="buttons">
+                                    <button class="btn btn-danger refuse-btn" data-id="">Delete</button>
+                                </div>
+                            `;
+                            }
+                        },
+                    ]
+                });
+            } else if (tab === 'category') {
+                table3 = $('#example3').DataTable({
+                    ajax: {
+                        url: 'ManageVoucherControll?type=category',
+                        dataSrc: ''
+                    },
+                    columns: [
+                        {data: 'id'},
+                        {data: 'code'},
+                        {data: 'discountType.type'},
+                        {data: 'category.name'},
+                        {data: 'discountPercentage'},
+                        {data: 'quantity'},
+                        {data: 'startDate'},
+                        {data: 'endDate'},
+                        {
+                            data: null, render: function (data, type, row) {
+                                return `
+                                <div class="buttons">
+                                    <button class="btn btn-danger refuse-btn" data-id="">Delete</button>
+                                </div>
+                            `;
+                            }
+                        },
+                    ]
+                });
+            }
+        }
+
+        // Tab navigation logic
+        $('.tab').on('click', function () {
+            $('.tab').removeClass('active');
+            $(this).addClass('active');
+            var tab = $(this).data('tab');
+            $('.table-section').removeClass('active');
+            $('#' + tab).addClass('active');
+            initDataTable(tab);
+        });
+
+        // Set the initial tab and initialize the DataTable
+        var initialTab = 'all';
+        $('.tab[data-tab="' + initialTab + '"]').addClass('active');
+        $('#' + initialTab).addClass('active');
+        initDataTable(initialTab);
+
+    });
+
+</script>
 </body>
 </html>

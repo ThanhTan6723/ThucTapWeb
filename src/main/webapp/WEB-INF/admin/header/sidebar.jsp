@@ -1,5 +1,4 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <%@ page contentType="text/html; charset=utf-8" language="java" %>
 <%@ page isELIgnored="false" %>
 
@@ -69,22 +68,12 @@
             </div>
         </li>
         <li class="nav-item menu-items">
-            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+            <a class="nav-link" href="./LoadBillControll">
               <span class="menu-icon">
                 <i class="mdi mdi-book"></i>
               </span>
                 <span class="menu-title">Quản lý đơn hàng</span>
-                <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="auth">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"><a class="nav-link" href="./LoadBillControll">Chờ xác nhận</a></li>
-                    <li class="nav-item"><a class="nav-link" href="./LoadPackingProductControll">Chờ đóng gói</a></li>
-                    <li class="nav-item"><a class="nav-link" href="./">Yêu cầu hủy</a></li>
-                    <li class="nav-item"><a class="nav-link" href="./">Bị từ chối</a></li>
-                    <li class="nav-item"><a class="nav-link" href="./">Trạng thái đơn hàng</a></li>
-                </ul>
-            </div>
         </li>
 
         <li class="nav-item menu-items">
@@ -96,7 +85,7 @@
             </a>
         </li>
         <li class="nav-item menu-items">
-            <a class="nav-link" href="">
+            <a class="nav-link" href="./LoadMangeVoucherControll">
               <span class="menu-icon">
                 <i class="mdi mdi-sale"></i>
               </span>

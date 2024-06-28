@@ -18,7 +18,6 @@
     <!-- Boxicons CSS -->
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css'
           rel='stylesheet'>
-
 </head>
 <body>
 
@@ -47,18 +46,15 @@
 
                 <div class="field input-field">
                     <input name="passw" type="password" placeholder="Mật khẩu" value="${passw}"
-                           onkeyup="validatePassword()" class="password"
-                           name="password" id="pass">
-                    <i class='bx bx-hide eye-icon'
-                       onclick="togglePasswordInput('pass'); toggleEyeIcon('eye-icon-pass')" id="eyIconId"></i>
+                           onkeyup="validatePassword()" class="password" id="pass">
+                    <i class='bx bx-hide eye-icon'></i>
                     <span id="noti1" class="notify">${error5}</span>
                 </div>
 
                 <div class="field input-field">
                     <input name="repassw" type="password" onkeyup="validateRePass()" placeholder="Xác nhận mật khẩu"
-                           class="password" name="repassword" id="re">
-                    <i class='bx bx-hide eye-icon'
-                       onclick="togglePasswordInput('re'); toggleEyeIcon('eye-icon-re')"></i>
+                           class="password" id="re">
+                    <i class='bx bx-hide eye-icon'></i>
                     <span id="noti2" class="notify">${error6}</span>
                 </div>
 
@@ -73,8 +69,6 @@
                                                   class="link login-link">Login</a></span>
             </div>
         </div>
-
-
     </div>
 </div>
 
@@ -91,7 +85,7 @@
         var emailRegex = /^\w+@\w+(\.\w+)+(\.\w+)*$/;
 
         if (email.length === 0) {
-            //Xoá cảnh báo khi xóa tất cả
+            // Xoá cảnh báo khi xóa tất cả
             emailError.innerHTML = "";
             return;
         }
@@ -103,7 +97,7 @@
         }
 
         if (isDeleting) {
-            //Xóa cảnh báo trong khi nhập
+            // Xóa cảnh báo trong khi nhập
             emailError.innerHTML = "";
         } else {
             if (!emailRegex.test(email)) {
@@ -113,7 +107,7 @@
             }
         }
 
-        // save length
+        // Save length
         emailInput.dataset.prevLength = email.length;
     }
 
@@ -177,27 +171,21 @@
         }
     }
 
-    function togglePasswordInput(inputId) {
-        var passwordInput = document.getElementById("pass");
+    const pwShowHide = document.querySelectorAll(".eye-icon");
 
-        if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-        } else {
-            passwordInput.type = "password";
-        }
-    }
+    pwShowHide.forEach(eyeIcon => {
+        eyeIcon.addEventListener("click", () => {
+            const passwordField = eyeIcon.previousElementSibling; // Get the previous sibling which is the password input
 
-    function toggleEyeIcon(eyeIconId) {
-        var eyeIcon = document.getElementById("eyeIconId");
-
-        if (eyeIcon.classList.contains("bx-hide")) {
-            eyeIcon.classList.remove("bx-hide");
-            eyeIcon.classList.add("bx-show");
-        } else {
-            eyeIcon.classList.remove("bx-show");
-            eyeIcon.classList.add("bx-hide");
-        }
-    }
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                eyeIcon.classList.replace("bx-hide", "bx-show");
+            } else {
+                passwordField.type = "password";
+                eyeIcon.classList.replace("bx-show", "bx-hide");
+            }
+        });
+    });
 
 </script>
 </body>
