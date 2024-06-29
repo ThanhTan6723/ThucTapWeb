@@ -36,6 +36,10 @@ public class Account implements IModel {
     public Account(int anInt) {
     }
 
+    public Account(String name) {
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }

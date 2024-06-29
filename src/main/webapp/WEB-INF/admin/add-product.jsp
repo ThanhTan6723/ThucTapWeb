@@ -25,6 +25,8 @@
 									<div class="card-title">Nhập kho</div>
 									<hr>
 									<c:url var="addP" value="AddProductControll"></c:url>
+									<p><a class="btn btn-success" href="/UploadExcel">Nhập bằng file excel</a></p>
+
 									<div id="formContainer">
 										<form id="productForm" action="AddProductControll" method="post" enctype="multipart/form-data">
 											<div id="productFields">
@@ -33,8 +35,6 @@
 											<button type="button" class="btn btn-success" onclick="addProductFields()">Thêm sản phẩm</button>
 											<button type="submit" class="btn btn-success">Nhập kho</button>
 										</form>
-
-
 										<script>
 											let productCounter = 0;
 
